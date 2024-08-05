@@ -5,26 +5,49 @@
   overflow: hidden;
 }
 
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  /* Ajuste conforme necessário */
+  z-index: 1;
+}
+
 .main {
   display: flex;
   flex: 1;
-  overflow: hidden;
-}
-
-.header {
-  flex: 0 0 auto;
+  margin-top: 60px;
+  /* Deve ser igual à altura do header */
   overflow: hidden;
 }
 
 .sidebar {
   flex: 0 0 200px;
-  height: 100vh;
+  height: calc(100vh - 60px);
+  /* Subtraia a altura do header */
   overflow: hidden;
+  background-color: #333;
+  color: white;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f0f0f0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .body {
   flex: 1;
+  background-color: #f0f0f0;
+  overflow: auto;
+}
+
+.counter {
   padding: 2rem;
   background-color: #f0f0f0;
-  overflow: hidden;
 }

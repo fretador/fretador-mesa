@@ -1,7 +1,8 @@
 import React from "react";
-import Header from "../../components/Header";
-import Sidebar from "../../components/Sidebar";
-import Body from "../../components/Body";
+import Header from "@/components/Header";
+import Sidebar from "@/components/Sidebar";
+import Body from "@/components/Body";
+import Counter from "@/components/Counter";
 import styles from "./Canva.module.css";
 
 const Canva: React.FC = () => {
@@ -10,7 +11,10 @@ const Canva: React.FC = () => {
       <Header />
       <div className={styles.main}>
         <Sidebar />
-        <Body />
+        <div className={styles.content}>
+          <Body />
+          <Counter />
+        </div>
       </div>
     </div>
   );
