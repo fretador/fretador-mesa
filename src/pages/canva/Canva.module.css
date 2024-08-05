@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.header {
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+.sidebar {
+  flex: 0 0 200px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.body {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}

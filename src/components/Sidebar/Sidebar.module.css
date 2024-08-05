@@ -1,0 +1,19 @@
+.sidebar {
+  background-color: #333;
+  color: white;
+  width: 200px;
+  height: 100vh;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 1rem 0;
+}
