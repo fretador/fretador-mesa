@@ -49,48 +49,52 @@ const Sidebar: React.FC<SidebarProps> = ({ user, avatarUrl }) => {
           height={48}
           className={styles.avatar}
         />
-        {!isRetracted && <p>Olá, {user}!</p>}
+        {!isRetracted && <p data-testid="user-greeting">Olá, {user}!</p>}
       </div>
       <ul className={styles.navList}>
         <li className={styles.navItem}>
           <HomeIcon className={styles.icon} data-testid="icon-home" />
-          {!isRetracted && <span>Home</span>}
+          {!isRetracted && <span data-testid="text-home">Home</span>}
         </li>
         <li className={styles.navItem}>
           <TruckIcon className={styles.icon} data-testid="icon-truck" />
-          {!isRetracted && <span>Meus Fretes</span>}
+          {!isRetracted && <span data-testid="text-truck">Meus Fretes</span>}
         </li>
         <li className={styles.navItem}>
           <PersonAddIcon className={styles.icon} data-testid="icon-drivers" />
-          {!isRetracted && <span>Motoristas</span>}
+          {!isRetracted && <span data-testid="text-drivers">Motoristas</span>}
         </li>
         <li className={styles.navItem}>
           <PeopleIcon className={styles.icon} data-testid="icon-clients" />
-          {!isRetracted && <span>Clientes</span>}
+          {!isRetracted && <span data-testid="text-clients">Clientes</span>}
         </li>
         <li className={styles.navItem}>
           <WarningIcon className={styles.icon} data-testid="icon-incidents" />
-          {!isRetracted && <span>Ocorrências</span>}
+          {!isRetracted && (
+            <span data-testid="text-incidents">Ocorrências</span>
+          )}
         </li>
         <li className={styles.navItem}>
           <FinanceIcon className={styles.icon} data-testid="icon-finance" />
-          {!isRetracted && <span>Financeiro</span>}
+          {!isRetracted && <span data-testid="text-finance">Financeiro</span>}
         </li>
         <li className={styles.navItem}>
           <SettingsIcon className={styles.icon} data-testid="icon-settings" />
-          {!isRetracted && <span>Configurações</span>}
+          {!isRetracted && (
+            <span data-testid="text-settings">Configurações</span>
+          )}
         </li>
         <li className={styles.navItem}>
           <SupportIcon className={styles.icon} data-testid="icon-support" />
-          {!isRetracted && <span>Atendimento</span>}
+          {!isRetracted && <span data-testid="text-support">Atendimento</span>}
         </li>
         <li className={styles.navItem}>
           <HelpIcon className={styles.icon} data-testid="icon-help" />
-          {!isRetracted && <span>Ajuda</span>}
+          {!isRetracted && <span data-testid="text-help">Ajuda</span>}
         </li>
         <li className={styles.navItem}>
           <LogoutIcon className={styles.icon} data-testid="icon-logout" />
-          {!isRetracted && <span>Deslogar</span>}
+          {!isRetracted && <span data-testid="text-logout">Deslogar</span>}
         </li>
       </ul>
     </nav>
