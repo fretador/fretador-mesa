@@ -10,10 +10,9 @@ const Canva: React.FC = () => {
     <div className={styles.container}>
       <Header />
       <div className={styles.main}>
-        <Sidebar />
+        <Sidebar user="Lili" />
         <div className={styles.content}>
           <Body />
-          <Counter />
         </div>
       </div>
     </div>
