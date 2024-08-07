@@ -31,15 +31,12 @@ const Sidebar: React.FC<SidebarProps> = ({ user, avatarUrl }) => {
   return (
     <nav
       className={`${styles.sidebar} ${
-        isRetracted ? styles.retracted : "not-retracted"
+        isRetracted ? styles.retracted : styles.not_retracted
       }`}
       data-testid="side-bar"
     >
       <div className={styles.header}>
         <FretadorIcon className={styles.logo} />
-        <button onClick={toggleSidebar} data-testid="toggle-button">
-          {isRetracted ? ">" : "<"}
-        </button>
       </div>
       <div className={styles.userSection}>
         <Image
@@ -99,13 +96,13 @@ const Sidebar: React.FC<SidebarProps> = ({ user, avatarUrl }) => {
       </ul>
       <div
         className={`${styles.tab} ${
-          !isRetracted ? styles.sidebarExpanded : styles.sidebarRetracted
-        }`}
+          isRetracted ? styles.sidebarRetracted : styles.sidebarExpanded
+        } ${isRetracted ? styles.transparentTab : ""}`}
         onClick={toggleSidebar}
       >
         <div
           className={`${styles.tabContent} ${
-            !isRetracted ? styles.expandedClipPath : styles.retractedClipPath
+            isRetracted ? styles.retractedClipPath : styles.expandedClipPath
           }`}
         ></div>
       </div>
