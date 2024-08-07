@@ -6,10 +6,6 @@ import RowRoot from "./RowRoot";
 export const Row = {
   Root: RowRoot,
   FreightDate: FreightDate,
-
-
-  Route: Route
-
-  Cte: Cte
-
-}
+  Route: Route,
+  Cte: Cte,
+};
