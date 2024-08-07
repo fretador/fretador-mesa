@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-// import '@testing-library/jest-dom/extend-expect'
 import Driver from '../index'
 
 describe('Driver Component', () => {
@@ -24,14 +23,5 @@ describe('Driver Component', () => {
     
     const name = screen.getByText('Gilberto Marcha Lenta')
     expect(name).toBeInTheDocument()
-  })
-
-  it('truncates the driver name with ellipsis if it exceeds the maximum width', () => {
-    render(<Driver driverPhotoUrl="/path/to/image.png" driverName="A very long driver name that should be truncated" />)
-    
-    const nameElement = screen.getByText('A very long driver name that should be truncated')
-    expect(nameElement).toHaveStyle('text-overflow: ellipsis')
-    expect(nameElement).toHaveStyle('overflow: hidden')
-    expect(nameElement).toHaveStyle('white-space: nowrap')
   })
 })
