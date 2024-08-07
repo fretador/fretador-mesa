@@ -97,6 +97,18 @@ const Sidebar: React.FC<SidebarProps> = ({ user, avatarUrl }) => {
           {!isRetracted && <span data-testid="text-logout">Deslogar</span>}
         </li>
       </ul>
+      <div
+        className={`${styles.tab} ${
+          !isRetracted ? styles.sidebarExpanded : styles.sidebarRetracted
+        }`}
+        onClick={toggleSidebar}
+      >
+        <div
+          className={`${styles.tabContent} ${
+            !isRetracted ? styles.expandedClipPath : styles.retractedClipPath
+          }`}
+        ></div>
+      </div>
     </nav>
   );
 };
