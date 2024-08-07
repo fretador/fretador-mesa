@@ -1,8 +1,12 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styles from "./Body.module.css";
 
-const Body: React.FC = () => {
-  return <div className={styles.body}></div>;
+interface BodyProps {
+  children: ReactNode;
+}
+
+const Body: React.FC<BodyProps> = ({ children }) => {
+  return <div className={styles.body}>{children}</div>;
 };
 
 export default Body;

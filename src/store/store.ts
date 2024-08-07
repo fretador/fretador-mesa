@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import exampleReducer from "../store/slices/exampleSlice";
+import sidebarReducer from "@/store/slices/sidebarSlice";
 
 const store = configureStore({
   reducer: {
     example: exampleReducer,
-    // Adicione outros reducers aqui
+    sidebar: sidebarReducer,
   },
 });
 

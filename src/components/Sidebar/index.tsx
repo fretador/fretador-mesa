@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import {
   HomeIcon,
@@ -15,6 +15,8 @@ import {
 import FretadorIcon from "@/assets/images/fretadorIcon.svg";
 import defaultAvatar from "@/assets/images/avatar.jpg";
 import styles from "./Sidebar.module.css";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { toggleSidebar } from "@/store/slices/sidebarSlice";
 
 interface SidebarProps {
   user: string;
@@ -22,10 +24,11 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ user, avatarUrl }) => {
-  const [isRetracted, setIsRetracted] = useState(false);
+  const dispatch = useAppDispatch();
+  const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
 
-  const toggleSidebar = () => {
-    setIsRetracted(!isRetracted);
+  const handleToggle = () => {
+    dispatch(toggleSidebar());
   };
 
   return (
@@ -98,7 +101,7 @@ const Sidebar: React.FC<SidebarProps> = ({ user, avatarUrl }) => {
         className={`${styles.tab} ${
           isRetracted ? styles.sidebarRetracted : styles.sidebarExpanded
         } ${isRetracted ? styles.transparentTab : ""}`}
-        onClick={toggleSidebar}
+        onClick={handleToggle}
       >
         <div
           className={`${styles.tabContent} ${

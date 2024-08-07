@@ -11,7 +11,6 @@
   left: 0;
   right: 0;
   height: 60px;
-  /* Ajuste conforme necessário */
   z-index: 1;
 }
 
@@ -19,26 +18,37 @@
   display: flex;
   flex: 1;
   margin-top: 60px;
-  /* Deve ser igual à altura do header */
   overflow: hidden;
 }
 
 .sidebar {
   flex: 0 0 200px;
   height: calc(100vh - 60px);
-  /* Subtraia a altura do header */
   overflow: hidden;
   background-color: #333;
   color: white;
 }
 
-.content {
+.contentExpanded {
   flex: 1;
-  padding: 2rem;
+  margin-left: 0;
+  padding: 1rem;
   background-color: #f0f0f0;
   overflow: auto;
   display: flex;
   flex-direction: column;
+  transition: margin-left 0.3s;
+}
+
+.contentRetracted {
+  flex: 1;
+  margin-left: -20rem;
+  padding: 1rem;
+  background-color: #f0f0f0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s;
 }
 
 .body {
