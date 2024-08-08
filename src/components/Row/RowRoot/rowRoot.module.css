@@ -1,7 +1,7 @@
 .container {
   width: 1267px;
   height: 60px;
-  margin: 0 auto;
+  margin: 0 auto 12px auto;
   background-color: bisque;
   border-radius: 12px;
   display: flex;
