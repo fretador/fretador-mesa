@@ -78,6 +78,11 @@ const Sidebar: React.FC<SidebarProps> = ({ user, avatarUrl }) => {
           <FinanceIcon className={styles.icon} data-testid="icon-finance" />
           {!isRetracted && <span data-testid="text-finance">Financeiro</span>}
         </li>
+      </ul>
+      <div className={styles.separator_container}>
+        {!isRetracted && <hr className={styles.separator} />}
+      </div>
+      <ul className={styles.navList}>
         <li className={styles.navItem}>
           <SettingsIcon className={styles.icon} data-testid="icon-settings" />
           {!isRetracted && (
