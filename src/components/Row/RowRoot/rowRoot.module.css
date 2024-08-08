@@ -21,19 +21,3 @@
   justify-content: space-around;
   font-size: 20px;
 }
-
-.available {
-  background-color: rgba(186, 133, 1, 0.3);
-}
-
-.toApprove {
-  background-color: rgba(163, 56, 48, 0.3);
-}
-
-.inProgress {
-  background-color: rgba(28, 149, 44, 0.3);
-}
-
-.finished {
-  background-color: rgba(57, 55, 55, 0.3);
-}

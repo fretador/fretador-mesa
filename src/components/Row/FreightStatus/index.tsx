@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from './freightStatus.module.css'
 
-type FreightStatusOption = "DISPONÍVEL" | "APROVAR" | "EM CURSO" | "FINALIZADO";
+// type FreightStatusOption = "DISPONIVEL" | "APROVAR" | "EM CURSO" | "FINALIZADO";
 
 interface FreightStatusProps {
-  freightStatus: FreightStatusOption,
+  freightStatus?: string,
 }
 
 const FreightStatus = ({ freightStatus }: FreightStatusProps) => {
