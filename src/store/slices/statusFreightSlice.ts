@@ -3,19 +3,25 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type StatusFreightOption = "DISPONIVEL" | "APROVAR" | "EM CURSO" | "FINALIZADO";
 
 interface IStatusFreight {
-  statusFreight: StatusFreightOption;
+  statusFreight: Record<string, StatusFreightOption>;
+}
+
+interface ChangeStatusPayload {
+  freightNumber: string;
+  status: StatusFreightOption;
 }
 
 const initialState: IStatusFreight = {
-  statusFreight: "DISPONIVEL",
+  statusFreight: {},
 };
 
 const statusFreightSlice = createSlice({
   name: "status",
   initialState,
   reducers: {
-    changeStatus: (state, action: PayloadAction<StatusFreightOption>) => {
-      state.statusFreight = action.payload;
+    changeStatus: (state, action: PayloadAction<ChangeStatusPayload>) => {
+      const { freightNumber, status } = action.payload;
+      state.statusFreight[freightNumber] = status;
     },
   },
 });
