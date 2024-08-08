@@ -1,11 +1,17 @@
 .container {
   width: 1267px;
   height: 60px;
+<<<<<<< HEAD
   margin: 0 auto 12px auto;
   background-color: bisque;
+=======
+  margin: 0 auto;
+  background-color: #FAFDFD;
+>>>>>>> f41803b (create FreightStatus subcomponent (UI))
   border-radius: 12px;
   display: flex;
   align-items: center;
+  margin-bottom: 12px;
 }
 
 .content {
@@ -14,4 +20,20 @@
   align-items: center;
   justify-content: space-around;
   font-size: 20px;
+}
+
+.available {
+  background-color: rgba(186, 133, 1, 0.3);
+}
+
+.toApprove {
+  background-color: rgba(163, 56, 48, 0.3);
+}
+
+.inProgress {
+  background-color: rgba(28, 149, 44, 0.3);
+}
+
+.finished {
+  background-color: rgba(57, 55, 55, 0.3);
 }
