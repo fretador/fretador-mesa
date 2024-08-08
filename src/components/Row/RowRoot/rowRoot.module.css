@@ -1,13 +1,8 @@
 .container {
   width: 1267px;
   height: 60px;
-<<<<<<< HEAD
-  margin: 0 auto 12px auto;
-  background-color: bisque;
-=======
   margin: 0 auto;
   background-color: #FAFDFD;
->>>>>>> f41803b (create FreightStatus subcomponent (UI))
   border-radius: 12px;
   display: flex;
   align-items: center;
