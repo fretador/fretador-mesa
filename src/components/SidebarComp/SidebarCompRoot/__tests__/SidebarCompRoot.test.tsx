@@ -11,14 +11,7 @@ import { toggleSidebar } from "@/store/slices/sidebarSlice";
 jest.mock("./SidebarCompRoot.module.css", () => ({
   sidebar: "sidebar-class",
   retracted: "retracted-class",
-  not_retracted: "not-retracted-class",
-  tab: "tab-class",
-  sidebarRetracted: "sidebar-retracted-class",
-  sidebarExpanded: "sidebar-expanded-class",
-  transparentTab: "transparent-tab-class",
-  tabContent: "tab-content-class",
-  retractedClipPath: "retracted-clip-path-class",
-  expandedClipPath: "expanded-clip-path-class",
+  not_retracted: "not_retracted-class",
 }));
 
 // Criar um mock store
@@ -52,7 +45,7 @@ describe("SidebarCompRoot", () => {
     const sidebar = screen.getByTestId("side-bar");
     expect(sidebar).toBeInTheDocument();
     expect(sidebar).toHaveClass("sidebar-class");
-    expect(sidebar).toHaveClass("not-retracted-class");
+    expect(sidebar).toHaveClass("not_retracted-class");
     expect(sidebar).not.toHaveClass("retracted-class");
     expect(sidebar).toHaveTextContent("Test Content");
 
@@ -83,7 +76,7 @@ describe("SidebarCompRoot", () => {
     expect(sidebar).toBeInTheDocument();
     expect(sidebar).toHaveClass("sidebar-class");
     expect(sidebar).toHaveClass("retracted-class");
-    expect(sidebar).not.toHaveClass("not-retracted-class");
+    expect(sidebar).not.toHaveClass("not_retracted-class");
     expect(sidebar).toHaveTextContent("Test Content");
 
     const tab = sidebar.querySelector(".tab-class");
