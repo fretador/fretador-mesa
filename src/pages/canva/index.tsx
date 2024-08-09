@@ -24,6 +24,7 @@ const Canva: React.FC = () => {
               <Row.FreightDate date={new Date()} />
               <Row.Cte cte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
+              <Row.FreightCode code={'ABC123'}/>
             </Row.Root>
           </Body>
         </div>
