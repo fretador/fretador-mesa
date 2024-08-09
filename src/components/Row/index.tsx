@@ -4,6 +4,7 @@ import FreightCode from "./FreightCode";
 import FreightDate from "./FreightDate";
 import Route from "./Route";
 import RowRoot from "./RowRoot";
+import FreightStatus from "./FreightStatus";
 
 export const Row = {
   Root: RowRoot,
@@ -11,6 +12,7 @@ export const Row = {
   FreightCode: FreightCode,
   Route: Route,
   Cte: Cte,
-  Driver: Driver
-  
+  Driver: Driver,
+  FreightStatus: FreightStatus
 };
+
