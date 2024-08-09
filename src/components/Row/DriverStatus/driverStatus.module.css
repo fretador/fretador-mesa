@@ -1,0 +1,16 @@
+.driverStatus {
+  text-transform: capitalize;
+  text-align: left;
+}
+
+.approved {
+  color: #0B7517;
+}
+
+.awaiting {
+  color: #BA8501;
+}
+
+.blocked {
+  color: #BF1231;
+}
