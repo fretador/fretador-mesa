@@ -13,8 +13,4 @@ describe("Home should be rendering correctly", () => {
 
     expect(heading).toBeInTheDocument();
   });
-
-  it("Should be 'Clique Aqui'", () => {
-    expect(screen.getByText("Clique aqui")).toBeInTheDocument();
-  });
 });

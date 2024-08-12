@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  margin-top: 60px;
+  overflow: hidden;
+}
+
+.sidebar {
+  flex: 0 0 200px;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+  background-color: #333;
+  color: white;
+}
+
+.contentExpanded {
+  flex: 1;
+  margin-left: 0;
+  padding: 1rem;
+  background-color: #f0f0f0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s;
+}
+
+.contentRetracted {
+  flex: 1;
+  margin-left: -20rem;
+  padding: 1rem;
+  background-color: #f0f0f0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s;
+}
+
+.body {
+  flex: 1;
+  background-color: #f0f0f0;
+  overflow: auto;
+}
+
+.counter {
+  padding: 2rem;
+  background-color: #f0f0f0;
+}
