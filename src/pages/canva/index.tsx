@@ -31,6 +31,9 @@ const Canva: React.FC = () => {
               <Row.Route originState="SP" destinyState="RJ" />
               <Row.FreightCode code={"ABC123"} />
               <Row.CustomerEmail email={'biscoito.bolachasp@biscoitosxablau.com.br'}/>
+              <Row.FreightCode code={'ABC123'}/>
+              <Row.Customer customerName={'Joaquim José da Silva Xavier'}/>
+              <Row.TradeName tradeName={'BRASIL LOG TRANSPORTADORA'}/>
             </Row.Root>
           </Body>
         </div>
