@@ -14,11 +14,61 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-
 .retracted {
-  width: 10vw;
+  width: 10vh;
 }
 
 .not_retracted .navItem {
   margin-left: 34px;
+}
+
+/* Estilos para a aba */
+.tab {
+  position: absolute;
+  right: 0;
+  width: 8px;
+  height: 100%;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: right 0.3s, clip-path 0.3s;
+}
+
+.tabContent {
+  width: 100%;
+  height: 131px;
+  background-color: #1B556D;
+  transition: clip-path 0.1s, transform 0.1s;
+}
+
+.expandedClipPath {
+  clip-path: polygon(100% 0, 0 15%, 0 85%, 100% 100%);
+}
+
+.retractedClipPath {
+  clip-path: polygon(0 0, 100% 15%, 100% 85%, 0 100%);
+  margin-right: -16px;
+}
+
+.sidebarExpanded .tab {
+  right: -20px;
+}
+
+.sidebarRetracted .tab {
+  right: -8px;
+}
+
+.transparentTab {
+  background-color: transparent;
+}
+
+.sidebarRetracted .tabContent {
+  background-color: #1B556D;
+}
+
+.sidebarExpanded .tabContent {
+  background-color: #1B556D;
 }

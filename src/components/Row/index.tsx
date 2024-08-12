@@ -5,8 +5,10 @@ import FreightDate from "./FreightDate";
 import Route from "./Route";
 import RowRoot from "./RowRoot";
 import FreightStatus from "./FreightStatus";
+import CustomerEmail from "./CustomerEmail";
 import Customer from "./Customer";
 import TradeName from "./TradeName";
+
 
 
 export const Row = {
@@ -18,7 +20,9 @@ export const Row = {
   Route: Route,
   Cte: Cte,
   Driver: Driver,
-  FreightStatus: FreightStatus,
-  
+
+  CustomerEmail: CustomerEmail,
+  FreightStatus: FreightStatus
+
 };
 
