@@ -1,21 +1,25 @@
+import path from "path";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: true, // Habilitar SWC
+  reactStrictMode: true,
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      use: [
-        {
-          loader: "@svgr/webpack",
-          options: {
-            svgo: false,
-          },
-        },
-      ],
+      use: ["@svgr/webpack"],
+    });
+
+    config.module.rules.push({
+      test: /\.(png|jpg|jpeg|gif)$/i,
+      type: "asset/resource",
     });
 
     return config;
   },
+  // images: {
+  //   loader: "custom",
+  //   loaderFile: "./src/utils/imageLoader.js",
+  // },
 };
 
 export default nextConfig;
