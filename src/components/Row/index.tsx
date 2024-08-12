@@ -8,6 +8,7 @@ import FreightStatus from "./FreightStatus";
 import Customer from "./Customer";
 import TradeName from "./TradeName";
 
+
 export const Row = {
   Root: RowRoot,
   FreightDate: FreightDate,
