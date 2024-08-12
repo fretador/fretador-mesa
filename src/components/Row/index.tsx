@@ -5,9 +5,11 @@ import FreightDate from "./FreightDate";
 import Route from "./Route";
 import RowRoot from "./RowRoot";
 import FreightStatus from "./FreightStatus";
+import OccurrenceType from "./OccurrenceType";
 import CustomerEmail from "./CustomerEmail";
 import Customer from "./Customer";
 import TradeName from "./TradeName";
+
 
 
 
@@ -20,9 +22,8 @@ export const Row = {
   Route: Route,
   Cte: Cte,
   Driver: Driver,
-
+  OccurrenceType: OccurrenceType,
   CustomerEmail: CustomerEmail,
   FreightStatus: FreightStatus
-
 };
 
