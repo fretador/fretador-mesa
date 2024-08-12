@@ -25,6 +25,7 @@ const Canva: React.FC = () => {
               <Row.Cte cte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
               <Row.FreightCode code={'ABC123'}/>
+              <Row.Customer customerName={'Joaquim José da Silva Xavier'}/>
             </Row.Root>
           </Body>
         </div>
