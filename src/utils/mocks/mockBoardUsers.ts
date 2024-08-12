@@ -1,7 +1,7 @@
 import { BoardUser } from "@/utils/Interfaces/BoardUsers";
 
 const today = "2024-08-09T12:00:00Z";
-
+const defaultAvatarPath = "../../assets/images/avatar.jpg";
 export const mockBoardUsers: BoardUser[] = [
   {
     id: "1",
@@ -12,8 +12,7 @@ export const mockBoardUsers: BoardUser[] = [
     email: "joao.silva@exemplo.com",
     profile: "ADMINISTRADOR",
     hashPassword: "$2a$10$abcdefghijklmnopqrstuvwxyz123456",
-    profilePicture:
-      "https://ui-avatars.com/api/?name=João+Silva&background=random",
+    profilePicture: defaultAvatarPath,
   },
   {
     id: "2",
@@ -24,8 +23,7 @@ export const mockBoardUsers: BoardUser[] = [
     email: "maria.santos@exemplo.com",
     profile: "FINANCEIRO",
     hashPassword: "$2a$10$zyxwvutsrqponmlkjihgfedcba654321",
-    profilePicture:
-      "https://ui-avatars.com/api/?name=Maria+Santos&background=random",
+    profilePicture: defaultAvatarPath,
   },
   {
     id: "3",
@@ -36,8 +34,7 @@ export const mockBoardUsers: BoardUser[] = [
     email: "carlos.oliveira@exemplo.com",
     profile: "OPERAÇÃO",
     hashPassword: "$2a$10$123456abcdefghijklmnopqrstuvwxyz",
-    profilePicture:
-      "https://ui-avatars.com/api/?name=Carlos+Oliveira&background=random",
+    profilePicture: defaultAvatarPath,
   },
   {
     id: "4",
@@ -48,7 +45,6 @@ export const mockBoardUsers: BoardUser[] = [
     email: "ana.rodrigues@exemplo.com",
     profile: "CLIENTE",
     hashPassword: "$2a$10$vutsrqponmlkjihgfedcbazyxw654321",
-    profilePicture:
-      "https://ui-avatars.com/api/?name=Ana+Rodrigues&background=random",
+    profilePicture: defaultAvatarPath,
   },
 ];

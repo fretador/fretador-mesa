@@ -1,7 +1,8 @@
-import { useAppSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { BoardUser } from "@/utils/Interfaces/BoardUsers";
 import { ReactNode } from "react";
 import styles from "./SidebarCompRoot.module.css";
+import { toggleSidebar } from "@/store/slices/sidebarSlice";
 
 interface SideBarProps {
   children: ReactNode;
@@ -9,7 +10,12 @@ interface SideBarProps {
 }
 
 const SidebarCompRoot: React.FC<SideBarProps> = ({ children, user }) => {
+  const dispatch = useAppDispatch();
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+
+  const handleToggle = () => {
+    dispatch(toggleSidebar());
+  };
 
   return (
     <nav
@@ -19,6 +25,18 @@ const SidebarCompRoot: React.FC<SideBarProps> = ({ children, user }) => {
       data-testid="side-bar"
     >
       {children}
+      <div
+        className={`${styles.tab} ${
+          isRetracted ? styles.sidebarRetracted : styles.sidebarExpanded
+        } ${isRetracted ? styles.transparentTab : ""}`}
+        onClick={handleToggle}
+      >
+        <div
+          className={`${styles.tabContent} ${
+            isRetracted ? styles.retractedClipPath : styles.expandedClipPath
+          }`}
+        ></div>
+      </div>
     </nav>
   );
 };
