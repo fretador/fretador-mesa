@@ -109,7 +109,13 @@ const Canva: React.FC = () => {
               <Row.FreightDate date={new Date()} />
               <Row.Cte cte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
+<<<<<<< HEAD
               <Row.FreightCode code={"ABC123"} />
+=======
+              <Row.FreightCode code={'ABC123'}/>
+              <Row.Customer customerName={'Joaquim José da Silva Xavier'}/>
+              <Row.TradeName tradeName={'BRASIL LOG TRANSPORTADORA'}/>
+>>>>>>> ba53c11 (feat:  add TradeName component and unit test)
             </Row.Root>
           </Body>
         </div>
