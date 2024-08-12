@@ -25,11 +25,8 @@ const Canva: React.FC = () => {
               <Row.Cte cte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
               <Row.FreightCode code={'ABC123'}/>
-<<<<<<< Updated upstream
-=======
               <Row.Customer customerName={'Joaquim José da Silva Xavier'}/>
-              <Row.TradeName tradeName={'BRASIL LOG TRANSPORTADORA LTDA.'}/>
->>>>>>> Stashed changes
+              <Row.TradeName tradeName={'BRASIL LOG TRANSPORTADORA'}/>
             </Row.Root>
           </Body>
         </div>
