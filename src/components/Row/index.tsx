@@ -6,7 +6,6 @@ import Route from "./Route";
 import RowRoot from "./RowRoot";
 import FreightStatus from "./FreightStatus";
 import Customer from "./Customer";
-import TradeName from "./TradeName";
 
 export const Row = {
   Root: RowRoot,
