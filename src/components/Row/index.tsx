@@ -6,6 +6,7 @@ import Route from "./Route";
 import RowRoot from "./RowRoot";
 import FreightStatus from "./FreightStatus";
 import OccurrenceType from "./OccurrenceType";
+import CustomerEmail from "./CustomerEmail";
 
 export const Row = {
   Root: RowRoot,
@@ -14,6 +15,6 @@ export const Row = {
   Route: Route,
   Cte: Cte,
   Driver: Driver,
-  OccurrenceType: OccurrenceType,
+  CustomerEmail: CustomerEmail,
   FreightStatus: FreightStatus,
 };
