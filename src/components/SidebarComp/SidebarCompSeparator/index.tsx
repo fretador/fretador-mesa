@@ -7,7 +7,10 @@ interface SeparatorProps {
 
 const Separator: React.FC<SeparatorProps> = ({ isRetracted }) => {
   return (
-    <div className={styles.separator_container}>
+    <div
+      className={styles.separator_container}
+      data-testid="separator-container"
+    >
       {!isRetracted && <hr className={styles.separator} />}
     </div>
   );
