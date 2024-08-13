@@ -27,7 +27,10 @@ const Canva: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.main}>
-        <SidebarComp.Root user={mockBoardUsers[0]} className={styles.sidebar}>
+        <SidebarComp.Root
+          user={mockBoardUsers[0]}
+          className={isRetracted ? styles.retracted : styles.sidebar}
+        >
           <SidebarComp.Header user={mockBoardUsers[0]} />
           <SidebarComp.List>
             <SidebarComp.Item
