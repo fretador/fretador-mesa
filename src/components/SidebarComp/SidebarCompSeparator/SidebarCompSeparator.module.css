@@ -1,0 +1,15 @@
+.separator_container {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.separator {
+  width: 60%;
+  margin: 0.5rem auto;
+  border: 0;
+  border-top: 1px solid #1B556D;
+  opacity: 0.5;
+  position: relative;
+}
