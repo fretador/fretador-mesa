@@ -35,6 +35,7 @@ const Canva: React.FC = () => {
               <Row.FreightCode code={'ABC123'}/>
               <Row.Customer customerName={'Joaquim José da Silva Xavier'}/>
               <Row.TradeName tradeName={'BRASIL LOG TRANSPORTADORA'}/>
+              <Row.Value value={3500.50}/>
 
             </Row.Root>
           </Body>

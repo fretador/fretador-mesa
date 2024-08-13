@@ -9,6 +9,7 @@ import OccurrenceType from "./OccurrenceType";
 import CustomerEmail from "./CustomerEmail";
 import Customer from "./Customer";
 import TradeName from "./TradeName";
+import Value from "./Value";
 
 
 
@@ -24,6 +25,7 @@ export const Row = {
   Driver: Driver,
   OccurrenceType: OccurrenceType,
   CustomerEmail: CustomerEmail,
+  Value: Value,
   FreightStatus: FreightStatus
 };
 
