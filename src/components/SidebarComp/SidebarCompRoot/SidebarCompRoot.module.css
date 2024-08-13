@@ -1,7 +1,7 @@
 .sidebar {
   background-color: rgba(78, 118, 135, 0.70);
   color: white;
-  width: 24vw;
+  width: 16vw;
   height: 100vh;
   padding: 1rem;
   position: fixed;
@@ -15,20 +15,15 @@
 }
 
 
-.expanded {
-  width: 24vw;
-}
-
 .retracted {
-  width: 10vw;
-  /* Define a largura para 10vw quando retraído */
+  width: 6vw;
 }
 
 .not_retracted .navItem {
   margin-left: 34px;
 }
 
-/* Estilos para a aba */
+
 .tab {
   position: absolute;
   right: 0;
