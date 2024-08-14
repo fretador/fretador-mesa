@@ -12,11 +12,12 @@ import TradeName from "./TradeName";
 import Value from "./Value";
 import PaymentDate from "./PaymentDate";
 
-
 export const Row = {
   Root: RowRoot,
   FreightDate: FreightDate,
   FreightCode: FreightCode,
+  Customer: Customer,
+  TradeName: TradeName,
   Customer: Customer,
   TradeName: TradeName,
   Route: Route,
@@ -25,7 +26,5 @@ export const Row = {
   OccurrenceType: OccurrenceType,
   CustomerEmail: CustomerEmail,
   Value: Value,
-  PaymentDate: PaymentDate,
-  FreightStatus: FreightStatus
+  FreightStatus: FreightStatus,
 };
-
