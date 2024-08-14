@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './vehicle.module.css'
+import styles from './Vehicle.module.css';
 
 interface VehicleProps {
   vehicle: string

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './cnpj.module.css'
+import styles from './Cnpj.module.css';
 
 interface CnpjProps {
   cnpj: string

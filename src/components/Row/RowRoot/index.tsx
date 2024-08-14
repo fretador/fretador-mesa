@@ -1,5 +1,5 @@
 import FreightStatus from '../FreightStatus';
-import styles from './rowRoot.module.css';
+import styles from './RowRoot.module.css';
 import React, { ReactNode, cloneElement, Children, ReactElement } from 'react';
 
 type FreightStatusOption = "DISPONIVEL" | "APROVAR" | "EM CURSO" | "FINALIZADO" | "";

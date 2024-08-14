@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './tradeName.module.css';
+import styles from './TradeName.module.css';
 
 interface TradeNameProps {
   tradeName: string;

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './corporateName.module.css'
+import styles from './CorporateName.module.css';
 
 interface CorporateNameProps {
   corporateName: string
