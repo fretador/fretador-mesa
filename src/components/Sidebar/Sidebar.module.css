@@ -1,0 +1,13 @@
+.sidebar {
+  width: 16vw;
+  height: 100vh;
+  transition: width 0.3s;
+  box-sizing: border-box;
+}
+
+.retracted {
+  width: 6vw;
+  height: 100vh;
+  transition: width 0.3s;
+  box-sizing: border-box;
+}
