@@ -4,6 +4,14 @@
   align-items: center;
   transition: all 0.3s;
   position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navItem:hover .icon {
+  transform: rotate(15deg);
+  /* Gira o ícone em 15 graus */
+  transition: transform 0.2s ease;
 }
 
 .navItem.retracted {
