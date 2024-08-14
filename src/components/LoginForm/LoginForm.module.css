@@ -1,0 +1,70 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 240px;
+}
+
+.inputContainer input {
+  padding: 12px 10px;
+  width: 413px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 2px solid #1A556D;
+  background: #FFF;
+}
+
+.inputContainer input::placeholder {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.optionsUnderForms {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkboxContainer label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkboxContainer input {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.forgotPasswordContainer a {
+  color: #1A556D;
+  font-size: 16px;
+  font-weight: 300;
+  text-decoration-line: underline;
+}
+
+.buttonSubmitContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonSubmit {
+  border: none;
+  margin-top: 66px;
+  width: 328px;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background: #1A556D;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+}
