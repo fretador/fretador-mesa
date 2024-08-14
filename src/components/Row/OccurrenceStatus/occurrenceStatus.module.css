@@ -1,0 +1,15 @@
+.occurrenceStatusValue {
+  text-transform: capitalize;
+}
+
+.open {
+  color: #0B7517;
+}
+
+.treatment {
+  color: #BA8501;
+}
+
+.finished {
+  color: #393737
+}
