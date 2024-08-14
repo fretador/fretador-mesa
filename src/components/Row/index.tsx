@@ -10,8 +10,7 @@ import CustomerEmail from "./CustomerEmail";
 import Customer from "./Customer";
 import TradeName from "./TradeName";
 import Value from "./Value";
-
-
+import PaymentDate from "./PaymentDate";
 
 
 export const Row = {
@@ -26,6 +25,7 @@ export const Row = {
   OccurrenceType: OccurrenceType,
   CustomerEmail: CustomerEmail,
   Value: Value,
+  PaymentDate: PaymentDate,
   FreightStatus: FreightStatus
 };
 

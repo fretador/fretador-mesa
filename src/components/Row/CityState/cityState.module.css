@@ -1,3 +1,10 @@
+.cityAndStateValue {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .cityName {
   text-transform: capitalize;
 }

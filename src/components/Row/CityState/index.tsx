@@ -8,7 +8,7 @@ interface CityStateProps {
 
 const CityState = ({city, state}: CityStateProps) => {
   return(
-    <p><span className={styles.cityName}>{city}</span>-<span className={styles.stateName}>{state}</span></p>
+    <p className={styles.cityAndStateValue}><span className={styles.cityName}>{city}</span>-<span className={styles.stateName}>{state}</span></p>
   )
 }
 

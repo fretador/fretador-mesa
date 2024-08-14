@@ -7,7 +7,7 @@ interface CorporateNameProps {
 
 const CorporateName = ({corporateName}: CorporateNameProps) => {
   return (
-    <p>{corporateName}</p>
+    <p className={styles.corporateNameValue}>{corporateName}</p>
   )
 }
 
