@@ -18,8 +18,6 @@ export const Row = {
   FreightCode: FreightCode,
   Customer: Customer,
   TradeName: TradeName,
-  Customer: Customer,
-  TradeName: TradeName,
   Route: Route,
   Cte: Cte,
   Driver: Driver,
