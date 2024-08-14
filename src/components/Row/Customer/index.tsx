@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './customer.module.css';
+import styles from "./Customer.module.css";
 
 interface CustomerProps {
   customerName: string;

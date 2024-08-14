@@ -8,6 +8,8 @@ import FreightStatus from "./FreightStatus";
 import Customer from "./Customer";
 import TradeName from "./TradeName";
 import Value from "./Value";
+import OccurrenceType from "./OccurrenceType";
+import CustomerEmail from "./CustomerEmail";
 
 export const Row = {
   Root: RowRoot,

@@ -109,14 +109,11 @@ const Canva: React.FC = () => {
               <Row.FreightDate date={new Date()} />
               <Row.Cte cte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
-<<<<<<< HEAD
               <Row.FreightCode code={"ABC123"} />
-=======
-              <Row.FreightCode code={'ABC123'}/>
-              <Row.Customer customerName={'Joaquim José da Silva Xavier'}/>
-              <Row.TradeName tradeName={'BRASIL LOG TRANSPORTADORA'}/>
-              <Row.Value value={3500.50}/>
-
+              <Row.FreightCode code={"ABC123"} />
+              <Row.Customer customerName={"Joaquim José da Silva Xavier"} />
+              <Row.TradeName tradeName={"BRASIL LOG TRANSPORTADORA"} />
+              <Row.Value value={3500.5} />
             </Row.Root>
           </Body>
         </div>
