@@ -3,13 +3,15 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import exampleReducer from "../store/slices/exampleSlice";
 import sidebarReducer from "@/store/slices/sidebarSlice";
 import statusFreightReducer from "@/store/slices/statusFreightSlice";
+import freightReducer from "@/store/slices/freightSlice";
 
 const store = configureStore({
-  reducer: {
-    example: exampleReducer,
-    sidebar: sidebarReducer,
-    freightStatus: statusFreightReducer,
-  },
+	reducer: {
+		example: exampleReducer,
+		sidebar: sidebarReducer,
+		freightStatus: statusFreightReducer,
+		freight: freightReducer,
+	},
 });
 
 export type AppDispatch = typeof store.dispatch;
