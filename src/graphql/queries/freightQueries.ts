@@ -6,8 +6,15 @@ export const GET_FREIGHTS = gql`
 			edges {
 				node {
 					id
+					creationDate
+					freightCode
+					numCte
 					deliveryCity
 					gatheringCity
+					gatheringState
+					deliveryState
+					clientName
+					driver
 					status
 					value
 				}
@@ -26,10 +33,16 @@ export const GET_FREIGHT_BY_ID = gql`
 	query GetFreightById($id: ID!) {
 		freight(id: $id) {
 			id
+			creationDate
+			freightCode
+			numCte
+			deliveryCity
+			gatheringCity
+			gatheringState
+			deliveryState
+			clientName
+			driver
 			status
-			deliveryAddress
-			deliveryDate
-			packageWeight
 			value
 		}
 	}

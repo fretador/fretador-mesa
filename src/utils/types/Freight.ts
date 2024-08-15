@@ -74,4 +74,5 @@ export interface Freight {
 	userImages: string | null;
 	driverAcknowledge: boolean;
 	interestedUsers: string[];
+	numCte: string | null;
 }
