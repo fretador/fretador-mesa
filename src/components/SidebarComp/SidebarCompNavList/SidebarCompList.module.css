@@ -1,9 +1,9 @@
 .navList {
   list-style: none;
-  padding: 0;
-  margin-top: 2rem;
+  padding: 1rem;
+
 }
 
 .not_retracted .navList {
-  margin-left: 34px;
+  margin-left: 0.5rem;
 }

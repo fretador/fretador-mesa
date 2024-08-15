@@ -10,6 +10,7 @@ import {
   SupportIcon,
   TruckIcon,
   WarningIcon,
+  ClientsBook,
 } from "@/utils/icons";
 import { useAppSelector } from "@/store/store";
 import styles from "./Sidebar.module.css";
@@ -48,7 +49,7 @@ const Sidebar: React.FC = () => {
           isFocused={routeName === "MOTORISTAS"}
         />
         <SidebarComp.Item
-          icon={<WarningIcon />}
+          icon={<ClientsBook />}
           text="CLIENTES"
           isRetracted={isRetracted}
           isFocused={routeName === "CLIENTES"}

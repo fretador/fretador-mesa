@@ -25,7 +25,15 @@
   transition: all 0.3s;
   position: relative;
   cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
   transition: background-color 0.3s ease;
+}
+
+.navItem:hover {
+  background-color: #1B556D;
+  padding: 0.5rem;
+  border-radius: 8px;
 }
 
 .navItem:hover .icon {
@@ -50,7 +58,7 @@
   font-weight: 400;
   line-height: normal;
   padding: 8px 12px;
-  height: 40px;
+  height: 36px;
   width: 100%;
 }
 
@@ -59,7 +67,8 @@
 }
 
 .focused {
-  background-color: #1B556D;
+  background-color: #3280A0;
+  padding: 0.5rem;
   border-radius: 8px;
 }
 
