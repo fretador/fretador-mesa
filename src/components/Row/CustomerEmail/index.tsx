@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './customerEmail.module.css';
+import styles from './CustomerEmail.module.css';
 
 interface CustomerEmailProps {
   email: string;

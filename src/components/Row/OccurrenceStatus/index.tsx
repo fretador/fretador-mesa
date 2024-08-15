@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './occurrenceStatus.module.css'
+import styles from './OccurrenceStatus.module.css';
 
 type OccurrenceStatusOption = "aberto" | "em tratamento" | "encerrado"
 

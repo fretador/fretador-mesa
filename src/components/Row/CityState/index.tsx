@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './cityState.module.css'
+import styles from './CityState.module.css';
 
 interface CityStateProps {
   city: string,

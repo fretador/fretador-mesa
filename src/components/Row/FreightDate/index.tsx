@@ -1,4 +1,4 @@
-import styles from './freightDate.module.css'
+import styles from './FreightDate.module.css';
 import React from 'react'
 
 interface FreightDateProps {

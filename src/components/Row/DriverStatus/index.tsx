@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './driverStatus.module.css'
+import styles from './DriverStatus.module.css';
 
 type DriverStatusOption = "aprovado" | "aguardando" | "bloqueado"
 

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './paymentMethod.module.css'
+import styles from './PaymentMethod.module.css';
 
 type PaymentMethodOption = "adiantamento" | "saldo" | "saldo parcial" | "despesas"
 

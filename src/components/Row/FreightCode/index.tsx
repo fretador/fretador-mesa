@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './FreightCode.module.css';
 
 interface FreightCodeProps {
   code: string;
