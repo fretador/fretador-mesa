@@ -1,4 +1,4 @@
-import styles from './cte.module.css'
+import styles from './Cte.module.css';
 import React from 'react'
 
 interface CteProps {

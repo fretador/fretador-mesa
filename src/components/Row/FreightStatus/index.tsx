@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './freightStatus.module.css'
+import styles from './FreightStatus.module.css';
 
 // type FreightStatusOption = "DISPONIVEL" | "APROVAR" | "EM CURSO" | "FINALIZADO";
 

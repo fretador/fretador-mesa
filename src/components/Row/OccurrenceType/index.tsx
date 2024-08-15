@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './ocurrenceType.module.css';
+import styles from './OcurrenceType.module.css';
 
 interface OccurrenceTypeProps {
   occurrenceType: string;

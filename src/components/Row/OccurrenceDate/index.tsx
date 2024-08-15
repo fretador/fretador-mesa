@@ -1,4 +1,4 @@
-import styles from './occurrenceDate.module.css'
+import styles from './OccurrenceDate.module.css';
 import React from 'react'
 
 interface OccurrenceDateProps {
