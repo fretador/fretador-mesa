@@ -1,11 +1,7 @@
-.container {
-  display: flex;
-  align-items: center;
-}
-
 .email {
-  max-width: 253px;
+  max-width: 232px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #1A556D;
 }

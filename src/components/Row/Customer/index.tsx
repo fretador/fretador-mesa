@@ -7,9 +7,7 @@ interface CustomerProps {
 
 const Customer = ({ customerName }: CustomerProps) => {
   return (
-    <div className={styles.container}>
-      <p className={styles.customerName}>{customerName}</p>
-    </div>
+    <p className={styles.customerName}>{customerName}</p>
   );
 };
 

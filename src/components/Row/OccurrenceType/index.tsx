@@ -7,9 +7,7 @@ interface OccurrenceTypeProps {
 
 const OccurrenceType = ({ occurrenceType }: OccurrenceTypeProps) => {
   return (
-    <div className={styles.container}>
-      <p className={styles.occurrenceType}>{occurrenceType}</p>
-    </div>
+    <p className={styles.occurrenceType}>{occurrenceType}</p>
   );
 };
 
