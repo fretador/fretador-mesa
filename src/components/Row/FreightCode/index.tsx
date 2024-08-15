@@ -7,9 +7,7 @@ interface FreightCodeProps {
 
 const FreightCode: React.FC<FreightCodeProps> = ({ code }) => {
   return (
-    <div>
-      <p>{code}</p>
-    </div>
+      <p>#{code}</p>
   );
 };
 

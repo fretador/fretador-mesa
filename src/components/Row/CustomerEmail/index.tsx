@@ -7,9 +7,7 @@ interface CustomerEmailProps {
 
 const CustomerEmail = ({ email }: CustomerEmailProps) => {
   return (
-    <div className={styles.container}>
-      <p className={styles.email}>{email}</p>
-    </div>
+    <p className={styles.email}>{email}</p>
   );
 };
 
