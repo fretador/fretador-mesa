@@ -20,17 +20,14 @@ export const useFreightController = () => {
 		dispatch(fetchFreightsStart());
 		try {
 			const response = await FreightService.getFreights(filters, page, limit);
-			console.log("Response from service:", response);
 
 			const transformedFreights: Freight[] = FreightService.transformFreights(
 				response.data
 			);
-			console.log("Transformed Freights:", transformedFreights);
 
 			const pageInfo: PageInfo = FreightService.transformPageInfo(
 				response.pageInfo
 			);
-			console.log("Page Info:", pageInfo);
 
 			dispatch(fetchFreightsSuccess({ freights: transformedFreights, pageInfo }));
 		} catch (error: unknown) {
