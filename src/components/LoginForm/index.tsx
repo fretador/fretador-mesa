@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
-import styles from './LoginForm.module.css'
+import { useRouter } from 'next/router';
+import { useAuthController } from '@/controllers/authController';
+import styles from './LoginForm.module.css';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { login } = useAuthController();
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ email, password });
+
+    try {
+      await login(email, password);
+
+      // Redireciona para a página inicial ou uma página protegida
+      router.push('/home');
+    } catch (err) {
+      setError('Credenciais inválidas. Tente novamente.');
+    }
   };
 
   return (
@@ -34,6 +47,8 @@ const LoginForm = () => {
         />
       </div>
 
+      {error && <p className={styles.errorMessage}>{error}</p>}
+
       <div className={styles.optionsUnderForms}>
         <div className={styles.checkboxContainer}>
           <label>
@@ -54,7 +69,6 @@ const LoginForm = () => {
       <div className={styles.buttonSubmitContainer}>
         <button className={styles.buttonSubmit} type="submit">Entrar</button>
       </div>
-
     </form>
   );
 };
