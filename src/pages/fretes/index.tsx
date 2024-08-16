@@ -6,6 +6,7 @@ import styles from "./Fretes.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import FreightList from '../../components/ExampleFreights/FreightList';
+import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 
 const Freights: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -14,24 +15,26 @@ const Freights: React.FC = () => {
   const routeName = router.pathname.replace("/", "").toUpperCase();
 
   return (
-    <div className={styles.container}>
-      <Sidebar />
+    <AuthenticatedLayout>
+      <div className={styles.container}>
+        <Sidebar />
 
-      <div
-        className={
-          isRetracted ? styles.retractedContentWrapper : styles.contentWrapper
-        }
-      >
-        <div className={styles.header}>
-          <Header title={routeName} />
-        </div>
-        <div className={styles.content}>
-          <Body>
-            <FreightList />
-          </Body>
+        <div
+          className={
+            isRetracted ? styles.retractedContentWrapper : styles.contentWrapper
+          }
+        >
+          <div className={styles.header}>
+            <Header title={routeName} />
+          </div>
+          <div className={styles.content}>
+            <Body>
+              <FreightList />
+            </Body>
+          </div>
         </div>
       </div>
-    </div>
+    </AuthenticatedLayout>
   );
 };
 
