@@ -20,7 +20,7 @@ const Home: React.FC = () => {
         }
       >
         <div className={styles.header}>
-          <Header />
+          <Header title={"HOME"} />
         </div>
         <div className={styles.content}>
           <Body>
