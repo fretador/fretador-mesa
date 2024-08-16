@@ -50,3 +50,10 @@ export enum AccountType {
 	PAMCARD = "PAMCARD",
 	CONTA = "CONTA",
 }
+
+export enum BoardUserProfile {
+	ADMINISTRADOR = "ADMINISTRADOR",
+	OPERATION = "OPERATION",
+	FINANTIAL = "FINANTIAL",
+	SAC = "SAC",
+}
