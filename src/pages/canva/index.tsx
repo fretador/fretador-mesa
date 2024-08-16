@@ -4,6 +4,7 @@ import { SidebarComp } from "@/components/SidebarComp";
 import Body from "@/components/Body";
 import styles from "./Canva.module.css";
 import { Row } from "@/components/Row";
+import RowTitle from "@/components/RowTitle";
 import { useAppSelector } from "@/store/store";
 import { mockBoardUsers } from "@/utils/mocks/mockBoardUsers";
 import {
@@ -25,7 +26,7 @@ const Canva: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       <div
         className={
@@ -37,6 +38,30 @@ const Canva: React.FC = () => {
         </div>
         <div className={styles.content}>
           <Body>
+            <RowTitle
+              FreightDate="DATA"
+              Cte="CTE"
+              Route="ROTA"
+              FreightCode="CÓDIGO"
+              FreightCode="CÓDIGO"
+              Customer="CLIENTE"
+              TradeName="NOME FANTASIA"
+              Value="VALOR"
+              CityState="CIDADE"
+              Cnpj="CNPJ"
+               CorporateName="RAZAO SOCIAL"
+               CustomerEmail="EMAIL"
+               Driver="MOTORISTA"
+               DriverStatus="STATUS MOTORISTA"
+               FreightStatus="STATUS FRETE"
+               OccurrenceDate="DATA OCORRENCIA"
+               OccurrenceStatus="STATUS OCORRENCIA"
+               OccurrenceType="TIPO OCORRENCIA"
+               PaymentDate="DATA PAGAMENTO"
+               PaymentMethod="FORMA PAGAMENTO"
+               Vehicle="VEICULO"
+               WhatsApp="WHATSAPP"
+            />
             <Row.Root>
               <Row.FreightDate date={new Date()} />
               <Row.Cte cte="000000" />
