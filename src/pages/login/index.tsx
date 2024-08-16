@@ -1,6 +1,5 @@
 import React from "react";
 import styles from './Login.module.css'
-import backgroundImage from '@/assets/images/background-login-page.jpg';
 import LoginForm from "@/components/LoginForm";
 import CustomImage from "@/components/CustomImage";
 
