@@ -1,7 +1,7 @@
 .driverContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .driverImage {
@@ -10,7 +10,7 @@
 
 .driverName {
   text-transform: uppercase;
-  max-width: 253px;
+  max-width: 213px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

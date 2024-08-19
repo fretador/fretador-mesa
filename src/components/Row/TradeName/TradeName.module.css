@@ -1,0 +1,6 @@
+.tradeName {
+  max-width: 213px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,16 +1,23 @@
-.rowTitle {
-  width: 100%;
+.container {
+  width: 1267px;
+  height: 60px;
+  margin: 0 auto;
+  /* background-color: #FAFDFD; */
+  border-radius: 12px;
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #ccc;
+  align-items: center;
 }
 
-.rowTitle div {
-  flex: 1 1 12.5%; /* 100% / 8 = 12.5% */
-  text-align: center;
-  font-weight: bold;
-  margin: 0 5px; /* Adiciona um pequeno espaço entre os itens */
-  box-sizing: border-box; /* Garante que o padding e a borda sejam incluídos na largura */
+.content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content p {
+  flex: 1;
+  text-align: left;
+  padding: 0 30px;
+  font-weight: 700;
 }

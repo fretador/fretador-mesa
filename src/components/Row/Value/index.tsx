@@ -14,9 +14,7 @@ const formatCurrency = (value: number): string => {
 
 const Value = ({ value }: ValueProps) => {
   return (
-    <div className={styles.container}>
-      <p className={styles.value}>{formatCurrency(value)}</p>
-    </div>
+    <p className={styles.value}>{formatCurrency(value)}</p>
   );
 };
 
