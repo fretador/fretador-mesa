@@ -1,5 +1,13 @@
+import { BoardUserProfile } from "./Enums";
 export interface BoardUser {
-	name: string;
-	email: string;
-	profile: string;
+	_id: String;
+	id: String;
+	active: Boolean;
+	updateDate: String;
+	creationDate: String;
+	name: String;
+	email: String;
+	profile: BoardUserProfile;
+	hashPassword: String;
+	socketConnectionIds: [String];
 }

@@ -8,7 +8,6 @@ import store from "../store/store";
 import "../app/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  console.log("Redux Store:", store.getState());
   return (
     <ApolloProvider client={client}>
       <Provider store={store}>

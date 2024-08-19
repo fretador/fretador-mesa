@@ -4,7 +4,7 @@ import { useFreightController } from '@/controllers/freightController';
 import FreightItem from './FreightItem';
 import FreightFilters from './FreightFilters';
 import Body from '../Body';
-import { RootState } from '../../store/store';
+import { RootState } from '@/store/store';
 import { FreightFilters as FiltersFreights } from '@/utils/types/FreightFilters';
 
 const FreightList: React.FC = () => {
