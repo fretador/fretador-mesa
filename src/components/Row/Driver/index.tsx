@@ -4,12 +4,14 @@ import Image from "next/image";
 
 interface DriverProps {
   driverPhotoUrl?: string,
-  driverName: string
+  driverName: string,
+  showImage?: boolean
 }
 
-const Driver = ({ driverPhotoUrl, driverName }: DriverProps) => {
-  return (
-    <div className={styles.driverContainer}>
+const Driver = ({ driverPhotoUrl, driverName, showImage = false }: DriverProps) => {
+  if (showImage) {
+    return (
+      <div className={styles.driverContainer}>
         {driverPhotoUrl && (
           <Image
             src={driverPhotoUrl}
@@ -19,10 +21,15 @@ const Driver = ({ driverPhotoUrl, driverName }: DriverProps) => {
             className={styles.driverImage}
           />
         )}
-        
+
+        <p className={styles.driverName}>{driverName}</p>
+      </div>
+    )
+  } else {
+    return (
       <p className={styles.driverName}>{driverName}</p>
-    </div>
-  )
+    )
+  }
 }
 
 export default Driver

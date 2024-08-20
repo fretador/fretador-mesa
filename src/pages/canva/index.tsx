@@ -1,24 +1,11 @@
 import React from "react";
 import Header from "@/components/Header";
-import { SidebarComp } from "@/components/SidebarComp";
 import Body from "@/components/Body";
 import styles from "./Canva.module.css";
 import { Row } from "@/components/Row";
 import { useAppSelector } from "@/store/store";
-import { mockBoardUsers } from "@/utils/mocks/mockBoardUsers";
-import {
-  HomeIcon,
-  TruckIcon,
-  PersonAddIcon,
-  PeopleIcon,
-  WarningIcon,
-  FinanceIcon,
-  SettingsIcon,
-  SupportIcon,
-  HelpIcon,
-  LogoutIcon,
-} from "@/utils/icons";
 import Sidebar from "@/components/Sidebar";
+import RowTitle from "@/components/RowTitle";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -33,19 +20,27 @@ const Canva: React.FC = () => {
         }
       >
         <div className={styles.header}>
-          <Header />
+          <Header title="Canva" />
         </div>
         <div className={styles.content}>
           <Body>
-            <Row.Root>
+            <RowTitle
+              FreightDate="DATA"
+              FreightCode="CÓDIGO"
+              Cte="CTE"
+              Route="ROTA"
+              Customer="CLIENTE"
+              Driver="MOTORISTA"
+              FreightStatus="STATUS"
+            />
+            <Row.Root freightStatus="DISPONIVEL">
               <Row.FreightDate date={new Date()} />
+              <Row.FreightCode code={"ABC123"} />
               <Row.Cte cte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
-              <Row.FreightCode code={"ABC123"} />
-              <Row.FreightCode code={"ABC123"} />
               <Row.Customer customerName={"Joaquim José da Silva Xavier"} />
-              <Row.TradeName tradeName={"BRASIL LOG TRANSPORTADORA"} />
-              <Row.Value value={3500.5} />
+              <Row.Driver driverName="João Pedro do Nascimento" />
+              <Row.FreightStatus freightStatus="DISPONIVEL" />
             </Row.Root>
           </Body>
         </div>
