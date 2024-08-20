@@ -5,6 +5,7 @@
   width: 100vw;
   overflow: hidden;
   box-sizing: border-box;
+  background: linear-gradient(180deg, #BCBCBC 0%, #FFF 100%);
 }
 
 .sidebar {
@@ -28,6 +29,8 @@
   margin-left: 10vw;
   transition: width 0.3s, margin-left 0.3s;
   box-sizing: border-box;
+  position: relative;
+  /* Adicionei isso para o filtro sobrepor o conteúdo */
 }
 
 .retractedContentWrapper {
@@ -37,6 +40,8 @@
   margin-left: -4vw;
   transition: width 0.3s, margin-left 0.3s;
   box-sizing: border-box;
+  position: relative;
+  /* Adicionei isso para o filtro sobrepor o conteúdo */
 }
 
 .header {
@@ -46,10 +51,74 @@
   margin-left: auto;
   justify-content: center;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
 }
 
 .content {
   flex: 1;
   padding: 0.5rem;
   box-sizing: border-box;
+  margin-top: 2rem;
+  overflow-y: auto;
+  /* Adicionei isso para permitir rolagem do conteúdo */
+}
+
+.filterButton {
+  background-color: transparent;
+  color: #1B556D;
+  font-family: 'Roboto', sans-serif;
+  font-size: larger;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  margin-left: 60rem;
+  margin-top: 0.5rem;
+}
+
+.filterButton:hover {
+  background-color: transparent;
+}
+
+.statusFilterWrapper {
+  position: absolute;
+  top: 80px;
+  /* Ajuste conforme necessário */
+  right: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 1rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  font-family: 'Roboto', sans-serif;
+  gap: 1rem;
+}
+
+.paginationButton {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+}
+
+.paginationButton:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
 }

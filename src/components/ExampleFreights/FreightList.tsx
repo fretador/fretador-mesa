@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useFreightController } from '@/controllers/freightController';
-import FreightItem from './FreightItem';
-import FreightFilters from './FreightFilters';
-import Body from '../Body';
-import { RootState } from '@/store/store';
-import { FreightFilters as FiltersFreights } from '@/utils/types/FreightFilters';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useFreightController } from "@/controllers/freightController";
+import { RootState } from "@/store/store";
+import { FreightFilters as FiltersFreights } from "@/utils/types/FreightFilters";
+import FreightFilters from "./FreightFilters";
 
-const FreightList: React.FC = () => {
+// Importe ou defina os componentes Row e RowTitle
+import { Row } from "@/components/Row";
+import RowTitle from "../RowTitle";
+
+const FreightListNew: React.FC = () => {
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [filters, setFilters] = useState<FiltersFreights>({});
@@ -19,21 +21,41 @@ const FreightList: React.FC = () => {
 
   useEffect(() => {
     loadFreights(filters, page, limit);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, page]);
+  }, [filters, page, limit, loadFreights]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <Body>
+    <div>
       <h1>Freight List</h1>
-      <FreightFilters setFilters={setFilters} />
-      <div>
-        {freights.map((freight) => (
-          <FreightItem key={freight.id} freight={freight} />
-        ))}
-      </div>
+      <FreightFilters setFilters={setFilters} /> */}
+      
+      <RowTitle
+        FreightDate="DATA"
+        FreightCode="CÓDIGO"
+        Cte="CTE"
+        Route="ROTA"
+        Customer="CLIENTE"
+        Driver="MOTORISTA"
+        FreightStatus="STATUS"
+      />
+
+       {freights.map((freight) => (
+        <Row.Root key={freight.id} freightStatus={freight.status}>
+          <Row.FreightDate date={new Date(freight.date)} />
+          <Row.FreightCode code={freight.code} />
+          <Row.Cte cte={freight.cte} />
+          <Row.Route
+            originState={freight.originState}
+            destinyState={freight.destinyState}
+          />
+          <Row.Customer customerName={freight.customerName} />
+          <Row.Driver driverName={freight.driverName} />
+          <Row.FreightStatus freightStatus={freight.status} />
+        </Row.Root>
+      ))}
+
       <div>
         <button
           disabled={!pageInfo?.hasPreviousPage}
@@ -51,8 +73,8 @@ const FreightList: React.FC = () => {
           Next
         </button>
       </div>
-    </Body>
+    </div>
   );
 };
 
-export default FreightList;
+export default FreightListNew;
