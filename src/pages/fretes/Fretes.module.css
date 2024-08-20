@@ -5,6 +5,10 @@
   width: 100vw;
   overflow: hidden;
   box-sizing: border-box;
+  background: linear-gradient(180deg, #BCBCBC 0%, #FFF 100%);
+
+
+
 }
 
 .sidebar {

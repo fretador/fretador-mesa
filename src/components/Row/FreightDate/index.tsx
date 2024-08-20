@@ -1,17 +1,12 @@
-import styles from './FreightDate.module.css';
-import React from 'react'
+import styles from "./FreightDate.module.css";
+import React from "react";
 
 interface FreightDateProps {
-  date: Date;
+  date: string;
 }
 
 const FreightDate = ({ date }: FreightDateProps) => {
+  return <p>{date}</p>;
+};
 
-  const formattedDate = date.toLocaleDateString();
-
-  return (
-    <p>{formattedDate}</p>
-  )
-}
-
-export default FreightDate
+export default FreightDate;

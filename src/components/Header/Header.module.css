@@ -9,6 +9,8 @@
   height: 58px;
   margin: 0 auto;
   padding: 8px 258px 8px 258px;
-  background: rgba(55, 151, 189, 0.06);
+  background: linear-gradient(0deg, rgba(55, 151, 189, 0.30) 0%, rgba(55, 151, 189, 0.30) 100%), #E7E6E6;
   border-radius: 6px;
+  color: #1B556D;
+  margin-top: 1rem;
 }
