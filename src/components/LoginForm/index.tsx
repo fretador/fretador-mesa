@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthController } from '@/controllers/authController';
 import styles from './LoginForm.module.css';
-import { CheckIcon, EyeIcon } from '@/utils/icons';
+import { CheckIcon, EyeIcon, HideEyeIcon } from '@/utils/icons';
+import Loading from '../Loading';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -14,6 +15,7 @@ const LoginForm = () => {
 
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,6 +34,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       await login(email, password);
@@ -40,6 +43,8 @@ const LoginForm = () => {
       router.push('/home');
     } catch (err) {
       setError('Credenciais inválidas. Tente novamente.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,7 +75,7 @@ const LoginForm = () => {
           onClick={togglePasswordVisibility}
           className={styles.passwordToggleIcon}
         >
-          {isPasswordVisible ? <EyeIcon /> : <EyeIcon />} {/* Troca o ícone */}
+          {isPasswordVisible ? <EyeIcon /> : <HideEyeIcon />}
         </span>
       </div>
 
@@ -94,7 +99,18 @@ const LoginForm = () => {
       {error && <p className={styles.errorMessage}>{error}</p>}
 
       <div className={styles.buttonSubmitContainer}>
-        <button className={styles.buttonSubmit} type="submit">Entrar</button>
+        <button
+          className={styles.buttonSubmit}
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? null : 'Entrar'}
+        </button>
+        {loading && (
+          <div className={styles.loadingOverlay}>
+            <Loading />
+          </div>
+        )}
       </div>
     </form>
   );
