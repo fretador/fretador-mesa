@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthController } from '@/controllers/authController';
 import styles from './LoginForm.module.css';
+import { CheckIcon } from '@/utils/icons';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -10,6 +11,19 @@ const LoginForm = () => {
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuthController();
   const router = useRouter();
+
+  const [isEmailValid, setIsEmailValid] = useState(false);
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    setIsEmailValid(validateEmail(emailValue));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,9 +46,11 @@ const LoginForm = () => {
           id="email"
           placeholder="Digite seu e-mail"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          // onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmailChange}
           required
         />
+        {isEmailValid && <CheckIcon className={styles.checkIcon} />}
       </div>
       <div className={styles.inputContainer}>
         <input
