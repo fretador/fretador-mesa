@@ -18,6 +18,7 @@ export const AuthService = {
 
 		if (token) {
 			storageHelper.saveToken(token);
+			storageHelper.saveUser({ name, email: userEmail });
 		}
 
 		return {
