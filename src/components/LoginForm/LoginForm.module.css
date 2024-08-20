@@ -28,6 +28,11 @@
   justify-content: space-between;
 }
 
+.checkboxContainer label,
+.checkboxContainer input {
+  cursor: pointer;
+}
+
 .checkboxContainer label {
   display: flex;
   align-items: center;
@@ -45,6 +50,11 @@
   font-size: 16px;
   font-weight: 300;
   text-decoration-line: underline;
+  transition:150ms linear;
+}
+
+.forgotPasswordContainer a:hover {
+  color: #2b86a9;
 }
 
 .buttonSubmitContainer {
@@ -67,4 +77,17 @@
   font-size: 24px;
   font-weight: 600;
   color: #fff;
+  cursor: pointer;
+  transition: 200ms linear;
+}
+
+.buttonSubmit:hover {
+  background-color: #2b86a9;
+}
+
+.errorMessage {
+  font-size: 16px;
+  font-weight: 300;
+  color: #BF1231;
+  margin-top: 26px;
 }
