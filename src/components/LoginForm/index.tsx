@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthController } from '@/controllers/authController';
 import styles from './LoginForm.module.css';
-import { CheckIcon } from '@/utils/icons';
+import { CheckIcon, EyeIcon } from '@/utils/icons';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -13,6 +13,7 @@ const LoginForm = () => {
   const router = useRouter();
 
   const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -23,6 +24,10 @@ const LoginForm = () => {
     const emailValue = e.target.value;
     setEmail(emailValue);
     setIsEmailValid(validateEmail(emailValue));
+  };
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,13 +59,19 @@ const LoginForm = () => {
       </div>
       <div className={styles.inputContainer}>
         <input
-          type="password"
+          type={isPasswordVisible ? 'text' : 'password'}
           id="password"
           placeholder="Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <span
+          onClick={togglePasswordVisibility}
+          className={styles.passwordToggleIcon}
+        >
+          {isPasswordVisible ? <EyeIcon /> : <EyeIcon />} {/* Troca o ícone */}
+        </span>
       </div>
 
       <div className={styles.optionsUnderForms}>
