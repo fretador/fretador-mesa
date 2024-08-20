@@ -25,8 +25,6 @@ const StatusFilter = ({ onApply, onCancel }) => {
   const [selectedStatuses, setSelectedStatuses] = useState([]);
 
   const statuses = [
-    { key: "DISPONIVEL", label: "Disponível" },
-    { key: "EM_TRANSITO", label: "Em Trânsito" },
     { key: "FINISHED", label: "Finalizado" },
     { key: "APPROVED", label: "Aprovar" },
   ];
@@ -40,6 +38,7 @@ const StatusFilter = ({ onApply, onCancel }) => {
   };
 
   const handleApply = () => {
+    console.log("Applying Filters:", { searchTerm, selectedStatuses }); // Log dos filtros aplicados
     onApply({ searchTerm, selectedStatuses });
   };
 
