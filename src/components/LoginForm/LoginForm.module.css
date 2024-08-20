@@ -35,6 +35,19 @@
   transform: translateY(-50%);
 }
 
+.passwordToggleIcon {
+  position: absolute;
+  right: 10px;
+  top: 43%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: 100ms linear;
+}
+
+.passwordToggleIcon:hover {
+  color: red;
+}
+
 .optionsUnderForms {
   display: flex;
   flex-direction: row;
