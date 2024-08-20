@@ -47,8 +47,6 @@ const LoginForm = () => {
         />
       </div>
 
-      {error && <p className={styles.errorMessage}>{error}</p>}
-
       <div className={styles.optionsUnderForms}>
         <div className={styles.checkboxContainer}>
           <label>
@@ -65,6 +63,8 @@ const LoginForm = () => {
           <a href="">Esqueci a senha</a>
         </div>
       </div>
+
+      {error && <p className={styles.errorMessage}>{error}</p>}
 
       <div className={styles.buttonSubmitContainer}>
         <button className={styles.buttonSubmit} type="submit">Entrar</button>
