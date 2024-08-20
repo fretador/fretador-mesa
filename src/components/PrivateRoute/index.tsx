@@ -1,23 +1,21 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-
+import { useAuthController } from '@/controllers/authController';
 interface PrivateRouteProps {
   children: React.ReactNode;
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const { checkAuthStatus } = useAuthController();
   const router = useRouter();
 
   React.useEffect(() => {
-    if (!isAuthenticated) {
+    if (!checkAuthStatus) {
       router.push('/login');
     }
-  }, [isAuthenticated, router]);
+  }, [checkAuthStatus, router]);
 
-  if (!isAuthenticated) {
+  if (!checkAuthStatus) {
     return null; // Ou um loader, enquanto verifica a autenticação
   }
 
