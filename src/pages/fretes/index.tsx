@@ -5,7 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import styles from "./Fretes.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
-import FreightList from '../../components/ExampleFreights/FreightList';
+import FreightList from "../../components/ExampleFreights/FreightList";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 
 const Freights: React.FC = () => {
@@ -29,7 +29,8 @@ const Freights: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <FreightList />
+              <div></div>
+              {/* <FreightList /> */}
             </Body>
           </div>
         </div>
