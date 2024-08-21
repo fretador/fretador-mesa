@@ -9,8 +9,6 @@ export const GET_FREIGHTS = gql`
 					creationDate
 					freightCode
 					numCte
-					deliveryCity
-					gatheringCity
 					gatheringState
 					deliveryState
 					clientName
