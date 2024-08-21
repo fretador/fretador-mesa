@@ -53,7 +53,7 @@ export enum AccountType {
 
 export enum BoardUserProfile {
 	ADMINISTRADOR = "ADMINISTRADOR",
-	OPERATION = "OPERATION",
-	FINANTIAL = "FINANTIAL",
+	OPERACAO = "OPERAÇÃO",
+	FINANCEIRO = "FINANCEIRO",
 	SAC = "SAC",
 }
