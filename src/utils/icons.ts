@@ -11,6 +11,7 @@ import Help from "@/assets/icons/help.svg";
 import Check from "@/assets/icons/check.svg"
 import Eye from "@/assets/icons/eye.svg"
 import HideEye from "@/assets/icons/hideEye.svg"
+import ArrowRight from "@/assets/icons/arrowRight.svg"
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -25,3 +26,4 @@ export const LogoutIcon = Logout;
 export const CheckIcon = Check;
 export const EyeIcon = Eye;
 export const HideEyeIcon = HideEye;
+export const ArrowRightIcon = ArrowRight;
