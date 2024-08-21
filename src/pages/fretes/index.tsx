@@ -37,17 +37,6 @@ const Freights: React.FC = () => {
   const [shouldFetchFreights, setShouldFetchFreights] = useState(true);
   const [showFilter, setShowFilter] = useState(false);
 
-  const fetchFreights = useCallback(() => {
-    if (shouldFetchFreights) {
-      loadFreights(filters, page, limit);
-      setShouldFetchFreights(false);
-    }
-  }, [filters, page, limit, shouldFetchFreights, loadFreights]);
-
-  useEffect(() => {
-    fetchFreights();
-  }, [fetchFreights]);
-
   useEffect(() => {
     if (!loading && !error) {
       console.log("Lista de Fretes:", freights);
@@ -65,14 +54,14 @@ const Freights: React.FC = () => {
   }) => {
     const updatedFilters = {
       ...filters,
-      status: newFilters.selectedStatuses.join(","), // Join the array into a comma-separated string
+      status: newFilters.selectedStatuses.join(","),
       search: newFilters.searchTerm,
     };
 
-    console.log("Updated Filters:", updatedFilters); // Log do objeto de filtros atualizado
+    console.log("Updated Filters:", updatedFilters);
 
     setFilters(updatedFilters);
-    setPage(1); // Resetar a página ao aplicar novos filtros
+    setPage(1);
     setShouldFetchFreights(true);
     setShowFilter(false);
   };
@@ -81,15 +70,26 @@ const Freights: React.FC = () => {
     setShowFilter(false);
   };
 
+  const fetchFreights = useCallback(() => {
+    loadFreights(filters, page, limit);
+    setShouldFetchFreights(false); // Prevenir loops
+  }, [filters, page, limit, loadFreights]);
+
+  useEffect(() => {
+    if (shouldFetchFreights) {
+      fetchFreights();
+    }
+  }, []);
+
   const handleNextPage = () => {
-    if (pageInfo.hasNextPage) {
+    if (pageInfo?.hasNextPage) {
       setPage((prevPage) => prevPage + 1);
       setShouldFetchFreights(true);
     }
   };
 
   const handlePreviousPage = () => {
-    if (pageInfo.hasPreviousPage && page > 1) {
+    if (pageInfo?.hasPreviousPage && page > 1) {
       setPage((prevPage) => prevPage - 1);
       setShouldFetchFreights(true);
     }
