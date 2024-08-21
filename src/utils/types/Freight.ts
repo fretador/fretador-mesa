@@ -23,6 +23,7 @@ export interface Freight {
 	deliveryCNPJ: string | null;
 	deliveryCorporateName: string | null;
 	driver: string;
+	driverName: string | null;
 	elegibleVehicles: string[];
 	elegibleTypeByBoards: string[];
 	gatheringAddress: string | null;

@@ -14,7 +14,7 @@ export const GET_FREIGHTS = gql`
 					gatheringState
 					deliveryState
 					clientName
-					driver
+					driverName
 					status
 					value
 				}
