@@ -30,6 +30,7 @@ export const AuthService = {
 
 	logout: () => {
 		storageHelper.removeToken();
+		storageHelper.removeUser();
 	},
 
 	getToken: () => {
