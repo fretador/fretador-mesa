@@ -36,6 +36,18 @@ const freightSlice = createSlice({
 			state.loading = false;
 			state.error = action.payload;
 		},
+		createFreightStart(state) {
+			state.loading = true;
+			state.error = null;
+		},
+		createFreightSuccess(state, action: PayloadAction<Freight>) {
+			state.loading = false;
+			state.freights = [action.payload, ...state.freights];
+		},
+		createFreightFailure(state, action: PayloadAction<string>) {
+			state.loading = false;
+			state.error = action.payload;
+		},
 	},
 });
 
@@ -43,6 +55,9 @@ export const {
 	fetchFreightsStart,
 	fetchFreightsSuccess,
 	fetchFreightsFailure,
+	createFreightStart,
+	createFreightSuccess,
+	createFreightFailure,
 } = freightSlice.actions;
 
 export default freightSlice.reducer;

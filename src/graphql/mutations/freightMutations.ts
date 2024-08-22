@@ -4,17 +4,8 @@ export const CREATE_FREIGHT = gql`
 	mutation CreateFreight($input: CreateFreightInput!) {
 		createFreight(input: $input) {
 			id
-			creationDate
 			freightCode
-			numCte
-			deliveryCity
-			gatheringCity
-			gatheringState
-			deliveryState
-			clientName
-			driver
 			status
-			value
 		}
 	}
 `;
