@@ -13,6 +13,8 @@ import Eye from "@/assets/icons/eye.svg"
 import HideEye from "@/assets/icons/hideEye.svg"
 import ArrowRight from "@/assets/icons/arrowRight.svg"
 
+
+import MagniFyingGlass from "@/assets/icons/magnifyingGlass.svg"
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
 export const PersonAddIcon = TruckDriver;
@@ -27,3 +29,6 @@ export const CheckIcon = Check;
 export const EyeIcon = Eye;
 export const HideEyeIcon = HideEye;
 export const ArrowRightIcon = ArrowRight;
+
+
+export const MagniFyingGlassIcon = MagniFyingGlass
