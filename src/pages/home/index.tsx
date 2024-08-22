@@ -6,6 +6,7 @@ import styles from "./Home.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
+import SearchComponent from "@/components/SearchButton";
 
 const Home: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -16,7 +17,7 @@ const Home: React.FC = () => {
   return (
     <AuthenticatedLayout>
       <div className={styles.container}>
-        <Sidebar />
+        {/* <Sidebar /> */}
 
         <div
           className={
@@ -29,6 +30,7 @@ const Home: React.FC = () => {
           <div className={styles.content}>
             <Body>
               <div></div>
+              <SearchComponent />
             </Body>
           </div>
         </div>
