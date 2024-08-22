@@ -25,20 +25,14 @@ type FreightStatusOption =
 const Freights: React.FC = () => {
   const router = useRouter();
   const routeName = router.pathname.replace("/", "").toUpperCase();
-  const isRetracted = useSelector(
-    (state: RootState) => state.sidebar.isRetracted
-  );
+  const isRetracted = useSelector((state: RootState) => state.sidebar.isRetracted);
 
   const { loadFreights } = useFreightController();
 
-  const { freights, pageInfo, loading, error } = useSelector(
-    (state: RootState) => ({
-      freights: state.freight.freights,
-      pageInfo: state.freight.pageInfo,
-      loading: state.freight.loading,
-      error: state.freight.error,
-    })
-  );
+  const freights = useSelector((state: RootState) => state.freight.freights);
+  const pageInfo = useSelector((state: RootState) => state.freight.pageInfo);
+  const loading = useSelector((state: RootState) => state.freight.loading);
+  const error = useSelector((state: RootState) => state.freight.error);
 
   const [page, setPage] = useState(1);
   const limit = 10;
@@ -72,12 +66,10 @@ const Freights: React.FC = () => {
     setShowFilter(false);
   };
 
-  // Função para carregar os fretes
   const fetchFreights = () => {
     loadFreights(filters, page, limit);
   };
 
-  // useEffect para carregar fretes ao mudar de página ou filtros
   useEffect(() => {
     const handler = setTimeout(() => {
       fetchFreights();
