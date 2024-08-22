@@ -79,7 +79,14 @@ const Freights: React.FC = () => {
 
   // useEffect para carregar fretes ao mudar de página ou filtros
   useEffect(() => {
-    fetchFreights();
+    const handler = setTimeout(() => {
+      fetchFreights();
+    }, 100);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, page, limit]);
 
   const handleNextPage = () => {
