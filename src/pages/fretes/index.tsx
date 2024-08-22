@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { RootState, useAppSelector } from "@/store/store";
+import { RootState } from "@/store/store";
 import { useFreightController } from "@/controllers/freightController";
 import { FreightFilters } from "@/utils/types/FreightFilters";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
@@ -25,26 +25,30 @@ type FreightStatusOption =
 const Freights: React.FC = () => {
   const router = useRouter();
   const routeName = router.pathname.replace("/", "").toUpperCase();
-  const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const isRetracted = useSelector(
+    (state: RootState) => state.sidebar.isRetracted
+  );
+
   const { loadFreights } = useFreightController();
-  const freights = useSelector((state: RootState) => state.freight.freights);
-  const pageInfo = useSelector((state: RootState) => state.freight.pageInfo);
-  const loading = useSelector((state: RootState) => state.freight.loading);
-  const error = useSelector((state: RootState) => state.freight.error);
+
+  const { freights, pageInfo, loading, error } = useSelector(
+    (state: RootState) => ({
+      freights: state.freight.freights,
+      pageInfo: state.freight.pageInfo,
+      loading: state.freight.loading,
+      error: state.freight.error,
+    })
+  );
+
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const limit = 10;
   const [filters, setFilters] = useState<FreightFilters>({});
-  const [shouldFetchFreights, setShouldFetchFreights] = useState(true);
   const [showFilter, setShowFilter] = useState(false);
 
-  useEffect(() => {
-    if (!loading && !error) {
-      console.log("Lista de Fretes:", freights);
-    }
-  }, [loading, error, freights]);
-
-  const formatDateToBrazilian = (timestamp: string): string => {
-    const date = new Date(parseInt(timestamp));
+  const formatDateToBrazilian = (timestamp: string | number | Date): string => {
+    const date = new Date(
+      typeof timestamp === "string" ? parseInt(timestamp) : timestamp
+    );
     return date.toLocaleDateString("pt-BR", { timeZone: "UTC" });
   };
 
@@ -62,36 +66,31 @@ const Freights: React.FC = () => {
 
     setFilters(updatedFilters);
     setPage(1);
-    setShouldFetchFreights(true);
-    setShowFilter(false);
   };
 
   const handleCancelFilter = () => {
     setShowFilter(false);
   };
 
-  const fetchFreights = useCallback(() => {
+  // Função para carregar os fretes
+  const fetchFreights = () => {
     loadFreights(filters, page, limit);
-    setShouldFetchFreights(false); // Prevenir loops
-  }, [filters, page, limit, loadFreights]);
+  };
 
+  // useEffect para carregar fretes ao mudar de página ou filtros
   useEffect(() => {
-    if (shouldFetchFreights) {
-      fetchFreights();
-    }
-  }, []);
+    fetchFreights();
+  }, [filters, page, limit]);
 
   const handleNextPage = () => {
     if (pageInfo?.hasNextPage) {
       setPage((prevPage) => prevPage + 1);
-      setShouldFetchFreights(true);
     }
   };
 
   const handlePreviousPage = () => {
     if (pageInfo?.hasPreviousPage && page > 1) {
       setPage((prevPage) => prevPage - 1);
-      setShouldFetchFreights(true);
     }
   };
 
@@ -151,9 +150,7 @@ const Freights: React.FC = () => {
                       />
                       <Row.Customer customerName={freight.clientName} />
                       <Row.Driver driverName={freight.driver} />
-                      <Row.FreightStatus
-                        freightStatus={freight.status as FreightStatusOption}
-                      />
+                      <Row.FreightStatus freightStatus={status} />
                     </Row.Root>
                   );
                 })}
@@ -166,7 +163,7 @@ const Freights: React.FC = () => {
                     Página Anterior
                   </button>
                   <span className={styles.pageInfo}>
-                    Página {page} de {pageInfo?.totalPages}
+                    Página {page} de {pageInfo?.totalPages || 1}
                   </span>
                   <button
                     onClick={handleNextPage}
