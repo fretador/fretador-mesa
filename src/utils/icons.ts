@@ -12,6 +12,8 @@ import Check from "@/assets/icons/check.svg"
 import Eye from "@/assets/icons/eye.svg"
 import HideEye from "@/assets/icons/hideEye.svg"
 import ArrowRight from "@/assets/icons/arrowRight.svg"
+import ArrowDown from "@/assets/icons/arrowDown.svg"
+import Magnifier from "@/assets/icons/magnifier.svg"
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -27,3 +29,5 @@ export const CheckIcon = Check;
 export const EyeIcon = Eye;
 export const HideEyeIcon = HideEye;
 export const ArrowRightIcon = ArrowRight;
+export const ArrowDownIcon = ArrowDown
+export const MagnifierIcon = Magnifier
