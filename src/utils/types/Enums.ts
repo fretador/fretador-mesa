@@ -57,3 +57,8 @@ export enum BoardUserProfile {
 	FINANCEIRO = "FINANCEIRO",
 	SAC = "SAC",
 }
+
+export enum FreightType {
+	OFFER = "OFFER",
+	TARGETED = "TARGETED",
+}

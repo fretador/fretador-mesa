@@ -1,13 +1,15 @@
 import {
 	GET_FREIGHTS,
 	GET_FREIGHT_BY_ID,
-} from "@/graphql/queries/freightQueries";
+} from "@/graphql/queries";
 import apolloClient from "@/app/apolloClient";
 import { Freight } from "../utils/types/Freight";
 import { PageInfo } from "../utils/types/PageInfo";
 import { FreightFilters } from "@/utils/types/FreightFilters";
 import { GetFreightsResponse } from "../utils/types/GetFreightsResponse";
 import { FreightNode } from "@/utils/types/FreightNode";
+import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
+import { CREATE_FREIGHT } from "@/graphql/mutations";
 
 export const FreightService = {
 	getFreights: async (filters: FreightFilters, page: number, limit: number) => {
@@ -15,6 +17,10 @@ export const FreightService = {
 			query: GET_FREIGHTS,
 			variables: { page, limit, filter: filters },
 		});
+
+		if (!response.data || !response.data.freights) {
+			throw new Error("Failed to fetch freights");
+		}
 
 		return {
 			data: response.data.freights.edges.map((edge: FreightNode) => edge.node),
@@ -27,6 +33,10 @@ export const FreightService = {
 			query: GET_FREIGHT_BY_ID,
 			variables: { id },
 		});
+
+		if (!response.data || !response.data.freight) {
+			throw new Error("Failed to fetch freight by ID");
+		}
 
 		return response.data.freight;
 	},
@@ -42,5 +52,18 @@ export const FreightService = {
 			currentPage: pageInfo.currentPage,
 			totalPages: pageInfo.totalPages,
 		};
+	},
+
+	createFreight: async (input: CreateFreightInput): Promise<Freight> => {
+		const response = await apolloClient.mutate<{ createFreight: Freight }>({
+			mutation: CREATE_FREIGHT,
+			variables: { input },
+		});
+
+		if (!response.data || !response.data.createFreight) {
+			throw new Error("Failed to create freight");
+		}
+
+		return response.data.createFreight;
 	},
 };

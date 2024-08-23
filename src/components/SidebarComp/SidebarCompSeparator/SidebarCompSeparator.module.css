@@ -1,5 +1,5 @@
 .separator_container {
-  height: 48px;
+  height: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,4 +12,16 @@
   border-top: 1px solid #1B556D;
   opacity: 0.5;
   position: relative;
+}
+
+@media (min-height: 800px) {
+  .separator_container {
+    height: 48px;
+  }
+}
+
+@media (min-height: 1000px) {
+  .separator_container {
+    height: 64px;
+  }
 }

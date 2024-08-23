@@ -32,7 +32,8 @@ export const useAuthController = () => {
 			dispatch(loginSuccess({ token, name: user.name, email: user.email }));
 			return true;
 		} else {
-			logoutUser();
+			console.log("User is not authenticated");
+			AuthService.logout();
 			return false;
 		}
 	};

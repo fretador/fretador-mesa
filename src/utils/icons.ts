@@ -15,6 +15,8 @@ import ArrowRight from "@/assets/icons/arrowRight.svg"
 import ArrowDown from "@/assets/icons/arrowDown.svg"
 import Magnifier from "@/assets/icons/magnifier.svg"
 
+
+import MagniFyingGlass from "@/assets/icons/magnifyingGlass.svg"
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
 export const PersonAddIcon = TruckDriver;
@@ -29,5 +31,11 @@ export const CheckIcon = Check;
 export const EyeIcon = Eye;
 export const HideEyeIcon = HideEye;
 export const ArrowRightIcon = ArrowRight;
+
 export const ArrowDownIcon = ArrowDown
 export const MagnifierIcon = Magnifier
+
+
+
+export const MagniFyingGlassIcon = MagniFyingGlass
+

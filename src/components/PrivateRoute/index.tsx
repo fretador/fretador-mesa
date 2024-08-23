@@ -10,13 +10,14 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const router = useRouter();
 
   React.useEffect(() => {
-    if (!checkAuthStatus) {
+    if (!checkAuthStatus()) {
+      console.log('Nenhuma sessão iniciada. Redirecionando para login...');
       router.push('/login');
     }
   }, [checkAuthStatus, router]);
 
   if (!checkAuthStatus) {
-    return null; // Ou um loader, enquanto verifica a autenticação
+    return null;
   }
 
   return <>{children}</>;

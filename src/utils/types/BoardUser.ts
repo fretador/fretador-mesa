@@ -10,4 +10,5 @@ export interface BoardUser {
 	profile: BoardUserProfile;
 	hashPassword: String;
 	socketConnectionIds: [String];
+	profilePicture?: string;
 }

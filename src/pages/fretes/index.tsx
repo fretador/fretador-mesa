@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { RootState } from "@/store/store";
 import { useFreightController } from "@/controllers/freightController";
 import { FreightFilters } from "@/utils/types/FreightFilters";
+import { formatDateToBrazilian } from "@/utils/dates";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
@@ -31,26 +32,15 @@ const Freights: React.FC = () => {
 
   const { loadFreights } = useFreightController();
 
-  const { freights, pageInfo, loading, error } = useSelector(
-    (state: RootState) => ({
-      freights: state.freight.freights,
-      pageInfo: state.freight.pageInfo,
-      loading: state.freight.loading,
-      error: state.freight.error,
-    })
-  );
+  const freights = useSelector((state: RootState) => state.freight.freights);
+  const pageInfo = useSelector((state: RootState) => state.freight.pageInfo);
+  const loading = useSelector((state: RootState) => state.freight.loading);
+  const error = useSelector((state: RootState) => state.freight.error);
 
   const [page, setPage] = useState(1);
   const limit = 10;
   const [filters, setFilters] = useState<FreightFilters>({});
   const [showFilter, setShowFilter] = useState(false);
-
-  const formatDateToBrazilian = (timestamp: string | number | Date): string => {
-    const date = new Date(
-      typeof timestamp === "string" ? parseInt(timestamp) : timestamp
-    );
-    return date.toLocaleDateString("pt-BR", { timeZone: "UTC" });
-  };
 
   const handleApplyFilters = (newFilters: {
     searchTerm: string;
@@ -72,14 +62,19 @@ const Freights: React.FC = () => {
     setShowFilter(false);
   };
 
-  // Função para carregar os fretes
   const fetchFreights = () => {
     loadFreights(filters, page, limit);
   };
 
-  // useEffect para carregar fretes ao mudar de página ou filtros
   useEffect(() => {
-    fetchFreights();
+    const handler = setTimeout(() => {
+      fetchFreights();
+    }, 100);
+
+    return () => {
+      clearTimeout(handler);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, page, limit]);
 
   const handleNextPage = () => {
