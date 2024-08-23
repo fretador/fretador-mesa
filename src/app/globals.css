@@ -12,15 +12,7 @@ body {
   height: 100%;
   width: 100%;
   font-family: Roboto, sans-serif;
-  background-color: #A8A5A5;
-}
-
-/* Ensuring body takes maximum page space */
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f0f0;
+  /* background-color: #A8A5A5; */
 }
 
 /* Basic styling for the app container */

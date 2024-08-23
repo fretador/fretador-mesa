@@ -15,7 +15,9 @@ const Help: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <Sidebar />
+      <div>
+        <Sidebar />
+      </div>
 
       <div
         className={
