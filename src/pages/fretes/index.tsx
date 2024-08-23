@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { RootState } from "@/store/store";
 import { useFreightController } from "@/controllers/freightController";
 import { FreightFilters } from "@/utils/types/FreightFilters";
+import { formatDateToBrazilian } from "@/utils/dates";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
@@ -25,7 +26,9 @@ type FreightStatusOption =
 const Freights: React.FC = () => {
   const router = useRouter();
   const routeName = router.pathname.replace("/", "").toUpperCase();
-  const isRetracted = useSelector((state: RootState) => state.sidebar.isRetracted);
+  const isRetracted = useSelector(
+    (state: RootState) => state.sidebar.isRetracted
+  );
 
   const { loadFreights } = useFreightController();
 
@@ -38,13 +41,6 @@ const Freights: React.FC = () => {
   const limit = 10;
   const [filters, setFilters] = useState<FreightFilters>({});
   const [showFilter, setShowFilter] = useState(false);
-
-  const formatDateToBrazilian = (timestamp: string | number | Date): string => {
-    const date = new Date(
-      typeof timestamp === "string" ? parseInt(timestamp) : timestamp
-    );
-    return date.toLocaleDateString("pt-BR", { timeZone: "UTC" });
-  };
 
   const handleApplyFilters = (newFilters: {
     searchTerm: string;
@@ -78,7 +74,7 @@ const Freights: React.FC = () => {
     return () => {
       clearTimeout(handler);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, page, limit]);
 
   const handleNextPage = () => {
