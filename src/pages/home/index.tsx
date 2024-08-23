@@ -17,7 +17,9 @@ const Home: React.FC = () => {
   return (
     <AuthenticatedLayout>
       <div className={styles.container}>
-        {/* <Sidebar /> */}
+        <div>
+          <Sidebar />
+        </div>
 
         <div
           className={
@@ -29,8 +31,9 @@ const Home: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <div></div>
-              <SearchComponent />
+              <div>
+                <SearchComponent />
+              </div>
             </Body>
           </div>
         </div>
