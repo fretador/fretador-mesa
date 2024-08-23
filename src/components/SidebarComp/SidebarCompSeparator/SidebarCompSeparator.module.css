@@ -18,13 +18,10 @@
   .separator_container {
     height: 48px;
   }
-<<<<<<< HEAD
 }
 
 @media (min-height: 1000px) {
   .separator_container {
     height: 64px;
   }
-=======
->>>>>>> 298c66d1554d6eccf2acfc8f439f7283a39810b7
 }
