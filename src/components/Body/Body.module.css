@@ -1,6 +1,9 @@
 .body {
-  flex: 1;
-  padding: 2rem;
+  /* flex: 1; */
+  /* padding: 2rem; */
   /* background-color: #FAFDFD; */
+  padding-top: 2rem;
   overflow: hidden;
+  width: 80vw;
+  margin: 0 auto;
 }
