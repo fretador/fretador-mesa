@@ -10,7 +10,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import RowTitle from "@/components/RowTitle";
 import { Row } from "@/components/Row";
-import StatusFilter from "@/components/StatusFilter";
+import StatusFilter2 from "@/components/StatusFilter2";
 import styles from "./Fretes.module.css";
 
 type FreightStatusOption =
@@ -38,19 +38,23 @@ const Freights: React.FC = () => {
   const error = useSelector((state: RootState) => state.freight.error);
 
   const [page, setPage] = useState(1);
-  const limit = 10;
+  const limit = 6;
   const [filters, setFilters] = useState<FreightFilters>({});
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(true);
 
-  const handleApplyFilters = (newFilters: {
-    searchTerm: string;
-    selectedStatuses: string[];
-  }) => {
-    const updatedFilters = {
+  const handleApplyFilters = (
+    searchTerm: string,
+    selectedStatuses: string[]
+  ) => {
+    const updatedFilters: FreightFilters = {
       ...filters,
-      status: newFilters.selectedStatuses.join(","),
-      search: newFilters.searchTerm,
+      status: selectedStatuses.join(","),
     };
+
+    if (searchTerm) {
+      updatedFilters.deliveryCity = searchTerm;
+      updatedFilters.gatheringCity = searchTerm;
+    }
 
     console.log("Updated Filters:", updatedFilters);
 
@@ -59,6 +63,7 @@ const Freights: React.FC = () => {
   };
 
   const handleCancelFilter = () => {
+    setFilters({});
     setShowFilter(false);
   };
 
@@ -102,19 +107,21 @@ const Freights: React.FC = () => {
         >
           <div className={styles.header}>
             <Header title={routeName} />
-            <button
-              onClick={() => setShowFilter(!showFilter)}
-              className={styles.filterButton}
-            >
-              Filtrar Status
-            </button>
           </div>
           {showFilter && (
-            <StatusFilter
-              onApply={handleApplyFilters}
-              onCancel={handleCancelFilter}
-            />
+            <div className={styles.filterButton}>
+              <StatusFilter2
+                onApply={(searchTerm, selectedStatuses) =>
+                  handleApplyFilters(searchTerm, selectedStatuses)
+                }
+                onCancel={handleCancelFilter}
+              />
+            </div>
           )}
+          {/* <button
+            onClick={() => setShowFilter(!showFilter)}
+            className=}
+          ></button> */}
           <div className={styles.content}>
             <RowTitle
               FreightDate="DATA"
