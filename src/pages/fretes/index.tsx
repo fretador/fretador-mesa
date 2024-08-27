@@ -12,6 +12,7 @@ import RowTitle from "@/components/RowTitle";
 import { Row } from "@/components/Row";
 import StatusFilter2 from "@/components/StatusFilter2";
 import styles from "./Fretes.module.css";
+import SearchComponent from "@/components/SearchButton";
 
 type FreightStatusOption =
   | "DISPONIVEL"
