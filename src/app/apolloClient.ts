@@ -1,12 +1,13 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { AuthService } from "@/services/authService";
 
 const httpLink = new HttpLink({
 	uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
 });
 
 const authLink = setContext((_, { headers }) => {
-	const token = localStorage.getItem("token");
+	const token = AuthService.getBoardUserToken();
 	return {
 		headers: {
 			...headers,
