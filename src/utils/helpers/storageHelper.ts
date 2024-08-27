@@ -1,26 +1,21 @@
+import { BoardUser } from "../types/BoardUser";
+
 export const storageHelper = {
-	saveToken: (token: string) => {
-		localStorage.setItem("token", token);
+	saveBoardUser: (boardUser: BoardUser) => {
+		sessionStorage.setItem("boardUser", JSON.stringify(boardUser));
 	},
 
-	getToken: () => {
-		return localStorage.getItem("token");
+	getBoardUserToken: () => {
+		const boardUser = sessionStorage.getItem("boardUser");
+		return boardUser ? JSON.parse(boardUser).token : null;
 	},
 
-	removeToken: () => {
-		localStorage.removeItem("token");
+	getBoardUser: () => {
+		const boardUser = sessionStorage.getItem("boardUser");
+		return boardUser ? JSON.parse(boardUser) : null;
 	},
 
-	saveUser: (user: { name: string; email: string }) => {
-		localStorage.setItem("user", JSON.stringify(user));
-	},
-
-	getUser: () => {
-		const user = localStorage.getItem("user");
-		return user ? JSON.parse(user) : null;
-	},
-
-	removeUser: () => {
-		localStorage.removeItem("user");
+	removeBoardUser: () => {
+		sessionStorage.removeItem("boardUser");
 	},
 };
