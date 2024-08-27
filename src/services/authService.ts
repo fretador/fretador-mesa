@@ -12,32 +12,40 @@ export const AuthService = {
 			},
 		});
 
-		const token = response.data?.login?.token;
+		const token = response.data?.login?.boardUser?.token;
 		const name = response.data?.login?.boardUser?.name;
 		const userEmail = response.data?.login?.boardUser?.email;
+		const profile = response.data?.login?.boardUser?.profile;
+		const profilePicture = response.data?.login?.boardUser?.profilePicture;
 
 		if (token) {
-			storageHelper.saveToken(token);
-			storageHelper.saveUser({ name, email: userEmail });
+			storageHelper.saveBoardUser({
+				name,
+				email: userEmail,
+				profile,
+				profilePicture,
+				token,
+			});
 		}
 
 		return {
-			token,
 			name,
 			userEmail,
+			profile,
+			profilePicture,
+			token,
 		};
 	},
 
 	logout: () => {
-		storageHelper.removeToken();
-		storageHelper.removeUser();
+		storageHelper.removeBoardUser();
 	},
 
-	getToken: () => {
-		return storageHelper.getToken();
+	getBoardUserToken: () => {
+		return storageHelper.getBoardUserToken();
 	},
 
-	getUser: () => {
-		return storageHelper.getUser();
+	getBoardUser: () => {
+		return storageHelper.getBoardUser();
 	},
 };
