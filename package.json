@@ -25,6 +25,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
+    "react-modal": "^3.16.1",
     "react-redux": "^9.1.2",
     "redux": "^5.0.1"
   },
@@ -40,6 +41,7 @@
     "@types/node": "^20",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/react-modal": "^3.16.3",
     "@types/react-redux": "^7.1.33",
     "@types/redux-mock-store": "^1.0.6",
     "@types/testing-library__react": "^10.2.0",
