@@ -1,13 +1,18 @@
+.container {
+  width: 251px;
+}
+
 .openCloseFilter {
   display: flex;
   align-items: center;
   gap: 16px;
   cursor: pointer;
   margin-bottom: 5px;
+  position: relative;
 }
 
 .title {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
   color: #1B556D;
 }
@@ -27,12 +32,14 @@
   background: rgba(27, 85, 109, 0.30);
   backdrop-filter: blur(15px);
   padding: 13px 14px 8px 14px;
-
   opacity: 0;
   max-height: 0;
   transform: translateY(-10px);
   transition: opacity 0.4s ease, transform 0.4s ease;
   overflow: hidden;
+  position: absolute;
+  top: 20;
+  z-index: 10;
 }
 
 .filterOptions.show {

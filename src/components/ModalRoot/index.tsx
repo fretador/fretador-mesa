@@ -1,6 +1,8 @@
+
 import React from 'react';
 import Modal from 'react-modal';
 import styles from './ModalRoot.module.css';
+
 
 interface ModalRootProps {
   isOpen: boolean;
@@ -20,6 +22,12 @@ const ModalRoot: React.FC<ModalRootProps> = ({ isOpen, onRequestClose, children 
       <div className={styles.modalContent}>
         {children}
       </div>
+
+      
+      <button onClick={onRequestClose} className={styles.closeButton}>
+        OK
+      </button>
+
     </Modal>
   );
 };

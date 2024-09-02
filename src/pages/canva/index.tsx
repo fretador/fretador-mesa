@@ -6,7 +6,9 @@ import { Row } from "@/components/Row";
 import { useAppSelector } from "@/store/store";
 import Sidebar from "@/components/Sidebar";
 import RowTitle from "@/components/RowTitle";
+
 import OriginCollectionModal from "@/components/ModalRoot/OriginCollectionModal"; 
+
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -50,9 +52,11 @@ const Canva: React.FC = () => {
             </Row.Root>
           </Body>
           <button onClick={toggleModal} className={styles.openModalButton}>
+
             Open Origin Collection Modal
           </button>
           <OriginCollectionModal isOpen={isModalOpen} onRequestClose={toggleModal} />
+
         </div>
       </div>
     </div>
