@@ -15,7 +15,7 @@ const FreightSummary = ({values}: FreightSummaryProps) => {
           {
             data: [
               { id: 0, value: values[0], label: 'Em andamento', color: '#3797bd' },
-              { id: 1, value: values[1], label: 'Em aberto', color: '#1a556d' },
+              { id: 1, value: values[1], label: 'Em aberto', color: '#ED9C03' },
               { id: 2, value: values[2], label: 'Finalizado', color: '#2f88ff' },
             ],
           },

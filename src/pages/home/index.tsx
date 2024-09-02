@@ -9,6 +9,7 @@ import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
 import FreightSummary from "@/components/Graphics/FreightSummary";
 import StatusFilter2 from "@/components/StatusFilter2";
+import AddNewFreightButton from "@/components/AddNewFreightButton";
 import DailyFlow from "@/components/Graphics/DailyFlow";
 
 const Home: React.FC = () => {
@@ -49,6 +50,11 @@ const Home: React.FC = () => {
               <div>
                 <DailyFlow cancelledFreights={400} newFreights={60} />
               </div>
+
+              <div className={styles.addFreightButton}>
+                <AddNewFreightButton />
+              </div>
+
             </Body>
           </div>
         </div>
