@@ -10,6 +10,7 @@ import SearchComponent from "@/components/SearchButton";
 import FreightSummary from "@/components/Graphics/FreightSummary";
 import StatusFilter2 from "@/components/StatusFilter2";
 import DailyFlow from "@/components/Graphics/DailyFlow";
+import AddNewFreightButton from "@/components/AddNewFreightButton";
 
 const Home: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -49,6 +50,11 @@ const Home: React.FC = () => {
               <div>
                 <DailyFlow cancelledFreights={400} newFreights={60} />
               </div>
+
+              <div className={styles.addFreightButton}>
+                <AddNewFreightButton />
+              </div>
+
             </Body>
           </div>
         </div>
