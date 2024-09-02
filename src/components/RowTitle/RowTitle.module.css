@@ -1,8 +1,6 @@
 .container {
-  width: 1267px;
-  height: 60px;
-  margin: 0 auto;
-  /* background-color: #FAFDFD; */
+  min-width: 1257px;
+  margin: 16px auto;
   border-radius: 12px;
   display: flex;
   align-items: center;

@@ -13,6 +13,7 @@ import { Row } from "@/components/Row";
 import StatusFilter2 from "@/components/StatusFilter2";
 import styles from "./Fretes.module.css";
 import SearchComponent from "@/components/SearchButton";
+import Body from "@/components/Body";
 
 type FreightStatusOption =
   | "DISPONIVEL"
@@ -39,9 +40,33 @@ const Freights: React.FC = () => {
   const error = useSelector((state: RootState) => state.freight.error);
 
   const [page, setPage] = useState(1);
-  const limit = 6;
+  const [limit, setLimit] = useState(10);
   const [filters, setFilters] = useState<FreightFilters>({});
   const [showFilter, setShowFilter] = useState(true);
+
+  const adjustLimit = () => {
+    const height = window.innerHeight;
+
+    if (height >= 950) {
+      setLimit(10);
+    } else if (height >= 800 && height < 950) {
+      setLimit(8)
+    } else if (height >= 720 && height < 800) {
+      setLimit(7);
+    } else if (height < 720) {
+      setLimit(5);
+    }
+  };
+
+  useEffect(() => {
+    adjustLimit();
+
+    window.addEventListener("resize", adjustLimit);
+
+    return () => {
+      window.removeEventListener("resize", adjustLimit);
+    };
+  }, []);
 
   const handleApplyFilters = (
     searchTerm: string,
@@ -109,7 +134,7 @@ const Freights: React.FC = () => {
           <div className={styles.header}>
             <Header title={routeName} />
           </div>
-          {showFilter && (
+          {/* {showFilter && (
             <div className={styles.filterButton}>
               <StatusFilter2
                 onApply={(searchTerm, selectedStatuses) =>
@@ -118,68 +143,71 @@ const Freights: React.FC = () => {
                 onCancel={handleCancelFilter}
               />
             </div>
-          )}
-          {/* <button
-            onClick={() => setShowFilter(!showFilter)}
-            className=}
-          ></button> */}
+          )} */}
           <div className={styles.content}>
-            <RowTitle
-              FreightDate="DATA"
-              FreightCode="CÓDIGO"
-              Cte="CTE"
-              Route="ROTA"
-              Customer="CLIENTE"
-              Driver="MOTORISTA"
-              FreightStatus="STATUS"
-            />
-            {loading ? (
-              <p>Carregando...</p>
-            ) : error ? (
-              <p>Erro ao carregar os fretes: {error}</p>
-            ) : (
-              <>
-                {freights.map((freight) => {
-                  const status: FreightStatusOption =
-                    freight.status as FreightStatusOption;
-                  return (
-                    <Row.Root key={freight.id} freightStatus={status}>
-                      <Row.FreightDate
-                        date={formatDateToBrazilian(freight.creationDate)}
-                      />
-                      <Row.FreightCode code={freight.freightCode.toString()} />
-                      <Row.Cte cte={freight.numCte || "N/A"} />
-                      <Row.Route
-                        originState={freight.gatheringState}
-                        destinyState={freight.deliveryState}
-                      />
-                      <Row.Customer customerName={freight.clientName} />
-                      <Row.Driver driverName={freight.driver} />
-                      <Row.FreightStatus freightStatus={status} />
-                    </Row.Root>
-                  );
-                })}
-                <div className={styles.pagination}>
-                  <button
-                    onClick={handlePreviousPage}
-                    disabled={!pageInfo?.hasPreviousPage || page === 1}
-                    className={styles.paginationButton}
-                  >
-                    Página Anterior
-                  </button>
-                  <span className={styles.pageInfo}>
-                    Página {page} de {pageInfo?.totalPages || 1}
-                  </span>
-                  <button
-                    onClick={handleNextPage}
-                    disabled={!pageInfo?.hasNextPage}
-                    className={styles.paginationButton}
-                  >
-                    Próxima Página
-                  </button>
-                </div>
-              </>
-            )}
+            <Body>
+              <div className={styles.searchComponents}>
+                <SearchComponent />
+                <StatusFilter2 />
+              </div>
+
+              <RowTitle
+                FreightDate="DATA"
+                FreightCode="CÓDIGO"
+                Cte="CTE"
+                Route="ROTA"
+                Customer="CLIENTE"
+                Driver="MOTORISTA"
+                FreightStatus="STATUS"
+              />
+              {loading ? (
+                <p>Carregando...</p>
+              ) : error ? (
+                <p>Erro ao carregar os fretes: {error}</p>
+              ) : (
+                <>
+                  {freights.map((freight) => {
+                    const status: FreightStatusOption =
+                      freight.status as FreightStatusOption;
+                    return (
+                      <Row.Root key={freight.id} freightStatus={status}>
+                        <Row.FreightDate
+                          date={formatDateToBrazilian(freight.creationDate)}
+                        />
+                        <Row.FreightCode code={freight.freightCode.toString()} />
+                        <Row.Cte cte={freight.numCte || "N/A"} />
+                        <Row.Route
+                          originState={freight.gatheringState}
+                          destinyState={freight.deliveryState}
+                        />
+                        <Row.Customer customerName={freight.clientName} />
+                        <Row.Driver driverName={freight.driver} />
+                        <Row.FreightStatus freightStatus={status} />
+                      </Row.Root>
+                    );
+                  })}
+                  <div className={styles.pagination}>
+                    <button
+                      onClick={handlePreviousPage}
+                      disabled={!pageInfo?.hasPreviousPage || page === 1}
+                      className={styles.paginationButton}
+                    >
+                      Página Anterior
+                    </button>
+                    <span className={styles.pageInfo}>
+                      Página {page} de {pageInfo?.totalPages || 1}
+                    </span>
+                    <button
+                      onClick={handleNextPage}
+                      disabled={!pageInfo?.hasNextPage}
+                      className={styles.paginationButton}
+                    >
+                      Próxima Página
+                    </button>
+                  </div>
+                </>
+              )}
+            </Body>
           </div>
         </div>
       </div>
