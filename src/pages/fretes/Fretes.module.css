@@ -26,47 +26,21 @@
 }
 
 .header {
-  height: 60px;
-  width: 100%;
+  width: 95%;
   flex-shrink: 0;
-  margin-left: auto;
-  justify-content: center;
-  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.searchComponents {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
 }
 
 .content {
-  flex: 1;
   padding: 0.5rem;
-  box-sizing: border-box;
-}
-
-.filterButton {
-  background-color: transparent;
-  color: #1B556D;
-  font-family: 'Roboto', sans-serif;
-  font-size: larger;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  border: none;
-  cursor: pointer;
-  margin-left: 60rem;
-  margin-top: 0.5rem;
-}
-
-.filterButton:hover {
-  background-color: transparent;
-}
-
-.statusFilterWrapper {
-  position: absolute;
-  top: 80px;
-  /* Ajuste conforme necessário */
-  right: 2rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  padding: 1rem;
+  margin: 0 auto;
 }
 
 .pagination {
