@@ -9,6 +9,7 @@ import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
 import FreightSummary from "@/components/Graphics/FreightSummary";
 import StatusFilter2 from "@/components/StatusFilter2";
+import AddNewFreightButton from "@/components/AddNewFreightButton";
 
 const Home: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -44,6 +45,11 @@ const Home: React.FC = () => {
                 <FreightSummary values={values} />
                 <FreightSummary values={values} />
               </div>
+
+              <div className={styles.addFreightButton}>
+                <AddNewFreightButton />
+              </div>
+
             </Body>
           </div>
         </div>
