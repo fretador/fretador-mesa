@@ -6,7 +6,7 @@ import { Row } from "@/components/Row";
 import { useAppSelector } from "@/store/store";
 import Sidebar from "@/components/Sidebar";
 import RowTitle from "@/components/RowTitle";
-import ModalRoot from "@/components/ModalRoot"; 
+import OriginCollectionModal from "@/components/ModalRoot/OriginCollectionModal"; 
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -50,14 +50,9 @@ const Canva: React.FC = () => {
             </Row.Root>
           </Body>
           <button onClick={toggleModal} className={styles.openModalButton}>
-            Open Modal
+            Open Origin Collection Modal
           </button>
-          <ModalRoot isOpen={isModalOpen} onRequestClose={toggleModal}>
-                <header className={styles.modalHeader}> 
-                  <h2 className={styles.modalTitle}>Recuperar Senha</h2>
-                </header>
-              <p className={styles.modalMessage}>Uma nova senha foi enviada para o email informado.</p>
-          </ModalRoot>
+          <OriginCollectionModal isOpen={isModalOpen} onRequestClose={toggleModal} />
         </div>
       </div>
     </div>
