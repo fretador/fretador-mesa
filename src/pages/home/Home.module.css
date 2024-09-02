@@ -27,15 +27,19 @@
 
 .header {
   height: 60px;
-  width: 100%;
+  width: 95%;
   flex-shrink: 0;
-  margin-left: auto;
-  justify-content: center;
-  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 .content {
-  flex: 1;
   padding: 0.5rem;
-  box-sizing: border-box;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.searchComponents {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

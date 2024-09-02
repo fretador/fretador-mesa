@@ -5,7 +5,8 @@
   flex-wrap: nowrap;
   gap: 10px;
   position: relative;
-  width: 80vw;
+  /* width: 80vw; */
+  max-width: 1264px;
   height: 58px;
   margin: 0 auto;
   padding: 8px 258px 8px 258px;

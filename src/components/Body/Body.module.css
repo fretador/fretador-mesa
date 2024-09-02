@@ -4,6 +4,7 @@
   /* background-color: #FAFDFD; */
   padding-top: 2rem;
   overflow: hidden;
-  width: 80vw;
+  /* width: 80vw; */
+  max-width: 1264px;
   margin: 0 auto;
 }
