@@ -9,8 +9,8 @@ import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
 import FreightSummary from "@/components/Graphics/FreightSummary";
 import StatusFilter2 from "@/components/StatusFilter2";
-import DailyFlow from "@/components/Graphics/DailyFlow";
 import AddNewFreightButton from "@/components/AddNewFreightButton";
+import DailyFlow from "@/components/Graphics/DailyFlow";
 
 const Home: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
