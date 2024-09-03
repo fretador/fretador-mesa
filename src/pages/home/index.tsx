@@ -11,6 +11,7 @@ import FreightSummary from "@/components/Graphics/FreightSummary";
 import StatusFilter2 from "@/components/StatusFilter2";
 import AddNewFreightButton from "@/components/AddNewFreightButton";
 import DailyFlow from "@/components/Graphics/DailyFlow";
+import WeeklyFlow from "@/components/Graphics/WeeklyFlow";
 
 const Home: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -42,13 +43,14 @@ const Home: React.FC = () => {
                 <StatusFilter2 />
               </div> */}
 
-              <div style={{display: 'flex', gap: '20px', marginBottom: '24px'}}>
-                <FreightSummary values={values} />
-                <FreightSummary values={values} />
+              <div style={{display: 'flex', gap: '20px'}}>
+                <WeeklyFlow />
+                <DailyFlow cancelledFreights={400} newFreights={60} />
               </div>
 
-              <div>
-                <DailyFlow cancelledFreights={400} newFreights={60} />
+              <div style={{display: 'flex', gap: '20px', marginTop: '24px'}}>
+                <FreightSummary values={values} />
+                <FreightSummary values={values} />
               </div>
 
               <div className={styles.addFreightButton}>
