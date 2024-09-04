@@ -34,7 +34,7 @@
 .buttonContainer {
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 3px;
   cursor: pointer;
   transition: transform 0.3s ease;
