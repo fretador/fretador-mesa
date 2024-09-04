@@ -12,6 +12,7 @@ import StatusFilter2 from "@/components/StatusFilter2";
 import AddNewFreightButton from "@/components/AddNewFreightButton";
 import DailyFlow from "@/components/Graphics/DailyFlow";
 import WeeklyFlow from "@/components/Graphics/WeeklyFlow";
+import HighlightDashboard from "@/components/HighlightDashboard";
 
 const Home: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -42,13 +43,19 @@ const Home: React.FC = () => {
                 <SearchComponent />
                 <StatusFilter2 />
               </div> */}
+              <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                <HighlightDashboard number="40" title="fretes em andamento" src="" />
+                <HighlightDashboard number="12" title="ocorrências" src="" />
+                <HighlightDashboard number="21" title="novos cadastros" src="" />
+                <HighlightDashboard number="16" title="cargas em aberto" src="" />
+              </div>
 
-              <div style={{display: 'flex', gap: '20px'}}>
+              <div style={{display: 'flex', marginTop: '48px', justifyContent: 'space-between'}}>
                 <WeeklyFlow />
                 <DailyFlow cancelledFreights={400} newFreights={60} />
               </div>
 
-              <div style={{display: 'flex', gap: '20px', marginTop: '24px'}}>
+              <div style={{display: 'flex', marginTop: '24px', justifyContent: 'space-between'}}>
                 <FreightSummary values={values} />
                 <FreightSummary values={values} />
               </div>
