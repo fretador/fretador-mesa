@@ -1,0 +1,8 @@
+.horizontalList {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 16px;
+  scrollbar-width: none;
+  /* scrollbar-width: thin; */
+}
