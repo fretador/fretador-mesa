@@ -9,6 +9,9 @@ import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
 import AwaitingApprovalCard from "@/components/AwaitingApprovalCard";
+import AwaitingApprovalList from "@/components/AwaitingApprovalCards";
+import StatusFilter2 from "@/components/StatusFilter2";
+import VehicleFilter from "@/components/VehicleFilter";
 
 const Drivers: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -37,12 +40,18 @@ const Drivers: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <div>
+
+              <div className={styles.searchComponents}>
                 <SearchComponent />
+                <div className={styles.filterComponents}>
+                  <StatusFilter2 />
+                  <VehicleFilter />
+                </div>
               </div>
 
-              <div style={{display: 'flex', gap: '24px'}}>
-                <AwaitingApprovalCard driverName="Gilberto Marcha Lenta" driverStatus="Novo - Aguardando" vehicle="Truck Baú" contact="88997447919" handleNewDriver={handleNewDriver} />
+              <div className={styles.awaitingApprovalContainer}>
+                <h2>Aguardando Aprovação</h2>
+                <AwaitingApprovalList />
               </div>
             </Body>
           </div>
