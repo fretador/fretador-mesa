@@ -1,0 +1,240 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #BCBCBC 0%, #FFF 100%);
+}
+
+.contentWrapper,
+.retractedContentWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  /* Adicione esta linha */
+}
+
+.contentWrapper {
+  width: calc(100% - 16vw);
+  margin-left: 10vw;
+}
+
+.retractedContentWrapper {
+  width: calc(100% - 6vw);
+}
+
+.content {
+  flex-grow: 1;
+  overflow-y: auto;
+  /* Adicione esta linha */
+  padding: 20px;
+}
+
+.title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1B556D;
+  margin-bottom: 20px;
+}
+
+.header {
+  width: 95%;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+
+.inputGroup {
+  margin-bottom: 20px;
+}
+
+.inputGroup label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1B556D;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.inputGroup input,
+.inputGroup textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(27, 85, 109, 0.3);
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.inputGroup textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.error {
+  border-color: red;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 14px;
+}
+
+.rowInputs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.rowInputs .inputWrapper {
+  flex: 1;
+}
+
+.radioGroup {
+  flex: 1;
+}
+
+.radioOptions {
+  display: flex;
+  gap: 20px;
+}
+
+.radioOptions label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.rowRadioOptions {
+  display: flex;
+  gap: 20px;
+}
+
+.rowRadioOptions label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: #333;
+}
+
+.submitButton {
+  width: 100%;
+  background-color: #1A556D;
+  color: #ffffff;
+  padding: 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #123d50;
+}
+
+.rowRadioGroups {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(27, 85, 109, 0.3);
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: white;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 12px top 50%;
+  background-size: 12px auto;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #1B556D;
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(27, 85, 109, 0.3);
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.input::placeholder {
+  color: #999;
+}
+
+.vehicleCheckboxes {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.checkboxColumn {
+  flex: 1;
+}
+
+.checkboxColumn h4 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1B556D;
+  margin-bottom: 10px;
+}
+
+.checkboxColumn label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.checkboxColumn input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.rowRadioGroups {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.radioGroup label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: #333;
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(27, 85, 109, 0.3);
+  border-radius: 6px;
+  font-size: 16px;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.textarea::placeholder {
+  color: #999;
+}
