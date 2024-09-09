@@ -23,16 +23,21 @@ interface RowTitleProps {
   Value?: string;
   Vehicle?: string;
   WhatsApp?: string;
+  titleStyles?: React.CSSProperties;
 }
 
 const RowTitle: React.FC<RowTitleProps> = (props) => {
-  const fields = Object.entries(props).filter(([key, value]) => value);
+  const fields = Object.entries(props).filter(
+    ([key, value]) => key !== "titleStyles" && value
+  );
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         {fields.map(([key, value]) => (
-          <p key={key}>{value}</p>
+          <p key={key} style={props.titleStyles}>
+            {value}
+          </p>
         ))}
       </div>
     </div>
