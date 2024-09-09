@@ -17,13 +17,14 @@ type FreightStatusOption =
 interface RowRootProps {
   children: ReactNode;
   freightStatus?: FreightStatusOption; // Permitir undefined
+  customBackgroundColor?: string;
 }
 
 interface FreightStatusProps {
   freightStatus: FreightStatusOption; // Assumir que sempre será fornecido um status válido
 }
 
-const RowRoot = ({ children, freightStatus = "" }: RowRootProps) => {
+const RowRoot = ({ children, freightStatus = "", customBackgroundColor }: RowRootProps) => {
   const getBackgroundColor = (status: FreightStatusOption) => {
     switch (status) {
       case "DISPONIVEL":
@@ -45,7 +46,7 @@ const RowRoot = ({ children, freightStatus = "" }: RowRootProps) => {
     }
   };
 
-  const backgroundColor = getBackgroundColor(freightStatus);
+  const backgroundColor = customBackgroundColor || getBackgroundColor(freightStatus);
 
   return (
     <div className={styles.container} style={{ backgroundColor }}>

@@ -13,9 +13,26 @@ body {
   width: 100%;
   font-family: Roboto, sans-serif;
   /* background-color: #A8A5A5; */
+  scroll-behavior: smooth;
 }
 
 /* Basic styling for the app container */
 .appContainer {
   text-align: center;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #55555578;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #55555595;
 }

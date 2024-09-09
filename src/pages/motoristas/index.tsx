@@ -12,6 +12,7 @@ import AwaitingApprovalCard from "@/components/AwaitingApprovalCard";
 import AwaitingApprovalList from "@/components/AwaitingApprovalCards";
 import StatusFilter2 from "@/components/StatusFilter2";
 import VehicleFilter from "@/components/VehicleFilter";
+import ApprovedDriversList from "@/components/ApprovedDriversList";
 
 const Drivers: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -53,6 +54,8 @@ const Drivers: React.FC = () => {
                 <h2>Aguardando Aprovação</h2>
                 <AwaitingApprovalList />
               </div>
+
+              <ApprovedDriversList />
             </Body>
           </div>
         </div>
