@@ -5,10 +5,18 @@ import Image from "next/image";
 interface DriverProps {
   driverPhotoUrl?: string,
   driverName: string,
-  showImage?: boolean
+  showImage?: boolean,
+  textColor?: string; 
+  textFontWeight?: string;
 }
 
-const Driver = ({ driverPhotoUrl, driverName, showImage = false }: DriverProps) => {
+const Driver = ({ driverPhotoUrl, driverName, showImage = false, textColor, textFontWeight }: DriverProps) => {
+
+  const customTextStyle = {
+    color: textColor,
+    fontWeight: textFontWeight,
+  };
+
   if (showImage) {
     return (
       <div className={styles.driverContainer}>
@@ -22,12 +30,12 @@ const Driver = ({ driverPhotoUrl, driverName, showImage = false }: DriverProps) 
           />
         )}
 
-        <p className={styles.driverName}>{driverName}</p>
+        <p className={styles.driverName} style={customTextStyle}>{driverName}</p>
       </div>
     )
   } else {
     return (
-      <p className={styles.driverName}>{driverName}</p>
+      <p className={styles.driverName} style={customTextStyle}>{driverName}</p>
     )
   }
 }
