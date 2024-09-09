@@ -173,6 +173,15 @@
   font-size: 16px;
 }
 
+.inputDate {
+
+  padding: 12px;
+  border: 1px solid rgba(27, 85, 109, 0.3);
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: rgba(27, 85, 109, 0.3);
+}
+
 .input::placeholder {
   color: #999;
 }

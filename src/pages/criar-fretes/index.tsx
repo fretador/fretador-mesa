@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
-import { FreightSchema, FreightFormValues } from "@/utils/validations";
+import { FreightSchema } from "@/utils/validations";
+import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
@@ -15,18 +16,48 @@ const CreateFreight: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
   const routeName = router.pathname.replace("/", "").toUpperCase();
-
+  const [inputValues, setInputValues] = useState<Partial<CreateFreightInput>>(
+    {}
+  );
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FreightFormValues>({
+  } = useForm<CreateFreightInput>({
     resolver: zodResolver(FreightSchema),
   });
 
-  const onSubmit = (data: FreightFormValues) => {
-    console.log("Freight Data: ", data);
+  const handleInputChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = event.target;
+    setInputValues((prev) => ({ ...prev, [name]: value }));
+    console.log(`Campo ${name} atualizado:`, value);
+  };
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      console.log("Erros de validação:", errors);
+    }
+  }, [errors]);
+
+  const onSubmit = (data: CreateFreightInput) => {
+    console.log("Função onSubmit chamada");
+    console.log("Dados do Frete: ", data);
     // Lógica para enviar os dados do formulário
+  };
+
+  const handleSubmitForm = (event: React.FormEvent) => {
+    console.log("Formulário submetido");
+    event.preventDefault();
+    handleSubmit(onSubmit)(event);
+  };
+
+  const handleDirectToDriver = () => {
+    console.log("Direcionar para motorista");
+    // Lógica para direcionar para motorista
   };
 
   return (
@@ -46,23 +77,33 @@ const CreateFreight: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+              <form onSubmit={handleSubmitForm} className={styles.form}>
                 {/* Dados da coleta / entrega */}
                 <section className={styles.section}>
                   <h2>Dados da coleta / entrega</h2>
                   <div className={styles.inputWrapper}>
-                    <label htmlFor="pickupDeliveryData">
+                    <label
+                      htmlFor="pickupDeliveryData"
+                      style={{
+                        fontFamily: "Roboto",
+                        fontWeight: 400,
+                        fontSize: "24px",
+                        marginRight: "2rem",
+                      }}
+                    >
                       DATA DO CARREGAMENTO
                     </label>
                     <input
                       id="pickupDeliveryData"
                       type="date"
                       {...register("pickupDeliveryData")}
-                      className={styles.input}
+                      onChange={handleInputChange}
+                      className={styles.inputDate}
                     />
-                    {errors.pickupDeliveryData && (
+
+                    {errors.pickupDate && (
                       <p className={styles.error}>
-                        {errors.pickupDeliveryData.message}
+                        {errors.pickupDate.message}
                       </p>
                     )}
                   </div>
@@ -73,9 +114,13 @@ const CreateFreight: React.FC = () => {
                         id="origin"
                         type="text"
                         {...register("origin")}
+                        onChange={handleInputChange}
                         className={styles.input}
                         placeholder="Indique a origem ou CNPJ do remetente"
                       />
+                      {inputValues.origin && (
+                        <p>Valor atual: {inputValues.origin}</p>
+                      )}
                       {errors.origin && (
                         <p className={styles.error}>{errors.origin.message}</p>
                       )}
@@ -86,6 +131,7 @@ const CreateFreight: React.FC = () => {
                         id="destination"
                         type="text"
                         {...register("destination")}
+                        onChange={handleInputChange}
                         className={styles.input}
                         placeholder="Insira o destino ou o CNPJ do destinatário"
                       />
@@ -110,6 +156,13 @@ const CreateFreight: React.FC = () => {
                             type="radio"
                             {...register("cargoLoadType")}
                             value="completa"
+                            onChange={(e) => {
+                              handleInputChange(e);
+                              console.log(
+                                "Tipo de carga selecionado:",
+                                e.target.value
+                              );
+                            }}
                           />
                           Completa
                         </label>
@@ -118,6 +171,13 @@ const CreateFreight: React.FC = () => {
                             type="radio"
                             {...register("cargoLoadType")}
                             value="complemento"
+                            onChange={(e) => {
+                              handleInputChange(e);
+                              console.log(
+                                "Tipo de carga selecionado:",
+                                e.target.value
+                              );
+                            }}
                           />
                           Complemento
                         </label>
@@ -221,23 +281,21 @@ const CreateFreight: React.FC = () => {
                       <label htmlFor="totalWeight">Peso total de carga</label>
                       <input
                         id="totalWeight"
-                        type="text"
-                        {...register("totalWeight")}
+                        type="number"
+                        {...register("totalWeight", { valueAsNumber: true })}
                         className={styles.input}
                         placeholder="Kg"
                       />
-                      {errors.totalWeight && (
-                        <p className={styles.error}>
-                          {errors.totalWeight.message}
-                        </p>
+                      {errors.weight && (
+                        <p className={styles.error}>{errors.weight.message}</p>
                       )}
                     </div>
                     <div className={styles.inputWrapper}>
                       <label htmlFor="volumes">Volumes (opcional)</label>
                       <input
                         id="volumes"
-                        type="text"
-                        {...register("volumes")}
+                        type="number"
+                        {...register("volumes", { valueAsNumber: true })}
                         className={styles.input}
                       />
                       {errors.volumes && (
@@ -248,8 +306,9 @@ const CreateFreight: React.FC = () => {
                       <label htmlFor="cubage">Cubagem (opcional)</label>
                       <input
                         id="cubage"
-                        type="text"
-                        {...register("cubage")}
+                        type="number"
+                        step="0.01"
+                        {...register("cubage", { valueAsNumber: true })}
                         className={styles.input}
                         placeholder="m³"
                       />
@@ -490,53 +549,58 @@ const CreateFreight: React.FC = () => {
                 {/* Tipo de embarque */}
                 <section className={styles.section}>
                   <h2>Tipo de embarque</h2>
-                  <div className={styles.rowRadioOptions}>
-                    <label>
-                      <input
-                        type="radio"
-                        {...register("shippingType")}
-                        value="Coleta"
-                      />
-                      Coleta
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        {...register("shippingType")}
-                        value="Entrega"
-                      />
-                      Entrega
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        {...register("shippingType")}
-                        value="Ida"
-                      />
-                      Ida
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        {...register("shippingType")}
-                        value="Volta"
-                      />
-                      Volta
-                    </label>
+                  <div className={styles.rowRadioGroups}>
+                    <div className={styles.radioGroup}>
+                      <p>Tipo de embarque</p>
+                      <div className={styles.rowRadioOptions}>
+                        <label>
+                          <input
+                            type="radio"
+                            {...register("shippingType")}
+                            value="Coleta"
+                          />
+                          Coleta
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            {...register("shippingType")}
+                            value="Entrega"
+                          />
+                          Entrega
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            {...register("shippingType")}
+                            value="Ida"
+                          />
+                          Ida
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            {...register("shippingType")}
+                            value="Volta"
+                          />
+                          Volta
+                        </label>
+                      </div>
+                    </div>
                   </div>
                   <div className={styles.rowInputs}>
                     <div className={styles.inputGroup}>
-                      <label htmlFor="freightValue">Valor do Frete</label>
+                      <label htmlFor="value">Valor do Frete</label>
                       <input
-                        type="text"
-                        id="freightValue"
-                        {...register("freightValue")}
+                        type="number"
+                        id="value"
+                        {...register("value", { valueAsNumber: true })}
                         className={styles.input}
                         placeholder="R$"
                       />
-                      {errors.freightValue && (
+                      {errors.value && (
                         <p className={styles.errorMessage}>
-                          {errors.freightValue.message}
+                          {errors.value.message}
                         </p>
                       )}
                     </div>
@@ -595,8 +659,17 @@ const CreateFreight: React.FC = () => {
                 </section>
 
                 <div className={styles.submitWrapper}>
-                  <Botao type="submit" text={"Enviar"} />
-                  <Botao type="submit" text={"Direcionar para motorista"} />
+                  <Botao
+                    type="submit"
+                    text="Enviar"
+                    className={styles.submitButton}
+                  />
+                  <Botao
+                    type="button"
+                    text="Direcionar para motorista"
+                    onClick={handleDirectToDriver}
+                    className={styles.submitButton}
+                  />
                 </div>
               </form>
             </Body>
