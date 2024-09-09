@@ -32,9 +32,11 @@ const CreateFreight: React.FC = () => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value } = event.target;
-    setInputValues((prev) => ({ ...prev, [name]: value }));
-    console.log(`Campo ${name} atualizado:`, value);
+    const { name, type, value, checked } = event.target as HTMLInputElement;
+    const inputValue =
+      type === "checkbox" || type === "radio" ? checked : value;
+    setInputValues((prev) => ({ ...prev, [name]: inputValue }));
+    console.log(`Campo ${name} atualizado:`, inputValue);
   };
 
   useEffect(() => {
@@ -192,6 +194,10 @@ const CreateFreight: React.FC = () => {
                             type="radio"
                             {...register("needsTarp")}
                             value="sim"
+                            onChange={(e) => {
+                              handleInputChange(e);
+                              console.log("Precisa de lona:", e.target.value);
+                            }}
                           />
                           Sim
                         </label>
@@ -200,6 +206,10 @@ const CreateFreight: React.FC = () => {
                             type="radio"
                             {...register("needsTarp")}
                             value="nao"
+                            onChange={(e) => {
+                              handleInputChange(e);
+                              console.log("Precisa de lona:", e.target.value);
+                            }}
                           />
                           Não
                         </label>
@@ -214,6 +224,13 @@ const CreateFreight: React.FC = () => {
                             type="radio"
                             {...register("needsTracker")}
                             value="sim"
+                            onChange={(e) => {
+                              handleInputChange(e);
+                              console.log(
+                                "Precisa de rastreador:",
+                                e.target.value
+                              );
+                            }}
                           />
                           Sim
                         </label>
@@ -222,6 +239,13 @@ const CreateFreight: React.FC = () => {
                             type="radio"
                             {...register("needsTracker")}
                             value="nao"
+                            onChange={(e) => {
+                              handleInputChange(e);
+                              console.log(
+                                "Precisa de rastreador:",
+                                e.target.value
+                              );
+                            }}
                           />
                           Não
                         </label>
@@ -236,6 +260,7 @@ const CreateFreight: React.FC = () => {
                         id="product"
                         type="text"
                         {...register("product")}
+                        onChange={handleInputChange}
                         className={styles.input}
                         placeholder="Qual produto será carregado? (ex: cimento, tubos, químicos, etc...)"
                       />
@@ -248,6 +273,10 @@ const CreateFreight: React.FC = () => {
                       <select
                         id="cargoType"
                         {...register("cargoType")}
+                        onChange={(e) => {
+                          handleInputChange(e);
+                          console.log("Espécie selecionada:", e.target.value);
+                        }}
                         className={styles.select}
                       >
                         <option value="">Selecione a espécie de carga</option>
@@ -284,6 +313,7 @@ const CreateFreight: React.FC = () => {
                         type="number"
                         {...register("totalWeight", { valueAsNumber: true })}
                         className={styles.input}
+                        onChange={handleInputChange}
                         placeholder="Kg"
                       />
                       {errors.weight && (
@@ -296,6 +326,7 @@ const CreateFreight: React.FC = () => {
                         id="volumes"
                         type="number"
                         {...register("volumes", { valueAsNumber: true })}
+                        onChange={handleInputChange}
                         className={styles.input}
                       />
                       {errors.volumes && (
@@ -310,6 +341,7 @@ const CreateFreight: React.FC = () => {
                         step="0.01"
                         {...register("cubage", { valueAsNumber: true })}
                         className={styles.input}
+                        onChange={handleInputChange}
                         placeholder="m³"
                       />
                       {errors.cubage && (
@@ -323,6 +355,7 @@ const CreateFreight: React.FC = () => {
                         type="text"
                         {...register("moreDetails")}
                         className={styles.input}
+                        onChange={handleInputChange}
                       />
                       {errors.moreDetails && (
                         <p className={styles.error}>
@@ -334,6 +367,7 @@ const CreateFreight: React.FC = () => {
                 </section>
 
                 {/* Veículo */}
+                {/* Veículo */}
                 <section className={styles.section}>
                   <h2>Veículo</h2>
                   <h3>Escolha quantos veículos quiser</h3>
@@ -343,27 +377,46 @@ const CreateFreight: React.FC = () => {
                       <label>
                         <input
                           type="checkbox"
-                          {...register("vehicleLightAll")}
+                          {...register("vehicleLightAll", {
+                            onChange: handleInputChange,
+                          })}
                         />
                         Todos os leves
                       </label>
                       <label>
                         <input
                           type="checkbox"
-                          {...register("vehicleUtilitary")}
+                          {...register("vehicleUtilitary", {
+                            onChange: handleInputChange,
+                          })}
                         />
                         Utilitário
                       </label>
                       <label>
-                        <input type="checkbox" {...register("vehicle34")} />
+                        <input
+                          type="checkbox"
+                          {...register("vehicle34", {
+                            onChange: handleInputChange,
+                          })}
+                        />
                         3/4
                       </label>
                       <label>
-                        <input type="checkbox" {...register("vehicleHR")} />
+                        <input
+                          type="checkbox"
+                          {...register("vehicleHR", {
+                            onChange: handleInputChange,
+                          })}
+                        />
                         HR
                       </label>
                       <label>
-                        <input type="checkbox" {...register("vehicleToco")} />
+                        <input
+                          type="checkbox"
+                          {...register("vehicleToco", {
+                            onChange: handleInputChange,
+                          })}
+                        />
                         Toco
                       </label>
                     </div>
@@ -372,18 +425,27 @@ const CreateFreight: React.FC = () => {
                       <label>
                         <input
                           type="checkbox"
-                          {...register("vehicleMediumAll")}
+                          {...register("vehicleMediumAll", {
+                            onChange: handleInputChange,
+                          })}
                         />
                         Todos os médios
                       </label>
                       <label>
-                        <input type="checkbox" {...register("vehicleTruck")} />
+                        <input
+                          type="checkbox"
+                          {...register("vehicleTruck", {
+                            onChange: handleInputChange,
+                          })}
+                        />
                         Truck
                       </label>
                       <label>
                         <input
                           type="checkbox"
-                          {...register("vehicleBiTruck")}
+                          {...register("vehicleBiTruck", {
+                            onChange: handleInputChange,
+                          })}
                         />
                         Bi-truck
                       </label>
@@ -393,46 +455,63 @@ const CreateFreight: React.FC = () => {
                       <label>
                         <input
                           type="checkbox"
-                          {...register("vehicleHeavyAll")}
+                          {...register("vehicleHeavyAll", {
+                            onChange: handleInputChange,
+                          })}
                         />
                         Todos os pesados
                       </label>
                       <label>
                         <input
                           type="checkbox"
-                          {...register("vehicleCarreta")}
+                          {...register("vehicleCarreta", {
+                            onChange: handleInputChange,
+                          })}
                         />
                         Carreta
                       </label>
                       <label>
                         <input
                           type="checkbox"
-                          {...register("vehicleCarretaTrucada")}
+                          {...register("vehicleCarretaTrucada", {
+                            onChange: handleInputChange,
+                          })}
                         />
                         Carreta trucada
                       </label>
                       <label>
                         <input
                           type="checkbox"
-                          {...register("vehicleCarretaLS")}
+                          {...register("vehicleCarretaLS", {
+                            onChange: handleInputChange,
+                          })}
                         />
                         Carreta LS
                       </label>
                       <label>
                         <input
                           type="checkbox"
-                          {...register("vehicleCarretaVanderleia")}
+                          {...register("vehicleCarretaVanderleia", {
+                            onChange: handleInputChange,
+                          })}
                         />
                         Carreta Vanderleia
                       </label>
                       <label>
-                        <input type="checkbox" {...register("vehicleBitrem")} />
+                        <input
+                          type="checkbox"
+                          {...register("vehicleBitrem", {
+                            onChange: handleInputChange,
+                          })}
+                        />
                         Bitrem
                       </label>
                       <label>
                         <input
                           type="checkbox"
-                          {...register("vehicleRodotrem")}
+                          {...register("vehicleRodotrem", {
+                            onChange: handleInputChange,
+                          })}
                         />
                         Rodotrem
                       </label>
