@@ -6,13 +6,11 @@ import { Row } from "@/components/Row";
 import { useAppSelector } from "@/store/store";
 import Sidebar from "@/components/Sidebar";
 import RowTitle from "@/components/RowTitle";
-
-import OriginCollectionModal from "@/components/ModalRoot/OriginCollectionModal"; 
-
+import AssignFreightModal from "@/components/ModalRoot/AssignFreightModal"; 
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -52,11 +50,14 @@ const Canva: React.FC = () => {
             </Row.Root>
           </Body>
           <button onClick={toggleModal} className={styles.openModalButton}>
-
-            Open Origin Collection Modal
+            Direcionar Frete
           </button>
-          <OriginCollectionModal isOpen={isModalOpen} onRequestClose={toggleModal} />
 
+          {/* Renderizando o novo modal AssignFreight */}
+          <AssignFreightModal
+            isOpen={isModalOpen}
+            onRequestClose={toggleModal}
+          />
         </div>
       </div>
     </div>
