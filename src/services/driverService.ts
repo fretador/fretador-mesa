@@ -3,10 +3,11 @@ import { GET_DRIVERS_QUERY } from "@/graphql/queries/driverQueries";
 import { Driver } from "@/utils/types/Driver";
 import { PageInfo } from "@/utils/types/PageInfo";
 import { GetDriversResponse } from "@/utils/types/GetDriversResponse";
+import { DriverFilters } from "@/utils/types/DriverFilters";
 import { DriverNode } from "@/utils/types/DriverNode";
 
 export const DriverService = {
-	getDrivers: async (page: number, limit: number, filter: any) => {
+	getDrivers: async (page: number, limit: number, filter: DriverFilters) => {
 		const response = await apolloClient.query<{ drivers: GetDriversResponse }>({
 			query: GET_DRIVERS_QUERY,
 			variables: { page, limit, filter },
