@@ -2,8 +2,8 @@ import { FreightNode } from "./FreightNode";
 import { PageInfo } from "./PageInfo";
 
 export interface GetFreightsResponse {
-	edges: any;
-	pageInfo: any;
+	edges: FreightNode[];
+	pageInfo: PageInfo;
 	freights: {
 		edges: FreightNode[];
 		pageInfo: PageInfo;
