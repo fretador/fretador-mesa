@@ -5,6 +5,7 @@ import exampleReducer from "../store/slices/exampleSlice";
 import sidebarReducer from "@/store/slices/sidebarSlice";
 import statusFreightReducer from "@/store/slices/statusFreightSlice";
 import freightReducer from "@/store/slices/freightSlice";
+import driverReducer from "@/store/slices/driverSlice";
 
 const store = configureStore({
 	reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
 		sidebar: sidebarReducer,
 		freightStatus: statusFreightReducer,
 		freight: freightReducer,
+		driver: driverReducer,
 	},
 });
 
