@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 import { useDriverController } from "@/controllers/driverController";
+import { Driver } from "@/utils/types/Driver";
 import styles from './AwaitingApprovalList.module.css';
 import AwaitingApprovalCard from "../AwaitingApprovalCard";
 
@@ -11,11 +13,13 @@ const AwaitingApprovalList: React.FC = () => {
   const listRef = useRef<HTMLDivElement>(null);
 
   const { loadDrivers } = useDriverController();
-  const { drivers, loading, error } = useSelector((state: any) => state.driver.driversByStatus['PENDING'] || {});
+  const { drivers, loading, error } = useSelector((state: RootState) => state.driver.driversByStatus['PENDING']);
 
   useEffect(() => {
     loadDrivers(1, 10, { status: 'PENDING' });
   }, [loadDrivers]);
+
+  const memoizedDrivers = useMemo(() => drivers, [drivers]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     const list = listRef.current;
@@ -61,7 +65,7 @@ const AwaitingApprovalList: React.FC = () => {
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
     >
-      {drivers?.map((driver: any, index: number) => (
+      {memoizedDrivers?.map((driver: Driver, index: number) => (
         <AwaitingApprovalCard
           key={index}
           driverName={driver.name}
