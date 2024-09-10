@@ -1,21 +1,21 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useDriverController } from "@/controllers/driverController";
 import styles from './AwaitingApprovalList.module.css';
 import AwaitingApprovalCard from "../AwaitingApprovalCard";
-
-const driversData = [
-  { driverName: "Tonhão do Asfalto", driverStatus: "Aguardando", vehicle: "Caminhão", contact: "11999999999" },
-  { driverName: "Zé Rodovia", driverStatus: "Aguardando", vehicle: "Ônibus", contact: "11888888888" },
-  { driverName: "Gilberto Marcha Lenta", driverStatus: "Aguardando", vehicle: "Carro", contact: "11777777777" },
-  { driverName: "Tião do Trecho", driverStatus: "Aguardando", vehicle: "Moto", contact: "11666666666" },
-  { driverName: "Gilmar Trucão", driverStatus: "Aguardando", vehicle: "Van", contact: "11555555555" },
-  { driverName: "Nando Pé de Placa", driverStatus: "Aguardando", vehicle: "Caminhão", contact: "11444444444" },
-];
 
 const AwaitingApprovalList: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
+
+  const { loadDrivers } = useDriverController();
+  const { drivers, loading, error } = useSelector((state: any) => state.driver.driversByStatus['PENDING'] || {});
+
+  useEffect(() => {
+    loadDrivers(1, 10, { status: 'PENDING' });
+  }, [loadDrivers]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     const list = listRef.current;
@@ -49,6 +49,9 @@ const AwaitingApprovalList: React.FC = () => {
     console.log("Card clicado!");
   };
 
+  if (loading) return <p>Carregando motoristas...</p>;
+  if (error) return <p>Erro ao carregar motoristas: {error}</p>;
+
   return (
     <div
       ref={listRef}
@@ -58,13 +61,13 @@ const AwaitingApprovalList: React.FC = () => {
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
     >
-      {driversData.map((driver, index) => (
+      {drivers?.map((driver: any, index: number) => (
         <AwaitingApprovalCard
           key={index}
-          driverName={driver.driverName}
-          driverStatus={driver.driverStatus}
-          vehicle={driver.vehicle}
-          contact={driver.contact}
+          driverName={driver.name}
+          driverStatus={driver.status}
+          vehicle={driver.vehicle?.type}
+          contact={driver.phoneNumber}
           handleNewDriver={handleNewDriver}
         />
       ))}
