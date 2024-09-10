@@ -1,4 +1,4 @@
-export type UserDocument = CPF | CNPJ;
+export type DriverDocument = CPF | CNPJ;
 
 export interface CPF {
 	cpf: string;
