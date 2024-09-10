@@ -14,7 +14,20 @@ interface DriverState {
 }
 
 const initialState: DriverState = {
-	driversByStatus: {},
+	driversByStatus: {
+		APPROVED: {
+			drivers: [],
+			pageInfo: null,
+			loading: false,
+			error: null,
+		},
+		PENDING: {
+			drivers: [],
+			pageInfo: null,
+			loading: false,
+			error: null,
+		},
+	},
 };
 
 const driverSlice = createSlice({
@@ -32,7 +45,11 @@ const driverSlice = createSlice({
 		},
 		fetchDriversSuccess(
 			state,
-			action: PayloadAction<{ drivers: Driver[]; pageInfo: PageInfo; status: string }>
+			action: PayloadAction<{
+				drivers: Driver[];
+				pageInfo: PageInfo;
+				status: string;
+			}>
 		) {
 			const { drivers, pageInfo, status } = action.payload;
 			state.driversByStatus[status] = {
