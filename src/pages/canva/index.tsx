@@ -6,7 +6,7 @@ import { Row } from "@/components/Row";
 import { useAppSelector } from "@/store/store";
 import Sidebar from "@/components/Sidebar";
 import RowTitle from "@/components/RowTitle";
-import ConfirmationModal from "@/components/ModalRoot/ConfirmationModal"; // Ajuste na importação
+import AssignFreightModal from "@/components/ModalRoot/AssignFreightModal"; 
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -14,17 +14,6 @@ const Canva: React.FC = () => {
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
-  };
-
-  const handleConfirm = () => {
-    // Ação para salvar a alteração de dados
-    console.log("Alteração salva");
-    toggleModal();
-  };
-
-  const handleCancel = () => {
-    console.log("Alteração não salva");
-    toggleModal();
   };
 
   return (
@@ -61,15 +50,13 @@ const Canva: React.FC = () => {
             </Row.Root>
           </Body>
           <button onClick={toggleModal} className={styles.openModalButton}>
-            Abrir Modal de Alteração
+            Direcionar Frete
           </button>
-          <ConfirmationModal
+
+          {/* Renderizando o novo modal AssignFreight */}
+          <AssignFreightModal
             isOpen={isModalOpen}
             onRequestClose={toggleModal}
-            title="Alteração de dados"
-            message="Gostaria de salvar a alteração realizada?"
-            onConfirm={handleConfirm}
-            onCancel={handleCancel}
           />
         </div>
       </div>
