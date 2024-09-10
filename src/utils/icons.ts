@@ -8,15 +8,16 @@ import Finance from "../assets/icons/finance.svg";
 import Config from "../assets/icons/config.svg";
 import Clients from "../assets/icons/clients.svg";
 import Help from "@/assets/icons/help.svg";
-import Check from "@/assets/icons/check.svg"
-import Eye from "@/assets/icons/eye.svg"
-import HideEye from "@/assets/icons/hideEye.svg"
-import ArrowRight from "@/assets/icons/arrowRight.svg"
-import ArrowDown from "@/assets/icons/arrowDown.svg"
-import Magnifier from "@/assets/icons/magnifier.svg"
+import Check from "@/assets/icons/check.svg";
+import Eye from "@/assets/icons/eye.svg";
+import HideEye from "@/assets/icons/hideEye.svg";
+import ArrowRight from "@/assets/icons/arrowRight.svg";
+import ArrowDown from "@/assets/icons/arrowDown.svg";
+import Magnifier from "@/assets/icons/magnifier.svg";
+import TrueIcon from "@/assets/icons/trueIcon.svg";
+import FalseIcon from "@/assets/icons/falseIcon.svg";
 
-
-import MagniFyingGlass from "@/assets/icons/magnifyingGlass.svg"
+import MagniFyingGlass from "@/assets/icons/magnifyingGlass.svg";
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
 export const PersonAddIcon = TruckDriver;
@@ -32,10 +33,9 @@ export const EyeIcon = Eye;
 export const HideEyeIcon = HideEye;
 export const ArrowRightIcon = ArrowRight;
 
-export const ArrowDownIcon = ArrowDown
-export const MagnifierIcon = Magnifier
+export const ArrowDownIcon = ArrowDown;
+export const MagnifierIcon = Magnifier;
+export const RadioTrueIcon = TrueIcon;
+export const RadioFalseIcon = FalseIcon;
 
-
-
-export const MagniFyingGlassIcon = MagniFyingGlass
-
+export const MagniFyingGlassIcon = MagniFyingGlass;

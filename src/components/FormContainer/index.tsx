@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormRegister } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FreightSchema, FreightFormValues } from "@/utils/validations";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
 import VehicleSelectionSection from "@/components/FormContainer/VehicleSelectionSection";
-import BodyworkSelectionSection from "./BodyworkSelectionSection";
-import ShippingTypeSection from "./ShippingTypeSection";
-import FreightValueSection from "./FreightValueSection";
-import ObservationsSection from "./ObservationsSection";
-import SubmitButtons from "./SubmitButtons";
+import BodyworkSelectionSection from "@/components/FormContainer/BodyworkSelectionSection";
+import ShippingTypeSection from "@/components/FormContainer/ShippingTypeSection";
+import FreightValueSection from "@/components/FormContainer/FreightValuesSection";
+import ObservationsSection from "@/components/FormContainer/ObservationsSection";
+import SubmitButtons from "@/components/FormContainer/FreightSubmissionButton";
 import styles from "./FormContainer.module.css";
 
 const FormContainer: React.FC = () => {

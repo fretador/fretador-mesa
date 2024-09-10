@@ -13,12 +13,22 @@
 
 .inputWrapper {
   margin-bottom: 20px;
+
 }
 
 .rowInputs {
   display: flex;
   justify-content: space-between;
   gap: 20px;
+}
+
+.rowInputs .inputGroup {
+  width: 50%;
+  /* Alterado de flex: 1 para width: 40% */
+}
+
+.rowInputs .input {
+  width: 100%;
 }
 
 .label {
@@ -28,11 +38,24 @@
 }
 
 .input {
-  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
+  background-color: rgba(27, 85, 109, 0.3);
+  border: 2px solid #1B556D;
+}
+
+.inputDate {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: rgba(27, 85, 109, 0.3);
+  border: 2px solid #1B556D;
 }
 
 .error {

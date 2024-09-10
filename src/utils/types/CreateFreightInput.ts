@@ -41,7 +41,7 @@ export interface CreateFreightInput {
   bodyworkCegonha?: boolean;
 
   shippingType: "Coleta" | "Entrega" | "Ida eVolta";
-  freightType: "CIF" | "FOB";
+  freightType: "OFFER" | "TARGETED";
   freightValue: string;
   pedagioIncluso: "Sim" | "Não";
 

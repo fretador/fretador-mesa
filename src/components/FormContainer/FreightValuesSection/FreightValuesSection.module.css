@@ -5,20 +5,29 @@
   border-radius: 8px;
 }
 
-.title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.radioGroup,
-.inputGroup {
-  margin-bottom: 20px;
-}
-
-.radioOptions {
+.rowInputs {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: flex-start;
+  /* Alinha os elementos no topo */
+  gap: 20px;
+}
+
+.inputGroup {
+  flex: 1;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
 }
 
 .input {
@@ -29,12 +38,6 @@
   font-size: 14px;
 }
 
-.rowInputs {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
 .error {
   border-color: red;
 }
@@ -43,10 +46,4 @@
   color: red;
   font-size: 12px;
   margin-top: 5px;
-}
-
-.label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 5px;
 }
