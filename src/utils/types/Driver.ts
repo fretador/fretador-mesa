@@ -2,11 +2,11 @@ import { Photo } from "./Photo";
 import { Vehicle } from "./Vehicle";
 import { VehicleOwner } from "./VehicleOwner";
 import { Wallet } from "./Wallet";
-import { UserStatus } from "./Enums";
+import { DriverStatus } from "./Enums";
 import { StatusHistoryItem } from "./StatusHistory";
 import { RequestedFreightItem } from "./RequestedFreightItem";
 
-export interface User {
+export interface Driver {
 	_id: string;
 	active: boolean;
 	cnhPhoto: Photo;
@@ -21,7 +21,7 @@ export interface User {
 	phoneNumberSecondary: string;
 	proofResidencePhoto: Photo;
 	requestedFreights: RequestedFreightItem[];
-	status: UserStatus;
+	status: DriverStatus;
 	notificationToken: string[];
 	statusHistory: StatusHistoryItem[];
 	userPhoto: Photo;
