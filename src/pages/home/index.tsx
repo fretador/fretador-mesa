@@ -6,9 +6,7 @@ import styles from "./Home.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
-import SearchComponent from "@/components/SearchButton";
 import FreightSummary from "@/components/Graphics/FreightSummary";
-import StatusFilter2 from "@/components/StatusFilter2";
 import AddNewFreightButton from "@/components/AddNewFreightButton";
 import DailyFlow from "@/components/Graphics/DailyFlow";
 import WeeklyFlow from "@/components/Graphics/WeeklyFlow";
@@ -39,23 +37,19 @@ const Home: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              {/* <div className={styles.searchComponents}>
-                <SearchComponent />
-                <StatusFilter2 />
-              </div> */}
-              <div style={{display: 'flex', justifyContent: 'space-between'}}>
+              <div className={styles.highlightDashboardContainer}>
                 <HighlightDashboard number="40" title="fretes em andamento" src="" />
                 <HighlightDashboard number="12" title="ocorrências" src="" />
                 <HighlightDashboard number="21" title="novos cadastros" src="" />
                 <HighlightDashboard number="16" title="cargas em aberto" src="" />
               </div>
 
-              <div style={{display: 'flex', marginTop: '48px', justifyContent: 'space-between'}}>
+              <div className={styles.daylyAndWeeklyCharts}>
                 <WeeklyFlow />
                 <DailyFlow cancelledFreights={400} newFreights={60} />
               </div>
 
-              <div style={{display: 'flex', marginTop: '24px', justifyContent: 'space-between'}}>
+              <div className={styles.pieCharts}>
                 <FreightSummary values={values} />
                 <FreightSummary values={values} />
               </div>
