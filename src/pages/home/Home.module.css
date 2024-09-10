@@ -3,7 +3,6 @@
   flex-direction: row;
   justify-content: space-between;
   height: 100vh;
-  overflow: hidden;
   box-sizing: border-box;
   background: linear-gradient(180deg, #BCBCBC 0%, #FFF 100%);
   position: relative;
@@ -27,25 +26,34 @@
 }
 
 .header {
-  width: 95%;
-  flex-shrink: 0;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .content {
+  flex: 1;
   padding: 0.5rem;
-  width: 95%;
-  margin: 0 auto;
 }
 
-.searchComponents {
+.highlightDashboardContainer {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  margin-top: 24px;
+}
+
+.daylyAndWeeklyCharts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 48px;
+}
+
+.pieCharts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
 }
 
 .addFreightButton {
-  position: absolute;
+  position: fixed;
   bottom: 3%;
   right: 3%;
   z-index: 1;
