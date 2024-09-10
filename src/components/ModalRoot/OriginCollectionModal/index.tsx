@@ -8,7 +8,7 @@ import { RadioTrueIcon, RadioFalseIcon } from "@/utils/icons";
 interface OriginCollectionModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  onConfirm: (city: string, state: string) => void;
+  onConfirm: (data: any) => void; // Modificado para aceitar um objeto de dados
   type: "Origem" | "Destino";
 }
 
@@ -30,28 +30,56 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
 
   useEffect(() => {
     if (cityInput.length >= 2) {
-      const allCities = Object.values(brazilianCitiesStates).flat();
-      const filteredCities = allCities.filter((city) =>
-        city.toLowerCase().includes(cityInput.toLowerCase())
-      );
-      setSuggestions(filteredCities.slice(0, 5));
+      const suggestions: string[] = [];
+      Object.entries(brazilianCitiesStates).forEach(([state, cities]) => {
+        const filteredCities = cities.filter((city) =>
+          city.toLowerCase().includes(cityInput.toLowerCase())
+        );
+        filteredCities.forEach((city) => {
+          suggestions.push(`${city} - ${state}`);
+        });
+      });
+      setSuggestions(suggestions.slice(0, 5));
     } else {
       setSuggestions([]);
     }
   }, [cityInput]);
 
-  const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCityInput(e.target.value);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && suggestions.length === 1) {
+      handleCitySelect(suggestions[0]);
+    }
   };
 
-  const handleCitySelect = (city: string) => {
+  const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCityInput(e.target.value);
+    // Garante que as sugestões sejam exibidas quando o usuário digita
+    if (e.target.value.length >= 2) {
+      updateSuggestions(e.target.value);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const updateSuggestions = (input: string) => {
+    const newSuggestions: string[] = [];
+    Object.entries(brazilianCitiesStates).forEach(([state, cities]) => {
+      const filteredCities = cities.filter((city) =>
+        city.toLowerCase().includes(input.toLowerCase())
+      );
+      filteredCities.forEach((city) => {
+        newSuggestions.push(`${city} - ${state}`);
+      });
+    });
+    setSuggestions(newSuggestions.slice(0, 5));
+  };
+
+  const handleCitySelect = (cityState: string) => {
+    const [city, state] = cityState.split(" - ");
     setSelectedCity(city);
-    const state = Object.keys(brazilianCitiesStates).find((state) =>
-      brazilianCitiesStates[state].includes(city)
-    );
-    setSelectedState(state || "");
-    setCityInput(city);
-    setSuggestions([]);
+    setSelectedState(state);
+    setCityInput(cityState);
+    setSuggestions([]); // Limpa as sugestões após a seleção
   };
 
   const handleSenderInfoChange = (value: string) => {
@@ -64,6 +92,33 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
       : "Destino - Local de Descarga";
 
   const typeToLowerCase = type.toLowerCase() as "origem" | "destino";
+
+  const handleConfirm = () => {
+    const modalData = {
+      type,
+      selectedCity,
+      selectedState,
+      senderInfoOption,
+      additionalInfo:
+        senderInfoOption === "informar"
+          ? {
+              cnpj: (document.getElementById("cnpj") as HTMLInputElement)
+                ?.value,
+              razaoSocial: (
+                document.getElementById("razaoSocial") as HTMLInputElement
+              )?.value,
+              endereco: (
+                document.getElementById("endereco") as HTMLInputElement
+              )?.value,
+            }
+          : null,
+    };
+
+    console.log("Dados capturados pelo modal:", modalData);
+
+    onConfirm(modalData); // Passa os dados para a função onConfirm
+    onRequestClose();
+  };
 
   return (
     <ModalRoot isOpen={isOpen} onRequestClose={onRequestClose}>
@@ -81,18 +136,19 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
               id="city"
               value={cityInput}
               onChange={handleCityInputChange}
+              onKeyDown={handleKeyDown}
               className={styles.input}
               placeholder={placeholderText}
             />
             {suggestions.length > 0 && (
               <ul className={styles.suggestions}>
-                {suggestions.map((city, index) => (
+                {suggestions.map((cityState, index) => (
                   <li
                     key={index}
-                    onClick={() => handleCitySelect(city)}
+                    onClick={() => handleCitySelect(cityState)}
                     className={styles.suggestionItem}
                   >
-                    {city}
+                    {cityState}
                   </li>
                 ))}
               </ul>
@@ -192,10 +248,7 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
             className={styles.confirmButton}
             text="Confirmar"
             type="button"
-            onClick={() => {
-              onRequestClose();
-              onConfirm(selectedCity, selectedState);
-            }}
+            onClick={handleConfirm}
           />
         </div>
       </div>

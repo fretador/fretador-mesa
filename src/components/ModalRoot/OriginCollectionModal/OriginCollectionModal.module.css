@@ -37,6 +37,17 @@
     gap: 10px;
     border-radius: 12px;
     border: 1px solid var(--Blue-Main, #1B556D);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    /* Regular */
+}
+
+.input::placeholder {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    /* Regular */
+    color: #888;
+    /* Ajuste a cor conforme necessário */
 }
 
 .suggestions {
@@ -96,7 +107,7 @@
     flex-shrink: 0;
     margin-top: 1rem;
     border-radius: 10px;
-    background: var(--Blue-Blue1, #1A556D);
+    background-color: var(--Blue-Blue1, #1A556D) !important;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
     color: #FFF;
     font-family: Roboto;
@@ -116,6 +127,7 @@
     line-height: normal;
     margin-bottom: 8px;
     align-self: flex-start;
+    margin-top: 1rem;
 }
 
 /* ... outros estilos existentes ... */
@@ -154,4 +166,36 @@
     overflow-y: auto;
     overflow-x: hidden;
     /* Adicionado para evitar scroll horizontal */
+}
+
+.additionalInfo {
+    width: 100%;
+}
+
+.additionalInfo .label {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.additionalInfo input {
+    margin-bottom: 1rem;
+    /* Espaço entre o input e a próxima label */
+}
+
+.additionalInfo input {
+    width: 100%;
+    padding: 8px 0;
+    border: none;
+    border-bottom: 2px solid #1A556D;
+    /* Cor da borda inferior */
+    background: none;
+    outline: none;
+    /* Remove o estilo de foco padrão */
+    margin-bottom: 1rem;
+    border-radius: 0;
+}
+
+.additionalInfo input:focus {
+    border-bottom: 2px solid #000;
+    /* Cor da borda quando focado */
 }

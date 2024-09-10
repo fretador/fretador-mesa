@@ -22,25 +22,25 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
 }) => {
   const [isOriginModalOpen, setIsOriginModalOpen] = useState(false);
   const [isDestinationModalOpen, setIsDestinationModalOpen] = useState(false);
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
+  const [originData, setOriginData] = useState(null);
+  const [destinationData, setDestinationData] = useState(null);
 
-  // Funções para abrir e fechar o modal
-  const openOriginModal = () => setIsOriginModalOpen(true);
-  const closeOriginModal = () => setIsOriginModalOpen(false);
+  const handleOpenOriginModal = () => setIsOriginModalOpen(true);
+  const handleCloseOriginModal = () => setIsOriginModalOpen(false);
 
-  const openDestinationModal = () => setIsDestinationModalOpen(true);
-  const closeDestinationModal = () => setIsDestinationModalOpen(false);
+  const handleOpenDestinationModal = () => setIsDestinationModalOpen(true);
+  const handleCloseDestinationModal = () => setIsDestinationModalOpen(false);
 
-  // Funções para definir origem e destino
-  const handleOriginConfirm = (city: string, state: string) => {
-    setOrigin(`${city} - ${state}`);
-    closeOriginModal();
+  const handleOriginConfirm = (data) => {
+    console.log("Dados de origem recebidos:", data);
+    setOriginData(data);
+    handleCloseOriginModal();
   };
 
-  const handleDestinationConfirm = (city: string, state: string) => {
-    setDestination(`${city} - ${state}`);
-    closeDestinationModal();
+  const handleDestinationConfirm = (data) => {
+    console.log("Dados de destino recebidos:", data);
+    setDestinationData(data);
+    handleCloseDestinationModal();
   };
 
   return (
@@ -79,8 +79,8 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
           <input
             id="origin"
             type="text"
-            value={origin} // Exibe o valor da cidade selecionada
-            onClick={openOriginModal} // Abre o modal ao clicar no campo
+            value={originData?.selectedCity} // Exibe o valor da cidade selecionada
+            onClick={handleOpenOriginModal} // Abre o modal ao clicar no campo
             readOnly
             className={`${styles.input} ${errors.origin ? styles.error : ""}`}
             placeholder="Indique a origem ou CNPJ do remetente"
@@ -98,8 +98,8 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
           <input
             id="destination"
             type="text"
-            value={destination} // Exibe o valor da cidade selecionada
-            onClick={openDestinationModal} // Abre o modal ao clicar no campo
+            value={destinationData?.selectedCity} // Exibe o valor da cidade selecionada
+            onClick={handleOpenDestinationModal} // Abre o modal ao clicar no campo
             readOnly
             className={`${styles.input} ${
               errors.destination ? styles.error : ""
@@ -115,7 +115,7 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
       {/* Modal para Origem */}
       <OriginCollectionModal
         isOpen={isOriginModalOpen}
-        onRequestClose={closeOriginModal}
+        onRequestClose={handleCloseOriginModal}
         onConfirm={handleOriginConfirm}
         type="Origem"
       />
@@ -123,7 +123,7 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
       {/* Modal para Destino */}
       <OriginCollectionModal
         isOpen={isDestinationModalOpen}
-        onRequestClose={closeDestinationModal}
+        onRequestClose={handleCloseDestinationModal}
         onConfirm={handleDestinationConfirm}
         type="Destino"
       />
