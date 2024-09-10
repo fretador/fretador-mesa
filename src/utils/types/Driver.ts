@@ -36,4 +36,6 @@ export interface Driver {
 	invoicePhoto: Photo;
 	pickupOrderPhoto: Photo;
 	favoriteFreights: string[];
+	city: string;
+	state: string;
 }
