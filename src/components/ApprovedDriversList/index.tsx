@@ -1,9 +1,21 @@
-import React from "react";
-import styles from './ApprovedDriversList.module.css'
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDriverController } from "@/controllers/driverController";
+import styles from './ApprovedDriversList.module.css';
 import RowTitle from "../RowTitle";
 import { Row } from "../Row";
 
-const ApprovedDriversList = () => {
+const ApprovedDriversList: React.FC = () => {
+  const { loadDrivers } = useDriverController();
+  const { drivers, loading, error } = useSelector((state: any) => state.driver.driversByStatus['APPROVED'] || {});
+
+  useEffect(() => {
+    loadDrivers(1, 10, { status: 'APPROVED' });
+  }, [loadDrivers]);
+
+  if (loading) return <p>Carregando motoristas...</p>;
+  if (error) return <p>Erro ao carregar motoristas: {error}</p>;
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -11,110 +23,33 @@ const ApprovedDriversList = () => {
         <h4>Ordenar A-Z</h4>
       </div>
 
-      <RowTitle Driver="Motorista" CityState="Cidade-ES" WhatsApp="Whatsapp" Vehicle="Veículo" DriverStatus="Status" titleStyles={{ color: "#1B556D", fontWeight: "700", fontSize: "20px" }} />
+      <RowTitle
+        Driver="Motorista"
+        CityState="Cidade-ES"
+        WhatsApp="Whatsapp"
+        Vehicle="Veículo"
+        DriverStatus="Status"
+        titleStyles={{ color: "#1B556D", fontWeight: "700", fontSize: "20px" }}
+      />
       <div className={styles.content}>
-
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aprovado" />
-        </Row.Root>
-
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aguardando" />
-        </Row.Root>
-
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aprovado" />
-        </Row.Root>
-        
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aguardando" />
-        </Row.Root>
-
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="bloqueado" />
-        </Row.Root>
-
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aprovado" />
-        </Row.Root>
-
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aprovado" />
-        </Row.Root>
-        
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aprovado" />
-        </Row.Root>
-
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aprovado" />
-        </Row.Root>
-
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aprovado" />
-        </Row.Root>
-
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aprovado" />
-        </Row.Root>
-        
-        <Row.Root customBackgroundColor="#B2CEDA">
-          <Row.Driver driverPhotoUrl="/driver-mock.png" driverName="Francisco Freio de Mão" showImage={true} textColor="#1B556D" textFontWeight="700" />
-          <Row.CityState city="Itarema" state="CE" />
-          <Row.WhatsApp whatsApp="88988242039" />
-          <Row.Vehicle vehicle="Truck" />
-          <Row.DriverStatus driverStatus="aprovado" />
-        </Row.Root>
+        {drivers?.map((driver: any) => (
+          <Row.Root key={driver.id} customBackgroundColor="#B2CEDA">
+            <Row.Driver
+              driverPhotoUrl={driver.driverPhoto?.url || '/driver-mock.png'}
+              driverName={driver.name}
+              showImage={true}
+              textColor="#1B556D"
+              textFontWeight="700"
+            />
+            <Row.CityState city={driver.city} state={driver.state} />
+            <Row.WhatsApp whatsApp={driver.phoneNumber} />
+            <Row.Vehicle vehicle={driver.vehicle?.type || 'N/A'} />
+            <Row.DriverStatus driverStatus="aprovado" />
+          </Row.Root>
+        ))}
       </div>
-
-
-
     </div>
-  )
-}
+  );
+};
 
-export default ApprovedDriversList
+export default ApprovedDriversList;
