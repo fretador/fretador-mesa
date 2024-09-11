@@ -22,6 +22,7 @@ const FormContainer: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<FreightFormValues>({
     resolver: zodResolver(FreightSchema),
   });
@@ -49,7 +50,7 @@ const FormContainer: React.FC = () => {
         register={register}
         errors={errors}
         handleInputChange={handleInputChange}
-        inputValues={inputValues}
+        setValue={setValue}
       />
 
       <CargoDetailsSection

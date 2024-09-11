@@ -1,8 +1,6 @@
 .section {
-  padding: 20px;
-  background-color: #f9f9f9;
-  margin-bottom: 20px;
-  border-radius: 8px;
+  padding: 3rem;
+  background-color: #B2CEDA;
 }
 
 .title {
@@ -40,12 +38,14 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
+  background-color: rgba(27, 85, 109, 0.3);
+  color: #1A556D;
 }
 
 .rowInputs {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+
 }
 
 .error {
@@ -70,4 +70,5 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 16px;
+  color: #1A556D;
 }

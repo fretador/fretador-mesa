@@ -1,7 +1,9 @@
 .submitWrapper {
+  padding: 80px;
+  background-color: #B2CEDA;
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+
 }
 
 .submitButton {
@@ -12,7 +14,7 @@
   border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
-  width: 48%;
+  width: 36%;
 }
 
 .secondaryButton {
@@ -23,5 +25,5 @@
   border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
-  width: 48%;
+  width: 36%;
 }

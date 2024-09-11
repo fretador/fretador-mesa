@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { UseFormRegister, FieldErrors, UseFormSetValue } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
-import OriginCollectionModal from "@/components/ModalRoot/OriginCollectionModal"; // Supondo que o modal esteja nesta pasta
-import styles from "./PickupDeliverySection.module.css"; // Importação dos estilos específicos
-import ReactModal from "react-modal";
+import OriginCollectionModal from "@/components/ModalRoot/OriginCollectionModal";
+import styles from "./PickupDeliverySection.module.css";
 
 interface PickupDeliverySectionProps {
   register: UseFormRegister<CreateFreightInput>;
@@ -13,17 +12,22 @@ interface PickupDeliverySectionProps {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => void;
+  setValue: UseFormSetValue<CreateFreightInput>;
 }
 
 const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
   register,
   errors,
   handleInputChange,
+  setValue,
 }) => {
   const [isOriginModalOpen, setIsOriginModalOpen] = useState(false);
   const [isDestinationModalOpen, setIsDestinationModalOpen] = useState(false);
-  const [originData, setOriginData] = useState(null);
-  const [destinationData, setDestinationData] = useState(null);
+  const [pickupDeliveryData, setPickupDeliveryData] = useState({
+    pickupDeliveryDate: "",
+    origin: null,
+    destination: null,
+  });
 
   const handleOpenOriginModal = () => setIsOriginModalOpen(true);
   const handleCloseOriginModal = () => setIsOriginModalOpen(false);
@@ -32,40 +36,44 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
   const handleCloseDestinationModal = () => setIsDestinationModalOpen(false);
 
   const handleOriginConfirm = (data) => {
-    console.log("Dados de origem recebidos:", data);
-    setOriginData(data);
+    setPickupDeliveryData((prev) => ({ ...prev, origin: data }));
     handleCloseOriginModal();
   };
 
   const handleDestinationConfirm = (data) => {
-    console.log("Dados de destino recebidos:", data);
-    setDestinationData(data);
+    setPickupDeliveryData((prev) => ({ ...prev, destination: data }));
     handleCloseDestinationModal();
   };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPickupDeliveryData((prev) => ({
+      ...prev,
+      pickupDeliveryDate: e.target.value,
+    }));
+    handleInputChange(e);
+  };
+
+  useEffect(() => {
+    setValue("pickupDeliveryData", pickupDeliveryData.pickupDeliveryDate);
+    setValue("origin", pickupDeliveryData.origin?.selectedCity || "");
+    setValue("destination", pickupDeliveryData.destination?.selectedCity || "");
+    console.log("Dados de pickupDeliveryData:", pickupDeliveryData);
+  }, [pickupDeliveryData, setValue]);
 
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>Dados da Coleta/Entrega</h2>
       <div className={styles.inputWrapper}>
-        <label
-          htmlFor="pickupDeliveryData"
-          style={{
-            fontFamily: "Roboto",
-            fontWeight: 400,
-            fontSize: "24px",
-            marginRight: "2rem",
-          }}
-        >
+        <label htmlFor="pickupDeliveryData" className={styles.label}>
           DATA DO CARREGAMENTO
         </label>
         <input
           id="pickupDeliveryData"
           type="date"
           {...register("pickupDeliveryData")}
-          onChange={handleInputChange}
+          onChange={handleDateChange}
           className={styles.inputDate}
         />
-
         {errors.pickupDeliveryData && (
           <p className={styles.error}>{errors.pickupDeliveryData.message}</p>
         )}
@@ -79,8 +87,8 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
           <input
             id="origin"
             type="text"
-            value={originData?.selectedCity} // Exibe o valor da cidade selecionada
-            onClick={handleOpenOriginModal} // Abre o modal ao clicar no campo
+            value={pickupDeliveryData.origin?.selectedCity || ""}
+            onClick={handleOpenOriginModal}
             readOnly
             className={`${styles.input} ${errors.origin ? styles.error : ""}`}
             placeholder="Indique a origem ou CNPJ do remetente"
@@ -98,8 +106,8 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
           <input
             id="destination"
             type="text"
-            value={destinationData?.selectedCity} // Exibe o valor da cidade selecionada
-            onClick={handleOpenDestinationModal} // Abre o modal ao clicar no campo
+            value={pickupDeliveryData.destination?.selectedCity || ""}
+            onClick={handleOpenDestinationModal}
             readOnly
             className={`${styles.input} ${
               errors.destination ? styles.error : ""
