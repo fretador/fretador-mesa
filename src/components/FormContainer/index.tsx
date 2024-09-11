@@ -12,73 +12,47 @@ import FreightValueSection from "@/components/FormContainer/FreightValuesSection
 import ObservationsSection from "@/components/FormContainer/ObservationsSection";
 import SubmitButtons from "@/components/FormContainer/FreightSubmissionButton";
 import styles from "./FormContainer.module.css";
+import FreightSubmissionButton from "@/components/FormContainer/FreightSubmissionButton";
 
 const FormContainer: React.FC = () => {
-  const [inputValues, setInputValues] = useState<Partial<CreateFreightInput>>(
-    {}
-  );
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<FreightFormValues>({
-    resolver: zodResolver(FreightSchema),
-  });
+  } = useForm<CreateFreightInput>();
 
   const handleInputChange = (
     event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, type, value, checked } = event.target as HTMLInputElement;
-    const inputValue =
-      type === "checkbox" || type === "radio" ? checked : value;
-    setInputValues((prev) => ({ ...prev, [name]: inputValue }));
-    console.log(`Campo ${name} atualizado:`, inputValue);
+    const { name, value } = event.target;
+    setValue(name as keyof CreateFreightInput, value);
   };
 
-  const onSubmit = (data: FreightFormValues) => {
-    console.log("Dados do frete: ", data);
-    // Lógica de envio dos dados
+  const onSubmit = (data: CreateFreightInput) => {
+    // Adicione este console.log para ver todos os dados do formulário
+    console.log("Dados completos do formulário:", data);
+    // ... lógica de submissão existente ...
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <PickupDeliverySection
         register={register}
         errors={errors}
         handleInputChange={handleInputChange}
         setValue={setValue}
       />
-
       <CargoDetailsSection
         register={register}
         errors={errors}
         handleInputChange={handleInputChange}
+        setValue={setValue}
       />
-
-      <VehicleSelectionSection
-        register={register}
-        handleInputChange={handleInputChange}
-      />
-
-      <BodyworkSelectionSection
-        register={register}
-        handleInputChange={handleInputChange}
-      />
-
-      <ShippingTypeSection
-        register={register}
-        handleInputChange={handleInputChange}
-      />
-
-      <FreightValueSection register={register} errors={errors} />
-
-      <ObservationsSection register={register} errors={errors} />
-
-      <SubmitButtons />
+      {/* ... outros componentes de seção ... */}
+      <FreightSubmissionButton />
     </form>
   );
 };

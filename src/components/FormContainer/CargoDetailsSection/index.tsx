@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./CargoDetailsSection.module.css"; // Importação dos estilos específicos
@@ -11,13 +11,25 @@ interface CargoDetailsSectionProps {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => void;
+  setValue: (name: string, value: any) => void;
 }
 
 const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
   register,
   errors,
   handleInputChange,
+  setValue,
 }) => {
+  useEffect(() => {
+    // Adicione este console.log para ver os dados de CargoDetails
+    console.log("Dados de CargoDetails:", {
+      cargoType: register("cargoType").value,
+      cargoWeight: register("cargoWeight").value,
+      cargoValue: register("cargoValue").value,
+      // Adicione outros campos relevantes aqui
+    });
+  }, [register]);
+
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>Dados da Carga</h2>
