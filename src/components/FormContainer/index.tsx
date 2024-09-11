@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormSetValue } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
 import FreightSubmissionButton from "@/components/FormContainer/FreightSubmissionButton";
+import VehicleSelectionSection from "@/components/FormContainer/VehicleSelectionSection";
 import styles from "./FormContainer.module.css";
+import BodyworkSelectionSection from "./BodyworkSelectionSection";
+import ShippingTypeSection from "./ShippingTypeSection";
+import ObservationsSection from "./ObservationsSection";
+import FreightValueSection from "./FreightValuesSection";
 
 const FormContainer: React.FC = () => {
   const {
@@ -71,7 +76,41 @@ const FormContainer: React.FC = () => {
         handleInputChange={handleInputChange}
         setValue={setValue as UseFormSetValue<CreateFreightInput>}
       />
-      {/* ... outros componentes de seção ... */}
+      <VehicleSelectionSection
+        register={register}
+        errors={errors}
+        handleInputChange={handleInputChange}
+        setValue={setValue as UseFormSetValue<CreateFreightInput>}
+      />
+
+      <BodyworkSelectionSection
+        register={register}
+        errors={errors}
+        handleInputChange={handleInputChange}
+        setValue={setValue as UseFormSetValue<CreateFreightInput>}
+      />
+
+      <ShippingTypeSection
+        register={register}
+        errors={errors}
+        handleInputChange={handleInputChange}
+        setValue={setValue as UseFormSetValue<CreateFreightInput>}
+      />
+
+      <FreightValueSection
+        register={register}
+        errors={errors}
+        handleInputChange={handleInputChange}
+        setValue={setValue as UseFormSetValue<CreateFreightInput>}
+      />
+
+      <ObservationsSection
+        register={register}
+        errors={errors}
+        handleInputChange={handleInputChange}
+        setValue={setValue as UseFormSetValue<CreateFreightInput>}
+      />
+
       <FreightSubmissionButton
         onSubmit={handleSubmit(onSubmit)}
         onDirectToDriver={() => {}}
