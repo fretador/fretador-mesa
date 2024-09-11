@@ -1,0 +1,17 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.row p {
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration-line: underline;
+  margin-bottom: 8px;
+}
+
+.numberOfPhotos {
+  color: #0B7517;
+}

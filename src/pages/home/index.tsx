@@ -11,6 +11,7 @@ import AddNewFreightButton from "@/components/AddNewFreightButton";
 import DailyFlow from "@/components/Graphics/DailyFlow";
 import WeeklyFlow from "@/components/Graphics/WeeklyFlow";
 import HighlightDashboard from "@/components/HighlightDashboard";
+import PendingVouchers from "@/components/PendingVouchers";
 
 const Home: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -50,8 +51,9 @@ const Home: React.FC = () => {
               </div>
 
               <div className={styles.pieCharts}>
+                <PendingVouchers />
                 <FreightSummary values={values} />
-                <FreightSummary values={values} />
+                {/* <FreightSummary values={values} /> */}
               </div>
 
               <div className={styles.addFreightButton}>
