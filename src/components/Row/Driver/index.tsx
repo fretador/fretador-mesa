@@ -17,12 +17,15 @@ const Driver = ({ driverPhotoUrl, driverName, showImage = false, textColor, text
     fontWeight: textFontWeight,
   };
 
+  const src = driverPhotoUrl || '/driver-mock.png';
+
   if (showImage) {
     return (
       <div className={styles.driverContainer}>
         {driverPhotoUrl && (
           <Image
-            src={driverPhotoUrl}
+            loader={() => src}
+            src={src}
             alt={driverName}
             width={40}
             height={40}

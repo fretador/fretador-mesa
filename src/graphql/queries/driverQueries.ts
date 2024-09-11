@@ -8,10 +8,13 @@ export const GET_DRIVERS_QUERY = gql`
 					id
 					name
 					status
+					phoneNumber
 					vehicle {
 						type
 					}
-					phoneNumber
+					userPhoto {
+						imageUrl
+					}
 				}
 			}
 			pageInfo {
