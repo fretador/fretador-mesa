@@ -1,116 +1,64 @@
-import React, { useState } from "react";
-import { UseFormRegister } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./VehicleSelectionSection.module.css";
 
 interface VehicleSelectionSectionProps {
   register: UseFormRegister<CreateFreightInput>;
+  setValue: UseFormSetValue<CreateFreightInput>;
 }
 
 const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
   register,
+  setValue,
 }) => {
-  const [selectedLeves, setSelectedLeves] = useState({
-    todosLeves: false,
-    utilitario: false,
-    tresQuartos: false,
-    hr: false,
-    toco: false,
+  const [eligibleVehicles, setEligibleVehicles] = useState({
+    leve: {
+      utilitario: { eligible: false },
+      "3/4": { eligible: false },
+      HR: { eligible: false },
+      Toco: { eligible: false },
+    },
+    medio: {
+      truck: { eligible: false },
+      "bi-truck": { eligible: false },
+    },
+    pesado: {
+      carreta: { eligible: false },
+      carretaLS: { eligible: false },
+      carretaTrucada: { eligible: false },
+      carretaVanderleia: { eligible: false },
+      bitrem: { eligible: false },
+      rodotrem: { eligible: false },
+    },
   });
 
-  const [selectedMedios, setSelectedMedios] = useState({
-    todosMedios: false,
-    truck: false,
-    biTruck: false,
-  });
+  useEffect(() => {
+    setValue("eligibleVehicles" as keyof CreateFreightInput, eligibleVehicles);
+  }, [eligibleVehicles, setValue]);
 
-  const [selectedPesados, setSelectedPesados] = useState({
-    todosPesados: false,
-    carreta: false,
-    carretaTrucada: false,
-    carretaLS: false,
-    carretaVanderleia: false,
-    bitrem: false,
-    rodotrem: false,
-  });
-
-  // Funções para atualizar a seleção de veículos leves
-  const handleLevesChange = (key: string, checked: boolean) => {
-    const updatedLeves = { ...selectedLeves, [key]: checked };
-    setSelectedLeves(updatedLeves);
-
-    // Se qualquer veículo individual for desmarcado, "Todos os leves" deve ser desmarcado
-    const isAllLevesSelected =
-      updatedLeves.utilitario &&
-      updatedLeves.tresQuartos &&
-      updatedLeves.hr &&
-      updatedLeves.toco;
-
-    setSelectedLeves((prev) => ({
+  const handleVehicleChange = (
+    category: string,
+    type: string,
+    checked: boolean
+  ) => {
+    setEligibleVehicles((prev) => ({
       ...prev,
-      todosLeves: isAllLevesSelected,
+      [category]: {
+        ...prev[category as keyof typeof prev],
+        [type]: { eligible: checked },
+      },
     }));
   };
 
-  const handleTodosLevesChange = (checked: boolean) => {
-    setSelectedLeves({
-      todosLeves: checked,
-      utilitario: checked,
-      tresQuartos: checked,
-      hr: checked,
-      toco: checked,
-    });
-  };
-
-  // Funções para atualizar a seleção de veículos médios
-  const handleMediosChange = (key: string, checked: boolean) => {
-    const updatedMedios = { ...selectedMedios, [key]: checked };
-    setSelectedMedios(updatedMedios);
-
-    const isAllMediosSelected = updatedMedios.truck && updatedMedios.biTruck;
-    setSelectedMedios((prev) => ({
+  const handleAllCategoryChange = (category: string, checked: boolean) => {
+    setEligibleVehicles((prev) => ({
       ...prev,
-      todosMedios: isAllMediosSelected,
+      [category]: Object.keys(prev[category]).reduce((acc, type) => {
+        acc[type] = { eligible: checked };
+        return acc;
+      }, {}),
     }));
-  };
-
-  const handleTodosMediosChange = (checked: boolean) => {
-    setSelectedMedios({
-      todosMedios: checked,
-      truck: checked,
-      biTruck: checked,
-    });
-  };
-
-  // Funções para atualizar a seleção de veículos pesados
-  const handlePesadosChange = (key: string, checked: boolean) => {
-    const updatedPesados = { ...selectedPesados, [key]: checked };
-    setSelectedPesados(updatedPesados);
-
-    const isAllPesadosSelected =
-      updatedPesados.carreta &&
-      updatedPesados.carretaTrucada &&
-      updatedPesados.carretaLS &&
-      updatedPesados.carretaVanderleia &&
-      updatedPesados.bitrem &&
-      updatedPesados.rodotrem;
-
-    setSelectedPesados((prev) => ({
-      ...prev,
-      todosPesados: isAllPesadosSelected,
-    }));
-  };
-
-  const handleTodosPesadosChange = (checked: boolean) => {
-    setSelectedPesados({
-      todosPesados: checked,
-      carreta: checked,
-      carretaTrucada: checked,
-      carretaLS: checked,
-      carretaVanderleia: checked,
-      bitrem: checked,
-      rodotrem: checked,
-    });
   };
 
   return (
@@ -125,17 +73,21 @@ const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
           <label>
             <input
               type="checkbox"
-              checked={selectedLeves.todosLeves}
-              onChange={(e) => handleTodosLevesChange(e.target.checked)}
+              checked={Object.values(eligibleVehicles.leve).every(
+                (v) => v.eligible
+              )}
+              onChange={(e) =>
+                handleAllCategoryChange("leve", e.target.checked)
+              }
             />
             Todos os leves
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedLeves.utilitario}
+              checked={eligibleVehicles.leve.utilitario.eligible}
               onChange={(e) =>
-                handleLevesChange("utilitario", e.target.checked)
+                handleVehicleChange("leve", "utilitario", e.target.checked)
               }
             />
             Utilitário
@@ -143,9 +95,9 @@ const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
           <label>
             <input
               type="checkbox"
-              checked={selectedLeves.tresQuartos}
+              checked={eligibleVehicles.leve["3/4"].eligible}
               onChange={(e) =>
-                handleLevesChange("tresQuartos", e.target.checked)
+                handleVehicleChange("leve", "3/4", e.target.checked)
               }
             />
             3/4
@@ -153,16 +105,20 @@ const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
           <label>
             <input
               type="checkbox"
-              checked={selectedLeves.hr}
-              onChange={(e) => handleLevesChange("hr", e.target.checked)}
+              checked={eligibleVehicles.leve.HR.eligible}
+              onChange={(e) =>
+                handleVehicleChange("leve", "HR", e.target.checked)
+              }
             />
             HR
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedLeves.toco}
-              onChange={(e) => handleLevesChange("toco", e.target.checked)}
+              checked={eligibleVehicles.leve.Toco.eligible}
+              onChange={(e) =>
+                handleVehicleChange("leve", "Toco", e.target.checked)
+              }
             />
             Toco
           </label>
@@ -174,24 +130,32 @@ const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
           <label>
             <input
               type="checkbox"
-              checked={selectedMedios.todosMedios}
-              onChange={(e) => handleTodosMediosChange(e.target.checked)}
+              checked={Object.values(eligibleVehicles.medio).every(
+                (v) => v.eligible
+              )}
+              onChange={(e) =>
+                handleAllCategoryChange("medio", e.target.checked)
+              }
             />
             Todos os médios
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedMedios.truck}
-              onChange={(e) => handleMediosChange("truck", e.target.checked)}
+              checked={eligibleVehicles.medio.truck.eligible}
+              onChange={(e) =>
+                handleVehicleChange("medio", "truck", e.target.checked)
+              }
             />
             Truck
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedMedios.biTruck}
-              onChange={(e) => handleMediosChange("biTruck", e.target.checked)}
+              checked={eligibleVehicles.medio["bi-truck"].eligible}
+              onChange={(e) =>
+                handleVehicleChange("medio", "bi-truck", e.target.checked)
+              }
             />
             Bi-truck
           </label>
@@ -203,25 +167,35 @@ const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
           <label>
             <input
               type="checkbox"
-              checked={selectedPesados.todosPesados}
-              onChange={(e) => handleTodosPesadosChange(e.target.checked)}
+              checked={Object.values(eligibleVehicles.pesado).every(
+                (v) => v.eligible
+              )}
+              onChange={(e) =>
+                handleAllCategoryChange("pesado", e.target.checked)
+              }
             />
             Todos os pesados
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedPesados.carreta}
-              onChange={(e) => handlePesadosChange("carreta", e.target.checked)}
+              checked={eligibleVehicles.pesado.carreta.eligible}
+              onChange={(e) =>
+                handleVehicleChange("pesado", "carreta", e.target.checked)
+              }
             />
             Carreta
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedPesados.carretaTrucada}
+              checked={eligibleVehicles.pesado.carretaTrucada.eligible}
               onChange={(e) =>
-                handlePesadosChange("carretaTrucada", e.target.checked)
+                handleVehicleChange(
+                  "pesado",
+                  "carretaTrucada",
+                  e.target.checked
+                )
               }
             />
             Carreta Trucada
@@ -229,9 +203,9 @@ const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
           <label>
             <input
               type="checkbox"
-              checked={selectedPesados.carretaLS}
+              checked={eligibleVehicles.pesado.carretaLS.eligible}
               onChange={(e) =>
-                handlePesadosChange("carretaLS", e.target.checked)
+                handleVehicleChange("pesado", "carretaLS", e.target.checked)
               }
             />
             Carreta LS
@@ -239,9 +213,13 @@ const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
           <label>
             <input
               type="checkbox"
-              checked={selectedPesados.carretaVanderleia}
+              checked={eligibleVehicles.pesado.carretaVanderleia.eligible}
               onChange={(e) =>
-                handlePesadosChange("carretaVanderleia", e.target.checked)
+                handleVehicleChange(
+                  "pesado",
+                  "carretaVanderleia",
+                  e.target.checked
+                )
               }
             />
             Carreta Vanderleia
@@ -249,17 +227,19 @@ const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
           <label>
             <input
               type="checkbox"
-              checked={selectedPesados.bitrem}
-              onChange={(e) => handlePesadosChange("bitrem", e.target.checked)}
+              checked={eligibleVehicles.pesado.bitrem.eligible}
+              onChange={(e) =>
+                handleVehicleChange("pesado", "bitrem", e.target.checked)
+              }
             />
             Bitrem
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedPesados.rodotrem}
+              checked={eligibleVehicles.pesado.rodotrem.eligible}
               onChange={(e) =>
-                handlePesadosChange("rodotrem", e.target.checked)
+                handleVehicleChange("pesado", "rodotrem", e.target.checked)
               }
             />
             Rodotrem

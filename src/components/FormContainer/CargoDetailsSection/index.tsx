@@ -24,9 +24,6 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
     // Adicione este console.log para ver os dados de CargoDetails
     console.log("Dados de CargoDetails:", {
       cargoType: register("cargoType").value,
-      cargoWeight: register("cargoWeight").value,
-      cargoValue: register("cargoValue").value,
-      // Adicione outros campos relevantes aqui
     });
   }, [register]);
 

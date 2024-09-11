@@ -1,128 +1,69 @@
-import React, { useState } from "react";
-import { UseFormRegister } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./BodyworkSelectionSection.module.css";
 
 interface BodyworkSelectionSectionProps {
   register: UseFormRegister<CreateFreightInput>;
+  setValue: UseFormSetValue<CreateFreightInput>;
 }
 
 const BodyworkSelectionSection: React.FC<BodyworkSelectionSectionProps> = ({
   register,
+  setValue,
 }) => {
-  // Estados para as três categorias: Fechada, Aberta e Especial
-  const [selectedFechada, setSelectedFechada] = useState({
-    todosFechados: false,
-    bau: false,
-    sider: false,
-    bauRefrigerado: false,
-    bauFrigorifico: false,
+  const [eligibleBodyworks, setEligibleBodyworks] = useState({
+    aberta: {
+      grade_baixa: { eligible: false },
+      grade_alta: { eligible: false },
+      carroceria: { eligible: false },
+      plataforma: { eligible: false },
+    },
+    fechada: {
+      bau: { eligible: false },
+      bau_frigorifico: { eligible: false },
+      sider: { eligible: false },
+    },
+    especial: {
+      cacamba: { eligible: false },
+      tanque: { eligible: false },
+      graneleiro: { eligible: false },
+      munck: { eligible: false },
+    },
   });
 
-  const [selectedAberta, setSelectedAberta] = useState({
-    todosAbertos: false,
-    gradeBaixa: false,
-    graneleira: false,
-    cacamba: false,
-    plataforma: false,
-    prancha: false,
-  });
+  useEffect(() => {
+    setValue(
+      "eligibleBodyworks" as keyof CreateFreightInput,
+      eligibleBodyworks
+    );
+  }, [eligibleBodyworks, setValue]);
 
-  const [selectedEspecial, setSelectedEspecial] = useState({
-    todosPesados: false,
-    carreta: false,
-    carretaTrucada: false,
-    carretaLS: false,
-    carretaVanderleia: false,
-    bitrem: false,
-    rodotrem: false,
-  });
-
-  // Lógica para "Todos os fechados"
-  const handleFechadaChange = (key: string, checked: boolean) => {
-    const updatedFechada = { ...selectedFechada, [key]: checked };
-    setSelectedFechada(updatedFechada);
-
-    const isAllFechadaSelected =
-      updatedFechada.bau &&
-      updatedFechada.sider &&
-      updatedFechada.bauRefrigerado &&
-      updatedFechada.bauFrigorifico;
-
-    setSelectedFechada((prev) => ({
+  const handleBodyworkChange = (
+    category: string,
+    type: string,
+    checked: boolean
+  ) => {
+    setEligibleBodyworks((prev) => ({
       ...prev,
-      todosFechados: isAllFechadaSelected,
+      [category]: {
+        ...prev[category as keyof typeof prev],
+        [type]: { eligible: checked },
+      },
     }));
   };
 
-  const handleTodosFechadaChange = (checked: boolean) => {
-    setSelectedFechada({
-      todosFechados: checked,
-      bau: checked,
-      sider: checked,
-      bauRefrigerado: checked,
-      bauFrigorifico: checked,
-    });
-  };
-
-  // Lógica para "Todos os abertos"
-  const handleAbertaChange = (key: string, checked: boolean) => {
-    const updatedAberta = { ...selectedAberta, [key]: checked };
-    setSelectedAberta(updatedAberta);
-
-    const isAllAbertaSelected =
-      updatedAberta.gradeBaixa &&
-      updatedAberta.graneleira &&
-      updatedAberta.cacamba &&
-      updatedAberta.plataforma &&
-      updatedAberta.prancha;
-
-    setSelectedAberta((prev) => ({
+  const handleAllCategoryChange = (category: string, checked: boolean) => {
+    setEligibleBodyworks((prev) => ({
       ...prev,
-      todosAbertos: isAllAbertaSelected,
+      [category]: Object.keys(prev[category as keyof typeof prev]).reduce(
+        (acc, type) => {
+          acc[type] = { eligible: checked };
+          return acc;
+        },
+        {} as Record<string, { eligible: boolean }>
+      ),
     }));
-  };
-
-  const handleTodosAbertaChange = (checked: boolean) => {
-    setSelectedAberta({
-      todosAbertos: checked,
-      gradeBaixa: checked,
-      graneleira: checked,
-      cacamba: checked,
-      plataforma: checked,
-      prancha: checked,
-    });
-  };
-
-  // Lógica para "Todos os especiais"
-  const handleEspecialChange = (key: string, checked: boolean) => {
-    const updatedEspecial = { ...selectedEspecial, [key]: checked };
-    setSelectedEspecial(updatedEspecial);
-
-    const isAllEspecialSelected =
-      updatedEspecial.carreta &&
-      updatedEspecial.carretaTrucada &&
-      updatedEspecial.carretaLS &&
-      updatedEspecial.carretaVanderleia &&
-      updatedEspecial.bitrem &&
-      updatedEspecial.rodotrem;
-
-    setSelectedEspecial((prev) => ({
-      ...prev,
-      todosPesados: isAllEspecialSelected,
-    }));
-  };
-
-  const handleTodosEspecialChange = (checked: boolean) => {
-    setSelectedEspecial({
-      todosPesados: checked,
-      carreta: checked,
-      carretaTrucada: checked,
-      carretaLS: checked,
-      carretaVanderleia: checked,
-      bitrem: checked,
-      rodotrem: checked,
-    });
   };
 
   return (
@@ -131,182 +72,168 @@ const BodyworkSelectionSection: React.FC<BodyworkSelectionSectionProps> = ({
       <p className={styles.subtitle}>Escolha quantas carrocerias quiser</p>
 
       <div className={styles.bodyworkCheckboxes}>
-        {/* Carrocerias Fechadas */}
+        {/* Abertas */}
         <div className={styles.checkboxColumn}>
-          <h4>Fechada</h4>
+          <h4>Abertas</h4>
           <label>
             <input
               type="checkbox"
-              checked={selectedFechada.todosFechados}
-              onChange={(e) => handleTodosFechadaChange(e.target.checked)}
+              checked={Object.values(eligibleBodyworks.aberta).every(
+                (v) => v.eligible
+              )}
+              onChange={(e) =>
+                handleAllCategoryChange("aberta", e.target.checked)
+              }
             />
-            Todos os fechados
+            Todas as abertas
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedFechada.bau}
-              onChange={(e) => handleFechadaChange("bau", e.target.checked)}
+              checked={eligibleBodyworks.aberta.grade_baixa.eligible}
+              onChange={(e) =>
+                handleBodyworkChange("aberta", "grade_baixa", e.target.checked)
+              }
+            />
+            Grade baixa
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={eligibleBodyworks.aberta.grade_alta.eligible}
+              onChange={(e) =>
+                handleBodyworkChange("aberta", "grade_alta", e.target.checked)
+              }
+            />
+            Grade alta
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={eligibleBodyworks.aberta.carroceria.eligible}
+              onChange={(e) =>
+                handleBodyworkChange("aberta", "carroceria", e.target.checked)
+              }
+            />
+            Carroceria
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={eligibleBodyworks.aberta.plataforma.eligible}
+              onChange={(e) =>
+                handleBodyworkChange("aberta", "plataforma", e.target.checked)
+              }
+            />
+            Plataforma
+          </label>
+        </div>
+
+        {/* Fechadas */}
+        <div className={styles.checkboxColumn}>
+          <h4>Fechadas</h4>
+          <label>
+            <input
+              type="checkbox"
+              checked={Object.values(eligibleBodyworks.fechada).every(
+                (v) => v.eligible
+              )}
+              onChange={(e) =>
+                handleAllCategoryChange("fechada", e.target.checked)
+              }
+            />
+            Todas as fechadas
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={eligibleBodyworks.fechada.bau.eligible}
+              onChange={(e) =>
+                handleBodyworkChange("fechada", "bau", e.target.checked)
+              }
             />
             Baú
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedFechada.sider}
-              onChange={(e) => handleFechadaChange("sider", e.target.checked)}
+              checked={eligibleBodyworks.fechada.bau_frigorifico.eligible}
+              onChange={(e) =>
+                handleBodyworkChange(
+                  "fechada",
+                  "bau_frigorifico",
+                  e.target.checked
+                )
+              }
+            />
+            Baú frigorífico
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={eligibleBodyworks.fechada.sider.eligible}
+              onChange={(e) =>
+                handleBodyworkChange("fechada", "sider", e.target.checked)
+              }
             />
             Sider
           </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedFechada.bauRefrigerado}
-              onChange={(e) =>
-                handleFechadaChange("bauRefrigerado", e.target.checked)
-              }
-            />
-            Baú refrigerado
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedFechada.bauFrigorifico}
-              onChange={(e) =>
-                handleFechadaChange("bauFrigorifico", e.target.checked)
-              }
-            />
-            Baú frigorifico
-          </label>
         </div>
 
-        {/* Carrocerias Abertas */}
+        {/* Especiais */}
         <div className={styles.checkboxColumn}>
-          <h4>Aberta</h4>
+          <h4>Especiais</h4>
           <label>
             <input
               type="checkbox"
-              checked={selectedAberta.todosAbertos}
-              onChange={(e) => handleTodosAbertaChange(e.target.checked)}
-            />
-            Todos os abertos
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedAberta.gradeBaixa}
+              checked={Object.values(eligibleBodyworks.especial).every(
+                (v) => v.eligible
+              )}
               onChange={(e) =>
-                handleAbertaChange("gradeBaixa", e.target.checked)
+                handleAllCategoryChange("especial", e.target.checked)
               }
             />
-            Grade Baixa
+            Todas as especiais
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedAberta.graneleira}
+              checked={eligibleBodyworks.especial.cacamba.eligible}
               onChange={(e) =>
-                handleAbertaChange("graneleira", e.target.checked)
+                handleBodyworkChange("especial", "cacamba", e.target.checked)
               }
-            />
-            Graneleira
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedAberta.cacamba}
-              onChange={(e) => handleAbertaChange("cacamba", e.target.checked)}
             />
             Caçamba
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedAberta.plataforma}
+              checked={eligibleBodyworks.especial.tanque.eligible}
               onChange={(e) =>
-                handleAbertaChange("plataforma", e.target.checked)
+                handleBodyworkChange("especial", "tanque", e.target.checked)
               }
             />
-            Plataforma
+            Tanque
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedAberta.prancha}
-              onChange={(e) => handleAbertaChange("prancha", e.target.checked)}
-            />
-            Prancha
-          </label>
-        </div>
-
-        {/* Carrocerias Especiais */}
-        <div className={styles.checkboxColumn}>
-          <h4>Especial</h4>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedEspecial.todosPesados}
-              onChange={(e) => handleTodosEspecialChange(e.target.checked)}
-            />
-            Todos os pesados
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedEspecial.carreta}
+              checked={eligibleBodyworks.especial.graneleiro.eligible}
               onChange={(e) =>
-                handleEspecialChange("carreta", e.target.checked)
+                handleBodyworkChange("especial", "graneleiro", e.target.checked)
               }
             />
-            Carreta
+            Graneleiro
           </label>
           <label>
             <input
               type="checkbox"
-              checked={selectedEspecial.carretaTrucada}
+              checked={eligibleBodyworks.especial.munck.eligible}
               onChange={(e) =>
-                handleEspecialChange("carretaTrucada", e.target.checked)
+                handleBodyworkChange("especial", "munck", e.target.checked)
               }
             />
-            Carreta Trucada
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedEspecial.carretaLS}
-              onChange={(e) =>
-                handleEspecialChange("carretaLS", e.target.checked)
-              }
-            />
-            Carreta LS
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedEspecial.carretaVanderleia}
-              onChange={(e) =>
-                handleEspecialChange("carretaVanderleia", e.target.checked)
-              }
-            />
-            Carreta Vanderleia
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedEspecial.bitrem}
-              onChange={(e) => handleEspecialChange("bitrem", e.target.checked)}
-            />
-            Bitrem
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedEspecial.rodotrem}
-              onChange={(e) =>
-                handleEspecialChange("rodotrem", e.target.checked)
-              }
-            />
-            Rodotrem
+            Munck
           </label>
         </div>
       </div>
