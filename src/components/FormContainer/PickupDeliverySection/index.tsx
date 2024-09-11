@@ -4,6 +4,32 @@ import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import OriginCollectionModal from "@/components/ModalRoot/OriginCollectionModal";
 import styles from "./PickupDeliverySection.module.css";
 
+interface PickupDeliveryData {
+  pickupDeliveryDate: string;
+  origin: {
+    type: string;
+    selectedCity: string;
+    selectedState: string;
+    senderInfoOption: string;
+    additionalInfo: {
+      cnpj: string;
+      razaoSocial: string;
+      endereco: string;
+    } | null;
+  } | null;
+  destination: {
+    type: string;
+    selectedCity: string;
+    selectedState: string;
+    senderInfoOption: string;
+    additionalInfo: {
+      cnpj: string;
+      razaoSocial: string;
+      endereco: string;
+    } | null;
+  } | null;
+}
+
 interface PickupDeliverySectionProps {
   register: UseFormRegister<CreateFreightInput>;
   errors: FieldErrors<CreateFreightInput>;
@@ -23,11 +49,12 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
 }) => {
   const [isOriginModalOpen, setIsOriginModalOpen] = useState(false);
   const [isDestinationModalOpen, setIsDestinationModalOpen] = useState(false);
-  const [pickupDeliveryData, setPickupDeliveryData] = useState({
-    pickupDeliveryDate: "",
-    origin: null,
-    destination: null,
-  });
+  const [pickupDeliveryData, setPickupDeliveryData] =
+    useState<PickupDeliveryData>({
+      pickupDeliveryDate: "",
+      origin: null,
+      destination: null,
+    });
 
   const handleOpenOriginModal = () => setIsOriginModalOpen(true);
   const handleCloseOriginModal = () => setIsOriginModalOpen(false);
@@ -35,12 +62,14 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
   const handleOpenDestinationModal = () => setIsDestinationModalOpen(true);
   const handleCloseDestinationModal = () => setIsDestinationModalOpen(false);
 
-  const handleOriginConfirm = (data) => {
+  const handleOriginConfirm = (data: PickupDeliveryData["origin"]) => {
     setPickupDeliveryData((prev) => ({ ...prev, origin: data }));
     handleCloseOriginModal();
   };
 
-  const handleDestinationConfirm = (data) => {
+  const handleDestinationConfirm = (
+    data: PickupDeliveryData["destination"]
+  ) => {
     setPickupDeliveryData((prev) => ({ ...prev, destination: data }));
     handleCloseDestinationModal();
   };
@@ -55,9 +84,55 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
 
   useEffect(() => {
     setValue("pickupDeliveryData", pickupDeliveryData.pickupDeliveryDate);
-    setValue("origin", pickupDeliveryData.origin?.selectedCity || "");
-    setValue("destination", pickupDeliveryData.destination?.selectedCity || "");
-    console.log("Dados de pickupDeliveryData:", pickupDeliveryData);
+
+    if (pickupDeliveryData.origin) {
+      setValue(
+        "origin",
+        `${pickupDeliveryData.origin.selectedCity}, ${pickupDeliveryData.origin.selectedState}`
+      );
+      if (pickupDeliveryData.origin.additionalInfo) {
+        setValue("originCNPJ", pickupDeliveryData.origin.additionalInfo.cnpj);
+        setValue(
+          "originRazaoSocial",
+          pickupDeliveryData.origin.additionalInfo.razaoSocial
+        );
+        setValue(
+          "originEndereco",
+          pickupDeliveryData.origin.additionalInfo.endereco
+        );
+      } else {
+        setValue("originCNPJ", "");
+        setValue("originRazaoSocial", "");
+        setValue("originEndereco", "");
+      }
+    }
+
+    if (pickupDeliveryData.destination) {
+      setValue(
+        "destination",
+        `${pickupDeliveryData.destination.selectedCity}, ${pickupDeliveryData.destination.selectedState}`
+      );
+      if (pickupDeliveryData.destination.additionalInfo) {
+        setValue(
+          "destinationCNPJ",
+          pickupDeliveryData.destination.additionalInfo.cnpj
+        );
+        setValue(
+          "destinationRazaoSocial",
+          pickupDeliveryData.destination.additionalInfo.razaoSocial
+        );
+        setValue(
+          "destinationEndereco",
+          pickupDeliveryData.destination.additionalInfo.endereco
+        );
+      } else {
+        setValue("destinationCNPJ", "");
+        setValue("destinationRazaoSocial", "");
+        setValue("destinationEndereco", "");
+      }
+    }
+
+    console.log("Dados de pickupDeliveryData atualizados:", pickupDeliveryData);
   }, [pickupDeliveryData, setValue]);
 
   return (
@@ -87,7 +162,11 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
           <input
             id="origin"
             type="text"
-            value={pickupDeliveryData.origin?.selectedCity || ""}
+            value={
+              pickupDeliveryData.origin
+                ? `${pickupDeliveryData.origin.selectedCity} - ${pickupDeliveryData.origin.selectedState}`
+                : ""
+            }
             onClick={handleOpenOriginModal}
             readOnly
             className={`${styles.input} ${errors.origin ? styles.error : ""}`}
@@ -106,7 +185,11 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
           <input
             id="destination"
             type="text"
-            value={pickupDeliveryData.destination?.selectedCity || ""}
+            value={
+              pickupDeliveryData.destination
+                ? `${pickupDeliveryData.destination.selectedCity} - ${pickupDeliveryData.destination.selectedState}`
+                : ""
+            }
             onClick={handleOpenDestinationModal}
             readOnly
             className={`${styles.input} ${
@@ -135,6 +218,14 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
         onConfirm={handleDestinationConfirm}
         type="Destino"
       />
+
+      {/* Campos ocultos para armazenar os dados adicionais */}
+      <input type="hidden" {...register("originCNPJ")} />
+      <input type="hidden" {...register("originRazaoSocial")} />
+      <input type="hidden" {...register("originEndereco")} />
+      <input type="hidden" {...register("destinationCNPJ")} />
+      <input type="hidden" {...register("destinationRazaoSocial")} />
+      <input type="hidden" {...register("destinationEndereco")} />
     </section>
   );
 };

@@ -1,18 +1,10 @@
-import React, { useState } from "react";
-import { useForm, UseFormRegister } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FreightSchema, FreightFormValues } from "@/utils/validations";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
-import VehicleSelectionSection from "@/components/FormContainer/VehicleSelectionSection";
-import BodyworkSelectionSection from "@/components/FormContainer/BodyworkSelectionSection";
-import ShippingTypeSection from "@/components/FormContainer/ShippingTypeSection";
-import FreightValueSection from "@/components/FormContainer/FreightValuesSection";
-import ObservationsSection from "@/components/FormContainer/ObservationsSection";
-import SubmitButtons from "@/components/FormContainer/FreightSubmissionButton";
-import styles from "./FormContainer.module.css";
 import FreightSubmissionButton from "@/components/FormContainer/FreightSubmissionButton";
+import styles from "./FormContainer.module.css";
 
 const FormContainer: React.FC = () => {
   const {
@@ -20,7 +12,29 @@ const FormContainer: React.FC = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<CreateFreightInput>();
+    watch,
+  } = useForm<CreateFreightInput>({
+    defaultValues: {
+      pickupDeliveryData: "",
+      origin: "",
+      destination: "",
+      originCNPJ: "",
+      originRazaoSocial: "",
+      originEndereco: "",
+      destinationCNPJ: "",
+      destinationRazaoSocial: "",
+      destinationEndereco: "",
+      cargoLoadType: null,
+      needsTarp: null,
+      needsTracker: null,
+      product: "",
+      cargoType: "",
+      totalWeight: null,
+      volumes: null,
+      cubage: null,
+      moreDetails: "",
+    },
+  });
 
   const handleInputChange = (
     event: React.ChangeEvent<
@@ -32,27 +46,36 @@ const FormContainer: React.FC = () => {
   };
 
   const onSubmit = (data: CreateFreightInput) => {
-    // Adicione este console.log para ver todos os dados do formulário
     console.log("Dados completos do formulário:", data);
     // ... lógica de submissão existente ...
   };
 
+  // Observar todos os campos relevantes
+  const watchedFields = watch();
+
+  useEffect(() => {
+    console.log("Campos observados:", watchedFields);
+  }, [watchedFields]);
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <PickupDeliverySection
         register={register}
         errors={errors}
         handleInputChange={handleInputChange}
-        setValue={setValue}
+        setValue={setValue as UseFormSetValue<CreateFreightInput>}
       />
       <CargoDetailsSection
         register={register}
         errors={errors}
         handleInputChange={handleInputChange}
-        setValue={setValue}
+        setValue={setValue as UseFormSetValue<CreateFreightInput>}
       />
       {/* ... outros componentes de seção ... */}
-      <FreightSubmissionButton />
+      <FreightSubmissionButton
+        onSubmit={handleSubmit(onSubmit)}
+        onDirectToDriver={() => {}}
+      />
     </form>
   );
 };
