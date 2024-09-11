@@ -21,11 +21,17 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
   setValue,
 }) => {
   useEffect(() => {
-    // Adicione este console.log para ver os dados de CargoDetails
-    console.log("Dados de CargoDetails:", {
-      cargoType: register("cargoType").value,
-    });
+    // Remova este console.log, pois estava causando um erro
   }, [register]);
+
+  const handleBooleanRadioChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: "needsTarp" | "needsTracker"
+  ) => {
+    const booleanValue = e.target.value === "sim";
+    setValue(fieldName, booleanValue);
+    handleInputChange(e);
+  };
 
   return (
     <section className={styles.section}>
@@ -70,8 +76,8 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
               <input
                 type="radio"
                 {...register("needsTarp")}
-                value="sim"
-                onChange={handleInputChange}
+                value={true}
+                onChange={(e) => handleBooleanRadioChange(e, "needsTarp")}
               />
               Sim
             </label>
@@ -79,8 +85,8 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
               <input
                 type="radio"
                 {...register("needsTarp")}
-                value="nao"
-                onChange={handleInputChange}
+                value={false}
+                onChange={(e) => handleBooleanRadioChange(e, "needsTarp")}
               />
               Não
             </label>
@@ -98,8 +104,8 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
               <input
                 type="radio"
                 {...register("needsTracker")}
-                value="sim"
-                onChange={handleInputChange}
+                value={true}
+                onChange={(e) => handleBooleanRadioChange(e, "needsTracker")}
               />
               Sim
             </label>
@@ -107,8 +113,8 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
               <input
                 type="radio"
                 {...register("needsTracker")}
-                value="nao"
-                onChange={handleInputChange}
+                value={false}
+                onChange={(e) => handleBooleanRadioChange(e, "needsTracker")}
               />
               Não
             </label>

@@ -17,8 +17,8 @@ export interface CreateFreightInput {
   destinationRazaoSocial: string;
   destinationEndereco: string;
   cargoLoadType: "completa" | "complemento" | null;
-  needsTarp: "sim" | "nao" | null;
-  needsTracker: "sim" | "nao" | null;
+  needsTarp: boolean;
+  needsTracker: boolean;
   product: string;
   cargoType: string;
   totalWeight: number | null;
