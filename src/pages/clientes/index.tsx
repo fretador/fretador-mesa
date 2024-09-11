@@ -8,6 +8,8 @@ import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
+import { Row } from "@/components/Row";
+import RowTitle from "@/components/RowTitle";
 
 const Clients: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -32,8 +34,119 @@ const Clients: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <div>
+              <div className={styles.searchComponents}>
                 <SearchComponent />
+              </div>
+
+              <div className={styles.cards}>
+
+                <RowTitle Cnpj="CNPJ" CorporateName="Razão Social" TradeName="Fantasia" CityState="Cidade-ES" CustomerEmail="E-mail" />
+
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
+                <Row.Root customBackgroundColor="#B2CEDA">
+                  <Row.Cnpj cnpj="11111111000111" />
+                  <Row.CorporateName corporateName="Industria A.P.M. 2547 e Cia" />
+                  <Row.TradeName tradeName="Bolachas 321" />
+                  <Row.CityState city="São Paulo" state="SP" />
+                  <Row.CustomerEmail email="bolachas.sp@bolachas.com"  /> 
+                </Row.Root>
               </div>
             </Body>
           </div>
