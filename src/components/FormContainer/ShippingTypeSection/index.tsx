@@ -1,6 +1,9 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
+import {
+  CreateFreightInput,
+  ShippingType,
+} from "@/utils/types/CreateFreightInput";
 import styles from "./ShippingTypeSection.module.css";
 
 interface ShippingTypeSectionProps {
@@ -20,33 +23,17 @@ const ShippingTypeSection: React.FC<ShippingTypeSectionProps> = ({
     <section className={styles.section}>
       <h2 className={styles.title}>Tipo de Embarque</h2>
       <div className={`${styles.radioGroup} ${styles.inlineRadioGroup}`}>
-        <label>
-          <input
-            type="radio"
-            {...register("shippingType")}
-            value="Coleta"
-            onChange={handleInputChange}
-          />
-          Coleta
-        </label>
-        <label>
-          <input
-            type="radio"
-            {...register("shippingType")}
-            value="Entrega"
-            onChange={handleInputChange}
-          />
-          Entrega
-        </label>
-        <label>
-          <input
-            type="radio"
-            {...register("shippingType")}
-            value="Ida"
-            onChange={handleInputChange}
-          />
-          Ida / Volta
-        </label>
+        {Object.values(ShippingType).map((type) => (
+          <label key={type}>
+            <input
+              type="radio"
+              {...register("shippingType")}
+              value={type}
+              onChange={handleInputChange}
+            />
+            {type}
+          </label>
+        ))}
       </div>
     </section>
   );

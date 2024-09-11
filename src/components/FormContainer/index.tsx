@@ -38,6 +38,9 @@ const FormContainer: React.FC = () => {
       volumes: null,
       cubage: null,
       moreDetails: "",
+      // Remova ou adicione esses campos se necessário
+      // cargoValue: null,
+      // cargoWeight: null,
     },
   });
 
@@ -59,7 +62,14 @@ const FormContainer: React.FC = () => {
   const watchedFields = watch();
 
   useEffect(() => {
-    console.log("Campos observados:", watchedFields);
+    // Filtrar campos undefined ou não desejados
+    const filteredFields = Object.fromEntries(
+      Object.entries(watchedFields).filter(
+        ([key, value]) =>
+          value !== undefined && !["cargoValue", "cargoWeight"].includes(key)
+      )
+    );
+    console.log("Campos observados:", filteredFields);
   }, [watchedFields]);
 
   return (

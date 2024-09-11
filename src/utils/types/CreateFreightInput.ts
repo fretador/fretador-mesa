@@ -1,5 +1,11 @@
 import { FreightType } from "./Enums";
 
+export enum ShippingType {
+  Coleta = "Coleta",
+  Entrega = "Entrega",
+  IdaVolta = "Ida/Volta",
+}
+
 export interface CreateFreightInput {
   pickupDeliveryData: string;
   origin: string;
@@ -19,4 +25,5 @@ export interface CreateFreightInput {
   volumes: number | null;
   cubage: number | null;
   moreDetails: string;
+  shippingType: ShippingType;
 }
