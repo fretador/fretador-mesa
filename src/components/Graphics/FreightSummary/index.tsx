@@ -1,12 +1,20 @@
-import * as React from 'react';
+import { useQuery } from '@apollo/client';
+import { GET_FREIGHT_STATISTICS } from '@/graphql/queries/graphQueries';
 import { PieChart } from '@mui/x-charts/PieChart';
-import styles from './FreightSummary.module.css'
+import styles from './FreightSummary.module.css';
 
-interface FreightSummaryProps {
-  values: number[];
-}
+const FreightSummary = () => {
+  const { data, loading, error } = useQuery(GET_FREIGHT_STATISTICS);
 
-const FreightSummary = ({values}: FreightSummaryProps) => {
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const values = [
+    data?.getFreightStatistics.freightsInProgress || 0,
+    data?.getFreightStatistics.freightsOpen || 0,
+    data?.getFreightStatistics.freightsFinished || 0,
+  ];
+
   return (
     <div className={styles.container}>
       <h4>RESUMO DOS FRETES</h4>
@@ -23,8 +31,7 @@ const FreightSummary = ({values}: FreightSummaryProps) => {
         width={460}
       />
     </div>
-    
-  )
-}
+  );
+};
 
-export default FreightSummary
+export default FreightSummary;
