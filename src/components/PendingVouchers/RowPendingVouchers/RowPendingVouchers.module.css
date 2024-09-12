@@ -1,8 +1,8 @@
 .row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
+  width: 100%;
 }
 
 .row p {
@@ -10,8 +10,16 @@
   font-weight: 600;
   text-decoration-line: underline;
   margin-bottom: 8px;
+  text-align: left;
 }
 
 .numberOfPhotos {
   color: #0B7517;
+}
+
+.driverName {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
