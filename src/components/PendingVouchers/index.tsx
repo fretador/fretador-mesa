@@ -3,7 +3,7 @@ import { GET_PENDING_APPROVAL_FREIGHTS } from '@/graphql/queries/graphQueries';
 import RowPendingVouchers from './RowPendingVouchers';
 import { ArrowRightIcon } from '@/utils/icons';
 import styles from './PendingVouchers.module.css';
-import { GetPendingApprovalFreightsData } from '@/utils/types/graphTypes'; 
+import { GetPendingApprovalFreightsData } from '@/utils/types/GraphTypes'; 
 
 const PendingVouchers = () => {
   const { data, loading, error } = useQuery<GetPendingApprovalFreightsData>(GET_PENDING_APPROVAL_FREIGHTS);
@@ -24,7 +24,7 @@ const PendingVouchers = () => {
       {pendingFreights.map((freight) => (
         <RowPendingVouchers
           key={freight.freightCode}
-          numberOfPhotos={freight.photosCount}
+          numberOfPhotos={freight.totalCount}
           freightCode={freight.freightCode}
           cte={freight.numCte}
           driverName={freight.driver}
