@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { GET_FREIGHT_WEEKLY_FLOW } from '@/graphql/queries/graphQueries';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import styles from './WeeklyFlow.module.css';
-import { GetFreightWeeklyFlowData } from '@/utils/types/graphTypes';
+import { GetFreightWeeklyFlowData } from '@/utils/types/GraphTypes';
 
 const WeeklyFlow = () => {
   const { data, loading, error } = useQuery<GetFreightWeeklyFlowData>(GET_FREIGHT_WEEKLY_FLOW);

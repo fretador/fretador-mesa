@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { GET_FREIGHT_DAILY_FLOW } from '@/graphql/queries/graphQueries';
 import { PieChart } from '@mui/x-charts/PieChart';
 import styles from './DailyFlow.module.css';
-import { GetFreightDailyFlowData } from '@/utils/types/graphTypes'; 
+import { GetFreightDailyFlowData } from '@/utils/types/GraphTypes'; 
 
 const DailyFlow = () => {
   const { data, loading, error } = useQuery<GetFreightDailyFlowData>(GET_FREIGHT_DAILY_FLOW);
