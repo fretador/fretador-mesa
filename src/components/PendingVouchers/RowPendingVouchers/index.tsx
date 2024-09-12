@@ -14,7 +14,7 @@ const RowPendingVouchers = ({numberOfPhotos, freightCode, cte, driverName}: Pend
       <p className={styles.numberOfPhotos}>{numberOfPhotos} FOTOS</p>
       <p>#{freightCode}</p>
       <p>CTE {cte}</p>
-      <p>{driverName}</p>
+      <p className={styles.driverName}>{driverName}</p>
     </div>
   )
 }
