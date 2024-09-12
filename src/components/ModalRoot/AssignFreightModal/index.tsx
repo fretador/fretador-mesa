@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, KeyboardEvent } from "react";
 import ModalRoot from "../../ModalRoot";
 import styles from "./AssignFreight.module.css";
 
@@ -28,57 +28,64 @@ const mockDrivers: Driver[] = [
   },
 ];
 
+const removeCPFFormatting = (cpf: string): string => {
+  return cpf.replace(/[.-]/g, "");
+};
+
+const formatCPF = (cpf: string): string => {
+  const cleaned = removeCPFFormatting(cpf);
+  if (cleaned.length <= 3) return cleaned;
+  if (cleaned.length <= 6) return cleaned.replace(/^(\d{3})(\d{0,3})/, "$1.$2");
+  if (cleaned.length <= 9)
+    return cleaned.replace(/^(\d{3})(\d{3})(\d{0,3})/, "$1.$2.$3");
+  return cleaned.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2})/, "$1.$2.$3-$4");
+};
+
 const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
   isOpen,
   onRequestClose,
 }) => {
   const [cpfInput, setCpfInput] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [filteredDrivers, setFilteredDrivers] = useState<Driver[]>([]);
+  const [suggestions, setSuggestions] = useState<Driver[]>([]);
   const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
 
   useEffect(() => {
     if (cpfInput.length >= 2) {
-      const suggestions = mockDrivers.filter((driver) =>
-        driver.cpf.includes(cpfInput)
+      const unformattedInput = removeCPFFormatting(cpfInput);
+      const filteredSuggestions = mockDrivers.filter((driver) =>
+        removeCPFFormatting(driver.cpf).includes(unformattedInput)
       );
-      setSuggestions(suggestions.map((driver) => driver.cpf).slice(0, 4));
+      setSuggestions(filteredSuggestions);
     } else {
       setSuggestions([]);
+      setSelectedDriver(null);
     }
   }, [cpfInput]);
 
-  const updateSuggestions = (input: string) => {
-    const newSuggestions: string[] = [];
-    Object.entries(mockDrivers).forEach(([key, driver]) => {
-      if (driver.cpf.includes(input)) {
-        newSuggestions.push(driver.cpf);
-      }
-    });
-    setSuggestions(newSuggestions.slice(0, 4));
-  };
-
-  // Função para buscar motoristas (substitua pela sua lógica real)
-  const fetchDrivers = async (cpf: string) => {
-    const filtered = mockDrivers.filter((driver) => driver.cpf.includes(cpf));
-    setFilteredDrivers(filtered.slice(0, 4)); // Limitar a 4 resultados
-  };
-
   const handleCpfInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const cpf = event.target.value;
-    setCpfInput(cpf);
-    fetchDrivers(cpf);
+    const newValue = event.target.value;
+    setCpfInput(formatCPF(newValue));
+    if (newValue === "") {
+      setSelectedDriver(null);
+    }
   };
 
   const handleDriverSelect = (driver: Driver) => {
     setSelectedDriver(driver);
-    setFilteredDrivers([]);
+    setCpfInput(driver.cpf);
+    setSuggestions([]);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter" && suggestions.length === 1) {
+      handleDriverSelect(suggestions[0]);
+    }
   };
 
   const clearSelectedDriver = () => {
     setSelectedDriver(null);
     setCpfInput("");
-    setFilteredDrivers([]);
+    setSuggestions([]);
   };
 
   const handleConfirm = () => {
@@ -88,7 +95,6 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
 
   return (
     <ModalRoot isOpen={isOpen} onRequestClose={clearSelectedDriver}>
-      {/* <div className={styles.modalOverlay}> */}
       <div className={styles.modalContent}>
         <header className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>Direcionar Frete</h2>
@@ -97,36 +103,39 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
           <label className={styles.label} htmlFor="cpfInput">
             CPF Motorista
           </label>
-          <input
-            type="text"
-            id="cpfInput"
-            value={cpfInput}
-            onChange={handleCpfInputChange}
-            className={styles.input}
-            placeholder="Digite o CPF do motorista"
-          />
-          {filteredDrivers.length > 0 && (
-            <div className={styles.autocompleteResults}>
-              {filteredDrivers.map((driver) => (
-                <div
-                  key={driver.cpf}
-                  onClick={() => handleDriverSelect(driver)}
-                  className={styles.driverBox}
-                >
-                  <p>
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              id="cpfInput"
+              value={cpfInput}
+              onChange={handleCpfInputChange}
+              onKeyDown={handleKeyDown}
+              className={styles.input}
+              placeholder="Digite o CPF do motorista"
+              maxLength={14}
+            />
+            {suggestions.length > 0 && !selectedDriver && (
+              <ul className={styles.suggestions}>
+                {suggestions.map((driver, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleDriverSelect(driver)}
+                    className={styles.suggestionItem}
+                  >
                     {driver.cpf} - {driver.name} - Placa {driver.plate}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
           {selectedDriver && (
             <div className={styles.driverDetails}>
               <h3>Dados do Motorista</h3>
               <p>Motorista: {selectedDriver.name}</p>
               <p>Veículo: {selectedDriver.plate}</p>
-              <p>Placa: {selectedDriver.plate}</p>
-              <p>Placa do Cavalo: {selectedDriver.plate}</p>
+              {/* TODO: add when app 2.0 will be ready */}
+              {/* <p>Placa 1: {selectedDriver.plate}</p> */}
+              {/* <p>Placa 2: {selectedDriver.plate}</p> */}
             </div>
           )}
         </div>
@@ -134,7 +143,6 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
           Confirmar
         </button>
       </div>
-      {/* </div> */}
     </ModalRoot>
   );
 };
