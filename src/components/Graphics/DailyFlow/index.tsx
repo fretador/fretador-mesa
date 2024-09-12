@@ -2,14 +2,10 @@ import { useQuery } from '@apollo/client';
 import { GET_FREIGHT_DAILY_FLOW } from '@/graphql/queries/graphQueries';
 import { PieChart } from '@mui/x-charts/PieChart';
 import styles from './DailyFlow.module.css';
-
-interface DailyFlowProps {
-  newFreights: number;
-  cancelledFreights: number;
-}
+import { GetFreightDailyFlowData } from '@/utils/types/graphTypes'; 
 
 const DailyFlow = () => {
-  const { data, loading, error } = useQuery(GET_FREIGHT_DAILY_FLOW);
+  const { data, loading, error } = useQuery<GetFreightDailyFlowData>(GET_FREIGHT_DAILY_FLOW);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -22,10 +18,7 @@ const DailyFlow = () => {
   return (
     <div className={styles.container}>
       <p>FLUXO DIÁRIO</p>
-
       <div className={styles.graphicsContainer}>
-
-        {/* Cancelled Freights Graphic */}
         <div className={styles.graphic}>
           <h4>Fretes Cancelados</h4>
           <PieChart
@@ -50,7 +43,6 @@ const DailyFlow = () => {
           <p>{cancelledFreightsPercentage}%</p>
         </div>
 
-        {/* New Freights Graphic */}
         <div className={styles.graphic}>
           <h4>Novos Fretes</h4>
           <PieChart
@@ -66,7 +58,7 @@ const DailyFlow = () => {
                 paddingAngle: 3,
                 cornerRadius: 5,
                 startAngle: 0,
-                cx: 100
+                cx: 100,
               },
             ]}
             width={200}
@@ -74,10 +66,8 @@ const DailyFlow = () => {
           />
           <p>{newFreights}</p>
         </div>
-
       </div>
     </div>
-
   );
 };
 
