@@ -54,3 +54,22 @@ export const GET_PENDING_APPROVAL_FREIGHTS = gql`
 		}
 	}
 `;
+
+// Query para obter a quantidade de ocorrências por status
+export const GET_OCCURRENCES_STATUS_COUNT = gql`
+	query GetOccurrencesStatusCount {
+		getOccurrencesStatusCount {
+			resolved
+			unresolved
+		}
+	}
+`;
+
+// Query para obter a quantidade de novos motoristas
+export const GET_NEW_DRIVERS_COUNT = gql`
+	query GetNewDriversCount {
+		getNewDriversCount {
+			newDrivers
+		}
+	}
+`;
