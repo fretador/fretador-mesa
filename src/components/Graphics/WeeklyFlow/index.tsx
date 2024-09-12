@@ -26,6 +26,12 @@ const WeeklyFlow = () => {
           data={weeklyData}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
+          <defs>
+            <linearGradient id="colorFluxo" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="25%" stopColor="#1B556D" stopOpacity={0.95} />
+              <stop offset="95%" stopColor="#1B556D" stopOpacity={0.8} />
+            </linearGradient>
+          </defs>
           <XAxis dataKey="name" stroke="#000" tick={{ fill: '#000' }} />
           <YAxis stroke="#000" tick={{ fill: '#000' }} />
           <Tooltip />
