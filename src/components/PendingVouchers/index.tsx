@@ -3,9 +3,10 @@ import { GET_PENDING_APPROVAL_FREIGHTS } from '@/graphql/queries/graphQueries';
 import RowPendingVouchers from './RowPendingVouchers';
 import { ArrowRightIcon } from '@/utils/icons';
 import styles from './PendingVouchers.module.css';
+import { GetPendingApprovalFreightsData } from '@/utils/types/graphTypes'; 
 
 const PendingVouchers = () => {
-  const { data, loading, error } = useQuery(GET_PENDING_APPROVAL_FREIGHTS);
+  const { data, loading, error } = useQuery<GetPendingApprovalFreightsData>(GET_PENDING_APPROVAL_FREIGHTS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -20,7 +21,7 @@ const PendingVouchers = () => {
     <div className={styles.container}>
       <p className={styles.title}>Comprovantes de entrega para aprovar</p>
 
-      {pendingFreights.map((freight: any) => (
+      {pendingFreights.map((freight) => (
         <RowPendingVouchers
           key={freight.freightCode}
           numberOfPhotos={freight.photosCount}

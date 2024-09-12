@@ -5,7 +5,7 @@ import { ArrowRightIcon } from "@/utils/icons";
 type TitleOption = "fretes em andamento" | "ocorrências" | "novos cadastros" | "cargas em aberto"
 
 interface ElementsProps {
-  number: string,
+  number: number,
   title: TitleOption,
   src: string
 }
