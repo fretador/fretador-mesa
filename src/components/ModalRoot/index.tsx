@@ -19,6 +19,8 @@ const ModalRoot: React.FC<ModalRootProps> = ({
       onRequestClose={onRequestClose}
       className={styles.modal}
       overlayClassName={styles.overlay}
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
     >
       {children}
     </ReactModal>
