@@ -1,11 +1,4 @@
 import { gql } from "@apollo/client";
-import {
-	GetFreightCountByStatusData,
-	GetFreightWeeklyFlowData,
-	GetFreightDailyFlowData,
-	GetFreightStatisticsData,
-	GetPendingApprovalFreightsData,
-} from "@/utils/types/graphTypes";
 
 // Query para obter a contagem de fretes por status
 export const GET_FREIGHT_COUNT_BY_STATUS = gql`
