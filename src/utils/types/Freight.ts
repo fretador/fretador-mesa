@@ -1,5 +1,5 @@
 import { FreightDocument } from "./FreightDocument";
-import { RequestingUser } from "./RequestingUser";
+import { RequestingDriver } from "./RequestingDriver";
 import { Photo, PhotoHistory } from "./Photo";
 import { StatusHistoryItem } from "./StatusHistory";
 import { BoardUser } from "./BoardUser";
@@ -43,7 +43,7 @@ export interface Freight {
 	packageDescription: string;
 	packageWeight: number;
 	pickupOrderPhoto: string | null;
-	requestingUsers: Record<string, RequestingUser>;
+	requestingUsers: Record<string, RequestingDriver>;
 	status: string;
 	statusWeight: number;
 	statusHistory: StatusHistoryItem[];
