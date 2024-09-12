@@ -1,11 +1,4 @@
 import { gql } from "@apollo/client";
-import {
-	GetFreightCountByStatusData,
-	GetFreightWeeklyFlowData,
-	GetFreightDailyFlowData,
-	GetFreightStatisticsData,
-	GetPendingApprovalFreightsData,
-} from "@/utils/types/graphTypes";
 
 // Query para obter a contagem de fretes por status
 export const GET_FREIGHT_COUNT_BY_STATUS = gql`
@@ -58,6 +51,25 @@ export const GET_PENDING_APPROVAL_FREIGHTS = gql`
 			photosCount
 			docsCount
 			totalCount
+		}
+	}
+`;
+
+// Query para obter a quantidade de ocorrências por status
+export const GET_OCCURRENCES_STATUS_COUNT = gql`
+	query GetOccurrencesStatusCount {
+		getOccurrencesStatusCount {
+			resolved
+			unresolved
+		}
+	}
+`;
+
+// Query para obter a quantidade de novos motoristas
+export const GET_NEW_DRIVERS_COUNT = gql`
+	query GetNewDriversCount {
+		getNewDriversCount {
+			newDrivers
 		}
 	}
 `;

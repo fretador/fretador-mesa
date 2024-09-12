@@ -52,3 +52,22 @@ export interface PendingApprovalFreight {
 export interface GetPendingApprovalFreightsData {
 	getPendingApprovalFreights: PendingApprovalFreight[];
 }
+
+// Tipos para getOccurrencesStatusCount
+export interface OccurrencesStatusCount {
+	resolved: number;
+	unresolved: number;
+}
+
+export interface GetOccurrencesStatusCountData {
+	getOccurrencesStatusCount: OccurrencesStatusCount;
+}
+
+// Tipos para getNewDriversCount
+export interface NewDriversCount {
+	newDrivers: number;
+}
+
+export interface GetNewDriversCountData {
+	getNewDriversCount: NewDriversCount;
+}

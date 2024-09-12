@@ -2,8 +2,8 @@ import React from "react";
 import styles from './RowPendingVouchers.module.css'
 
 interface PendingVouchersInterface {
-  numberOfPhotos: string,
-  freightCode: string,
+  numberOfPhotos: number,
+  freightCode: number,
   cte: string,
   driverName: string
 }
