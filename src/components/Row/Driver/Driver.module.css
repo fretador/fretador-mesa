@@ -1,0 +1,17 @@
+.driverContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.driverImage {
+  border-radius: 40px;
+}
+
+.driverName {
+  text-transform: uppercase;
+  max-width: 213px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,29 +1,48 @@
+import CityState from "./CityState";
+import Cnpj from "./Cnpj";
+import CorporateName from "./CorporateName";
 import Cte from "./Cte";
+import Customer from "./Customer";
+import CustomerEmail from "./CustomerEmail";
 import Driver from "./Driver";
+import DriverStatus from "./DriverStatus";
 import FreightCode from "./FreightCode";
 import FreightDate from "./FreightDate";
+import FreightStatus from "./FreightStatus";
+import OccurrenceDate from "./OccurrenceDate";
+import OccurrenceStatus from "./OccurrenceStatus";
+import OccurrenceType from "./OccurrenceType";
+import PaymentDate from "./PaymentDate";
+import PaymentMethod from "./PaymentMethod";
 import Route from "./Route";
 import RowRoot from "./RowRoot";
-import FreightStatus from "./FreightStatus";
-import OccurrenceType from "./OccurrenceType";
-import CustomerEmail from "./CustomerEmail";
-import Customer from "./Customer";
 import TradeName from "./TradeName";
-
-
+import Value from "./Value";
+import Vehicle from "./Vehicle";
+import WhatsApp from "./WhatsApp";
 
 
 export const Row = {
   Root: RowRoot,
-  FreightDate: FreightDate,
-  FreightCode: FreightCode,
-  Customer: Customer,
-  TradeName: TradeName,
-  Route: Route,
+  CityState: CityState,
+  Cnpj: Cnpj,
+  CorporateName: CorporateName,
   Cte: Cte,
-  Driver: Driver,
-  OccurrenceType: OccurrenceType,
+  Customer: Customer,
   CustomerEmail: CustomerEmail,
-  FreightStatus: FreightStatus
+  Driver: Driver,
+  DriverStatus: DriverStatus,
+  FreightCode: FreightCode,
+  FreightDate: FreightDate,
+  FreightStatus: FreightStatus,
+  OccurrenceDate: OccurrenceDate,
+  OccurrenceStatus: OccurrenceStatus,
+  OccurrenceType: OccurrenceType,
+  PaymentDate: PaymentDate,
+  PaymentMethod: PaymentMethod,
+  Route: Route,
+  TradeName: TradeName,
+  Value: Value,
+  Vehicle: Vehicle,
+  WhatsApp: WhatsApp
 };
-

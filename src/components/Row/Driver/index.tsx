@@ -1,29 +1,46 @@
 import React from "react";
-import styles from './driver.module.css'
+import styles from './Driver.module.css';
 import Image from "next/image";
 
 interface DriverProps {
   driverPhotoUrl?: string,
-  driverName: string
+  driverName: string,
+  showImage?: boolean,
+  textColor?: string; 
+  textFontWeight?: string;
 }
 
-const Driver = ({ driverPhotoUrl, driverName }: DriverProps) => {
-  return (
-    <div className={styles.container}>
+const Driver = ({ driverPhotoUrl, driverName, showImage = false, textColor, textFontWeight }: DriverProps) => {
 
-      {driverPhotoUrl && (
-        <Image
-          src={driverPhotoUrl}
-          alt={driverName}
-          width={40}
-          height={40}
-          className={styles.driverImage}
-        />
-      )}
+  const customTextStyle = {
+    color: textColor,
+    fontWeight: textFontWeight,
+  };
 
-      <p className={styles.driverName}>{driverName}</p>
-    </div>
-  )
+  const src = driverPhotoUrl || '/driver-mock.png';
+
+  if (showImage) {
+    return (
+      <div className={styles.driverContainer}>
+        {driverPhotoUrl && (
+          <Image
+            loader={() => src}
+            src={src}
+            alt={driverName}
+            width={40}
+            height={40}
+            className={styles.driverImage}
+          />
+        )}
+
+        <p className={styles.driverName} style={customTextStyle}>{driverName}</p>
+      </div>
+    )
+  } else {
+    return (
+      <p className={styles.driverName} style={customTextStyle}>{driverName}</p>
+    )
+  }
 }
 
 export default Driver

@@ -21,6 +21,7 @@ const SidebarCompHeader: React.FC<SidebarCompHeaderProps> = ({ user }) => {
       </div>
       <div className={styles.userSection}>
         <CustomImage
+          data-testid="custom-image"
           src={user.profilePicture || defaultAvatar}
           alt="User avatar"
           width={48}

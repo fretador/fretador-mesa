@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './customerEmail.module.css';
+import styles from './CustomerEmail.module.css';
 
 interface CustomerEmailProps {
   email: string;
@@ -7,9 +7,7 @@ interface CustomerEmailProps {
 
 const CustomerEmail = ({ email }: CustomerEmailProps) => {
   return (
-    <div className={styles.container}>
-      <p className={styles.email}>{email}</p>
-    </div>
+    <p className={styles.email}>{email}</p>
   );
 };
 

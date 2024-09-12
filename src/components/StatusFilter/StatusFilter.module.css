@@ -1,0 +1,107 @@
+.container {
+  background-color: #e5e7eb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  width: 16rem;
+  margin-left: 72rem;
+  z-index: 9;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #1e40af;
+}
+
+.searchContainer {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.5rem 2rem;
+  border-radius: 0.25rem;
+  border: 1px solid #d1d5db;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.625rem;
+  color: #9ca3af;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox {
+  margin-right: 0.5rem;
+}
+
+.checkboxLabel {
+  color: #374151;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.applyButton {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+.applyButton:hover {
+  background-color: #2563eb;
+}
+
+.cancelButton {
+  background-color: #d1d5db;
+  color: #374151;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  background-color: #9ca3af;
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.paginationButton {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+.paginationButton:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  font-weight: bold;
+}

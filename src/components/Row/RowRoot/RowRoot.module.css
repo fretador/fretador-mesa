@@ -1,0 +1,37 @@
+.container {
+  width: 1257px;
+  height: 56px;
+  margin: 0 auto;
+  background-color: #FAFDFD;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content p {
+  flex: 1;
+  text-align: left;
+  margin: 0 15px;
+  min-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content div {
+  flex: 1;
+  /* text-align: left; */
+  margin: 0 15px;
+  min-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

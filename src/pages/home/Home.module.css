@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100vh;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #BCBCBC 0%, #FFF 100%);
+  position: relative;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 16vw);
+  margin-left: 10vw;
+  transition: width 0.3s, margin-left 0.3s;
+  box-sizing: border-box;
+}
+
+.retractedContentWrapper {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 6vw);
+  transition: width 0.3s, margin-left 0.3s;
+  box-sizing: border-box;
+}
+
+.header {
+  width: 100%;
+}
+
+.content {
+  flex: 1;
+  padding: 0.5rem;
+}
+
+.highlightDashboardContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.daylyAndWeeklyCharts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 48px;
+}
+
+.pieCharts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 36px;
+  margin-bottom: 42px;
+}
+
+.addFreightButton {
+  position: fixed;
+  bottom: 3%;
+  right: 3%;
+  z-index: 1;
+}

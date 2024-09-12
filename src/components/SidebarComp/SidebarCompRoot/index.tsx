@@ -7,9 +7,14 @@ import { toggleSidebar } from "@/store/slices/sidebarSlice";
 interface SideBarProps {
   children: ReactNode;
   user: BoardUser;
+  className?: string;
 }
 
-const SidebarCompRoot: React.FC<SideBarProps> = ({ children, user }) => {
+const SidebarCompRoot: React.FC<SideBarProps> = ({
+  children,
+  user,
+  className,
+}) => {
   const dispatch = useAppDispatch();
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
 
@@ -21,7 +26,7 @@ const SidebarCompRoot: React.FC<SideBarProps> = ({ children, user }) => {
     <nav
       className={`${styles.sidebar} ${
         isRetracted ? styles.retracted : styles.not_retracted
-      }`}
+      } ${className || ""}`}
       data-testid="side-bar"
     >
       {children}

@@ -13,14 +13,26 @@
     "tdd": "jest --watch --coverage"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.4",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@hookform/resolvers": "^3.9.0",
+    "@mui/material": "^5.16.7",
+    "@mui/x-charts": "^7.14.0",
     "@reduxjs/toolkit": "^2.2.7",
     "@svgr/webpack": "^8.1.0",
+    "framer-motion": "^11.3.31",
+    "graphql": "^16.9.0",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.53.0",
     "react-icons": "^5.2.1",
+    "react-modal": "^3.16.1",
     "react-redux": "^9.1.2",
-    "redux": "^5.0.1"
+    "recharts": "^2.12.7",
+    "redux": "^5.0.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -34,6 +46,7 @@
     "@types/node": "^20",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/react-modal": "^3.16.3",
     "@types/react-redux": "^7.1.33",
     "@types/redux-mock-store": "^1.0.6",
     "@types/testing-library__react": "^10.2.0",

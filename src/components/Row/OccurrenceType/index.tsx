@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './ocurrenceType.module.css';
+import styles from './OcurrenceType.module.css';
 
 interface OccurrenceTypeProps {
   occurrenceType: string;
@@ -7,9 +7,7 @@ interface OccurrenceTypeProps {
 
 const OccurrenceType = ({ occurrenceType }: OccurrenceTypeProps) => {
   return (
-    <div className={styles.container}>
-      <p className={styles.occurrenceType}>{occurrenceType}</p>
-    </div>
+    <p className={styles.occurrenceType}>{occurrenceType}</p>
   );
 };
 

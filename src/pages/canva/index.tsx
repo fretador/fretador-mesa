@@ -1,43 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
-import { SidebarComp } from "@/components/SidebarComp";
-import SidebarCompRoot from "@/components/SidebarComp/SidebarCompRoot";
 import Body from "@/components/Body";
 import styles from "./Canva.module.css";
 import { Row } from "@/components/Row";
 import { useAppSelector } from "@/store/store";
-import { mockBoardUsers } from "@/utils/mocks/mockBoardUsers";
+import Sidebar from "@/components/Sidebar";
+import RowTitle from "@/components/RowTitle";
+import AssignFreightModal from "@/components/ModalRoot/AssignFreightModal"; 
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <div className={styles.container}>
-      <Header />
-      <div className={styles.main}>
-        <SidebarComp.Root user={mockBoardUsers[0]}>
-          <SidebarComp.Header user={mockBoardUsers[0]} />
-        </SidebarComp.Root>
-        <div
-          className={
-            isRetracted ? styles.contentRetracted : styles.contentExpanded
-          }
-        >
+      {/* <Sidebar /> */}
+
+      <div
+        className={
+          isRetracted ? styles.retractedContentWrapper : styles.contentWrapper
+        }
+      >
+        <div className={styles.header}>
+          <Header title="Canva" />
+        </div>
+        <div className={styles.content}>
           <Body>
-            <Row.Root>
-              <Row.FreightDate date={new Date()} />
+            <RowTitle
+              FreightDate="DATA"
+              FreightCode="CÓDIGO"
+              Cte="CTE"
+              Route="ROTA"
+              Customer="CLIENTE"
+              Driver="MOTORISTA"
+              FreightStatus="STATUS"
+            />
+            <Row.Root freightStatus="DISPONIVEL">
+              <Row.FreightDate date={new Date().toLocaleDateString()} />
+              <Row.FreightCode code={"ABC123"} />
               <Row.Cte cte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
-              <Row.FreightCode code={"ABC123"} />
-              <Row.OccurrenceType occurrenceType={'Reclamação'}/>
-              <Row.CustomerEmail email={'biscoito.bolachasp@biscoitosxablau.com.br'}/>
-              <Row.FreightCode code={'ABC123'}/>
-              <Row.Customer customerName={'Joaquim José da Silva Xavier'}/>
-              <Row.TradeName tradeName={'BRASIL LOG TRANSPORTADORA'}/>
-
+              <Row.Customer customerName={"Joaquim José da Silva Xavier"} />
+              <Row.Driver driverName="João Pedro do Nascimento" />
+              <Row.FreightStatus freightStatus="DISPONIVEL" />
             </Row.Root>
           </Body>
+          <button onClick={toggleModal} className={styles.openModalButton}>
+            Direcionar Frete
+          </button>
+
+          {/* Renderizando o novo modal AssignFreight */}
+          <AssignFreightModal
+            isOpen={isModalOpen}
+            onRequestClose={toggleModal}
+          />
         </div>
       </div>
     </div>

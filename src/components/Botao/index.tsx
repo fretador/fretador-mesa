@@ -3,12 +3,23 @@ import styles from "./botao.module.css";
 
 interface BotaoProps {
   text: string;
-  onClick: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: "button" | "submit" | "reset";
+  className?: string;
 }
 
-const Botao: React.FC<BotaoProps> = ({ text, onClick }) => {
+const Botao: React.FC<BotaoProps> = ({
+  text,
+  onClick,
+  type = "button",
+  className,
+}) => {
   return (
-    <button className={styles.botao} onClick={onClick}>
+    <button
+      className={`${styles.botao} ${className}`}
+      onClick={onClick}
+      type={type}
+    >
       {text}
     </button>
   );

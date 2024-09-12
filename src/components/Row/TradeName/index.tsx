@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './tradeName.module.css';
+import styles from './TradeName.module.css';
 
 interface TradeNameProps {
   tradeName: string;
@@ -7,9 +7,7 @@ interface TradeNameProps {
 
 const TradeName = ({ tradeName }: TradeNameProps) => {
   return (
-    <div className={styles.container}>
-      <p className={styles.tradeName}>{tradeName}</p>
-    </div>
+    <p className={styles.tradeName}>{tradeName}</p>
   );
 };
 

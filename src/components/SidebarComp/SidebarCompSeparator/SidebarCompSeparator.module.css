@@ -1,0 +1,27 @@
+.separator_container {
+  height: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.separator {
+  width: 60%;
+  margin: 0.5rem auto;
+  border: 0;
+  border-top: 1px solid #1B556D;
+  opacity: 0.5;
+  position: relative;
+}
+
+@media (min-height: 800px) {
+  .separator_container {
+    height: 48px;
+  }
+}
+
+@media (min-height: 1000px) {
+  .separator_container {
+    height: 64px;
+  }
+}

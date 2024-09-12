@@ -1,120 +1,98 @@
-import React from "react";
-import Image from "next/image";
+import { mockBoardUsers } from "@/utils/mocks/mockBoardUsers";
+import { SidebarComp } from "../SidebarComp";
 import {
-  HomeIcon,
-  TruckIcon,
-  PersonAddIcon,
-  PeopleIcon,
-  WarningIcon,
   FinanceIcon,
+  HelpIcon,
+  HomeIcon,
+  LogoutIcon,
+  PersonAddIcon,
   SettingsIcon,
   SupportIcon,
-  HelpIcon,
-  LogoutIcon,
+  TruckIcon,
+  WarningIcon,
+  ClientsBook,
 } from "@/utils/icons";
-import FretadorIcon from "@/assets/images/fretadorIcon.svg";
-import defaultAvatar from "@/assets/images/avatar.jpg";
+import { useAppSelector } from "@/store/store";
 import styles from "./Sidebar.module.css";
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { toggleSidebar } from "@/store/slices/sidebarSlice";
+import { useRouter } from "next/router";
 
-interface SidebarProps {
-  user: string;
-  avatarUrl?: string;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ user, avatarUrl }) => {
-  const dispatch = useAppDispatch();
+const Sidebar: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const router = useRouter();
 
-  const handleToggle = () => {
-    dispatch(toggleSidebar());
-  };
+  // Extrai o nome da rota atual e converte para caixa alta
+  const routeName = router.pathname.replace("/", "").toUpperCase();
 
   return (
-    <nav
-      className={`${styles.sidebar} ${
-        isRetracted ? styles.retracted : styles.not_retracted
-      }`}
-      data-testid="side-bar"
+    <SidebarComp.Root
+      user={mockBoardUsers[0]}
+      className={isRetracted ? styles.retracted : styles.sidebar}
     >
-      <div className={styles.header}>
-        <FretadorIcon className={styles.logo} />
-      </div>
-      <div className={styles.userSection}>
-        <Image
-          src={avatarUrl || defaultAvatar}
-          alt="User avatar"
-          width={48}
-          height={48}
-          className={styles.avatar}
+      <SidebarComp.Header user={mockBoardUsers[0]} />
+      <SidebarComp.List>
+        <SidebarComp.Item
+          icon={<HomeIcon />}
+          text="HOME"
+          isRetracted={isRetracted}
+          isFocused={routeName === "HOME"}
         />
-        {!isRetracted && <p data-testid="user-greeting">Olá, {user}!</p>}
-      </div>
-      <ul className={styles.navList}>
-        <li className={styles.navItem}>
-          <HomeIcon className={styles.icon} data-testid="icon-home" />
-          {!isRetracted && <span data-testid="text-home">Home</span>}
-        </li>
-        <li className={styles.navItem}>
-          <TruckIcon className={styles.icon} data-testid="icon-truck" />
-          {!isRetracted && <span data-testid="text-truck">Meus Fretes</span>}
-        </li>
-        <li className={styles.navItem}>
-          <PersonAddIcon className={styles.icon} data-testid="icon-drivers" />
-          {!isRetracted && <span data-testid="text-drivers">Motoristas</span>}
-        </li>
-        <li className={styles.navItem}>
-          <PeopleIcon className={styles.icon} data-testid="icon-clients" />
-          {!isRetracted && <span data-testid="text-clients">Clientes</span>}
-        </li>
-        <li className={styles.navItem}>
-          <WarningIcon className={styles.icon} data-testid="icon-incidents" />
-          {!isRetracted && (
-            <span data-testid="text-incidents">Ocorrências</span>
-          )}
-        </li>
-        <li className={styles.navItem}>
-          <FinanceIcon className={styles.icon} data-testid="icon-finance" />
-          {!isRetracted && <span data-testid="text-finance">Financeiro</span>}
-        </li>
-      </ul>
-      <div className={styles.separator_container}>
-        {!isRetracted && <hr className={styles.separator} />}
-      </div>
-      <ul className={styles.navList}>
-        <li className={styles.navItem}>
-          <SettingsIcon className={styles.icon} data-testid="icon-settings" />
-          {!isRetracted && (
-            <span data-testid="text-settings">Configurações</span>
-          )}
-        </li>
-        <li className={styles.navItem}>
-          <SupportIcon className={styles.icon} data-testid="icon-support" />
-          {!isRetracted && <span data-testid="text-support">Atendimento</span>}
-        </li>
-        <li className={styles.navItem}>
-          <HelpIcon className={styles.icon} data-testid="icon-help" />
-          {!isRetracted && <span data-testid="text-help">Ajuda</span>}
-        </li>
-        <li className={styles.navItem}>
-          <LogoutIcon className={styles.icon} data-testid="icon-logout" />
-          {!isRetracted && <span data-testid="text-logout">Deslogar</span>}
-        </li>
-      </ul>
-      <div
-        className={`${styles.tab} ${
-          isRetracted ? styles.sidebarRetracted : styles.sidebarExpanded
-        } ${isRetracted ? styles.transparentTab : ""}`}
-        onClick={handleToggle}
-      >
-        <div
-          className={`${styles.tabContent} ${
-            isRetracted ? styles.retractedClipPath : styles.expandedClipPath
-          }`}
-        ></div>
-      </div>
-    </nav>
+        <SidebarComp.Item
+          icon={<TruckIcon />}
+          text="FRETES"
+          isRetracted={isRetracted}
+          isFocused={routeName === "FRETES"}
+        />
+        <SidebarComp.Item
+          icon={<PersonAddIcon />}
+          text="MOTORISTAS"
+          isRetracted={isRetracted}
+          isFocused={routeName === "MOTORISTAS"}
+        />
+        <SidebarComp.Item
+          icon={<ClientsBook />}
+          text="CLIENTES"
+          isRetracted={isRetracted}
+          isFocused={routeName === "CLIENTES"}
+        />
+        <SidebarComp.Item
+          icon={<HelpIcon />}
+          text="OCORRÊNCIAS"
+          isRetracted={isRetracted}
+          isFocused={routeName === "OCORRENCIAS"}
+        />
+        <SidebarComp.Item
+          icon={<FinanceIcon />}
+          text="FINANCEIRO"
+          isRetracted={isRetracted}
+          isFocused={routeName === "FINANCEIRO"}
+        />
+        <SidebarComp.Separator isRetracted={isRetracted} />
+        <SidebarComp.Item
+          icon={<SettingsIcon />}
+          text="CONFIGURAÇÕES"
+          isRetracted={isRetracted}
+          isFocused={routeName === "CONFIGURACOES"}
+        />
+        <SidebarComp.Item
+          icon={<SupportIcon />}
+          text="ATENDIMENTO"
+          isRetracted={isRetracted}
+          isFocused={routeName === "ATENDIMENTO"}
+        />
+        <SidebarComp.Item
+          icon={<HelpIcon />}
+          text="AJUDA"
+          isRetracted={isRetracted}
+          isFocused={routeName === "AJUDA"}
+        />
+        <SidebarComp.Item
+          icon={<LogoutIcon />}
+          text="DESLOGAR"
+          isRetracted={isRetracted}
+          isFocused={routeName === "DESLOGAR"}
+        />
+      </SidebarComp.List>
+    </SidebarComp.Root>
   );
 };
 

@@ -1,0 +1,137 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 240px;
+  position: relative;
+}
+
+.inputContainer input {
+  padding: 12px 10px;
+  width: 413px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 2px solid #1A556D;
+  background: #FFF;
+  outline: none;
+  color: #1A556D;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.inputContainer input::placeholder {
+  color: #1A556D;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.checkIcon {
+  position: absolute;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+}
+
+.passwordToggleIcon {
+  position: absolute;
+  right: 10px;
+  top: 43%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: 100ms linear;
+}
+
+.optionsUnderForms {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkboxContainer label,
+.checkboxContainer input {
+  cursor: pointer;
+}
+
+.checkboxContainer label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkboxContainer input {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.forgotPasswordContainer a {
+  color: #1A556D;
+  font-size: 16px;
+  font-weight: 300;
+  text-decoration-line: underline;
+  transition:150ms linear;
+}
+
+.forgotPasswordContainer a:hover {
+  color: #2b86a9;
+}
+
+.buttonSubmitContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonSubmit {
+  border: none;
+  margin-top: 66px;
+  width: 328px;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background: #1A556D;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: 200ms linear;
+  position: relative;
+}
+
+.buttonSubmit[disabled] {
+  background-color: transparent;
+  color: transparent;
+  cursor: not-allowed;
+}
+
+.buttonSubmit:hover {
+  background-color: #2b86a9;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+}
+
+.errorMessage {
+  font-size: 16px;
+  font-weight: 300;
+  color: #BF1231;
+  margin-top: 26px;
+  margin-bottom: -12px;
+}

@@ -1,6 +1,10 @@
 .body {
-  flex: 1;
-  padding: 2rem;
-  background-color: #f0f0f0;
+  /* flex: 1; */
+  /* padding: 2rem; */
+  /* background-color: #FAFDFD; */
+  padding-top: .5rem;
   overflow: hidden;
+  /* width: 80vw; */
+  max-width: 1264px;
+  margin: 0 auto;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './route.module.css'
+import styles from './Route.module.css';
 
 interface RouteProps {
   originState: string,

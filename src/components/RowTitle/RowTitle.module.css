@@ -1,0 +1,25 @@
+.container {
+  min-width: 1257px;
+  margin: 16px auto;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content p {
+  flex: 1;
+  text-align: left;
+  margin: 0 15px;
+  min-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 700;
+}
