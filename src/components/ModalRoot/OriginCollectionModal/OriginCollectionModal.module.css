@@ -5,7 +5,7 @@
     width: 500px;
     height: auto;
     background-color: white;
-    border-radius: 8px;
+
     overflow: hidden;
 }
 
@@ -13,8 +13,7 @@
     width: 100%;
     background-color: #1A556D;
     padding: 15px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+
 }
 
 .modalTitle {
