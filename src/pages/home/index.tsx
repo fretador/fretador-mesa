@@ -19,8 +19,6 @@ const Home: React.FC = () => {
 
   const routeName = router.pathname.replace("/", "").toUpperCase();
 
-  const values = [10,20,30]
-
   return (
     <AuthenticatedLayout>
       <div className={styles.container}>
@@ -47,13 +45,12 @@ const Home: React.FC = () => {
 
               <div className={styles.daylyAndWeeklyCharts}>
                 <WeeklyFlow />
-                <DailyFlow cancelledFreights={400} newFreights={60} />
+                <DailyFlow />
               </div>
 
               <div className={styles.pieCharts}>
                 <PendingVouchers />
-                <FreightSummary values={values} />
-                {/* <FreightSummary values={values} /> */}
+                <FreightSummary />
               </div>
 
               <div className={styles.addFreightButton}>
