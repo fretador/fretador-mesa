@@ -13,7 +13,12 @@ const FreightInProgress: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
 
-  const routeName = router.pathname.replace("/", "").toUpperCase();
+  const routeName = router.pathname.replace("/", "").replaceAll("-", " ").toUpperCase();
+
+
+
+
+
 
   return (
     <AuthenticatedLayout>
