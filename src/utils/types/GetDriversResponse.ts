@@ -4,7 +4,7 @@ import { PageInfo } from "./PageInfo";
 export interface GetDriversResponse {
 	edges: DriverNode[];
 	pageInfo: PageInfo;
-	freights: {
+	drivers: {
 		edges: DriverNode[];
 		pageInfo: PageInfo;
 	};
