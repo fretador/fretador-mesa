@@ -8,6 +8,8 @@ import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
+import FreightInCurseHeader from "@/components/FreightInCurseHeader";
+import { SeparatorIcon } from "@/utils/icons";
 
 const FreightInProgress: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -39,6 +41,20 @@ const FreightInProgress: React.FC = () => {
             <Body>
               <div>
                 <SearchComponent />
+              </div>
+
+              <div className={styles.freightInCurseContainer}>
+                <FreightInCurseHeader
+                  freightCode="14123" 
+                  statusFreight="em trânsito"
+                  driverName="Gilberto Marcha Lenta"
+                  cityOrigin="São Paulo"
+                  stateOrigin="SP"
+                  cityDestiny="Itarema"
+                  stateDestiny="CE"
+                />
+
+                <SeparatorIcon />
               </div>
             </Body>
           </div>
