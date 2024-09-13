@@ -24,7 +24,7 @@ const AwaitingApprovalCard = ({driverName, driverStatus, vehicle, contact, handl
 
       <div className={styles.statusContainer}>
         <p className={styles.title}>Status:</p>
-        <p className={styles.value}>{driverStatus}</p>
+        <p className={styles.value}>{driverStatus === "PENDING" ? "Pendente" : driverStatus }</p>
       </div>
 
       <div className={styles.vehicleContainer}>
