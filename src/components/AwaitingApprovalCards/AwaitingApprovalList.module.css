@@ -4,5 +4,6 @@
   white-space: nowrap;
   gap: 16px;
   scrollbar-width: none;
+  user-select: none;
   /* scrollbar-width: thin; */
 }
