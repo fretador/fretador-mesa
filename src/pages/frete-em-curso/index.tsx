@@ -10,6 +10,7 @@ import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
 import FreightInCurseHeader from "@/components/FreightInCurseHeader";
 import { SeparatorIcon } from "@/utils/icons";
+import FreightInCurseOptions from "@/components/FreightInCurseOptions";
 
 const FreightInProgress: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -55,6 +56,11 @@ const FreightInProgress: React.FC = () => {
                 />
 
                 <SeparatorIcon />
+
+                <div className={styles.freightInCurseOptionsContainer}>
+                  <h2>Dados do embarque:</h2>
+                  <FreightInCurseOptions />
+                </div>
               </div>
             </Body>
           </div>
