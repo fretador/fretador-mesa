@@ -20,6 +20,10 @@ import MagniFyingGlass from "@/assets/icons/magnifyingGlass.svg"
 import VerticalDots from "@/assets/icons/verticalDots.svg"
 import LogoWhatsapp from "@/assets/icons/logoWhatsapp.svg"
 import Separator from "@/assets/icons/separator.svg"
+import Pencil from "@/assets/icons/pencil.svg"
+import PaperClip from "@/assets/icons/paperClip.svg"
+import Danger from "@/assets/icons/danger.svg"
+import WhatsApp from "@/assets/icons/whatsapp.svg"
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -43,3 +47,7 @@ export const ShipmentCheckIcon = ShipmentCheck
 export const VerticalDotsIcon = VerticalDots
 export const LogoWhatsAppIcon = LogoWhatsapp
 export const SeparatorIcon = Separator
+export const PencilIcon = Pencil
+export const PaperClipIcon = PaperClip
+export const DangerIcon = Danger
+export const WhatsAppIcon = WhatsApp

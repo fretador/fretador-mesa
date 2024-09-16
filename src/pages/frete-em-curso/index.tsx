@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
@@ -10,6 +10,7 @@ import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
 import FreightInCurseHeader from "@/components/FreightInCurseHeader";
 import { SeparatorIcon } from "@/utils/icons";
+import ProgressBar from "@/components/ProgressBar";
 
 const FreightInProgress: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -17,10 +18,16 @@ const FreightInProgress: React.FC = () => {
 
   const routeName = router.pathname.replace("/", "").replaceAll("-", " ").toUpperCase();
 
+  // Definir o estado do estágio atual do frete
+  const [currentStage, setCurrentStage] = useState(0); // Inicializa com o estágio 0
 
-
-
-
+  // Simular a atualização do estágio atual do frete com dados mockados
+  useEffect(() => {
+    // Simula a atualização do estágio após 2 segundos
+    setTimeout(() => {
+      setCurrentStage(3); // Atualiza para o estágio 3 (Em rota)
+    }, 2000);
+  }, []);
 
   return (
     <AuthenticatedLayout>
@@ -45,7 +52,7 @@ const FreightInProgress: React.FC = () => {
 
               <div className={styles.freightInCurseContainer}>
                 <FreightInCurseHeader
-                  freightCode="14123" 
+                  freightCode="14123"
                   statusFreight="em trânsito"
                   driverName="Gilberto Marcha Lenta"
                   cityOrigin="São Paulo"
@@ -55,6 +62,12 @@ const FreightInProgress: React.FC = () => {
                 />
 
                 <SeparatorIcon />
+
+                {/* Adicionar a barra de progresso aqui */}
+                <ProgressBar currentStage={currentStage} />
+                
+                <SeparatorIcon />
+                
               </div>
             </Body>
           </div>
