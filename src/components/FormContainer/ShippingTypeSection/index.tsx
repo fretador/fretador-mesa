@@ -1,9 +1,7 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import {
-  CreateFreightInput,
-  ShippingType,
-} from "@/utils/types/CreateFreightInput";
+import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
+import { ShippingType } from "@/utils/enums/shippingTypeEnum";
 import styles from "./ShippingTypeSection.module.css";
 
 interface ShippingTypeSectionProps {

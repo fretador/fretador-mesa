@@ -8,6 +8,7 @@ import { Driver } from "@/utils/types/Driver";
 interface AssignFreightModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
+  onConfirm: (driverIds: string[]) => void;
 }
 
 const removeCPFFormatting = (cpf: string): string => {
@@ -22,6 +23,7 @@ const formatCPF = (cpf: string): string => {
 const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
   isOpen,
   onRequestClose,
+  onConfirm,
 }) => {
   const [searchInput, setSearchInput] = useState("");
   const [suggestions, setSuggestions] = useState<Driver[]>([]);
@@ -30,7 +32,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch drivers when the modal is opened
+  // Buscar motoristas quando o modal é aberto
   useEffect(() => {
     const fetchDrivers = async () => {
       setIsLoading(true);
@@ -48,7 +50,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
     if (isOpen) fetchDrivers();
   }, [isOpen]);
 
-  // Update suggestions based on the input
+  // Atualizar sugestões com base na entrada
   useEffect(() => {
     if (searchInput.length >= 2 && !selectedDriver) {
       const unformattedInput = removeCPFFormatting(searchInput);
@@ -98,12 +100,17 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
   };
 
   const handleConfirm = () => {
-    clearSelectedDriver();
-    onRequestClose();
+    if (selectedDriver) {
+      onConfirm([selectedDriver.id]);
+      onRequestClose();
+    } else {
+      onConfirm([]);
+      onRequestClose();
+    }
   };
 
   return (
-    <ModalRoot isOpen={isOpen} onRequestClose={clearSelectedDriver}>
+    <ModalRoot isOpen={isOpen} onRequestClose={onRequestClose}>
       <div className={styles.modalContent}>
         <header className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>Direcionar Frete</h2>
