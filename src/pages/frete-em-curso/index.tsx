@@ -75,7 +75,30 @@ const FreightInProgress: React.FC = () => {
                   <FreightInCurseOptions />
                 </div>
 
-                <FreightStep />
+                <FreightStep
+                  theme="dark"
+                  date="07/06/2024"
+                  hour="15:02:23"
+                  content="Frete solicitado pelo motorista"
+                />
+
+                <FreightStep
+                  theme="light"
+                  date="07/06/2024"
+                  hour="15:02:23"
+                  content="Autorizar embarque?"
+                  authorizeBoarding={true}
+                />
+
+                <FreightStep
+                  theme="dark"
+                  date="07/06/2024"
+                  hour="15:02:23"
+                  content="Motorista iniciou a viagem"
+                  actionButton={true}
+                  actionButtonText="rastrear"
+                  handleActionButton={() => console.log('Botão de ação clicado')}
+                />
                 
               </div>
             </Body>
