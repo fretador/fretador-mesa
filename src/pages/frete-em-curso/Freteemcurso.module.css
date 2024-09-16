@@ -3,7 +3,7 @@
   flex-direction: row;
   justify-content: space-between;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
   box-sizing: border-box;
   background: linear-gradient(180deg, #BCBCBC 0%, #FFF 100%);
 }

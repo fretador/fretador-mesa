@@ -11,6 +11,8 @@ import SearchComponent from "@/components/SearchButton";
 import FreightInCurseHeader from "@/components/FreightInCurseHeader";
 import { SeparatorIcon } from "@/utils/icons";
 import ProgressBar from "@/components/ProgressBar";
+import FreightInCurseOptions from "@/components/FreightInCurseOptions";
+import FreightStep from "@/components/FreightStep";
 
 const FreightInProgress: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -67,6 +69,13 @@ const FreightInProgress: React.FC = () => {
                 <ProgressBar currentStage={currentStage} />
                 
                 <SeparatorIcon />
+
+                <div className={styles.freightInCurseOptionsContainer}>
+                  <h2>Dados do embarque:</h2>
+                  <FreightInCurseOptions />
+                </div>
+
+                <FreightStep />
                 
               </div>
             </Body>
