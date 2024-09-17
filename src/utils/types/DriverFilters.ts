@@ -1,6 +1,6 @@
 export interface DriverFilters {
 	status?: string[];
 	vehicle?: string[];
-	cpf: string;
-	name: string;
+	cpf?: string;
+	name?: string;
 }
