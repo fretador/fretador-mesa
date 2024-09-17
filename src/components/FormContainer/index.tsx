@@ -56,6 +56,7 @@ const FormContainer: React.FC = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = methods;
 
   const handleInputChange = (
@@ -145,3 +146,6 @@ const FormContainer: React.FC = () => {
 };
 
 export default FormContainer;
+function setValue(arg0: string, value: string) {
+  throw new Error("Function not implemented.");
+}
