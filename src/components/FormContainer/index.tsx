@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm, UseFormSetValue } from "react-hook-form";
+import { useForm, UseFormSetValue, FormProvider } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
@@ -15,19 +15,16 @@ import AssignFreightModal from "@/components/ModalRoot/AssignFreightModal";
 import { FreightService } from "@/services/freightService";
 import { CargoLoadType } from "@/utils/enums/cargoLoadTypeEnum";
 import { Type } from "@/utils/enums/typeEnum";
+import { createFreightSchema } from "@/utils/validations/createFreightSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const FormContainer: React.FC = () => {
   const [targetedDriver, setTargetedDriver] = useState<string[]>([]);
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] =
     useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-  } = useForm<CreateFreightInput>({
+  const methods = useForm<CreateFreightInput>({
+    resolver: zodResolver(createFreightSchema),
     defaultValues: {
       pickupDeliveryData: "",
       origin: "",
@@ -55,6 +52,12 @@ const FormContainer: React.FC = () => {
     },
   });
 
+  const {
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = methods;
+
   const handleInputChange = (
     event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -66,12 +69,11 @@ const FormContainer: React.FC = () => {
 
   const onSubmit = async (data: CreateFreightInput) => {
     console.log("Dados do formulário:", data, targetedDriver);
-    console.log("targetedDriver", data);
     try {
       const freightData = {
         ...data,
-        type: targetedDriver.length > 0 ? "TARGETED" : "OFFER",
-        targetedDrivers: targetedDriver.length > 0 ? targetedDriver : null,
+        type: targetedDriver.length > 0 ? Type.TARGETED : Type.OFFER,
+        targetedDrivers: targetedDriver.length > 0 ? targetedDriver : [],
       };
       console.log("Dados do frete a serem enviados:", freightData);
       const createdFreight = await FreightService.createFreight(freightData);
@@ -112,52 +114,23 @@ const FormContainer: React.FC = () => {
   };
 
   return (
-    <>
+    <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <PickupDeliverySection
-          register={register}
-          errors={errors}
-          handleInputChange={handleInputChange}
-          setValue={setValue as UseFormSetValue<CreateFreightInput>}
-        />
-        <CargoDetailsSection
-          register={register}
-          errors={errors}
-          handleInputChange={handleInputChange}
-          setValue={setValue as UseFormSetValue<CreateFreightInput>}
-        />
-        <VehicleSelectionSection
-          register={register}
-          errors={errors}
-          handleInputChange={handleInputChange}
-          setValue={setValue as UseFormSetValue<CreateFreightInput>}
-        />
-        <BodyworkSelectionSection
-          register={register}
-          errors={errors}
-          handleInputChange={handleInputChange}
-          setValue={setValue as UseFormSetValue<CreateFreightInput>}
-        />
-        <ShippingTypeSection
-          register={register}
-          errors={errors}
-          handleInputChange={handleInputChange}
-          setValue={setValue as UseFormSetValue<CreateFreightInput>}
-        />
-        <FreightValueSection
-          register={register}
-          errors={errors}
-          handleInputChange={handleInputChange}
-          setValue={setValue as UseFormSetValue<CreateFreightInput>}
-        />
-        <ObservationsSection
-          register={register}
-          errors={errors}
-          handleInputChange={handleInputChange}
-          setValue={setValue as UseFormSetValue<CreateFreightInput>}
-        />
+        <PickupDeliverySection />
+
+        <CargoDetailsSection />
+
+        <VehicleSelectionSection />
+
+        <BodyworkSelectionSection />
+
+        <ShippingTypeSection />
+
+        <FreightValueSection />
+
+        <ObservationsSection />
+
         <FreightSubmissionButton
-          onSubmit={handleSubmit(onSubmit)}
           onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
         />
       </form>
@@ -167,7 +140,7 @@ const FormContainer: React.FC = () => {
         onRequestClose={() => setIsAssignFreightModalOpen(false)}
         onConfirm={handleDirectToDriver}
       />
-    </>
+    </FormProvider>
   );
 };
 

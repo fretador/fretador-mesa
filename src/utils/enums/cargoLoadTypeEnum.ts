@@ -1,4 +1,4 @@
 export enum CargoLoadType {
-  FULL = "completa",
-  PARTIAL = "complemento",
+  FULL = "FULL",
+  PARTIAL = "PARTIAL",
 }

@@ -4,12 +4,10 @@ import styles from "./FreightSubmissionButtons.module.css";
 import AssignFreightModal from "@/components/ModalRoot/AssignFreightModal"; // Assuming this is the correct import path
 
 interface FreightSubmissionButtonsProps {
-  onSubmit: () => void;
   onDirectToDriver: (driverId?: string) => void;
 }
 
 const FreightSubmissionButtons: React.FC<FreightSubmissionButtonsProps> = ({
-  onSubmit,
   onDirectToDriver,
 }) => {
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] =
@@ -22,12 +20,7 @@ const FreightSubmissionButtons: React.FC<FreightSubmissionButtonsProps> = ({
 
   return (
     <div className={styles.submitWrapper}>
-      <Botao
-        type="submit"
-        text="Enviar"
-        className={styles.submitButton}
-        onClick={onSubmit}
-      />
+      <Botao type="submit" text="Enviar" className={styles.submitButton} />
       <Botao
         type="button"
         text="Direcionar para Motorista"

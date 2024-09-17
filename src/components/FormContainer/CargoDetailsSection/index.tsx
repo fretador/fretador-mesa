@@ -1,36 +1,21 @@
-import React, { useEffect } from "react";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
+import React from "react";
+import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
-import styles from "./CargoDetailsSection.module.css"; // Importação dos estilos específicos
+import styles from "./CargoDetailsSection.module.css";
 
-interface CargoDetailsSectionProps {
-  register: UseFormRegister<CreateFreightInput>;
-  errors: FieldErrors<CreateFreightInput>;
-  handleInputChange: (
-    event: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => void;
-  setValue: (name: string, value: any) => void;
-}
-
-const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
-  register,
-  errors,
-  handleInputChange,
-  setValue,
-}) => {
-  useEffect(() => {
-    // Remova este console.log, pois estava causando um erro
-  }, [register]);
+const CargoDetailsSection: React.FC = () => {
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext<CreateFreightInput>();
 
   const handleBooleanRadioChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     fieldName: "needsTarp" | "needsTracker"
   ) => {
-    const booleanValue = e.target.value === "sim";
+    const booleanValue = e.target.value === "true";
     setValue(fieldName, booleanValue);
-    handleInputChange(e);
   };
 
   return (
@@ -45,18 +30,16 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
             <label>
               <input
                 type="radio"
-                {...register("cargoLoadType")}
-                value="completa"
-                onChange={handleInputChange}
+                {...register("cargoLoadType", { required: true })}
+                value="FULL"
               />
               Completa
             </label>
             <label>
               <input
                 type="radio"
-                {...register("cargoLoadType")}
-                value="complemento"
-                onChange={handleInputChange}
+                {...register("cargoLoadType", { required: true })}
+                value="PARTIAL"
               />
               Complemento
             </label>
@@ -68,25 +51,29 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
           )}
         </div>
 
-        {/* Lona */}
+        {/* Precisa de Lona */}
         <div className={styles.radioGroup}>
           <label className={styles.label}>Precisa de Lona?</label>
           <div className={styles.radioOptions}>
             <label>
               <input
                 type="radio"
-                {...register("needsTarp")}
-                value={true}
-                onChange={(e) => handleBooleanRadioChange(e, "needsTarp")}
+                {...register("needsTarp", {
+                  required: true,
+                  setValueAs: (value) => value === "true",
+                })}
+                value="true"
               />
               Sim
             </label>
             <label>
               <input
                 type="radio"
-                {...register("needsTarp")}
-                value={false}
-                onChange={(e) => handleBooleanRadioChange(e, "needsTarp")}
+                {...register("needsTarp", {
+                  required: true,
+                  setValueAs: (value) => value === "true",
+                })}
+                value="false"
               />
               Não
             </label>
@@ -96,25 +83,29 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
           )}
         </div>
 
-        {/* Rastreador */}
+        {/* Precisa de Rastreador */}
         <div className={styles.radioGroup}>
           <label className={styles.label}>Precisa de Rastreador?</label>
           <div className={styles.radioOptions}>
             <label>
               <input
                 type="radio"
-                {...register("needsTracker")}
-                value={true}
-                onChange={(e) => handleBooleanRadioChange(e, "needsTracker")}
+                {...register("needsTracker", {
+                  required: true,
+                  setValueAs: (value) => value === true,
+                })}
+                value="true"
               />
               Sim
             </label>
             <label>
               <input
                 type="radio"
-                {...register("needsTracker")}
-                value={false}
-                onChange={(e) => handleBooleanRadioChange(e, "needsTracker")}
+                {...register("needsTracker", {
+                  required: true,
+                  setValueAs: (value) => value === "true",
+                })}
+                value="false"
               />
               Não
             </label>
@@ -133,9 +124,10 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
           <input
             id="product"
             type="text"
-            {...register("product")}
-            onChange={handleInputChange}
-            className={`${styles.input} ${errors.product ? styles.error : ""}`}
+            {...register("product", { required: true })}
+            className={`${styles.input} ${
+              errors.product ? styles.errorInput : ""
+            }`}
             placeholder="Qual produto será carregado?"
           />
           {errors.product && (
@@ -150,13 +142,13 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
           </label>
           <select
             id="cargoType"
-            {...register("cargoType")}
-            onChange={handleInputChange}
+            {...register("cargoType", { required: true })}
             className={`${styles.input} ${
-              errors.cargoType ? styles.error : ""
+              errors.cargoType ? styles.errorInput : ""
             }`}
           >
             <option value="">Selecione a espécie de carga</option>
+            {/* Valores correspondentes ao enum CargoType */}
             <option value="Animais">Animais</option>
             <option value="Big Bag">Big Bag</option>
             <option value="Caixas">Caixas</option>
@@ -165,7 +157,7 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
             <option value="Fardos">Fardos</option>
             <option value="Fracionada">Fracionada</option>
             <option value="Granel">Granel</option>
-            <option value="Metro Cubico">Metro Cúbico</option>
+            <option value="Metro Cúbico">Metro Cúbico</option>
             <option value="Milheiro">Milheiro</option>
             <option value="Mudança">Mudança</option>
             <option value="Paletes">Paletes</option>
@@ -188,10 +180,12 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
           <input
             id="totalWeight"
             type="number"
-            {...register("totalWeight", { valueAsNumber: true })}
-            onChange={handleInputChange}
+            {...register("totalWeight", {
+              valueAsNumber: true,
+              required: true,
+            })}
             className={`${styles.input} ${
-              errors.totalWeight ? styles.error : ""
+              errors.totalWeight ? styles.errorInput : ""
             }`}
             placeholder="Kg"
           />
@@ -208,8 +202,9 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
             id="volumes"
             type="number"
             {...register("volumes", { valueAsNumber: true })}
-            onChange={handleInputChange}
-            className={`${styles.input} ${errors.volumes ? styles.error : ""}`}
+            className={`${styles.input} ${
+              errors.volumes ? styles.errorInput : ""
+            }`}
             placeholder="Número de volumes"
           />
           {errors.volumes && (
@@ -226,8 +221,9 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
             type="number"
             step="0.01"
             {...register("cubage", { valueAsNumber: true })}
-            onChange={handleInputChange}
-            className={`${styles.input} ${errors.cubage ? styles.error : ""}`}
+            className={`${styles.input} ${
+              errors.cubage ? styles.errorInput : ""
+            }`}
             placeholder="M³"
           />
           {errors.cubage && (
@@ -243,8 +239,9 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
             id="moreDetails"
             type="text"
             {...register("moreDetails")}
-            onChange={handleInputChange}
-            className={styles.input}
+            className={`${styles.input} ${
+              errors.moreDetails ? styles.errorInput : ""
+            }`}
             placeholder="Outras informações relevantes"
           />
           {errors.moreDetails && (

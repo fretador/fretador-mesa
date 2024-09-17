@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { UseFormRegister, FieldErrors, UseFormSetValue } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import OriginCollectionModal from "@/components/ModalRoot/OriginCollectionModal";
 import styles from "./PickupDeliverySection.module.css";
@@ -30,23 +30,13 @@ interface PickupDeliveryData {
   } | null;
 }
 
-interface PickupDeliverySectionProps {
-  register: UseFormRegister<CreateFreightInput>;
-  errors: FieldErrors<CreateFreightInput>;
-  handleInputChange: (
-    event: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => void;
-  setValue: UseFormSetValue<CreateFreightInput>;
-}
+const PickupDeliverySection: React.FC = () => {
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext<CreateFreightInput>();
 
-const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
-  register,
-  errors,
-  handleInputChange,
-  setValue,
-}) => {
   const [isOriginModalOpen, setIsOriginModalOpen] = useState(false);
   const [isDestinationModalOpen, setIsDestinationModalOpen] = useState(false);
   const [pickupDeliveryData, setPickupDeliveryData] =
@@ -79,7 +69,7 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
       ...prev,
       pickupDeliveryDate: e.target.value,
     }));
-    handleInputChange(e);
+    setValue("pickupDeliveryData", e.target.value);
   };
 
   useEffect(() => {
@@ -131,8 +121,6 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
         setValue("destinationEndereco", "");
       }
     }
-
-    console.log("Dados de pickupDeliveryData atualizados:", pickupDeliveryData);
   }, [pickupDeliveryData, setValue]);
 
   return (
@@ -146,11 +134,16 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
           id="pickupDeliveryData"
           type="date"
           {...register("pickupDeliveryData")}
+          value={pickupDeliveryData.pickupDeliveryDate}
           onChange={handleDateChange}
-          className={styles.inputDate}
+          className={`${styles.inputDate} ${
+            errors.pickupDeliveryData ? styles.errorInput : ""
+          }`}
         />
         {errors.pickupDeliveryData && (
-          <p className={styles.error}>{errors.pickupDeliveryData.message}</p>
+          <p className={styles.errorMessage}>
+            {errors.pickupDeliveryData.message}
+          </p>
         )}
       </div>
       <div className={styles.rowInputs}>
@@ -169,7 +162,9 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
             }
             onClick={handleOpenOriginModal}
             readOnly
-            className={`${styles.input} ${errors.origin ? styles.error : ""}`}
+            className={`${styles.input} ${
+              errors.origin ? styles.errorInput : ""
+            }`}
             placeholder="Indique a origem ou CNPJ do remetente"
           />
           {errors.origin && (
@@ -193,7 +188,7 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
             onClick={handleOpenDestinationModal}
             readOnly
             className={`${styles.input} ${
-              errors.destination ? styles.error : ""
+              errors.destination ? styles.errorInput : ""
             }`}
             placeholder="Insira o destino ou CNPJ do destinatário"
           />

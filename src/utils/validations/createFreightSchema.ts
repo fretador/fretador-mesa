@@ -31,8 +31,9 @@ export const createFreightSchema = z.object({
   destinationRazaoSocial: z.string().optional(),
   destinationEndereco: z.string().optional(),
   cargoLoadType: z.nativeEnum(CargoLoadType),
-  needsTarp: z.boolean(),
-  needsTracker: z.boolean(),
+  needsTarp: z.preprocess((value) => value === "true", z.boolean()),
+  needsTracker: z.preprocess((value) => value === "true", z.boolean()),
+
   product: z.string().min(1, { message: "Produto é obrigatório" }),
   cargoType: z.nativeEnum(CargoType),
   totalWeight: z
@@ -43,7 +44,7 @@ export const createFreightSchema = z.object({
   moreDetails: z.string().optional(),
   value: z.number().nullable().optional(),
   shippingType: z.nativeEnum(ShippingType),
-  pedagioIncluso: z.boolean(),
+  pedagioIncluso: z.preprocess((value) => value === "true", z.boolean()),
   formaPagamento: z
     .string()
     .min(1, { message: "Forma de pagamento é obrigatória" }),

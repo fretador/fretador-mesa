@@ -1,64 +1,90 @@
-import React, { useState, useEffect } from "react";
-import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import React, { useEffect, useMemo } from "react";
+import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./VehicleSelectionSection.module.css";
+import { VehicleCategory, VehicleType } from "@/utils/enums/vehicleEnums";
 
-interface VehicleSelectionSectionProps {
-  register: UseFormRegister<CreateFreightInput>;
-  setValue: UseFormSetValue<CreateFreightInput>;
+interface VehicleOption {
+  category: VehicleCategory;
+  types: { type: VehicleType; label: string }[];
 }
 
-const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
-  register,
-  setValue,
-}) => {
-  const [eligibleVehicles, setEligibleVehicles] = useState({
-    leve: {
-      utilitario: { eligible: false },
-      "3/4": { eligible: false },
-      HR: { eligible: false },
-      Toco: { eligible: false },
-    },
-    medio: {
-      truck: { eligible: false },
-      "bi-truck": { eligible: false },
-    },
-    pesado: {
-      carreta: { eligible: false },
-      carretaLS: { eligible: false },
-      carretaTrucada: { eligible: false },
-      carretaVanderleia: { eligible: false },
-      bitrem: { eligible: false },
-      rodotrem: { eligible: false },
-    },
-  });
+const vehicleOptions: VehicleOption[] = [
+  {
+    category: VehicleCategory.LEVE,
+    types: [
+      { type: VehicleType.UTILITARIO, label: "Utilitário" },
+      { type: VehicleType.TRES_QUARTOS, label: "3/4" },
+      { type: VehicleType.HR, label: "HR" },
+      { type: VehicleType.TOCO, label: "Toco" },
+    ],
+  },
+  {
+    category: VehicleCategory.MEDIO,
+    types: [
+      { type: VehicleType.TRUCK, label: "Truck" },
+      { type: VehicleType.BITRUCK, label: "Bi-truck" },
+    ],
+  },
+  {
+    category: VehicleCategory.PESADO,
+    types: [
+      { type: VehicleType.CARRETA, label: "Carreta" },
+      { type: VehicleType.CARRETA_LS, label: "Carreta LS" },
+      { type: VehicleType.CARRETA_TRUCADA, label: "Carreta Trucada" },
+      { type: VehicleType.CARRETA_VANDERLEIA, label: "Carreta Vanderleia" },
+      { type: VehicleType.BITREM, label: "Bitrem" },
+      { type: VehicleType.RODOTREM, label: "Rodotrem" },
+    ],
+  },
+];
+
+const VehicleSelectionSection: React.FC = () => {
+  const {
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext<CreateFreightInput>();
+
+  const eligibleVehicles = watch("eligibleVehicles");
 
   useEffect(() => {
-    setValue("eligibleVehicles" as keyof CreateFreightInput, eligibleVehicles);
+    // Inicializar "eligibleVehicles" se estiver vazio
+    if (eligibleVehicles.length === 0) {
+      const initialVehicles = vehicleOptions.flatMap((categoryOption) =>
+        categoryOption.types.map((vehicle) => ({
+          category: categoryOption.category,
+          type: vehicle.type,
+          eligible: false,
+        }))
+      );
+      setValue("eligibleVehicles", initialVehicles);
+    }
   }, [eligibleVehicles, setValue]);
 
   const handleVehicleChange = (
-    category: string,
-    type: string,
+    category: VehicleCategory,
+    type: VehicleType,
     checked: boolean
   ) => {
-    setEligibleVehicles((prev) => ({
-      ...prev,
-      [category]: {
-        ...prev[category as keyof typeof prev],
-        [type]: { eligible: checked },
-      },
-    }));
+    const updatedVehicles = eligibleVehicles.map((vehicle) =>
+      vehicle.category === category && vehicle.type === type
+        ? { ...vehicle, eligible: checked }
+        : vehicle
+    );
+    setValue("eligibleVehicles", updatedVehicles);
   };
 
-  const handleAllCategoryChange = (category: string, checked: boolean) => {
-    setEligibleVehicles((prev) => ({
-      ...prev,
-      [category]: Object.keys(prev[category]).reduce((acc, type) => {
-        acc[type] = { eligible: checked };
-        return acc;
-      }, {}),
-    }));
+  const handleAllCategoryChange = (
+    category: VehicleCategory,
+    checked: boolean
+  ) => {
+    const updatedVehicles = eligibleVehicles.map((vehicle) =>
+      vehicle.category === category
+        ? { ...vehicle, eligible: checked }
+        : vehicle
+    );
+    setValue("eligibleVehicles", updatedVehicles);
   };
 
   return (
@@ -67,185 +93,73 @@ const VehicleSelectionSection: React.FC<VehicleSelectionSectionProps> = ({
       <p className={styles.subtitle}>Escolha quantos veículos quiser</p>
 
       <div className={styles.vehicleCheckboxes}>
-        {/* Leves */}
-        <div className={styles.checkboxColumn}>
-          <h4>Leves</h4>
-          <label>
-            <input
-              type="checkbox"
-              checked={Object.values(eligibleVehicles.leve).every(
-                (v) => v.eligible
-              )}
-              onChange={(e) =>
-                handleAllCategoryChange("leve", e.target.checked)
-              }
-            />
-            Todos os leves
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.leve.utilitario.eligible}
-              onChange={(e) =>
-                handleVehicleChange("leve", "utilitario", e.target.checked)
-              }
-            />
-            Utilitário
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.leve["3/4"].eligible}
-              onChange={(e) =>
-                handleVehicleChange("leve", "3/4", e.target.checked)
-              }
-            />
-            3/4
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.leve.HR.eligible}
-              onChange={(e) =>
-                handleVehicleChange("leve", "HR", e.target.checked)
-              }
-            />
-            HR
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.leve.Toco.eligible}
-              onChange={(e) =>
-                handleVehicleChange("leve", "Toco", e.target.checked)
-              }
-            />
-            Toco
-          </label>
-        </div>
+        {vehicleOptions.map((categoryOption) => {
+          const vehiclesInCategory = eligibleVehicles.filter(
+            (v) => v.category === categoryOption.category
+          );
+          const allChecked = vehiclesInCategory.every((v) => v.eligible);
 
-        {/* Médios */}
-        <div className={styles.checkboxColumn}>
-          <h4>Médios</h4>
-          <label>
-            <input
-              type="checkbox"
-              checked={Object.values(eligibleVehicles.medio).every(
-                (v) => v.eligible
-              )}
-              onChange={(e) =>
-                handleAllCategoryChange("medio", e.target.checked)
-              }
-            />
-            Todos os médios
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.medio.truck.eligible}
-              onChange={(e) =>
-                handleVehicleChange("medio", "truck", e.target.checked)
-              }
-            />
-            Truck
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.medio["bi-truck"].eligible}
-              onChange={(e) =>
-                handleVehicleChange("medio", "bi-truck", e.target.checked)
-              }
-            />
-            Bi-truck
-          </label>
-        </div>
-
-        {/* Pesados */}
-        <div className={styles.checkboxColumn}>
-          <h4>Pesados</h4>
-          <label>
-            <input
-              type="checkbox"
-              checked={Object.values(eligibleVehicles.pesado).every(
-                (v) => v.eligible
-              )}
-              onChange={(e) =>
-                handleAllCategoryChange("pesado", e.target.checked)
-              }
-            />
-            Todos os pesados
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.pesado.carreta.eligible}
-              onChange={(e) =>
-                handleVehicleChange("pesado", "carreta", e.target.checked)
-              }
-            />
-            Carreta
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.pesado.carretaTrucada.eligible}
-              onChange={(e) =>
-                handleVehicleChange(
-                  "pesado",
-                  "carretaTrucada",
-                  e.target.checked
-                )
-              }
-            />
-            Carreta Trucada
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.pesado.carretaLS.eligible}
-              onChange={(e) =>
-                handleVehicleChange("pesado", "carretaLS", e.target.checked)
-              }
-            />
-            Carreta LS
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.pesado.carretaVanderleia.eligible}
-              onChange={(e) =>
-                handleVehicleChange(
-                  "pesado",
-                  "carretaVanderleia",
-                  e.target.checked
-                )
-              }
-            />
-            Carreta Vanderleia
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.pesado.bitrem.eligible}
-              onChange={(e) =>
-                handleVehicleChange("pesado", "bitrem", e.target.checked)
-              }
-            />
-            Bitrem
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={eligibleVehicles.pesado.rodotrem.eligible}
-              onChange={(e) =>
-                handleVehicleChange("pesado", "rodotrem", e.target.checked)
-              }
-            />
-            Rodotrem
-          </label>
-        </div>
+          return (
+            <div
+              key={categoryOption.category}
+              className={styles.checkboxColumn}
+            >
+              <h4>
+                {categoryOption.category === VehicleCategory.LEVE
+                  ? "Leves"
+                  : categoryOption.category === VehicleCategory.MEDIO
+                  ? "Médios"
+                  : "Pesados"}
+              </h4>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={allChecked}
+                  onChange={(e) =>
+                    handleAllCategoryChange(
+                      categoryOption.category,
+                      e.target.checked
+                    )
+                  }
+                />
+                Todos os{" "}
+                {categoryOption.category === VehicleCategory.LEVE
+                  ? "leves"
+                  : categoryOption.category === VehicleCategory.MEDIO
+                  ? "médios"
+                  : "pesados"}
+              </label>
+              {categoryOption.types.map((vehicle) => {
+                const vehicleState = eligibleVehicles.find(
+                  (v) =>
+                    v.category === categoryOption.category &&
+                    v.type === vehicle.type
+                );
+                return (
+                  <label key={vehicle.type}>
+                    <input
+                      type="checkbox"
+                      checked={vehicleState?.eligible || false}
+                      onChange={(e) =>
+                        handleVehicleChange(
+                          categoryOption.category,
+                          vehicle.type,
+                          e.target.checked
+                        )
+                      }
+                    />
+                    {vehicle.label}
+                  </label>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
+
+      {errors.eligibleVehicles && (
+        <p className={styles.errorMessage}>{errors.eligibleVehicles.message}</p>
+      )}
     </section>
   );
 };

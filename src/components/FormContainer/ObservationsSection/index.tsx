@@ -1,17 +1,14 @@
 import React from "react";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./ObservationsSection.module.css";
 
-interface ObservationsSectionProps {
-  register: UseFormRegister<CreateFreightInput>;
-  errors: FieldErrors<CreateFreightInput>;
-}
+const ObservationsSection: React.FC = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<CreateFreightInput>();
 
-const ObservationsSection: React.FC<ObservationsSectionProps> = ({
-  register,
-  errors,
-}) => {
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>Observações</h2>
@@ -24,7 +21,7 @@ const ObservationsSection: React.FC<ObservationsSectionProps> = ({
           id="observations"
           {...register("observations")}
           className={`${styles.textarea} ${
-            errors.observations ? styles.error : ""
+            errors.observations ? styles.errorInput : ""
           }`}
           placeholder="Adicione informações relevantes ou observações"
         />

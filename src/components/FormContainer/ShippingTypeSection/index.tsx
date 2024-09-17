@@ -1,22 +1,15 @@
 import React from "react";
-import { UseFormRegister } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import { ShippingType } from "@/utils/enums/shippingTypeEnum";
 import styles from "./ShippingTypeSection.module.css";
 
-interface ShippingTypeSectionProps {
-  register: UseFormRegister<CreateFreightInput>;
-  handleInputChange: (
-    event: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => void;
-}
+const ShippingTypeSection: React.FC = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<CreateFreightInput>();
 
-const ShippingTypeSection: React.FC<ShippingTypeSectionProps> = ({
-  register,
-  handleInputChange,
-}) => {
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>Tipo de Embarque</h2>
@@ -25,14 +18,18 @@ const ShippingTypeSection: React.FC<ShippingTypeSectionProps> = ({
           <label key={type}>
             <input
               type="radio"
-              {...register("shippingType")}
+              {...register("shippingType", {
+                required: "Tipo de embarque é obrigatório",
+              })}
               value={type}
-              onChange={handleInputChange}
             />
             {type}
           </label>
         ))}
       </div>
+      {errors.shippingType && (
+        <p className={styles.errorMessage}>{errors.shippingType.message}</p>
+      )}
     </section>
   );
 };
