@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./VehicleSelectionSection.module.css";
@@ -46,45 +46,46 @@ const VehicleSelectionSection: React.FC = () => {
     formState: { errors },
   } = useFormContext<CreateFreightInput>();
 
-  const eligibleVehicles = watch("eligibleVehicles");
+  // Inicialize eligibleVehicles se estiver undefined
+  const eligibleVehicles = watch("eligibleVehicles") || [];
 
-  useEffect(() => {
-    // Inicializar "eligibleVehicles" se estiver vazio
-    if (eligibleVehicles.length === 0) {
-      const initialVehicles = vehicleOptions.flatMap((categoryOption) =>
-        categoryOption.types.map((vehicle) => ({
-          category: categoryOption.category,
-          type: vehicle.type,
-          eligible: false,
-        }))
-      );
-      setValue("eligibleVehicles", initialVehicles);
-    }
-  }, [eligibleVehicles, setValue]);
+  // Se eligibleVehicles estiver vazio, inicialize com os valores iniciais
+  if (eligibleVehicles.length === 0) {
+    const initialVehicles = vehicleOptions.flatMap((categoryOption) =>
+      categoryOption.types.map((vehicle) => ({
+        category: categoryOption.category,
+        type: vehicle.type,
+        eligible: false,
+      }))
+    );
+    setValue("eligibleVehicles", initialVehicles, { shouldDirty: true });
+  }
 
   const handleVehicleChange = (
     category: VehicleCategory,
     type: VehicleType,
     checked: boolean
   ) => {
-    const updatedVehicles = eligibleVehicles.map((vehicle) =>
-      vehicle.category === category && vehicle.type === type
-        ? { ...vehicle, eligible: checked }
-        : vehicle
-    );
-    setValue("eligibleVehicles", updatedVehicles);
+    const updatedVehicles = eligibleVehicles.map((vehicle) => {
+      if (vehicle.category === category && vehicle.type === type) {
+        return { ...vehicle, eligible: checked };
+      }
+      return vehicle;
+    });
+    setValue("eligibleVehicles", updatedVehicles, { shouldDirty: true });
   };
 
   const handleAllCategoryChange = (
     category: VehicleCategory,
     checked: boolean
   ) => {
-    const updatedVehicles = eligibleVehicles.map((vehicle) =>
-      vehicle.category === category
-        ? { ...vehicle, eligible: checked }
-        : vehicle
-    );
-    setValue("eligibleVehicles", updatedVehicles);
+    const updatedVehicles = eligibleVehicles.map((vehicle) => {
+      if (vehicle.category === category) {
+        return { ...vehicle, eligible: checked };
+      }
+      return vehicle;
+    });
+    setValue("eligibleVehicles", updatedVehicles, { shouldDirty: true });
   };
 
   return (
@@ -97,7 +98,9 @@ const VehicleSelectionSection: React.FC = () => {
           const vehiclesInCategory = eligibleVehicles.filter(
             (v) => v.category === categoryOption.category
           );
-          const allChecked = vehiclesInCategory.every((v) => v.eligible);
+          const allChecked =
+            vehiclesInCategory.length > 0 &&
+            vehiclesInCategory.every((v) => v.eligible);
 
           return (
             <div

@@ -1,4 +1,4 @@
 export enum Type {
-  OFFER = "Oferta",
-  TARGETED = "Targeted",
+  OFFER = "OFFER",
+  TARGETED = "TARGETED",
 }

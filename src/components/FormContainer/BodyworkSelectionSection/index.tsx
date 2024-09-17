@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./BodyworkSelectionSection.module.css";
@@ -47,42 +47,43 @@ const BodyworkSelectionSection: React.FC = () => {
 
   const eligibleBodyworks = watch("eligibleBodyworks") || [];
 
-  useEffect(() => {
-    if (eligibleBodyworks.length === 0) {
-      const initialBodyworks = bodyworkOptions.flatMap((categoryOption) =>
-        categoryOption.types.map((bodywork) => ({
-          category: categoryOption.category,
-          type: bodywork.type,
-          eligible: false,
-        }))
-      );
-      setValue("eligibleBodyworks", initialBodyworks);
-    }
-  }, [eligibleBodyworks, setValue]);
+  // Inicialize eligibleBodyworks se estiver vazio
+  if (eligibleBodyworks.length === 0) {
+    const initialBodyworks = bodyworkOptions.flatMap((categoryOption) =>
+      categoryOption.types.map((bodywork) => ({
+        category: categoryOption.category,
+        type: bodywork.type,
+        eligible: false,
+      }))
+    );
+    setValue("eligibleBodyworks", initialBodyworks, { shouldDirty: true });
+  }
 
   const handleBodyworkChange = (
     category: BodyworkCategory,
     type: BodyworkType,
     checked: boolean
   ) => {
-    const updatedBodyworks = eligibleBodyworks.map((bodywork) =>
-      bodywork.category === category && bodywork.type === type
-        ? { ...bodywork, eligible: checked }
-        : bodywork
-    );
-    setValue("eligibleBodyworks", updatedBodyworks);
+    const updatedBodyworks = eligibleBodyworks.map((bodywork) => {
+      if (bodywork.category === category && bodywork.type === type) {
+        return { ...bodywork, eligible: checked };
+      }
+      return bodywork;
+    });
+    setValue("eligibleBodyworks", updatedBodyworks, { shouldDirty: true });
   };
 
   const handleAllCategoryChange = (
     category: BodyworkCategory,
     checked: boolean
   ) => {
-    const updatedBodyworks = eligibleBodyworks.map((bodywork) =>
-      bodywork.category === category
-        ? { ...bodywork, eligible: checked }
-        : bodywork
-    );
-    setValue("eligibleBodyworks", updatedBodyworks);
+    const updatedBodyworks = eligibleBodyworks.map((bodywork) => {
+      if (bodywork.category === category) {
+        return { ...bodywork, eligible: checked };
+      }
+      return bodywork;
+    });
+    setValue("eligibleBodyworks", updatedBodyworks, { shouldDirty: true });
   };
 
   return (
@@ -95,7 +96,9 @@ const BodyworkSelectionSection: React.FC = () => {
           const bodyworksInCategory = eligibleBodyworks.filter(
             (b) => b.category === categoryOption.category
           );
-          const allChecked = bodyworksInCategory.every((b) => b.eligible);
+          const allChecked =
+            bodyworksInCategory.length > 0 &&
+            bodyworksInCategory.every((b) => b.eligible);
 
           return (
             <div
