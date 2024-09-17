@@ -1,90 +1,225 @@
-import React from "react";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
-import styles from "./PickupDeliverySection.module.css"; // Importação dos estilos específicos para esse componente
+import OriginCollectionModal from "@/components/ModalRoot/OriginCollectionModal";
+import styles from "./PickupDeliverySection.module.css";
 
-interface PickupDeliverySectionProps {
-  register: UseFormRegister<CreateFreightInput>;
-  errors: FieldErrors<CreateFreightInput>;
-  handleInputChange: (
-    event: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => void;
-  inputValues: Partial<CreateFreightInput>;
+interface PickupDeliveryData {
+  pickupDeliveryDate: string;
+  origin: {
+    type: string;
+    selectedCity: string;
+    selectedState: string;
+    senderInfoOption: string;
+    additionalInfo: {
+      cnpj: string;
+      razaoSocial: string;
+      endereco: string;
+    } | null;
+  } | null;
+  destination: {
+    type: string;
+    selectedCity: string;
+    selectedState: string;
+    senderInfoOption: string;
+    additionalInfo: {
+      cnpj: string;
+      razaoSocial: string;
+      endereco: string;
+    } | null;
+  } | null;
 }
 
-const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
-  register,
-  errors,
-  handleInputChange,
-  inputValues,
-}) => {
+const PickupDeliverySection: React.FC = () => {
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext<CreateFreightInput>();
+
+  const [isOriginModalOpen, setIsOriginModalOpen] = useState(false);
+  const [isDestinationModalOpen, setIsDestinationModalOpen] = useState(false);
+  const [pickupDeliveryData, setPickupDeliveryData] =
+    useState<PickupDeliveryData>({
+      pickupDeliveryDate: "",
+      origin: null,
+      destination: null,
+    });
+
+  const handleOpenOriginModal = () => setIsOriginModalOpen(true);
+  const handleCloseOriginModal = () => setIsOriginModalOpen(false);
+
+  const handleOpenDestinationModal = () => setIsDestinationModalOpen(true);
+  const handleCloseDestinationModal = () => setIsDestinationModalOpen(false);
+
+  const handleOriginConfirm = (data: PickupDeliveryData["origin"]) => {
+    setPickupDeliveryData((prev) => ({ ...prev, origin: data }));
+    handleCloseOriginModal();
+  };
+
+  const handleDestinationConfirm = (
+    data: PickupDeliveryData["destination"]
+  ) => {
+    setPickupDeliveryData((prev) => ({ ...prev, destination: data }));
+    handleCloseDestinationModal();
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPickupDeliveryData((prev) => ({
+      ...prev,
+      pickupDeliveryDate: e.target.value,
+    }));
+    setValue("pickupDeliveryData", e.target.value);
+  };
+
+  useEffect(() => {
+    setValue("pickupDeliveryData", pickupDeliveryData.pickupDeliveryDate);
+
+    if (pickupDeliveryData.origin) {
+      setValue(
+        "origin",
+        `${pickupDeliveryData.origin.selectedCity}, ${pickupDeliveryData.origin.selectedState}`
+      );
+      if (pickupDeliveryData.origin.additionalInfo) {
+        setValue("originCNPJ", pickupDeliveryData.origin.additionalInfo.cnpj);
+        setValue(
+          "originRazaoSocial",
+          pickupDeliveryData.origin.additionalInfo.razaoSocial
+        );
+        setValue(
+          "originEndereco",
+          pickupDeliveryData.origin.additionalInfo.endereco
+        );
+      } else {
+        setValue("originCNPJ", "");
+        setValue("originRazaoSocial", "");
+        setValue("originEndereco", "");
+      }
+    }
+
+    if (pickupDeliveryData.destination) {
+      setValue(
+        "destination",
+        `${pickupDeliveryData.destination.selectedCity}, ${pickupDeliveryData.destination.selectedState}`
+      );
+      if (pickupDeliveryData.destination.additionalInfo) {
+        setValue(
+          "destinationCNPJ",
+          pickupDeliveryData.destination.additionalInfo.cnpj
+        );
+        setValue(
+          "destinationRazaoSocial",
+          pickupDeliveryData.destination.additionalInfo.razaoSocial
+        );
+        setValue(
+          "destinationEndereco",
+          pickupDeliveryData.destination.additionalInfo.endereco
+        );
+      } else {
+        setValue("destinationCNPJ", "");
+        setValue("destinationRazaoSocial", "");
+        setValue("destinationEndereco", "");
+      }
+    }
+  }, [pickupDeliveryData, setValue]);
+
   return (
     <section className={styles.section}>
-      <h2 className={styles.title}>Dados da Coleta / Entrega</h2>
-
+      <h2 className={styles.title}>Dados da Coleta/Entrega</h2>
       <div className={styles.inputWrapper}>
         <label htmlFor="pickupDeliveryData" className={styles.label}>
-          Data do Carregamento
+          DATA DO CARREGAMENTO
         </label>
         <input
           id="pickupDeliveryData"
           type="date"
           {...register("pickupDeliveryData")}
-          onChange={handleInputChange}
-          className={`${styles.input} ${
-            errors.pickupDeliveryData ? styles.error : ""
+          value={pickupDeliveryData.pickupDeliveryDate}
+          onChange={handleDateChange}
+          className={`${styles.inputDate} ${
+            errors.pickupDeliveryData ? styles.errorInput : ""
           }`}
         />
+
         {errors.pickupDeliveryData && (
-          <p className={styles.errorMessage}>
-            {errors.pickupDeliveryData.message}
-          </p>
+          <p className={styles.error}>{errors.pickupDeliveryData.message}</p>
         )}
       </div>
-
       <div className={styles.rowInputs}>
-        <div className={styles.inputWrapper}>
+        {/* Origem */}
+        <div className={styles.inputGroup}>
           <label htmlFor="origin" className={styles.label}>
             Origem
           </label>
           <input
             id="origin"
             type="text"
-            {...register("origin")}
-            onChange={handleInputChange}
-            className={`${styles.input} ${errors.origin ? styles.error : ""}`}
+            value={
+              pickupDeliveryData.origin
+                ? `${pickupDeliveryData.origin.selectedCity} - ${pickupDeliveryData.origin.selectedState}`
+                : ""
+            }
+            onClick={handleOpenOriginModal}
+            readOnly
+            className={`${styles.input} ${
+              errors.origin ? styles.errorInput : ""
+            }`}
             placeholder="Indique a origem ou CNPJ do remetente"
           />
-          {inputValues.origin && <p>Valor atual: {inputValues.origin}</p>}
           {errors.origin && (
             <p className={styles.errorMessage}>{errors.origin.message}</p>
           )}
         </div>
 
-        <div className={styles.inputWrapper}>
+        {/* Destino */}
+        <div className={styles.inputGroup}>
           <label htmlFor="destination" className={styles.label}>
             Destino
           </label>
           <input
             id="destination"
             type="text"
-            {...register("destination")}
-            onChange={handleInputChange}
+            value={
+              pickupDeliveryData.destination
+                ? `${pickupDeliveryData.destination.selectedCity} - ${pickupDeliveryData.destination.selectedState}`
+                : ""
+            }
+            onClick={handleOpenDestinationModal}
+            readOnly
             className={`${styles.input} ${
-              errors.destination ? styles.error : ""
+              errors.destination ? styles.errorInput : ""
             }`}
-            placeholder="Insira o destino ou o CNPJ do destinatário"
+            placeholder="Insira o destino ou CNPJ do destinatário"
           />
-          {inputValues.destination && (
-            <p>Valor atual: {inputValues.destination}</p>
-          )}
           {errors.destination && (
             <p className={styles.errorMessage}>{errors.destination.message}</p>
           )}
         </div>
       </div>
+
+      {/* Modal para Origem */}
+      <OriginCollectionModal
+        isOpen={isOriginModalOpen}
+        onRequestClose={handleCloseOriginModal}
+        onConfirm={handleOriginConfirm}
+        type="Origem"
+      />
+
+      {/* Modal para Destino */}
+      <OriginCollectionModal
+        isOpen={isDestinationModalOpen}
+        onRequestClose={handleCloseDestinationModal}
+        onConfirm={handleDestinationConfirm}
+        type="Destino"
+      />
+
+      {/* Campos ocultos para armazenar os dados adicionais */}
+      <input type="hidden" {...register("originCNPJ")} />
+      <input type="hidden" {...register("originRazaoSocial")} />
+      <input type="hidden" {...register("originEndereco")} />
+      <input type="hidden" {...register("destinationCNPJ")} />
+      <input type="hidden" {...register("destinationRazaoSocial")} />
+      <input type="hidden" {...register("destinationEndereco")} />
     </section>
   );
 };

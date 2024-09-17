@@ -1,8 +1,6 @@
-
-import React from 'react';
-import Modal from 'react-modal';
-import styles from './ModalRoot.module.css';
-
+import React from "react";
+import ReactModal from "react-modal";
+import styles from "./ModalRoot.module.css";
 
 interface ModalRootProps {
   isOpen: boolean;
@@ -10,25 +8,22 @@ interface ModalRootProps {
   children: React.ReactNode;
 }
 
-const ModalRoot: React.FC<ModalRootProps> = ({ isOpen, onRequestClose, children }) => {
+const ModalRoot: React.FC<ModalRootProps> = ({
+  isOpen,
+  onRequestClose,
+  children,
+}) => {
   return (
-    <Modal
+    <ReactModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      contentLabel="Modal"
+      className={styles.modal}
       overlayClassName={styles.overlay}
-      className={styles.content}
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={true}
     >
-      <div className={styles.modalContent}>
-        {children}
-      </div>
-
-      
-      <button onClick={onRequestClose} className={styles.closeButton}>
-        OK
-      </button>
-
-    </Modal>
+      {children}
+    </ReactModal>
   );
 };
 

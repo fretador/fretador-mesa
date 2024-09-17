@@ -1,0 +1,29 @@
+.submitWrapper {
+  padding: 80px;
+  background-color: #B2CEDA;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.submitButton {
+  background-color: #1a556d;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 36%;
+}
+
+.secondaryButton {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 36%;
+}
