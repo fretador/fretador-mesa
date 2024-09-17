@@ -4,6 +4,12 @@ import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import { ShippingType } from "@/utils/enums/shippingTypeEnum";
 import styles from "./ShippingTypeSection.module.css";
 
+const shippingTypeLabels: Record<ShippingType, string> = {
+  [ShippingType.COLETA]: "Coleta",
+  [ShippingType.ENTREGA]: "Entrega",
+  [ShippingType.IDA_VOLTA]: "Ida e Volta",
+};
+
 const ShippingTypeSection: React.FC = () => {
   const {
     register,
@@ -23,7 +29,7 @@ const ShippingTypeSection: React.FC = () => {
               })}
               value={type}
             />
-            {type}
+            {shippingTypeLabels[type]}
           </label>
         ))}
       </div>

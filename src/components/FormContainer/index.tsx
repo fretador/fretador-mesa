@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm, UseFormSetValue, FormProvider } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
@@ -10,7 +10,6 @@ import BodyworkSelectionSection from "./BodyworkSelectionSection";
 import ShippingTypeSection from "./ShippingTypeSection";
 import ObservationsSection from "./ObservationsSection";
 import FreightValueSection from "./FreightValuesSection";
-import ModalRoot from "@/components/ModalRoot";
 import AssignFreightModal from "@/components/ModalRoot/AssignFreightModal";
 import { FreightService } from "@/services/freightService";
 import { CargoLoadType } from "@/utils/enums/cargoLoadTypeEnum";
@@ -47,7 +46,7 @@ const FormContainer: React.FC = () => {
       moreDetails: "",
       eligibleVehicles: [],
       eligibleBodyworks: [],
-      type: Type.OFFER,
+      type: Type.OFFER, // Certifique-se de que está usando o enum correto
       targetedDrivers: [],
     },
   });
@@ -59,22 +58,16 @@ const FormContainer: React.FC = () => {
     setValue,
   } = methods;
 
-  const handleInputChange = (
-    event: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = event.target;
-    setValue(name as keyof CreateFreightInput, value);
-  };
-
   const onSubmit = async (data: CreateFreightInput) => {
     console.log("Dados do formulário:", data, targetedDriver);
+    console.log("Type.OFFER:", Type.OFFER);
+    console.log("Type.TARGETED:", Type.TARGETED);
+
     try {
       const freightData = {
         ...data,
-        type: targetedDriver.length > 0 ? Type.TARGETED : Type.OFFER,
         targetedDrivers: targetedDriver.length > 0 ? targetedDriver : [],
+        type: targetedDriver.length > 0 ? Type.TARGETED : Type.OFFER,
       };
       console.log("Dados do frete a serem enviados:", freightData);
       const createdFreight = await FreightService.createFreight(freightData);
@@ -110,7 +103,7 @@ const FormContainer: React.FC = () => {
   const handleDirectToDriver = (driverIds?: string[]) => {
     if (driverIds && driverIds.length > 0) {
       setTargetedDriver(driverIds);
-      console.log(`Motorista selecionado: ${driverIds}`);
+      console.log(`Motoristas selecionados: ${driverIds}`);
     }
   };
 
@@ -146,6 +139,3 @@ const FormContainer: React.FC = () => {
 };
 
 export default FormContainer;
-function setValue(arg0: string, value: string) {
-  throw new Error("Function not implemented.");
-}

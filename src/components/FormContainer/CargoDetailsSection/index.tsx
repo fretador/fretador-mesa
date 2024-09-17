@@ -148,23 +148,22 @@ const CargoDetailsSection: React.FC = () => {
             }`}
           >
             <option value="">Selecione a espécie de carga</option>
-            {/* Valores correspondentes ao enum CargoType */}
-            <option value="Animais">Animais</option>
-            <option value="Big Bag">Big Bag</option>
-            <option value="Caixas">Caixas</option>
-            <option value="Container">Container</option>
-            <option value="Diversos">Diversos</option>
-            <option value="Fardos">Fardos</option>
-            <option value="Fracionada">Fracionada</option>
-            <option value="Granel">Granel</option>
-            <option value="Metro Cúbico">Metro Cúbico</option>
-            <option value="Milheiro">Milheiro</option>
-            <option value="Mudança">Mudança</option>
-            <option value="Paletes">Paletes</option>
-            <option value="Passageiro">Passageiro</option>
-            <option value="Sacos">Sacos</option>
-            <option value="Tambor">Tambor</option>
-            <option value="Unidades">Unidades</option>
+            <option value="ANIMAIS">Animais</option>
+            <option value="BIG_BAG">Big Bag</option>
+            <option value="CAIXAS">Caixas</option>
+            <option value="CONTAINER">Container</option>
+            <option value="DIVERSO">Diversos</option>
+            <option value="FARDOS">Fardos</option>
+            <option value="FRACIONADA">Fracionada</option>
+            <option value="GRANEL">Granel</option>
+            <option value="METRO_CUBICO">Metro Cúbico</option>
+            <option value="MILHEIRO">Milheiro</option>
+            <option value="MUDANCA">Mudança</option>
+            <option value="PALETES">Paletes</option>
+            <option value="PASSAGEIRO">Passageiro</option>
+            <option value="SACOS">Sacos</option>
+            <option value="TAMBOR">Tambor</option>
+            <option value="UNIDADES">Unidades</option>
           </select>
           {errors.cargoType && (
             <p className={styles.errorMessage}>{errors.cargoType.message}</p>

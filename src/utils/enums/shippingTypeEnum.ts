@@ -1,5 +1,5 @@
 export enum ShippingType {
-  ENTREGA = "Entrega",
-  COLETA = "Coleta",
-  IDA_VOLTA = "Ida e Volta",
+  COLETA = "COLETA",
+  ENTREGA = "ENTREGA",
+  IDA_VOLTA = "IDA_VOLTA",
 }
