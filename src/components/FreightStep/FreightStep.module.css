@@ -4,6 +4,7 @@
   align-items: center;
   background-color: #D3DFE4;
   color: #1B556D;
+  position: relative;
 }
 
 .dateAndHourContainer {
@@ -28,11 +29,53 @@
   border-left: 1px solid #A8A5A5;
   height: 80px;
   margin: 12px 37px 12px 0px;
+}
 
+.mainContentContainer {
+  max-width: 65%;
 }
 
 .mainContentContainer p {
   font-size: 24px;
   font-weight: 600;
+  text-transform: uppercase;
+}
+
+.authorizeBoardingButtons {
+  display: flex;
+  margin-left: 68px;
+  gap: 40px;
+}
+
+.authorizeBoardingButtons button,
+.actionButtonContainer button {
+  padding: 8px 24px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.authorizeBoardingButtonNo {
+  background-color: #fdfdfd;
+  color: #1A556D;
+  border: 2px solid #1A556D;
+  transition: background-color color .3s ease;
+}
+
+.authorizeBoardingButtonNo:hover {
+  background-color: #1a6884;
+  color: #fdfdfd;
+}
+
+.actionButtonContainer {
+  display: flex;
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.actionButtonContainer button {
   text-transform: uppercase;
 }
