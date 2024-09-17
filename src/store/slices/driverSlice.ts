@@ -4,7 +4,7 @@ import { PageInfo } from "@/utils/types/PageInfo";
 
 interface DriverState {
 	driversByStatus: {
-		[status: string]: {
+		[statusKey: string]: {
 			drivers: Driver[];
 			pageInfo: PageInfo | null;
 			loading: boolean;
@@ -14,29 +14,17 @@ interface DriverState {
 }
 
 const initialState: DriverState = {
-	driversByStatus: {
-		APPROVED: {
-			drivers: [],
-			pageInfo: null,
-			loading: false,
-			error: null,
-		},
-		PENDING: {
-			drivers: [],
-			pageInfo: null,
-			loading: false,
-			error: null,
-		},
-	},
+	driversByStatus: {},
 };
 
 const driverSlice = createSlice({
 	name: "driver",
 	initialState,
 	reducers: {
-		fetchDriversStart(state, action: PayloadAction<{ status: string }>) {
+		fetchDriversStart(state, action: PayloadAction<{ status: string[] }>) {
 			const { status } = action.payload;
-			state.driversByStatus[status] = {
+			const statusKey = status.sort().join(",");
+			state.driversByStatus[statusKey] = {
 				drivers: [],
 				pageInfo: null,
 				loading: true,
@@ -48,11 +36,12 @@ const driverSlice = createSlice({
 			action: PayloadAction<{
 				drivers: Driver[];
 				pageInfo: PageInfo;
-				status: string;
+				status: string[];
 			}>
 		) {
 			const { drivers, pageInfo, status } = action.payload;
-			state.driversByStatus[status] = {
+			const statusKey = status.sort().join(",");
+			state.driversByStatus[statusKey] = {
 				drivers,
 				pageInfo,
 				loading: false,
@@ -61,10 +50,11 @@ const driverSlice = createSlice({
 		},
 		fetchDriversFailure(
 			state,
-			action: PayloadAction<{ error: string; status: string }>
+			action: PayloadAction<{ error: string; status: string[] }>
 		) {
 			const { error, status } = action.payload;
-			state.driversByStatus[status] = {
+			const statusKey = status.sort().join(",");
+			state.driversByStatus[statusKey] = {
 				drivers: [],
 				pageInfo: null,
 				loading: false,

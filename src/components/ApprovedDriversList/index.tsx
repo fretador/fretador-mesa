@@ -1,29 +1,26 @@
-import React, { useEffect, useMemo } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { useDriverController } from "@/controllers/driverController";
+import React from "react";
+import { Row } from "../Row";
 import { Driver } from "@/utils/types/Driver";
 import styles from './ApprovedDriversList.module.css';
 import RowTitle from "../RowTitle";
-import { Row } from "../Row";
 
-const ApprovedDriversList: React.FC = () => {
-  const { loadDrivers } = useDriverController();
-  const { drivers, loading, error } = useSelector((state: RootState) => state.driver.driversByStatus['APPROVED']);
+interface ApprovedDriversListProps {
+  drivers: Driver[];
+  loading: boolean;
+  error: string | null;
+}
 
-  useEffect(() => {
-    loadDrivers(1, 10, { status: 'APPROVED' });
-  }, [loadDrivers]);
-
-  const memoizedDrivers = useMemo(() => drivers, [drivers]);
-
+const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
+  drivers,
+  loading,
+  error,
+}) => {
   if (loading) return <p>Carregando motoristas...</p>;
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2>Aprovados</h2>
         <h4>Ordenar A-Z</h4>
       </div>
 
@@ -36,7 +33,7 @@ const ApprovedDriversList: React.FC = () => {
         titleStyles={{ color: "#1B556D", fontWeight: "700", fontSize: "20px" }}
       />
       <div className={styles.content}>
-        {memoizedDrivers?.map((driver: Driver) => (
+        {drivers.map((driver: Driver) => (
           <Row.Root key={driver.id} customBackgroundColor="#B2CEDA">
             <Row.Driver
               driverPhotoUrl={driver.userPhoto?.imageUrl || '/driver-mock.png'}
@@ -48,7 +45,7 @@ const ApprovedDriversList: React.FC = () => {
             <Row.CityState city={driver.city} state={driver.state} />
             <Row.WhatsApp whatsApp={driver.phoneNumber} />
             <Row.Vehicle vehicle={driver.vehicle?.type || 'N/A'} />
-            <Row.DriverStatus driverStatus="aprovado" />
+            <Row.DriverStatus driverStatus={driver.status} />
           </Row.Root>
         ))}
       </div>
