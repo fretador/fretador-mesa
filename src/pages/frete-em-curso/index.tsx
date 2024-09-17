@@ -74,8 +74,10 @@ const FreightInProgress: React.FC = () => {
                   <h2>Dados do embarque:</h2>
                   <FreightInCurseOptions />
                 </div>
+                
+              </div>
 
-                <FreightStep
+              <FreightStep
                   theme="dark"
                   date="07/06/2024"
                   hour="15:02:23"
@@ -99,8 +101,18 @@ const FreightInProgress: React.FC = () => {
                   actionButtonText="rastrear"
                   handleActionButton={() => console.log('Botão de ação clicado')}
                 />
-                
-              </div>
+
+                <FreightStep
+                  theme="light"
+                  date="07/06/2024"
+                  hour="15:02:23"
+                  content="Anexo enviado pelo motorista"
+                  actionButton={true}
+                  actionButtonText="ver anexos"
+                  handleActionButton={() => console.log('Botão de ação clicado')}
+                  hasAttachment={true}
+                  attachmentPath="/driver-mock.png"
+                />
             </Body>
           </div>
         </div>
