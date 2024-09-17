@@ -1,13 +1,6 @@
 .section {
-<<<<<<< HEAD
   padding: 3rem;
   background-color: #B2CEDA;
-=======
-  padding: 20px;
-  background-color: #f9f9f9;
-  margin-bottom: 20px;
-  border-radius: 8px;
->>>>>>> dce10fb (conflict)
 }
 
 .title {
@@ -45,21 +38,15 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
-<<<<<<< HEAD
   background-color: rgba(27, 85, 109, 0.3);
   color: #1A556D;
-=======
->>>>>>> dce10fb (conflict)
 }
 
 .rowInputs {
   display: flex;
   justify-content: space-between;
-<<<<<<< HEAD
-
-=======
   gap: 20px;
->>>>>>> dce10fb (conflict)
+
 }
 
 .error {
@@ -84,8 +71,6 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 16px;
-<<<<<<< HEAD
   color: #1A556D;
-=======
->>>>>>> dce10fb (conflict)
+
 }

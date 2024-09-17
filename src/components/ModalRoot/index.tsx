@@ -19,11 +19,8 @@ const ModalRoot: React.FC<ModalRootProps> = ({
       onRequestClose={onRequestClose}
       className={styles.modal}
       overlayClassName={styles.overlay}
-<<<<<<< HEAD
       shouldCloseOnEsc={true}
       shouldCloseOnOverlayClick={true}
-=======
->>>>>>> dce10fb (conflict)
     >
       {children}
     </ReactModal>

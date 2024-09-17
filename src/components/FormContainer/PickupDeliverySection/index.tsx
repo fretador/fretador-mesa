@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
@@ -124,86 +123,22 @@ const PickupDeliverySection: React.FC = () => {
     }
   }, [pickupDeliveryData, setValue]);
 
-=======
-import React, { useState } from "react";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
-import OriginCollectionModal from "@/components/ModalRoot/OriginCollectionModal"; // Supondo que o modal esteja nesta pasta
-import styles from "./PickupDeliverySection.module.css"; // Importação dos estilos específicos
-import ReactModal from "react-modal";
-
-interface PickupDeliverySectionProps {
-  register: UseFormRegister<CreateFreightInput>;
-  errors: FieldErrors<CreateFreightInput>;
-  handleInputChange: (
-    event: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => void;
-}
-
-const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
-  register,
-  errors,
-  handleInputChange,
-}) => {
-  const [isOriginModalOpen, setIsOriginModalOpen] = useState(false);
-  const [isDestinationModalOpen, setIsDestinationModalOpen] = useState(false);
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
-
-  // Funções para abrir e fechar o modal
-  const openOriginModal = () => setIsOriginModalOpen(true);
-  const closeOriginModal = () => setIsOriginModalOpen(false);
-
-  const openDestinationModal = () => setIsDestinationModalOpen(true);
-  const closeDestinationModal = () => setIsDestinationModalOpen(false);
-
-  // Funções para definir origem e destino
-  const handleOriginConfirm = (city: string, state: string) => {
-    setOrigin(`${city} - ${state}`);
-    closeOriginModal();
-  };
-
-  const handleDestinationConfirm = (city: string, state: string) => {
-    setDestination(`${city} - ${state}`);
-    closeDestinationModal();
-  };
-
->>>>>>> dce10fb (conflict)
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>Dados da Coleta/Entrega</h2>
       <div className={styles.inputWrapper}>
-<<<<<<< HEAD
         <label htmlFor="pickupDeliveryData" className={styles.label}>
-=======
-        <label
-          htmlFor="pickupDeliveryData"
-          style={{
-            fontFamily: "Roboto",
-            fontWeight: 400,
-            fontSize: "24px",
-            marginRight: "2rem",
-          }}
-        >
->>>>>>> dce10fb (conflict)
           DATA DO CARREGAMENTO
         </label>
         <input
           id="pickupDeliveryData"
           type="date"
           {...register("pickupDeliveryData")}
-<<<<<<< HEAD
           value={pickupDeliveryData.pickupDeliveryDate}
           onChange={handleDateChange}
           className={`${styles.inputDate} ${
             errors.pickupDeliveryData ? styles.errorInput : ""
           }`}
-=======
-          onChange={handleInputChange}
-          className={styles.inputDate}
->>>>>>> dce10fb (conflict)
         />
 
         {errors.pickupDeliveryData && (
@@ -219,7 +154,6 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
           <input
             id="origin"
             type="text"
-<<<<<<< HEAD
             value={
               pickupDeliveryData.origin
                 ? `${pickupDeliveryData.origin.selectedCity} - ${pickupDeliveryData.origin.selectedState}`
@@ -230,12 +164,6 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
             className={`${styles.input} ${
               errors.origin ? styles.errorInput : ""
             }`}
-=======
-            value={origin} // Exibe o valor da cidade selecionada
-            onClick={openOriginModal} // Abre o modal ao clicar no campo
-            readOnly
-            className={`${styles.input} ${errors.origin ? styles.error : ""}`}
->>>>>>> dce10fb (conflict)
             placeholder="Indique a origem ou CNPJ do remetente"
           />
           {errors.origin && (
@@ -251,17 +179,12 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
           <input
             id="destination"
             type="text"
-<<<<<<< HEAD
             value={
               pickupDeliveryData.destination
                 ? `${pickupDeliveryData.destination.selectedCity} - ${pickupDeliveryData.destination.selectedState}`
                 : ""
             }
             onClick={handleOpenDestinationModal}
-=======
-            value={destination} // Exibe o valor da cidade selecionada
-            onClick={openDestinationModal} // Abre o modal ao clicar no campo
->>>>>>> dce10fb (conflict)
             readOnly
             className={`${styles.input} ${
               errors.destination ? styles.errorInput : ""
@@ -277,11 +200,7 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
       {/* Modal para Origem */}
       <OriginCollectionModal
         isOpen={isOriginModalOpen}
-<<<<<<< HEAD
         onRequestClose={handleCloseOriginModal}
-=======
-        onRequestClose={closeOriginModal}
->>>>>>> dce10fb (conflict)
         onConfirm={handleOriginConfirm}
         type="Origem"
       />
@@ -289,7 +208,6 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
       {/* Modal para Destino */}
       <OriginCollectionModal
         isOpen={isDestinationModalOpen}
-<<<<<<< HEAD
         onRequestClose={handleCloseDestinationModal}
         onConfirm={handleDestinationConfirm}
         type="Destino"
@@ -302,12 +220,6 @@ const PickupDeliverySection: React.FC<PickupDeliverySectionProps> = ({
       <input type="hidden" {...register("destinationCNPJ")} />
       <input type="hidden" {...register("destinationRazaoSocial")} />
       <input type="hidden" {...register("destinationEndereco")} />
-=======
-        onRequestClose={closeDestinationModal}
-        onConfirm={handleDestinationConfirm}
-        type="Destino"
-      />
->>>>>>> dce10fb (conflict)
     </section>
   );
 };

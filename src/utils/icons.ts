@@ -15,7 +15,7 @@ import ArrowRight from "@/assets/icons/arrowRight.svg";
 import ArrowDown from "@/assets/icons/arrowDown.svg";
 import Magnifier from "@/assets/icons/magnifier.svg";
 import ShippingBox from "@/assets/icons/shippingBox.svg";
-import ShipmentCheck from "@/assets/icons/ShipmentCheck.svg";
+import ShipmentCheck from "@/assets/icons/shipmentCheck.svg";
 import MagnifyingGlass from "@/assets/icons/magnifyingGlass.svg";
 import VerticalDots from "@/assets/icons/verticalDots.svg";
 import LogoWhatsapp from "@/assets/icons/logoWhatsapp.svg";

@@ -30,28 +30,16 @@ const CargoDetailsSection: React.FC = () => {
             <label>
               <input
                 type="radio"
-<<<<<<< HEAD
                 {...register("cargoLoadType", { required: true })}
                 value="FULL"
-=======
-                {...register("cargoLoadType")}
-                value="completa"
-                onChange={handleInputChange}
->>>>>>> dce10fb (conflict)
               />
               Completa
             </label>
             <label>
               <input
                 type="radio"
-<<<<<<< HEAD
                 {...register("cargoLoadType", { required: true })}
                 value="PARTIAL"
-=======
-                {...register("cargoLoadType")}
-                value="complemento"
-                onChange={handleInputChange}
->>>>>>> dce10fb (conflict)
               />
               Complemento
             </label>
@@ -63,45 +51,29 @@ const CargoDetailsSection: React.FC = () => {
           )}
         </div>
 
-<<<<<<< HEAD
         {/* Precisa de Lona */}
-=======
-        {/* Lona */}
->>>>>>> dce10fb (conflict)
         <div className={styles.radioGroup}>
           <label className={styles.label}>Precisa de Lona?</label>
           <div className={styles.radioOptions}>
             <label>
               <input
                 type="radio"
-<<<<<<< HEAD
                 {...register("needsTarp", {
                   required: true,
                   setValueAs: (value) => value === "true",
                 })}
                 value="true"
-=======
-                {...register("needsTarp")}
-                value="sim"
-                onChange={handleInputChange}
->>>>>>> dce10fb (conflict)
               />
               Sim
             </label>
             <label>
               <input
                 type="radio"
-<<<<<<< HEAD
                 {...register("needsTarp", {
                   required: true,
                   setValueAs: (value) => value === "true",
                 })}
                 value="false"
-=======
-                {...register("needsTarp")}
-                value="nao"
-                onChange={handleInputChange}
->>>>>>> dce10fb (conflict)
               />
               Não
             </label>
@@ -111,45 +83,29 @@ const CargoDetailsSection: React.FC = () => {
           )}
         </div>
 
-<<<<<<< HEAD
         {/* Precisa de Rastreador */}
-=======
-        {/* Rastreador */}
->>>>>>> dce10fb (conflict)
         <div className={styles.radioGroup}>
           <label className={styles.label}>Precisa de Rastreador?</label>
           <div className={styles.radioOptions}>
             <label>
               <input
                 type="radio"
-<<<<<<< HEAD
                 {...register("needsTracker", {
                   required: true,
                   setValueAs: (value) => value === true,
                 })}
                 value="true"
-=======
-                {...register("needsTracker")}
-                value="sim"
-                onChange={handleInputChange}
->>>>>>> dce10fb (conflict)
               />
               Sim
             </label>
             <label>
               <input
                 type="radio"
-<<<<<<< HEAD
                 {...register("needsTracker", {
                   required: true,
                   setValueAs: (value) => value === "true",
                 })}
                 value="false"
-=======
-                {...register("needsTracker")}
-                value="nao"
-                onChange={handleInputChange}
->>>>>>> dce10fb (conflict)
               />
               Não
             </label>
@@ -168,16 +124,10 @@ const CargoDetailsSection: React.FC = () => {
           <input
             id="product"
             type="text"
-<<<<<<< HEAD
             {...register("product", { required: true })}
             className={`${styles.input} ${
               errors.product ? styles.errorInput : ""
             }`}
-=======
-            {...register("product")}
-            onChange={handleInputChange}
-            className={`${styles.input} ${errors.product ? styles.error : ""}`}
->>>>>>> dce10fb (conflict)
             placeholder="Qual produto será carregado?"
           />
           {errors.product && (
@@ -192,7 +142,6 @@ const CargoDetailsSection: React.FC = () => {
           </label>
           <select
             id="cargoType"
-<<<<<<< HEAD
             {...register("cargoType", { required: true })}
             className={`${styles.input} ${
               errors.cargoType ? styles.errorInput : ""
@@ -200,15 +149,6 @@ const CargoDetailsSection: React.FC = () => {
           >
             <option value="">Selecione a espécie de carga</option>
             {/* Valores correspondentes ao enum CargoType */}
-=======
-            {...register("cargoType")}
-            onChange={handleInputChange}
-            className={`${styles.input} ${
-              errors.cargoType ? styles.error : ""
-            }`}
-          >
-            <option value="">Selecione a espécie de carga</option>
->>>>>>> dce10fb (conflict)
             <option value="Animais">Animais</option>
             <option value="Big Bag">Big Bag</option>
             <option value="Caixas">Caixas</option>
@@ -217,11 +157,7 @@ const CargoDetailsSection: React.FC = () => {
             <option value="Fardos">Fardos</option>
             <option value="Fracionada">Fracionada</option>
             <option value="Granel">Granel</option>
-<<<<<<< HEAD
             <option value="Metro Cúbico">Metro Cúbico</option>
-=======
-            <option value="Metro Cubico">Metro Cúbico</option>
->>>>>>> dce10fb (conflict)
             <option value="Milheiro">Milheiro</option>
             <option value="Mudança">Mudança</option>
             <option value="Paletes">Paletes</option>
@@ -285,14 +221,9 @@ const CargoDetailsSection: React.FC = () => {
             type="number"
             step="0.01"
             {...register("cubage", { valueAsNumber: true })}
-<<<<<<< HEAD
             className={`${styles.input} ${
               errors.cubage ? styles.errorInput : ""
             }`}
-=======
-            onChange={handleInputChange}
-            className={`${styles.input} ${errors.cubage ? styles.error : ""}`}
->>>>>>> dce10fb (conflict)
             placeholder="M³"
           />
           {errors.cubage && (
@@ -308,14 +239,9 @@ const CargoDetailsSection: React.FC = () => {
             id="moreDetails"
             type="text"
             {...register("moreDetails")}
-<<<<<<< HEAD
             className={`${styles.input} ${
               errors.moreDetails ? styles.errorInput : ""
             }`}
-=======
-            onChange={handleInputChange}
-            className={styles.input}
->>>>>>> dce10fb (conflict)
             placeholder="Outras informações relevantes"
           />
           {errors.moreDetails && (
