@@ -1,9 +1,15 @@
 .submitWrapper {
+<<<<<<< HEAD
   padding: 80px;
   background-color: #B2CEDA;
   display: flex;
   justify-content: space-between;
 
+=======
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+>>>>>>> dce10fb (conflict)
 }
 
 .submitButton {
@@ -14,7 +20,11 @@
   border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
+<<<<<<< HEAD
   width: 36%;
+=======
+  width: 48%;
+>>>>>>> dce10fb (conflict)
 }
 
 .secondaryButton {
@@ -25,5 +35,9 @@
   border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
+<<<<<<< HEAD
   width: 36%;
+=======
+  width: 48%;
+>>>>>>> dce10fb (conflict)
 }

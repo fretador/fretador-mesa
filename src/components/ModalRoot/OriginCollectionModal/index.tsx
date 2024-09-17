@@ -8,7 +8,11 @@ import { RadioTrueIcon, RadioFalseIcon } from "@/utils/icons";
 interface OriginCollectionModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
+<<<<<<< HEAD
   onConfirm: (data: any) => void; // Modificado para aceitar um objeto de dados
+=======
+  onConfirm: (city: string, state: string) => void;
+>>>>>>> dce10fb (conflict)
   type: "Origem" | "Destino";
 }
 
@@ -30,6 +34,7 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
 
   useEffect(() => {
     if (cityInput.length >= 2) {
+<<<<<<< HEAD
       const suggestions: string[] = [];
       Object.entries(brazilianCitiesStates).forEach(([state, cities]) => {
         const filteredCities = cities.filter((city) =>
@@ -40,11 +45,19 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
         });
       });
       setSuggestions(suggestions.slice(0, 5));
+=======
+      const allCities = Object.values(brazilianCitiesStates).flat();
+      const filteredCities = allCities.filter((city) =>
+        city.toLowerCase().includes(cityInput.toLowerCase())
+      );
+      setSuggestions(filteredCities.slice(0, 5));
+>>>>>>> dce10fb (conflict)
     } else {
       setSuggestions([]);
     }
   }, [cityInput]);
 
+<<<<<<< HEAD
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && suggestions.length === 1) {
       handleCitySelect(suggestions[0]);
@@ -118,7 +131,32 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
 
     onConfirm(modalData); // Passa os dados para a função onConfirm
     onRequestClose();
+=======
+  const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCityInput(e.target.value);
   };
+
+  const handleCitySelect = (city: string) => {
+    setSelectedCity(city);
+    const state = Object.keys(brazilianCitiesStates).find((state) =>
+      brazilianCitiesStates[state].includes(city)
+    );
+    setSelectedState(state || "");
+    setCityInput(city);
+    setSuggestions([]);
+>>>>>>> dce10fb (conflict)
+  };
+
+  const handleSenderInfoChange = (value: string) => {
+    setSenderInfoOption(value);
+  };
+
+  const headerText =
+    type === "Origem"
+      ? "Origem - Local de Coleta"
+      : "Destino - Local de Descarga";
+
+  const typeToLowerCase = type.toLowerCase() as "origem" | "destino";
 
   return (
     <ModalRoot isOpen={isOpen} onRequestClose={onRequestClose}>
@@ -136,12 +174,16 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
               id="city"
               value={cityInput}
               onChange={handleCityInputChange}
+<<<<<<< HEAD
               onKeyDown={handleKeyDown}
+=======
+>>>>>>> dce10fb (conflict)
               className={styles.input}
               placeholder={placeholderText}
             />
             {suggestions.length > 0 && (
               <ul className={styles.suggestions}>
+<<<<<<< HEAD
                 {suggestions.map((cityState, index) => (
                   <li
                     key={index}
@@ -149,6 +191,15 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
                     className={styles.suggestionItem}
                   >
                     {cityState}
+=======
+                {suggestions.map((city, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleCitySelect(city)}
+                    className={styles.suggestionItem}
+                  >
+                    {city}
+>>>>>>> dce10fb (conflict)
                   </li>
                 ))}
               </ul>
@@ -248,7 +299,14 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
             className={styles.confirmButton}
             text="Confirmar"
             type="button"
+<<<<<<< HEAD
             onClick={handleConfirm}
+=======
+            onClick={() => {
+              onRequestClose();
+              onConfirm(selectedCity, selectedState);
+            }}
+>>>>>>> dce10fb (conflict)
           />
         </div>
       </div>

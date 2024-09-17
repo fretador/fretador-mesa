@@ -42,7 +42,11 @@
   border-radius: 4px;
   font-size: 14px;
   background-color: rgba(27, 85, 109, 0.3);
+<<<<<<< HEAD
   color: #1A556D;
+=======
+  border: 2px solid #1B556D;
+>>>>>>> dce10fb (conflict)
 }
 
 .inputDate {
@@ -54,8 +58,12 @@
   border-radius: 4px;
   font-size: 14px;
   background-color: rgba(27, 85, 109, 0.3);
+<<<<<<< HEAD
   color: #1A556D;
 
+=======
+  border: 2px solid #1B556D;
+>>>>>>> dce10fb (conflict)
 }
 
 .error {

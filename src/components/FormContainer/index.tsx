@@ -1,10 +1,18 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { useForm, UseFormSetValue, FormProvider } from "react-hook-form";
+=======
+import React, { useState } from "react";
+import { useForm, UseFormRegister } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FreightSchema, FreightFormValues } from "@/utils/validations";
+>>>>>>> dce10fb (conflict)
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
 import FreightSubmissionButton from "@/components/FormContainer/FreightSubmissionButton";
 import VehicleSelectionSection from "@/components/FormContainer/VehicleSelectionSection";
+<<<<<<< HEAD
 import styles from "./FormContainer.module.css";
 import BodyworkSelectionSection from "./BodyworkSelectionSection";
 import ShippingTypeSection from "./ShippingTypeSection";
@@ -17,6 +25,14 @@ import { CargoLoadType } from "@/utils/enums/cargoLoadTypeEnum";
 import { Type } from "@/utils/enums/typeEnum";
 import { createFreightSchema } from "@/utils/validations/createFreightSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+=======
+import BodyworkSelectionSection from "@/components/FormContainer/BodyworkSelectionSection";
+import ShippingTypeSection from "@/components/FormContainer/ShippingTypeSection";
+import FreightValueSection from "@/components/FormContainer/FreightValuesSection";
+import ObservationsSection from "@/components/FormContainer/ObservationsSection";
+import SubmitButtons from "@/components/FormContainer/FreightSubmissionButton";
+import styles from "./FormContainer.module.css";
+>>>>>>> dce10fb (conflict)
 
 const FormContainer: React.FC = () => {
   const [targetedDriver, setTargetedDriver] = useState<string[]>([]);
