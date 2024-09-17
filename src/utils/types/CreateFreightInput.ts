@@ -1,54 +1,48 @@
-import { FreightType } from "./Enums";
+import { VehicleCategory, VehicleType } from "../enums/vehicleEnums";
+import { BodyworkCategory, BodyworkType } from "../enums/bodyworkEnums";
+import { CargoLoadType } from "../enums/cargoLoadTypeEnum";
+import { CargoType } from "../enums/cargoTypeEnum";
+import { ShippingType } from "../enums/shippingTypeEnum";
+import { Type } from "../enums/typeEnum";
 
 export interface CreateFreightInput {
   pickupDeliveryData: string;
   origin: string;
-  destination: string;
-
-  cargoLoadType: "completa" | "complemento";
-  needsTarp: "sim" | "nao";
-  needsTracker: "sim" | "nao";
+  destination?: string;
+  originCNPJ?: string;
+  originRazaoSocial?: string;
+  originEndereco?: string;
+  destinationCNPJ?: string;
+  destinationRazaoSocial?: string;
+  destinationEndereco?: string;
+  cargoLoadType: CargoLoadType;
+  needsTarp: boolean;
+  needsTracker: boolean;
   product: string;
-  cargoType: string;
-  totalWeight: string;
-  volumes?: string;
-  cubage?: string;
+  cargoType: CargoType;
+  totalWeight: number;
+  volumes?: number;
+  cubage?: number;
   moreDetails?: string;
-
-  vehicleUtilitario?: boolean;
-  vehicleVLC?: boolean;
-  vehicleTresQuartos?: boolean;
-  vehicleToco?: boolean;
-  vehicleTruck?: boolean;
-  vehicleBiTruck?: boolean;
-  vehicleCarretaSimples?: boolean;
-  vehicleCarretaLS?: boolean;
-  vehicleVanderleia?: boolean;
-
-  bodyworkBau?: boolean;
-  bodyworkGradeBaixa?: boolean;
-  bodyworkRefrigerado?: boolean;
-  bodyworkFrigorifico?: boolean;
-  bodyworkSider?: boolean;
-  bodyworkGraneleiro?: boolean;
-  bodyworkPrancha?: boolean;
-  bodyworkPlataforma?: boolean;
-  bodyworkPortaContainer?: boolean;
-  bodyworkCacamba?: boolean;
-  bodyworkCavaqueira?: boolean;
-  bodyworkSilo?: boolean;
-  bodyworkMunck?: boolean;
-  bodyworkCegonha?: boolean;
-
-  shippingType: "Coleta" | "Entrega" | "Ida eVolta";
-  freightType: "CIF" | "FOB";
-  freightValue: string;
-  pedagioIncluso: "Sim" | "Não";
-
+  value: number | null;
+  shippingType: ShippingType;
+  pedagioIncluso: boolean;
+  formaPagamento: string;
   observations?: string;
+  eligibleVehicles: EligibleVehicle[];
+  eligibleBodyworks: EligibleBodywork[];
+  type: Type;
+  targetedDrivers: string[];
+}
 
-  value: number;
-  clientName: string;
-  freightCode: string;
-  toll: boolean;
+interface EligibleVehicle {
+  category: VehicleCategory;
+  type: VehicleType;
+  eligible: boolean;
+}
+
+interface EligibleBodywork {
+  category: BodyworkCategory;
+  type: BodyworkType;
+  eligible: boolean;
 }

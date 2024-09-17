@@ -1,0 +1,18 @@
+export enum CargoType {
+  ANIMAIS = "Animais",
+  BIG_BAG = "Big Bag",
+  CAIXAS = "Caixas",
+  CONTAINER = "Container",
+  DIVERSOS = "Diversos",
+  FARDOS = "Fardos",
+  FRACIONADA = "Fracionada",
+  GRANEL = "Granel",
+  METRO_CUBICO = "Metro Cúbico",
+  MILHEIRO = "Milheiro",
+  MUDANCA = "Mudança",
+  PALETES = "Paletes",
+  PASSAGEIRO = "Passageiro",
+  SACOS = "Sacos",
+  TAMBOR = "Tambor",
+  UNIDADES = "Unidades",
+}
