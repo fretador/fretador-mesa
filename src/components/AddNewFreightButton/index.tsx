@@ -14,7 +14,7 @@ const AddNewFreightButton = () => {
     <div className={styles.container}>
 
       <div className={`${styles.addFreightButton} ${isAddFreightVisible ? styles.show : ''}`}>
-        <Link href="/fretes">
+        <Link href="/criar-fretes">
           ADICIONAR NOVO FRETE
         </Link>
       </div>
