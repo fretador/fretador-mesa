@@ -1,19 +1,14 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./FreightValuesSection.module.css";
 
 const FreightValueSection: React.FC = () => {
   const {
     register,
-    setValue,
+    control,
     formState: { errors },
   } = useFormContext<CreateFreightInput>();
-
-  const handlePedagioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value === "true";
-    setValue("pedagioIncluso", value);
-  };
 
   return (
     <section className={styles.section}>
@@ -42,33 +37,35 @@ const FreightValueSection: React.FC = () => {
         </div>
 
         {/* Pedágio Incluso */}
-        {/* Pedágio Incluso */}
         <div className={styles.inputGroup}>
           <label className={styles.label}>Pedágio Incluso?</label>
-          <div className={styles.radioGroup}>
-            <label>
-              <input
-                type="radio"
-                {...register("pedagioIncluso", {
-                  required: true,
-                  setValueAs: (value) => value === "true",
-                })}
-                value="true"
-              />
-              Sim
-            </label>
-            <label>
-              <input
-                type="radio"
-                {...register("pedagioIncluso", {
-                  required: true,
-                  setValueAs: (value) => value === "true",
-                })}
-                value="false"
-              />
-              Não
-            </label>
-          </div>
+          <Controller
+            name="pedagioIncluso"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <div className={styles.radioGroup}>
+                <label>
+                  <input
+                    type="radio"
+                    value="true"
+                    checked={field.value === true}
+                    onChange={() => field.onChange(true)}
+                  />
+                  Sim
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    value="false"
+                    checked={field.value === false}
+                    onChange={() => field.onChange(false)}
+                  />
+                  Não
+                </label>
+              </div>
+            )}
+          />
           {errors.pedagioIncluso && (
             <p className={styles.errorMessage}>
               {errors.pedagioIncluso.message}

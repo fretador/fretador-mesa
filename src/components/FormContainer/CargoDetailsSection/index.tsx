@@ -1,22 +1,14 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./CargoDetailsSection.module.css";
 
 const CargoDetailsSection: React.FC = () => {
   const {
     register,
-    setValue,
+    control,
     formState: { errors },
   } = useFormContext<CreateFreightInput>();
-
-  const handleBooleanRadioChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    fieldName: "needsTarp" | "needsTracker"
-  ) => {
-    const booleanValue = e.target.value === "true";
-    setValue(fieldName, booleanValue);
-  };
 
   return (
     <section className={styles.section}>
@@ -54,30 +46,33 @@ const CargoDetailsSection: React.FC = () => {
         {/* Precisa de Lona */}
         <div className={styles.radioGroup}>
           <label className={styles.label}>Precisa de Lona?</label>
-          <div className={styles.radioOptions}>
-            <label>
-              <input
-                type="radio"
-                {...register("needsTarp", {
-                  required: true,
-                  setValueAs: (value) => value === "true",
-                })}
-                value="true"
-              />
-              Sim
-            </label>
-            <label>
-              <input
-                type="radio"
-                {...register("needsTarp", {
-                  required: true,
-                  setValueAs: (value) => value === "true",
-                })}
-                value="false"
-              />
-              Não
-            </label>
-          </div>
+          <Controller
+            name="needsTarp"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <div className={styles.radioOptions}>
+                <label>
+                  <input
+                    type="radio"
+                    value="true"
+                    checked={field.value === true}
+                    onChange={() => field.onChange(true)}
+                  />
+                  Sim
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    value="false"
+                    checked={field.value === false}
+                    onChange={() => field.onChange(false)}
+                  />
+                  Não
+                </label>
+              </div>
+            )}
+          />
           {errors.needsTarp && (
             <p className={styles.errorMessage}>{errors.needsTarp.message}</p>
           )}
@@ -86,30 +81,33 @@ const CargoDetailsSection: React.FC = () => {
         {/* Precisa de Rastreador */}
         <div className={styles.radioGroup}>
           <label className={styles.label}>Precisa de Rastreador?</label>
-          <div className={styles.radioOptions}>
-            <label>
-              <input
-                type="radio"
-                {...register("needsTracker", {
-                  required: true,
-                  setValueAs: (value) => value === true,
-                })}
-                value="true"
-              />
-              Sim
-            </label>
-            <label>
-              <input
-                type="radio"
-                {...register("needsTracker", {
-                  required: true,
-                  setValueAs: (value) => value === "true",
-                })}
-                value="false"
-              />
-              Não
-            </label>
-          </div>
+          <Controller
+            name="needsTracker"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <div className={styles.radioOptions}>
+                <label>
+                  <input
+                    type="radio"
+                    value="true"
+                    checked={field.value === true}
+                    onChange={() => field.onChange(true)}
+                  />
+                  Sim
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    value="false"
+                    checked={field.value === false}
+                    onChange={() => field.onChange(false)}
+                  />
+                  Não
+                </label>
+              </div>
+            )}
+          />
           {errors.needsTracker && (
             <p className={styles.errorMessage}>{errors.needsTracker.message}</p>
           )}
