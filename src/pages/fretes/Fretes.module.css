@@ -66,3 +66,10 @@
 .pageInfo {
   font-weight: bold;
 }
+
+.addFreightButton {
+  position: fixed;
+  bottom: 3%;
+  right: 3%;
+  z-index: 1;
+}
