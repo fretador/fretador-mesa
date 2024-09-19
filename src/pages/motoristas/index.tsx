@@ -11,7 +11,7 @@ import SearchComponent from "@/components/SearchButton";
 import AwaitingApprovalList from "@/components/AwaitingApprovalCards";
 import StatusDriversFilter from "@/components/StatusFilter2";
 import VehicleFilter from "@/components/VehicleFilter";
-import ApprovedDriversList from "@/components/ApprovedDriversList";
+import DriversList from "@/components/ApprovedDriversList";
 import { Driver } from "@/utils/types/Driver";
 import { DriverService } from "@/services/driverService";
 
@@ -68,7 +68,7 @@ const Drivers: React.FC = () => {
       const filter = {
         status: ["PENDING"],
         vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
-        name: searchTerm || undefined,
+        allFilters: searchTerm || undefined,
       };
 
       const response = await DriverService.getDrivers(1, 10, filter);
@@ -89,7 +89,7 @@ const Drivers: React.FC = () => {
       const filter = {
         status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
         vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
-        name: searchTerm || undefined,
+        allFilters: searchTerm || undefined,
       };
 
       const response = await DriverService.getDrivers(1, 10, filter);
@@ -103,7 +103,9 @@ const Drivers: React.FC = () => {
 
   // useEffect para buscar motoristas sempre que os filtros mudarem
   useEffect(() => {
-    fetchAwaitingApprovalDrivers();
+    if (awaitingApprovalDrivers.length === 0) {
+      fetchAwaitingApprovalDrivers();
+    }
     fetchDrivers();
   }, [selectedStatuses, selectedVehicles, searchTerm]);
 
@@ -125,7 +127,7 @@ const Drivers: React.FC = () => {
           <div className={styles.content}>
             <Body>
               <div className={styles.searchComponents}>
-                <SearchComponent/>
+                <SearchComponent onSearch={handleSearch} />
                 <div className={styles.filterComponents}>
                   <StatusDriversFilter
                     onApply={handleStatusFilterApply}
@@ -148,7 +150,7 @@ const Drivers: React.FC = () => {
                 />
               </div>
 
-              <ApprovedDriversList
+              <DriversList
                 drivers={Drivers}
                 loading={loading}
                 error={error}
