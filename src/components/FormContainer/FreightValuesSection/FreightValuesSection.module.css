@@ -72,12 +72,15 @@
   margin-right: 5px;
 }
 
+<<<<<<< HEAD
 .iconText {
   font-family: "Roboto", sans-serif;
   font-size: 22px;
   font-weight: 400;
 }
 
+=======
+>>>>>>> d8859c2 (style(criarfretes):adjustemnts of style)
 .hiddenRadio {
   display: none;
 }

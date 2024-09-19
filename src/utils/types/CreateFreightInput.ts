@@ -34,7 +34,6 @@ export interface CreateFreightInput {
   type: Type;
   targetedDrivers: string[];
 }
-
 interface EligibleVehicle {
   category: VehicleCategory;
   type: VehicleType;
