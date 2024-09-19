@@ -92,17 +92,6 @@ const StatusDriversFilter: React.FC<StatusDriversFilterProps> = ({ onApply, onCa
           <label htmlFor="denied">Negado</label>
         </div>
 
-        <div className={styles.checkboxContainer}>
-          <input
-            type="checkbox"
-            id="waiting"
-            name="waiting"
-            checked={selectedStatuses.includes("WAITING")}
-            onChange={() => handleStatusChange("WAITING")}
-          />
-          <label htmlFor="waiting">Aguardando</label>
-        </div>
-
         <div className={styles.btnsContainer}>
           <button className={styles.btnApply} onClick={handleApply}>
             Aplicar
