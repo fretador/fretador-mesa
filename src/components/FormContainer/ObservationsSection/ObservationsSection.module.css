@@ -1,8 +1,6 @@
 .section {
   padding: 20px;
-  background-color: #f9f9f9;
-  margin-bottom: 20px;
-  border-radius: 8px;
+  background-color: #B2CEDA;
 }
 
 .title {
@@ -11,28 +9,24 @@
   margin-bottom: 10px;
 }
 
-.radioGroup,
 .inputGroup {
   margin-bottom: 20px;
 }
 
-.radioOptions {
-  display: flex;
-  gap: 10px;
+.label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
 }
 
-.input {
+.textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
-}
-
-.rowInputs {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  resize: vertical;
+  min-height: 100px;
 }
 
 .error {
@@ -43,10 +37,4 @@
   color: red;
   font-size: 12px;
   margin-top: 5px;
-}
-
-.label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 5px;
 }

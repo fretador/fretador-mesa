@@ -1,107 +1,167 @@
-import React, { useState } from 'react';
-import ModalRoot from '../../ModalRoot';
-import styles from './AssignFreight.module.css';
-
-interface Driver {
-  cpf: string;
-  name: string;
-  plate: string;
-}
+import React, { useEffect, useState, KeyboardEvent } from "react";
+import ModalRoot from "../../ModalRoot";
+import Loading from "../../Loading";
+import styles from "./AssignFreight.module.css";
+import { DriverService } from "@/services/driverService";
+import { Driver } from "@/utils/types/Driver";
 
 interface AssignFreightModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
+  onConfirm: (driverIds: string[]) => void;
 }
 
-const AssignFreightModal: React.FC<AssignFreightModalProps> = ({ isOpen, onRequestClose }) => {
-  const [cpfInput, setCpfInput] = useState('');
-  const [filteredDrivers, setFilteredDrivers] = useState<Driver[]>([]);
+const removeCPFFormatting = (cpf: string): string => {
+  return (cpf || "").replace(/[.-]/g, "");
+};
+
+const formatCPF = (cpf: string): string => {
+  const cleaned = removeCPFFormatting(cpf).padEnd(11, "0");
+  return cleaned.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4");
+};
+
+const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
+  isOpen,
+  onRequestClose,
+  onConfirm,
+}) => {
+  const [searchInput, setSearchInput] = useState("");
+  const [suggestions, setSuggestions] = useState<Driver[]>([]);
   const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
+  const [allDrivers, setAllDrivers] = useState<Driver[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Função para buscar motoristas (substitua pela sua lógica real)
-  const fetchDrivers = async (cpf: string) => {
-    // Lógica para buscar motoristas do backend com base no CPF digitado
-    // ...
-    // Exemplo de dados mockados (substitua pelos dados reais)
-    const mockDrivers: Driver[] = [
-      { cpf: '000.000.000-00', name: 'João da Silva Pereira', plate: 'KKK-0A12' },
-      { cpf: '000.000.000-01', name: 'Marcos Alves', plate: 'KKK-0A12' },
-      { cpf: '000.000.000-02', name: 'José Neto', plate: 'KKK-0A12' },
-      { cpf: '000.000.000-03', name: 'Carlos Aparecido Maia', plate: 'KKK-0A12' },
-    ];
+  // Buscar motoristas quando o modal é aberto
+  useEffect(() => {
+    const fetchDrivers = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await DriverService.getDrivers(1, 5000, {});
+        setAllDrivers(DriverService.transformDrivers(response.data));
+      } catch (err) {
+        setError("Falha ao buscar motoristas. Por favor, tente novamente.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    // Filtrar motoristas com base no CPF digitado
-    const filtered = mockDrivers.filter(driver =>
-      driver.cpf.includes(cpf)
-    );
-    setFilteredDrivers(filtered.slice(0, 4)); // Limitar a 4 resultados
-  };
+    if (isOpen) fetchDrivers();
+  }, [isOpen]);
 
-  const handleCpfInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const cpf = event.target.value;
-    setCpfInput(cpf);
-    fetchDrivers(cpf);
+  // Atualizar sugestões com base na entrada
+  useEffect(() => {
+    if (searchInput.length >= 2 && !selectedDriver) {
+      const unformattedInput = removeCPFFormatting(searchInput);
+      const isNumber = /^\d*$/.test(unformattedInput);
+
+      const filteredSuggestions = allDrivers.filter((driver) =>
+        isNumber
+          ? removeCPFFormatting(driver.cpf).includes(unformattedInput)
+          : driver.name.toLowerCase().includes(searchInput.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      setSuggestions([]);
+    }
+  }, [searchInput, allDrivers, selectedDriver]);
+
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newValue = event.target.value;
+    setSearchInput(newValue);
+
+    if (newValue === "") {
+      clearSelectedDriver();
+    }
   };
 
   const handleDriverSelect = (driver: Driver) => {
     setSelectedDriver(driver);
-    setFilteredDrivers([]);
+    setSearchInput(`${formatCPF(driver.cpf)} - ${driver.name}`);
+    setSuggestions([]);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Backspace") {
+      const newValue = searchInput.slice(0, -1);
+      setSearchInput(newValue);
+    } else if (event.key === "Enter" && suggestions.length === 1) {
+      handleDriverSelect(suggestions[0]);
+    }
   };
 
   const clearSelectedDriver = () => {
     setSelectedDriver(null);
-    setCpfInput('');
-    setFilteredDrivers([]);
+    setSearchInput("");
+    setSuggestions([]);
   };
 
   const handleConfirm = () => {
-    clearSelectedDriver();
-    onRequestClose();
+    if (selectedDriver) {
+      onConfirm([selectedDriver.id]);
+      onRequestClose();
+    } else {
+      onConfirm([]);
+      onRequestClose();
+    }
   };
 
   return (
-    <ModalRoot isOpen={isOpen} onRequestClose={clearSelectedDriver}>
-      <div className={styles.modalOverlay}>
-        <div className={styles.modalContent}>
-          <header className={styles.modalHeader}>
-            <h2 className={styles.modalTitle}>Direcionar Frete</h2>
-          </header>
-          <div className={styles.modalBody}>
-            <label className={styles.label} htmlFor="cpfInput">
-              CPF Motorista
-            </label>
+    <ModalRoot isOpen={isOpen} onRequestClose={onRequestClose}>
+      <div className={styles.modalContent}>
+        <header className={styles.modalHeader}>
+          <h2 className={styles.modalTitle}>Direcionar Frete</h2>
+        </header>
+        <div className={styles.modalBody}>
+          {isLoading && <Loading />}
+          {error && <p className={styles.error}>{error}</p>}
+          <label className={styles.label} htmlFor="searchInput">
+            CPF ou nome do motorista
+          </label>
+          <div className={styles.inputWrapper}>
             <input
               type="text"
-              id="cpfInput"
-              value={cpfInput}
-              onChange={handleCpfInputChange}
+              id="searchInput"
+              value={searchInput}
+              onChange={handleSearchInputChange}
+              onKeyDown={handleKeyDown}
               className={styles.input}
-              placeholder="Digite o CPF do motorista"
+              placeholder="Digite o CPF ou nome do motorista"
+              disabled={isLoading}
             />
-            {/* Renderizar resultados do autocomplete */}
-            <div className={styles.autocompleteResults}>
-              {filteredDrivers.map(driver => (
-                <div
-                  key={driver.cpf}
-                  onClick={() => handleDriverSelect(driver)}
-                  className={styles.driverBox}
-                >
-                  <p>{driver.cpf} - {driver.name} - Placa {driver.plate}</p>
-                </div>
-              ))}
-            </div>
-            {selectedDriver && (
-              <div className={styles.driverDetails}>
-                <h3>Dados do Motorista</h3>
-                <p>Motorista: {selectedDriver.name}</p>
-                <p>Veículo: {selectedDriver.plate}</p>
-                <p>Placa: {selectedDriver.plate}</p>
-                <p>Placa do Cavalo: {selectedDriver.plate}</p>
-              </div>
+            {suggestions.length > 0 && !selectedDriver && (
+              <ul className={styles.suggestions}>
+                {suggestions.map((driver, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleDriverSelect(driver)}
+                    className={styles.suggestionItem}
+                  >
+                    {formatCPF(driver.cpf)} - {driver.name} - Placa{" "}
+                    {driver.plate}
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
-          <button className={styles.confirmButton} onClick={handleConfirm}>Confirmar</button>
+          {selectedDriver && (
+            <div className={styles.driverDetails}>
+              <h3>Dados do Motorista</h3>
+              <p>Motorista: {selectedDriver.name}</p>
+              <p>Veículo: {selectedDriver.vehicle.type}</p>
+            </div>
+          )}
         </div>
+        <button
+          className={styles.confirmButton}
+          onClick={handleConfirm}
+          disabled={isLoading}
+        >
+          Confirmar
+        </button>
       </div>
     </ModalRoot>
   );

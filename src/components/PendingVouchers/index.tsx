@@ -4,11 +4,12 @@ import RowPendingVouchers from './RowPendingVouchers';
 import { ArrowRightIcon } from '@/utils/icons';
 import styles from './PendingVouchers.module.css';
 import { GetPendingApprovalFreightsData } from '@/utils/types/GraphTypes'; 
+import Loading from '../Loading';
 
 const PendingVouchers = () => {
   const { data, loading, error } = useQuery<GetPendingApprovalFreightsData>(GET_PENDING_APPROVAL_FREIGHTS);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
   if (error) return <p>Error: {error.message}</p>;
 
   const pendingFreights = data?.getPendingApprovalFreights || [];

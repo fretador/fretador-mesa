@@ -1,0 +1,47 @@
+.section {
+  padding: 20px;
+  background-color: #B2CEDA;
+}
+
+.rowInputs {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  /* Alinha os elementos no topo */
+  gap: 20px;
+}
+
+.inputGroup {
+  flex: 1;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.error {
+  border-color: red;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Driver } from "@/utils/types/Driver";
 import styles from './AwaitingApprovalList.module.css';
 import AwaitingApprovalCard from "../AwaitingApprovalCard";
+import Loading from "../Loading";
 
 interface AwaitingApprovalListProps {
   drivers: Driver[];
@@ -49,7 +50,7 @@ const AwaitingApprovalList: React.FC<AwaitingApprovalListProps> = ({
     }
   };
 
-  if (loading) return <p>Carregando motoristas...</p>;
+  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;
 
   return (

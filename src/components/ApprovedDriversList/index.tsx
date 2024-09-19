@@ -3,6 +3,7 @@ import { Row } from "../Row";
 import { Driver } from "@/utils/types/Driver";
 import styles from './ApprovedDriversList.module.css';
 import RowTitle from "../RowTitle";
+import Loading from "../Loading";
 
 interface ApprovedDriversListProps {
   drivers: Driver[];
@@ -15,7 +16,7 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
   loading,
   error,
 }) => {
-  if (loading) return <p>Carregando motoristas...</p>;
+  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;
 
   return (

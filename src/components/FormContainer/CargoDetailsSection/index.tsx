@@ -1,123 +1,174 @@
 import React from "react";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
-import styles from "./CargoDetailsSection.module.css"; // Importação dos estilos específicos
+import styles from "./CargoDetailsSection.module.css";
 
-interface CargoDetailsSectionProps {
-  register: UseFormRegister<CreateFreightInput>;
-  errors: FieldErrors<CreateFreightInput>;
-  handleInputChange: (
-    event: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => void;
-}
+const CargoDetailsSection: React.FC = () => {
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext<CreateFreightInput>();
 
-const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
-  register,
-  errors,
-  handleInputChange,
-}) => {
+  const handleBooleanRadioChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: "needsTarp" | "needsTracker"
+  ) => {
+    const booleanValue = e.target.value === "true";
+    setValue(fieldName, booleanValue);
+  };
+
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>Dados da Carga</h2>
 
-      <div className={styles.radioGroup}>
-        <label className={styles.label}>Tipo de Carga</label>
-        <div className={styles.radioOptions}>
-          <label>
-            <input
-              type="radio"
-              {...register("cargoLoadType")}
-              value="completa"
-              onChange={handleInputChange}
-            />
-            Completa
-          </label>
-          <label>
-            <input
-              type="radio"
-              {...register("cargoLoadType")}
-              value="complemento"
-              onChange={handleInputChange}
-            />
-            Complemento
-          </label>
+      <div className={styles.rowRadioGroups}>
+        {/* Tipo de Carga */}
+        <div className={styles.radioGroup}>
+          <label className={styles.label}>Tipo de Carga</label>
+          <div className={styles.radioOptions}>
+            <label>
+              <input
+                type="radio"
+                {...register("cargoLoadType", { required: true })}
+                value="FULL"
+              />
+              Completa
+            </label>
+            <label>
+              <input
+                type="radio"
+                {...register("cargoLoadType", { required: true })}
+                value="PARTIAL"
+              />
+              Complemento
+            </label>
+          </div>
+          {errors.cargoLoadType && (
+            <p className={styles.errorMessage}>
+              {errors.cargoLoadType.message}
+            </p>
+          )}
         </div>
-        {errors.cargoLoadType && (
-          <p className={styles.errorMessage}>{errors.cargoLoadType.message}</p>
-        )}
+
+        {/* Precisa de Lona */}
+        <div className={styles.radioGroup}>
+          <label className={styles.label}>Precisa de Lona?</label>
+          <div className={styles.radioOptions}>
+            <label>
+              <input
+                type="radio"
+                {...register("needsTarp", {
+                  required: true,
+                  setValueAs: (value) => value === "true",
+                })}
+                value="true"
+              />
+              Sim
+            </label>
+            <label>
+              <input
+                type="radio"
+                {...register("needsTarp", {
+                  required: true,
+                  setValueAs: (value) => value === "true",
+                })}
+                value="false"
+              />
+              Não
+            </label>
+          </div>
+          {errors.needsTarp && (
+            <p className={styles.errorMessage}>{errors.needsTarp.message}</p>
+          )}
+        </div>
+
+        {/* Precisa de Rastreador */}
+        <div className={styles.radioGroup}>
+          <label className={styles.label}>Precisa de Rastreador?</label>
+          <div className={styles.radioOptions}>
+            <label>
+              <input
+                type="radio"
+                {...register("needsTracker", {
+                  required: true,
+                  setValueAs: (value) => value === true,
+                })}
+                value="true"
+              />
+              Sim
+            </label>
+            <label>
+              <input
+                type="radio"
+                {...register("needsTracker", {
+                  required: true,
+                  setValueAs: (value) => value === "true",
+                })}
+                value="false"
+              />
+              Não
+            </label>
+          </div>
+          {errors.needsTracker && (
+            <p className={styles.errorMessage}>{errors.needsTracker.message}</p>
+          )}
+        </div>
       </div>
 
-      <div className={styles.radioGroup}>
-        <label className={styles.label}>Precisa de Lona?</label>
-        <div className={styles.radioOptions}>
-          <label>
-            <input
-              type="radio"
-              {...register("needsTarp")}
-              value="sim"
-              onChange={handleInputChange}
-            />
-            Sim
+      <div className={styles.rowInputs}>
+        <div className={styles.inputGroup}>
+          <label htmlFor="product" className={styles.label}>
+            Produto
           </label>
-          <label>
-            <input
-              type="radio"
-              {...register("needsTarp")}
-              value="nao"
-              onChange={handleInputChange}
-            />
-            Não
-          </label>
+          <input
+            id="product"
+            type="text"
+            {...register("product", { required: true })}
+            className={`${styles.input} ${
+              errors.product ? styles.errorInput : ""
+            }`}
+            placeholder="Qual produto será carregado?"
+          />
+          {errors.product && (
+            <p className={styles.errorMessage}>{errors.product.message}</p>
+          )}
         </div>
-        {errors.needsTarp && (
-          <p className={styles.errorMessage}>{errors.needsTarp.message}</p>
-        )}
-      </div>
 
-      <div className={styles.radioGroup}>
-        <label className={styles.label}>Precisa de Rastreador?</label>
-        <div className={styles.radioOptions}>
-          <label>
-            <input
-              type="radio"
-              {...register("needsTracker")}
-              value="sim"
-              onChange={handleInputChange}
-            />
-            Sim
+        {/* Dropdown de Espécie */}
+        <div className={styles.inputGroup}>
+          <label htmlFor="cargoType" className={styles.label}>
+            Espécie
           </label>
-          <label>
-            <input
-              type="radio"
-              {...register("needsTracker")}
-              value="nao"
-              onChange={handleInputChange}
-            />
-            Não
-          </label>
+          <select
+            id="cargoType"
+            {...register("cargoType", { required: true })}
+            className={`${styles.input} ${
+              errors.cargoType ? styles.errorInput : ""
+            }`}
+          >
+            <option value="">Selecione a espécie de carga</option>
+            <option value="ANIMAIS">Animais</option>
+            <option value="BIG_BAG">Big Bag</option>
+            <option value="CAIXAS">Caixas</option>
+            <option value="CONTAINER">Container</option>
+            <option value="DIVERSO">Diversos</option>
+            <option value="FARDOS">Fardos</option>
+            <option value="FRACIONADA">Fracionada</option>
+            <option value="GRANEL">Granel</option>
+            <option value="METRO_CUBICO">Metro Cúbico</option>
+            <option value="MILHEIRO">Milheiro</option>
+            <option value="MUDANCA">Mudança</option>
+            <option value="PALETES">Paletes</option>
+            <option value="PASSAGEIRO">Passageiro</option>
+            <option value="SACOS">Sacos</option>
+            <option value="TAMBOR">Tambor</option>
+            <option value="UNIDADES">Unidades</option>
+          </select>
+          {errors.cargoType && (
+            <p className={styles.errorMessage}>{errors.cargoType.message}</p>
+          )}
         </div>
-        {errors.needsTracker && (
-          <p className={styles.errorMessage}>{errors.needsTracker.message}</p>
-        )}
-      </div>
-
-      <div className={styles.inputGroup}>
-        <label htmlFor="product" className={styles.label}>
-          Produto
-        </label>
-        <input
-          id="product"
-          type="text"
-          {...register("product")}
-          onChange={handleInputChange}
-          className={`${styles.input} ${errors.product ? styles.error : ""}`}
-          placeholder="Qual produto será carregado?"
-        />
-        {errors.product && (
-          <p className={styles.errorMessage}>{errors.product.message}</p>
-        )}
       </div>
 
       <div className={styles.rowInputs}>
@@ -128,12 +179,14 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
           <input
             id="totalWeight"
             type="number"
-            {...register("totalWeight", { valueAsNumber: true })}
-            onChange={handleInputChange}
+            {...register("totalWeight", {
+              valueAsNumber: true,
+              required: true,
+            })}
             className={`${styles.input} ${
-              errors.totalWeight ? styles.error : ""
+              errors.totalWeight ? styles.errorInput : ""
             }`}
-            placeholder="Peso total em kg"
+            placeholder="Kg"
           />
           {errors.totalWeight && (
             <p className={styles.errorMessage}>{errors.totalWeight.message}</p>
@@ -148,8 +201,9 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
             id="volumes"
             type="number"
             {...register("volumes", { valueAsNumber: true })}
-            onChange={handleInputChange}
-            className={`${styles.input} ${errors.volumes ? styles.error : ""}`}
+            className={`${styles.input} ${
+              errors.volumes ? styles.errorInput : ""
+            }`}
             placeholder="Número de volumes"
           />
           {errors.volumes && (
@@ -166,31 +220,33 @@ const CargoDetailsSection: React.FC<CargoDetailsSectionProps> = ({
             type="number"
             step="0.01"
             {...register("cubage", { valueAsNumber: true })}
-            onChange={handleInputChange}
-            className={`${styles.input} ${errors.cubage ? styles.error : ""}`}
-            placeholder="Cubagem em m³"
+            className={`${styles.input} ${
+              errors.cubage ? styles.errorInput : ""
+            }`}
+            placeholder="M³"
           />
           {errors.cubage && (
             <p className={styles.errorMessage}>{errors.cubage.message}</p>
           )}
         </div>
-      </div>
 
-      <div className={styles.inputGroup}>
-        <label htmlFor="moreDetails" className={styles.label}>
-          Mais Detalhes (opcional)
-        </label>
-        <input
-          id="moreDetails"
-          type="text"
-          {...register("moreDetails")}
-          onChange={handleInputChange}
-          className={styles.input}
-          placeholder="Outras informações relevantes"
-        />
-        {errors.moreDetails && (
-          <p className={styles.errorMessage}>{errors.moreDetails.message}</p>
-        )}
+        <div className={styles.inputGroup}>
+          <label htmlFor="moreDetails" className={styles.label}>
+            Mais Detalhes
+          </label>
+          <input
+            id="moreDetails"
+            type="text"
+            {...register("moreDetails")}
+            className={`${styles.input} ${
+              errors.moreDetails ? styles.errorInput : ""
+            }`}
+            placeholder="Outras informações relevantes"
+          />
+          {errors.moreDetails && (
+            <p className={styles.errorMessage}>{errors.moreDetails.message}</p>
+          )}
+        </div>
       </div>
     </section>
   );
