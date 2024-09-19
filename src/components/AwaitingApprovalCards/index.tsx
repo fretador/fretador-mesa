@@ -5,6 +5,7 @@ import { useDriverController } from "@/controllers/driverController";
 import { Driver } from "@/utils/types/Driver";
 import styles from './AwaitingApprovalList.module.css';
 import AwaitingApprovalCard from "../AwaitingApprovalCard";
+import Loading from "../Loading";
 
 const AwaitingApprovalList: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -53,7 +54,7 @@ const AwaitingApprovalList: React.FC = () => {
     console.log("Card clicado!");
   };
 
-  if (loading) return <p>Carregando motoristas...</p>;
+  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;
 
   return (

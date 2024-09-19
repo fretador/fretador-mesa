@@ -3,11 +3,12 @@ import { GET_FREIGHT_STATISTICS } from '@/graphql/queries/graphQueries';
 import { PieChart } from '@mui/x-charts/PieChart';
 import styles from './FreightSummary.module.css';
 import { GetFreightStatisticsData } from '@/utils/types/GraphTypes'; 
+import Loading from '@/components/Loading';
 
 const FreightSummary = () => {
   const { data, loading, error } = useQuery<GetFreightStatisticsData>(GET_FREIGHT_STATISTICS);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
   if (error) return <p>Error: {error.message}</p>;
 
   const values = [

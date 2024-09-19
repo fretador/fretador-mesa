@@ -15,6 +15,7 @@ import styles from "./Fretes.module.css";
 import SearchComponent from "@/components/SearchButton";
 import Body from "@/components/Body";
 import AddNewFreightButton from "@/components/AddNewFreightButton";
+import Loading from "@/components/Loading";
 
 type FreightStatusOption =
   | "DISPONIVEL"
@@ -162,7 +163,9 @@ const Freights: React.FC = () => {
                 FreightStatus="STATUS"
               />
               {loading ? (
-                <p>Carregando...</p>
+                <div className={styles.loadingContainer}>
+                  <Loading />
+                </div>
               ) : error ? (
                 <p>Erro ao carregar os fretes: {error}</p>
               ) : (

@@ -17,3 +17,11 @@
   font-weight: 400;
   margin-bottom: 13px;
 }
+
+.loadingContainer {
+  height: 278px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
