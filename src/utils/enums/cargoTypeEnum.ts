@@ -1,5 +1,4 @@
 export enum CargoType {
-<<<<<<< HEAD
   ANIMAIS = "ANIMAIS",
   BIG_BAG = "BIG_BAG",
   CAIXAS = "CAIXAS",
@@ -16,22 +15,4 @@ export enum CargoType {
   SACOS = "SACOS",
   TAMBOR = "TAMBOR",
   UNIDADES = "UNIDADES",
-=======
-  ANIMAIS = "Animais",
-  BIG_BAG = "Big Bag",
-  CAIXAS = "Caixas",
-  CONTAINER = "Container",
-  DIVERSOS = "Diversos",
-  FARDOS = "Fardos",
-  FRACIONADA = "Fracionada",
-  GRANEL = "Granel",
-  METRO_CUBICO = "Metro Cúbico",
-  MILHEIRO = "Milheiro",
-  MUDANCA = "Mudança",
-  PALETES = "Paletes",
-  PASSAGEIRO = "Passageiro",
-  SACOS = "Sacos",
-  TAMBOR = "Tambor",
-  UNIDADES = "Unidades",
->>>>>>> 9e03281 (feat(CreateFreight): added enums and update types)
 }

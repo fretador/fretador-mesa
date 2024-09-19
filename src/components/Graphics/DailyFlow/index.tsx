@@ -3,11 +3,12 @@ import { GET_FREIGHT_DAILY_FLOW } from '@/graphql/queries/graphQueries';
 import { PieChart } from '@mui/x-charts/PieChart';
 import styles from './DailyFlow.module.css';
 import { GetFreightDailyFlowData } from '@/utils/types/GraphTypes'; 
+import Loading from '@/components/Loading';
 
 const DailyFlow = () => {
   const { data, loading, error } = useQuery<GetFreightDailyFlowData>(GET_FREIGHT_DAILY_FLOW);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
   if (error) return <p>Error: {error.message}</p>;
 
   const newFreights = data?.getFreightDailyFlow.newFreights || 0;
