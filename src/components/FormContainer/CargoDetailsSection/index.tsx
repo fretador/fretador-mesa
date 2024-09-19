@@ -3,6 +3,7 @@ import { useFormContext, Controller } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./CargoDetailsSection.module.css";
 import { RadioTrueIcon, RadioFalseIcon } from "@/utils/icons";
+import { CargoLoadType } from "@/utils/enums/cargoLoadTypeEnum";
 
 const CargoDetailsSection: React.FC = () => {
   const {
@@ -23,7 +24,7 @@ const CargoDetailsSection: React.FC = () => {
             name="cargoLoadType"
             control={control}
             rules={{ required: true }}
-            defaultValue={null} // Altere o defaultValue para null
+            defaultValue={CargoLoadType.FULL}
             render={({ field }) => (
               <div className={styles.iconGroup}>
                 <div
@@ -236,57 +237,63 @@ const CargoDetailsSection: React.FC = () => {
       </div>
 
       <div className={styles.rowInputs}>
-        <div className={styles.inputGroup}>
-          <label htmlFor="product" className={styles.label}>
-            Produto
-          </label>
-          <input
-            id="product"
-            type="text"
-            {...register("product", { required: true })}
-            className={`${styles.input} ${
-              errors.product ? styles.errorInput : ""
-            }`}
-            placeholder="Qual produto será carregado?"
-          />
-          {errors.product && (
-            <p className={styles.errorMessage}>{errors.product.message}</p>
-          )}
+        <div className={styles.halfWidth}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="product" className={styles.label}>
+              Produto
+            </label>
+            <input
+              id="product"
+              type="text"
+              {...register("product", { required: true })}
+              className={`${styles.input} ${
+                errors.product ? styles.errorInput : ""
+              }`}
+              placeholder="Qual produto será carregado?"
+            />
+            {errors.product && (
+              <p className={styles.errorMessage}>{errors.product.message}</p>
+            )}
+          </div>
         </div>
 
-        {/* Dropdown de Espécie */}
-        <div className={styles.inputGroup}>
-          <label htmlFor="cargoType" className={styles.label}>
-            Espécie
-          </label>
-          <select
-            id="cargoType"
-            {...register("cargoType", { required: true })}
-            className={`${styles.input} ${
-              errors.cargoType ? styles.errorInput : ""
-            }`}
-          >
-            <option value="">Selecione a espécie de carga</option>
-            <option value="ANIMAIS">Animais</option>
-            <option value="BIG_BAG">Big Bag</option>
-            <option value="CAIXAS">Caixas</option>
-            <option value="CONTAINER">Container</option>
-            <option value="DIVERSO">Diversos</option>
-            <option value="FARDOS">Fardos</option>
-            <option value="FRACIONADA">Fracionada</option>
-            <option value="GRANEL">Granel</option>
-            <option value="METRO_CUBICO">Metro Cúbico</option>
-            <option value="MILHEIRO">Milheiro</option>
-            <option value="MUDANCA">Mudança</option>
-            <option value="PALETES">Paletes</option>
-            <option value="PASSAGEIRO">Passageiro</option>
-            <option value="SACOS">Sacos</option>
-            <option value="TAMBOR">Tambor</option>
-            <option value="UNIDADES">Unidades</option>
-          </select>
-          {errors.cargoType && (
-            <p className={styles.errorMessage}>{errors.cargoType.message}</p>
-          )}
+        <div className={styles.halfWidth}>
+          {/* Dropdown de Espécie */}
+          <div className={styles.inputGroup}>
+            <label htmlFor="cargoType" className={styles.label}>
+              Espécie
+            </label>
+            <select
+              id="cargoType"
+              {...register("cargoType", { required: true })}
+              className={`${styles.input} ${
+                errors.cargoType ? styles.errorInput : ""
+              }`}
+            >
+              <option value="" className={styles.firstOption}>
+                Selecione a espécie de carga
+              </option>
+              <option value="ANIMAIS">Animais</option>
+              <option value="BIG_BAG">Big Bag</option>
+              <option value="CAIXAS">Caixas</option>
+              <option value="CONTAINER">Container</option>
+              <option value="DIVERSO">Diversos</option>
+              <option value="FARDOS">Fardos</option>
+              <option value="FRACIONADA">Fracionada</option>
+              <option value="GRANEL">Granel</option>
+              <option value="METRO_CUBICO">Metro Cúbico</option>
+              <option value="MILHEIRO">Milheiro</option>
+              <option value="MUDANCA">Mudança</option>
+              <option value="PALETES">Paletes</option>
+              <option value="PASSAGEIRO">Passageiro</option>
+              <option value="SACOS">Sacos</option>
+              <option value="TAMBOR">Tambor</option>
+              <option value="UNIDADES">Unidades</option>
+            </select>
+            {errors.cargoType && (
+              <p className={styles.errorMessage}>{errors.cargoType.message}</p>
+            )}
+          </div>
         </div>
       </div>
 
