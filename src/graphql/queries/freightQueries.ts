@@ -8,11 +8,8 @@ export const GET_FREIGHTS = gql`
 					id
 					creationDate
 					freightCode
-					numCte
-					gatheringState
-					deliveryState
-					clientName
-					driverName
+					origin
+					destination
 					status
 					value
 				}
