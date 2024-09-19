@@ -3,11 +3,12 @@ import { GET_FREIGHT_WEEKLY_FLOW } from '@/graphql/queries/graphQueries';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import styles from './WeeklyFlow.module.css';
 import { GetFreightWeeklyFlowData } from '@/utils/types/GraphTypes';
+import Loading from '@/components/Loading';
 
 const WeeklyFlow = () => {
   const { data, loading, error } = useQuery<GetFreightWeeklyFlowData>(GET_FREIGHT_WEEKLY_FLOW);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
   if (error) return <p>Error: {error.message}</p>;
 
   const weeklyData = data?.getFreightWeeklyFlow.map((day) => ({

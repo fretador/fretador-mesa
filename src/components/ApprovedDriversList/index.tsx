@@ -6,6 +6,7 @@ import { Driver } from "@/utils/types/Driver";
 import styles from './ApprovedDriversList.module.css';
 import RowTitle from "../RowTitle";
 import { Row } from "../Row";
+import Loading from "../Loading";
 
 const ApprovedDriversList: React.FC = () => {
   const { loadDrivers } = useDriverController();
@@ -17,7 +18,7 @@ const ApprovedDriversList: React.FC = () => {
 
   const memoizedDrivers = useMemo(() => drivers, [drivers]);
 
-  if (loading) return <p>Carregando motoristas...</p>;
+  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;
 
   return (
