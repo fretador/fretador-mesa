@@ -33,7 +33,10 @@ export interface CreateFreightInput {
   eligibleBodyworks: EligibleBodywork[];
   type: Type;
   targetedDrivers: string[];
+  value: number;
+  formaPagamento?: string;
 }
+
 interface EligibleVehicle {
   category: VehicleCategory;
   type: VehicleType;

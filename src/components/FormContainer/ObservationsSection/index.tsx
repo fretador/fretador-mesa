@@ -14,16 +14,13 @@ const ObservationsSection: React.FC = () => {
       <h2 className={styles.title}>Observações</h2>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="observations" className={styles.label}>
-          Adicione Informações Relevantes sobre a Carga
-        </label>
         <textarea
           id="observations"
           {...register("observations")}
           className={`${styles.textarea} ${
             errors.observations ? styles.errorInput : ""
           }`}
-          placeholder="Adicione informações relevantes ou observações"
+          placeholder="Deixe as descrições do frete aqui."
         />
         {errors.observations && (
           <p className={styles.errorMessage}>{errors.observations.message}</p>

@@ -5372,6 +5372,7 @@ __metadata:
     react-hook-form: ^7.53.0
     react-icons: ^5.2.1
     react-modal: ^3.16.1
+    react-number-format: ^5.4.2
     react-redux: ^9.1.2
     recharts: ^2.12.7
     redux: ^5.0.1
@@ -8017,6 +8018,16 @@ __metadata:
     react: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
     react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
   checksum: 978936e9320fad839c039b9ee4de55d40888156cb40e093615d6fbc2ff07139d5db06f14782cb7767f780bd5fb57956778669426c535ebc0068a7a03882c7e75
+  languageName: node
+  linkType: hard
+
+"react-number-format@npm:^5.4.2":
+  version: 5.4.2
+  resolution: "react-number-format@npm:5.4.2"
+  peerDependencies:
+    react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 34b241e8cd929aaa2f39905ad5acb02bcc537d74c61cc621e0c1a855156cf5226eed94b7f012f68cd8f527583c31f33a34b202c7fe5aa9ddd7080e40ad58f4ab
   languageName: node
   linkType: hard
 

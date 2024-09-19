@@ -44,12 +44,13 @@ const FormContainer: React.FC = () => {
       totalWeight: undefined,
       volumes: undefined,
       cubage: undefined,
-      value: undefined,
+      // Remova a propriedade 'value' daqui
       moreDetails: "",
       eligibleVehicles: [],
       eligibleBodyworks: [],
-      type: Type.OFFER, // Certifique-se de que está usando o enum correto
+      type: Type.OFFER,
       targetedDrivers: [],
+      value: undefined, // Adicione esta linha
     },
   });
 
@@ -89,23 +90,25 @@ const FormContainer: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <PickupDeliverySection />
+        <div className={styles.content}>
+          <PickupDeliverySection />
 
-        <CargoDetailsSection />
+          <CargoDetailsSection />
 
-        <VehicleSelectionSection />
+          <VehicleSelectionSection />
 
-        <BodyworkSelectionSection />
+          <BodyworkSelectionSection />
 
-        <ShippingTypeSection />
+          <ShippingTypeSection />
 
-        <FreightValueSection />
+          <FreightValueSection />
 
-        <ObservationsSection />
+          <ObservationsSection />
 
-        <FreightSubmissionButton
-          onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
-        />
+          <FreightSubmissionButton
+            onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
+          />
+        </div>
       </form>
 
       <AssignFreightModal

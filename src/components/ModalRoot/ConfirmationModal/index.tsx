@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
 import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import { FreightService } from "@/services/freightService";
+import styles from "./ConfirmationModal.module.css";
+import { AiOutlineClose } from "react-icons/ai";
+import Loading from "@/components/Loading";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -16,31 +19,99 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 }) => {
   const { getValues } = useFormContext<CreateFreightInput>();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  // Filtrar os veículos e carrocerias elegíveis
+  const eligibleVehicles = getValues("eligibleVehicles").filter(
+    (vehicle: any) => vehicle.eligible
+  );
+  const eligibleBodyworks = getValues("eligibleBodyworks").filter(
+    (bodywork: any) => bodywork.eligible
+  );
 
   const handleConfirm = async () => {
     const freightData = getValues();
+    setIsLoading(true);
     try {
       const createdFreight = await FreightService.createFreight(freightData);
       console.log("Frete criado com sucesso:", createdFreight);
-      // Exibir o número do frete no modal
-      alert(`Frete criado com sucesso. Número do frete: ${createdFreight.id}`);
-      // Redirecionar para a rota de fretes
-      router.push("/fretes");
+      setIsSuccess(true);
+      setIsLoading(false);
     } catch (error) {
       console.error("Erro ao criar o frete:", error);
+      setIsLoading(false);
     }
   };
 
+  const handleClose = () => {
+    setIsSuccess(false);
+    onRequestClose();
+    router.push("/fretes");
+  };
+
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
-      <h2>Confirmar os Dados do Frete?</h2>
-      <p>Data da Coleta: {getValues("pickupDeliveryData")}</p>
-      <p>Origem: {getValues("origin")}</p>
-      <p>Destino: {getValues("destination")}</p>
-      <p>Tipo de Veículo: {getValues("eligibleVehicles").join(", ")}</p>
-      <p>Tipo de Carroceria: {getValues("eligibleBodyworks").join(", ")}</p>
-      <button onClick={handleConfirm}>Confirmar</button>
-      <button onClick={onRequestClose}>Cancelar</button>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      className={styles.content}
+      overlayClassName={styles.overlay}
+    >
+      <div className={styles.modalHeader}>
+        <h2 className={styles.modalTitle}>Cadastrar carga</h2>
+        <button className={styles.closeButton} onClick={onRequestClose}>
+          <AiOutlineClose size={20} />
+        </button>
+      </div>
+
+      <div className={styles.modalContent}>
+        {isLoading ? (
+          <Loading />
+        ) : isSuccess ? (
+          <>
+            <p className={styles.successMessage}>
+              Carga cadastrada com sucesso!
+            </p>
+          </>
+        ) : (
+          <>
+            <p className={styles.modalMessage}>Confirmar dados da carga:</p>
+            <p>
+              Data da Coleta: {getValues("pickupDeliveryData") || "00/00/0000"}
+            </p>
+            <p>Origem: {getValues("origin")}</p>
+            <p>Destino: {getValues("destination")}</p>
+            <p>
+              Tipo de Veículo:{" "}
+              {eligibleVehicles.length > 0
+                ? eligibleVehicles
+                    .map((vehicle: any) => vehicle.type)
+                    .join(", ")
+                : "Nenhum veículo selecionado"}
+            </p>
+            <p>
+              Tipo de Carroceria:{" "}
+              {eligibleBodyworks.length > 0
+                ? eligibleBodyworks
+                    .map((bodywork: any) => bodywork.type)
+                    .join(", ")
+                : "Nenhuma carroceria selecionada"}
+            </p>
+          </>
+        )}
+      </div>
+
+      <div className={styles.buttonGroup}>
+        {isSuccess ? (
+          <button className={styles.confirmButton} onClick={handleClose}>
+            OK
+          </button>
+        ) : (
+          <button className={styles.confirmButton} onClick={handleConfirm}>
+            Confirmar
+          </button>
+        )}
+      </div>
     </Modal>
   );
 };

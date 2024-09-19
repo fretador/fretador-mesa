@@ -35,6 +35,7 @@ const PickupDeliverySection: React.FC = () => {
     register,
     setValue,
     formState: { errors },
+    clearErrors,
   } = useFormContext<CreateFreightInput>();
 
   const [isOriginModalOpen, setIsOriginModalOpen] = useState(false);
@@ -65,11 +66,15 @@ const PickupDeliverySection: React.FC = () => {
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDate = e.target.value;
     setPickupDeliveryData((prev) => ({
       ...prev,
-      pickupDeliveryDate: e.target.value,
+      pickupDeliveryDate: newDate,
     }));
-    setValue("pickupDeliveryData", e.target.value);
+    setValue("pickupDeliveryData", newDate);
+    if (newDate) {
+      clearErrors("pickupDeliveryData");
+    }
   };
 
   useEffect(() => {
@@ -130,20 +135,23 @@ const PickupDeliverySection: React.FC = () => {
         <label htmlFor="pickupDeliveryData" className={styles.labelDate}>
           DATA DO CARREGAMENTO
         </label>
-        <input
-          id="pickupDeliveryData"
-          type="date"
-          {...register("pickupDeliveryData")}
-          value={pickupDeliveryData.pickupDeliveryDate}
-          onChange={handleDateChange}
-          className={`${styles.inputDate} ${
-            errors.pickupDeliveryData ? [styles.errorMessage, styles.error] : ""
-          }`}
-        />
-
-        {errors.pickupDeliveryData && (
-          <p className={styles.error}>{errors.pickupDeliveryData.message}</p>
-        )}
+        <div className={styles.dateInputGroup}>
+          <input
+            id="pickupDeliveryData"
+            type="date"
+            {...register("pickupDeliveryData")}
+            value={pickupDeliveryData.pickupDeliveryDate}
+            onChange={handleDateChange}
+            className={`${styles.inputDate} ${
+              errors.pickupDeliveryData ? styles.error : ""
+            }`}
+          />
+          {errors.pickupDeliveryData && (
+            <p className={styles.errorMessage}>
+              {errors.pickupDeliveryData.message}
+            </p>
+          )}
+        </div>
       </div>
       <div className={styles.rowInputs}>
         {/* Origem */}

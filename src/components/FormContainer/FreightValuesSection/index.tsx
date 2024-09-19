@@ -3,6 +3,7 @@ import { useFormContext, Controller } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./FreightValuesSection.module.css";
 import { RadioTrueIcon, RadioFalseIcon } from "@/utils/icons";
+import { NumericFormat } from "react-number-format";
 
 const FreightValueSection: React.FC = () => {
   const {
@@ -17,20 +18,31 @@ const FreightValueSection: React.FC = () => {
         {/* Valor do Frete */}
         <div className={styles.inputGroup}>
           <label htmlFor="value" className={styles.label}>
-            Valor do Frete (R$)
+            Valor do Frete
           </label>
-          <input
-            id="value"
-            type="number"
-            step="0.01"
-            {...register("value", {
-              valueAsNumber: true,
+          <Controller
+            name="value"
+            control={control}
+            rules={{
               required: "Valor do frete é obrigatório",
-            })}
-            className={`${styles.input} ${
-              errors.value ? styles.errorInput : ""
-            }`}
-            placeholder="Valor do frete"
+              min: { value: 0, message: "O valor deve ser maior ou igual a 0" },
+            }}
+            render={({ field: { onChange, value } }) => (
+              <NumericFormat
+                id="value"
+                value={value}
+                onValueChange={(v) => onChange(v.floatValue)}
+                decimalScale={2}
+                fixedDecimalScale
+                prefix="R$ "
+                thousandSeparator="."
+                decimalSeparator=","
+                className={`${styles.input} ${
+                  errors.value ? styles.errorInput : ""
+                }`}
+                placeholder="R$ 0,00"
+              />
+            )}
           />
           {errors.value && (
             <p className={styles.errorMessage}>{errors.value.message}</p>

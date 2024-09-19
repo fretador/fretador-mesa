@@ -4,9 +4,10 @@
 }
 
 .title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 24px;
+  font-family: "Roboto", sans-serif;
+  font-weight: medium;
+  margin-bottom: 8px;
 }
 
 .radioGroup {
@@ -43,6 +44,12 @@
 
 .icon {
   margin-right: 5px;
+}
+
+.iconText {
+  font-family: "Roboto", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
 }
 
 .hiddenRadio {
