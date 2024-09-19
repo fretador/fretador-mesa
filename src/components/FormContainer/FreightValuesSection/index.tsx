@@ -2,6 +2,7 @@ import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./FreightValuesSection.module.css";
+import { RadioTrueIcon, RadioFalseIcon } from "@/utils/icons";
 
 const FreightValueSection: React.FC = () => {
   const {
@@ -43,26 +44,63 @@ const FreightValueSection: React.FC = () => {
             name="pedagioIncluso"
             control={control}
             rules={{ required: true }}
+            defaultValue={false}
             render={({ field }) => (
-              <div className={styles.radioGroup}>
-                <label>
+              <div className={styles.iconGroup}>
+                <div
+                  className={styles.iconOption}
+                  onClick={() => field.onChange(true)}
+                >
+                  {field.value === true ? (
+                    <RadioTrueIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <RadioFalseIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  )}
                   <input
                     type="radio"
+                    name="pedagioIncluso"
                     value="true"
                     checked={field.value === true}
-                    onChange={() => field.onChange(true)}
+                    className={styles.hiddenRadio}
+                    onChange={() => {}}
                   />
-                  Sim
-                </label>
-                <label>
+                  <span className={styles.iconText}>Sim</span>
+                </div>
+                <div
+                  className={styles.iconOption}
+                  onClick={() => field.onChange(false)}
+                >
+                  {field.value === false ? (
+                    <RadioTrueIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <RadioFalseIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  )}
                   <input
                     type="radio"
+                    name="pedagioIncluso"
                     value="false"
                     checked={field.value === false}
-                    onChange={() => field.onChange(false)}
+                    className={styles.hiddenRadio}
+                    onChange={() => {}}
                   />
-                  Não
-                </label>
+                  <span className={styles.iconText}>Não</span>
+                </div>
               </div>
             )}
           />

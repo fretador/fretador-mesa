@@ -1,8 +1,9 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import { ShippingType } from "@/utils/enums/shippingTypeEnum";
 import styles from "./ShippingTypeSection.module.css";
+import { RadioTrueIcon, RadioFalseIcon } from "@/utils/icons";
 
 const shippingTypeLabels: Record<ShippingType, string> = {
   [ShippingType.COLETA]: "Coleta",
@@ -12,27 +13,55 @@ const shippingTypeLabels: Record<ShippingType, string> = {
 
 const ShippingTypeSection: React.FC = () => {
   const {
-    register,
+    control,
     formState: { errors },
   } = useFormContext<CreateFreightInput>();
 
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>Tipo de Embarque</h2>
-      <div className={`${styles.radioGroup} ${styles.inlineRadioGroup}`}>
-        {Object.values(ShippingType).map((type) => (
-          <label key={type}>
-            <input
-              type="radio"
-              {...register("shippingType", {
-                required: "Tipo de embarque é obrigatório",
-              })}
-              value={type}
-            />
-            {shippingTypeLabels[type]}
-          </label>
-        ))}
-      </div>
+      <Controller
+        name="shippingType"
+        control={control}
+        rules={{ required: "Tipo de embarque é obrigatório" }}
+        defaultValue={ShippingType.COLETA}
+        render={({ field }) => (
+          <div className={styles.iconGroup}>
+            {Object.values(ShippingType).map((type) => (
+              <div
+                key={type}
+                className={styles.iconOption}
+                onClick={() => field.onChange(type)}
+              >
+                {field.value === type ? (
+                  <RadioTrueIcon
+                    className={styles.icon}
+                    width={24}
+                    height={24}
+                  />
+                ) : (
+                  <RadioFalseIcon
+                    className={styles.icon}
+                    width={24}
+                    height={24}
+                  />
+                )}
+                <input
+                  type="radio"
+                  name="shippingType"
+                  value={type}
+                  checked={field.value === type}
+                  className={styles.hiddenRadio}
+                  onChange={() => {}}
+                />
+                <span className={styles.iconText}>
+                  {shippingTypeLabels[type]}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      />
       {errors.shippingType && (
         <p className={styles.errorMessage}>{errors.shippingType.message}</p>
       )}

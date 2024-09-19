@@ -45,3 +45,22 @@
   font-size: 12px;
   margin-top: 5px;
 }
+
+.iconGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.iconOption {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.hiddenRadio {
+  display: none;
+}

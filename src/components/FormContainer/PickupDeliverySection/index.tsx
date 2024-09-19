@@ -127,7 +127,7 @@ const PickupDeliverySection: React.FC = () => {
     <section className={styles.section}>
       <h2 className={styles.title}>Dados da Coleta/Entrega</h2>
       <div className={styles.inputWrapper}>
-        <label htmlFor="pickupDeliveryData" className={styles.label}>
+        <label htmlFor="pickupDeliveryData" className={styles.labelDate}>
           DATA DO CARREGAMENTO
         </label>
         <input
@@ -137,7 +137,7 @@ const PickupDeliverySection: React.FC = () => {
           value={pickupDeliveryData.pickupDeliveryDate}
           onChange={handleDateChange}
           className={`${styles.inputDate} ${
-            errors.pickupDeliveryData ? styles.errorInput : ""
+            errors.pickupDeliveryData ? [styles.errorMessage, styles.error] : ""
           }`}
         />
 

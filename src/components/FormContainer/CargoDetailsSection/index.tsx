@@ -2,6 +2,7 @@ import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./CargoDetailsSection.module.css";
+import { RadioTrueIcon, RadioFalseIcon } from "@/utils/icons";
 
 const CargoDetailsSection: React.FC = () => {
   const {
@@ -18,24 +19,70 @@ const CargoDetailsSection: React.FC = () => {
         {/* Tipo de Carga */}
         <div className={styles.radioGroup}>
           <label className={styles.label}>Tipo de Carga</label>
-          <div className={styles.radioOptions}>
-            <label>
-              <input
-                type="radio"
-                {...register("cargoLoadType", { required: true })}
-                value="FULL"
-              />
-              Completa
-            </label>
-            <label>
-              <input
-                type="radio"
-                {...register("cargoLoadType", { required: true })}
-                value="PARTIAL"
-              />
-              Complemento
-            </label>
-          </div>
+          <Controller
+            name="cargoLoadType"
+            control={control}
+            rules={{ required: true }}
+            defaultValue={null} // Altere o defaultValue para null
+            render={({ field }) => (
+              <div className={styles.iconGroup}>
+                <div
+                  className={styles.iconOption}
+                  onClick={() => field.onChange("FULL")}
+                >
+                  {field.value === "FULL" ? (
+                    <RadioTrueIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <RadioFalseIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                  <input
+                    type="radio"
+                    name="cargoLoadType"
+                    value="FULL"
+                    checked={field.value === "FULL"}
+                    className={styles.hiddenRadio}
+                    onChange={() => {}}
+                  />
+                  <span className={styles.iconText}>Completa</span>
+                </div>
+                <div
+                  className={styles.iconOption}
+                  onClick={() => field.onChange("PARTIAL")}
+                >
+                  {field.value === "PARTIAL" ? (
+                    <RadioTrueIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <RadioFalseIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                  <input
+                    type="radio"
+                    name="cargoLoadType"
+                    value="PARTIAL"
+                    checked={field.value === "PARTIAL"}
+                    className={styles.hiddenRadio}
+                    onChange={() => {}}
+                  />
+                  <span className={styles.iconText}>Complemento</span>
+                </div>
+              </div>
+            )}
+          />
           {errors.cargoLoadType && (
             <p className={styles.errorMessage}>
               {errors.cargoLoadType.message}
@@ -50,26 +97,63 @@ const CargoDetailsSection: React.FC = () => {
             name="needsTarp"
             control={control}
             rules={{ required: true }}
+            defaultValue={false}
             render={({ field }) => (
-              <div className={styles.radioOptions}>
-                <label>
+              <div className={styles.iconGroup}>
+                <div
+                  className={styles.iconOption}
+                  onClick={() => field.onChange(true)}
+                >
+                  {field.value === true ? (
+                    <RadioTrueIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <RadioFalseIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  )}
                   <input
                     type="radio"
+                    name="needsTarp"
                     value="true"
                     checked={field.value === true}
-                    onChange={() => field.onChange(true)}
+                    className={styles.hiddenRadio}
+                    onChange={() => {}}
                   />
-                  Sim
-                </label>
-                <label>
+                  <span className={styles.iconText}>Sim</span>
+                </div>
+                <div
+                  className={styles.iconOption}
+                  onClick={() => field.onChange(false)}
+                >
+                  {field.value === false ? (
+                    <RadioTrueIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <RadioFalseIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  )}
                   <input
                     type="radio"
+                    name="needsTarp"
                     value="false"
                     checked={field.value === false}
-                    onChange={() => field.onChange(false)}
+                    className={styles.hiddenRadio}
+                    onChange={() => {}}
                   />
-                  Não
-                </label>
+                  <span className={styles.iconText}>Não</span>
+                </div>
               </div>
             )}
           />
@@ -85,26 +169,63 @@ const CargoDetailsSection: React.FC = () => {
             name="needsTracker"
             control={control}
             rules={{ required: true }}
+            defaultValue={false}
             render={({ field }) => (
-              <div className={styles.radioOptions}>
-                <label>
+              <div className={styles.iconGroup}>
+                <div
+                  className={styles.iconOption}
+                  onClick={() => field.onChange(true)}
+                >
+                  {field.value === true ? (
+                    <RadioTrueIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <RadioFalseIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  )}
                   <input
                     type="radio"
+                    name="needsTracker"
                     value="true"
                     checked={field.value === true}
-                    onChange={() => field.onChange(true)}
+                    className={styles.hiddenRadio}
+                    onChange={() => {}}
                   />
-                  Sim
-                </label>
-                <label>
+                  <span className={styles.iconText}>Sim</span>
+                </div>
+                <div
+                  className={styles.iconOption}
+                  onClick={() => field.onChange(false)}
+                >
+                  {field.value === false ? (
+                    <RadioTrueIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <RadioFalseIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  )}
                   <input
                     type="radio"
+                    name="needsTracker"
                     value="false"
                     checked={field.value === false}
-                    onChange={() => field.onChange(false)}
+                    className={styles.hiddenRadio}
+                    onChange={() => {}}
                   />
-                  Não
-                </label>
+                  <span className={styles.iconText}>Não</span>
+                </div>
               </div>
             )}
           />
@@ -211,7 +332,7 @@ const CargoDetailsSection: React.FC = () => {
 
         <div className={styles.inputGroup}>
           <label htmlFor="cubage" className={styles.label}>
-            Cubagem (m³, opcional)
+            Cubagem (opcional)
           </label>
           <input
             id="cubage"
