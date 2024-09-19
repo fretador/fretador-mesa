@@ -14,7 +14,7 @@
   background-color: white;
   border: none;
   border-radius: 8px;
-  max-width: 400px;
+  max-width: 512px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -34,7 +34,9 @@
 .modalTitle {
   color: white;
   margin: 0;
-  font-size: 18px;
+  font-size: 24px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
 }
 
 .closeButton {
@@ -49,8 +51,18 @@
   font-size: 16px;
 }
 
+.modalContent p {
+  margin-bottom: 8px;
+}
+
+.modalContent p:last-child {
+  margin-bottom: 0;
+}
+
 .modalMessage {
   margin-bottom: 20px;
+  font-size: 24px;
+  font-family: 'Roboto', sans-serif;
   font-weight: bold;
 }
 
@@ -83,4 +95,16 @@
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   cursor: pointer;
+}
+
+.boldText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.regularText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: normal;
 }

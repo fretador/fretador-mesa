@@ -56,6 +56,12 @@ const PickupDeliverySection: React.FC = () => {
   const handleOriginConfirm = (data: PickupDeliveryData["origin"]) => {
     setPickupDeliveryData((prev) => ({ ...prev, origin: data }));
     handleCloseOriginModal();
+    if (data) {
+      clearErrors("origin");
+      clearErrors("originCNPJ");
+      clearErrors("originRazaoSocial");
+      clearErrors("originEndereco");
+    }
   };
 
   const handleDestinationConfirm = (
@@ -63,6 +69,12 @@ const PickupDeliverySection: React.FC = () => {
   ) => {
     setPickupDeliveryData((prev) => ({ ...prev, destination: data }));
     handleCloseDestinationModal();
+    if (data) {
+      clearErrors("destination");
+      clearErrors("destinationCNPJ");
+      clearErrors("destinationRazaoSocial");
+      clearErrors("destinationEndereco");
+    }
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,6 +97,7 @@ const PickupDeliverySection: React.FC = () => {
         "origin",
         `${pickupDeliveryData.origin.selectedCity}, ${pickupDeliveryData.origin.selectedState}`
       );
+      clearErrors("origin");
       if (pickupDeliveryData.origin.additionalInfo) {
         setValue("originCNPJ", pickupDeliveryData.origin.additionalInfo.cnpj);
         setValue(
@@ -95,6 +108,9 @@ const PickupDeliverySection: React.FC = () => {
           "originEndereco",
           pickupDeliveryData.origin.additionalInfo.endereco
         );
+        clearErrors("originCNPJ");
+        clearErrors("originRazaoSocial");
+        clearErrors("originEndereco");
       } else {
         setValue("originCNPJ", "");
         setValue("originRazaoSocial", "");
@@ -107,6 +123,7 @@ const PickupDeliverySection: React.FC = () => {
         "destination",
         `${pickupDeliveryData.destination.selectedCity}, ${pickupDeliveryData.destination.selectedState}`
       );
+      clearErrors("destination");
       if (pickupDeliveryData.destination.additionalInfo) {
         setValue(
           "destinationCNPJ",
@@ -120,13 +137,16 @@ const PickupDeliverySection: React.FC = () => {
           "destinationEndereco",
           pickupDeliveryData.destination.additionalInfo.endereco
         );
+        clearErrors("destinationCNPJ");
+        clearErrors("destinationRazaoSocial");
+        clearErrors("destinationEndereco");
       } else {
         setValue("destinationCNPJ", "");
         setValue("destinationRazaoSocial", "");
         setValue("destinationEndereco", "");
       }
     }
-  }, [pickupDeliveryData, setValue]);
+  }, [pickupDeliveryData, setValue, clearErrors]);
 
   return (
     <section className={styles.section}>

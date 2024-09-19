@@ -5,7 +5,7 @@ import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import { FreightService } from "@/services/freightService";
 import styles from "./ConfirmationModal.module.css";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import Loading from "@/components/Loading";
 
 interface ConfirmationModalProps {
@@ -60,7 +60,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       <div className={styles.modalHeader}>
         <h2 className={styles.modalTitle}>Cadastrar carga</h2>
         <button className={styles.closeButton} onClick={onRequestClose}>
-          <AiOutlineClose size={20} />
+          <AiOutlineCloseCircle size={32} />
         </button>
       </div>
 
@@ -69,33 +69,50 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <Loading />
         ) : isSuccess ? (
           <>
-            <p className={styles.successMessage}>
+            <p className={`${styles.successMessage} ${styles.boldText}`}>
               Carga cadastrada com sucesso!
             </p>
           </>
         ) : (
           <>
-            <p className={styles.modalMessage}>Confirmar dados da carga:</p>
-            <p>
-              Data da Coleta: {getValues("pickupDeliveryData") || "00/00/0000"}
-            </p>
-            <p>Origem: {getValues("origin")}</p>
-            <p>Destino: {getValues("destination")}</p>
-            <p>
-              Tipo de Veículo:{" "}
-              {eligibleVehicles.length > 0
-                ? eligibleVehicles
-                    .map((vehicle: any) => vehicle.type)
-                    .join(", ")
-                : "Nenhum veículo selecionado"}
+            <p className={`${styles.modalMessage} ${styles.boldText}`}>
+              Confirmar dados da carga:
             </p>
             <p>
-              Tipo de Carroceria:{" "}
-              {eligibleBodyworks.length > 0
-                ? eligibleBodyworks
-                    .map((bodywork: any) => bodywork.type)
-                    .join(", ")
-                : "Nenhuma carroceria selecionada"}
+              <span className={styles.boldText}>Data da Coleta:</span>{" "}
+              <span className={styles.regularText}>
+                {getValues("pickupDeliveryData") || "00/00/0000"}
+              </span>
+            </p>
+            <p>
+              <span className={styles.boldText}>Origem:</span>{" "}
+              <span className={styles.regularText}>{getValues("origin")}</span>
+            </p>
+            <p>
+              <span className={styles.boldText}>Destino:</span>{" "}
+              <span className={styles.regularText}>
+                {getValues("destination")}
+              </span>
+            </p>
+            <p>
+              <span className={styles.boldText}>Tipo de Veículo:</span>{" "}
+              <span className={styles.regularText}>
+                {eligibleVehicles.length > 0
+                  ? eligibleVehicles
+                      .map((vehicle: any) => vehicle.type)
+                      .join(", ")
+                  : "Nenhum veículo selecionado"}
+              </span>
+            </p>
+            <p>
+              <span className={styles.boldText}>Tipo de Carroceria:</span>{" "}
+              <span className={styles.regularText}>
+                {eligibleBodyworks.length > 0
+                  ? eligibleBodyworks
+                      .map((bodywork: any) => bodywork.type)
+                      .join(", ")
+                  : "Nenhuma carroceria selecionada"}
+              </span>
             </p>
           </>
         )}
