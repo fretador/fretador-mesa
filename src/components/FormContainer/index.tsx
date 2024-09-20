@@ -16,11 +16,13 @@ import { CargoLoadType } from "@/utils/enums/cargoLoadTypeEnum";
 import { Type } from "@/utils/enums/typeEnum";
 import { createFreightSchema } from "@/utils/validations/createFreightSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import ConfirmationModal from "@/components/ModalRoot/ConfirmationModal";
 
 const FormContainer: React.FC = () => {
   const [targetedDriver, setTargetedDriver] = useState<string[]>([]);
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] =
     useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
   const methods = useForm<CreateFreightInput>({
     resolver: zodResolver(createFreightSchema),
@@ -42,12 +44,13 @@ const FormContainer: React.FC = () => {
       totalWeight: undefined,
       volumes: undefined,
       cubage: undefined,
-      value: undefined,
+      // Remova a propriedade 'value' daqui
       moreDetails: "",
       eligibleVehicles: [],
       eligibleBodyworks: [],
-      type: Type.OFFER, // Certifique-se de que está usando o enum correto
+      type: Type.OFFER,
       targetedDrivers: [],
+      value: undefined, // Adicione esta linha
     },
   });
 
@@ -58,31 +61,8 @@ const FormContainer: React.FC = () => {
     setValue,
   } = methods;
 
-  const onSubmit = async (data: CreateFreightInput) => {
-    console.log("Dados do formulário:", data, targetedDriver);
-    console.log("Type.OFFER:", Type.OFFER);
-    console.log("Type.TARGETED:", Type.TARGETED);
-
-    try {
-      const freightData = {
-        ...data,
-        targetedDrivers: targetedDriver.length > 0 ? targetedDriver : [],
-        type: targetedDriver.length > 0 ? Type.TARGETED : Type.OFFER,
-      };
-      console.log("Dados do frete a serem enviados:", freightData);
-      const createdFreight = await FreightService.createFreight(freightData);
-      console.log("Frete criado com sucesso:", createdFreight);
-    } catch (error: any) {
-      console.error("Erro ao criar o frete:", error);
-      if (error.graphQLErrors) {
-        error.graphQLErrors.forEach((err: any) => {
-          console.error("Erro GraphQL:", err);
-        });
-      }
-      if (error.networkError) {
-        console.error("Erro de rede:", error.networkError);
-      }
-    }
+  const onSubmit = (data: CreateFreightInput) => {
+    setIsConfirmationModalOpen(true);
   };
 
   const watchedFields = watch();
@@ -110,29 +90,36 @@ const FormContainer: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <PickupDeliverySection />
+        <div className={styles.content}>
+          <PickupDeliverySection />
 
-        <CargoDetailsSection />
+          <CargoDetailsSection />
 
-        <VehicleSelectionSection />
+          <VehicleSelectionSection />
 
-        <BodyworkSelectionSection />
+          <BodyworkSelectionSection />
 
-        <ShippingTypeSection />
+          <ShippingTypeSection />
 
-        <FreightValueSection />
+          <FreightValueSection />
 
-        <ObservationsSection />
+          <ObservationsSection />
 
-        <FreightSubmissionButton
-          onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
-        />
+          <FreightSubmissionButton
+            onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
+          />
+        </div>
       </form>
 
       <AssignFreightModal
         isOpen={isAssignFreightModalOpen}
         onRequestClose={() => setIsAssignFreightModalOpen(false)}
         onConfirm={handleDirectToDriver}
+      />
+
+      <ConfirmationModal
+        isOpen={isConfirmationModalOpen}
+        onRequestClose={() => setIsConfirmationModalOpen(false)}
       />
     </FormProvider>
   );

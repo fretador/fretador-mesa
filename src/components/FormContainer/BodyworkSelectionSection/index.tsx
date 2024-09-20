@@ -1,8 +1,11 @@
+// BodyworkSelectionSection.tsx
+
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./BodyworkSelectionSection.module.css";
 import { BodyworkCategory, BodyworkType } from "@/utils/enums/bodyworkEnums";
+import CheckboxIcon from "@/components/Checkbox"; // Importe o componente CheckboxIcon
 
 interface BodyworkOption {
   category: BodyworkCategory;
@@ -45,9 +48,10 @@ const BodyworkSelectionSection: React.FC = () => {
     formState: { errors },
   } = useFormContext<CreateFreightInput>();
 
+  // Inicialize eligibleBodyworks se estiver undefined
   const eligibleBodyworks = watch("eligibleBodyworks") || [];
 
-  // Inicialize eligibleBodyworks se estiver vazio
+  // Se eligibleBodyworks estiver vazio, inicialize com os valores iniciais
   if (eligibleBodyworks.length === 0) {
     const initialBodyworks = bodyworkOptions.flatMap((categoryOption) =>
       categoryOption.types.map((bodywork) => ({
@@ -112,15 +116,16 @@ const BodyworkSelectionSection: React.FC = () => {
                   ? "Aberta"
                   : "Especial"}
               </h4>
-              <label>
-                <input
-                  type="checkbox"
+              <label
+                className={styles.label}
+                onClick={() =>
+                  handleAllCategoryChange(categoryOption.category, !allChecked)
+                }
+              >
+                <CheckboxIcon
                   checked={allChecked}
-                  onChange={(e) =>
-                    handleAllCategoryChange(
-                      categoryOption.category,
-                      e.target.checked
-                    )
+                  onChange={(checked) =>
+                    handleAllCategoryChange(categoryOption.category, checked)
                   }
                 />
                 Todas as{" "}
@@ -137,15 +142,24 @@ const BodyworkSelectionSection: React.FC = () => {
                     b.type === bodywork.type
                 );
                 return (
-                  <label key={bodywork.type}>
-                    <input
-                      type="checkbox"
+                  <label
+                    key={bodywork.type}
+                    className={styles.label}
+                    onClick={() =>
+                      handleBodyworkChange(
+                        categoryOption.category,
+                        bodywork.type,
+                        !(bodyworkState?.eligible || false)
+                      )
+                    }
+                  >
+                    <CheckboxIcon
                       checked={bodyworkState?.eligible || false}
-                      onChange={(e) =>
+                      onChange={(checked) =>
                         handleBodyworkChange(
                           categoryOption.category,
                           bodywork.type,
-                          e.target.checked
+                          checked
                         )
                       }
                     />

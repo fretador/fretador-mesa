@@ -1,12 +1,15 @@
 .section {
-  padding: 3rem;
+  padding: 20px;
   background-color: #B2CEDA;
+  max-width: 1284px;
+  gap: 27px;
 }
 
 .title {
-  font-size: 20px;
+  font-family: "Roboto", sans-serif;
+  font-size: 32px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 32px;
 }
 
 .radioGroup {
@@ -40,13 +43,22 @@
   font-size: 14px;
   background-color: rgba(27, 85, 109, 0.3);
   color: #1A556D;
+  height: 51px;
+  /* Adicione esta linha */
 }
 
 .rowInputs {
   display: flex;
   justify-content: space-between;
   gap: 20px;
+}
 
+.rowInputs:first-child {
+  flex-wrap: wrap;
+}
+
+.rowInputs:first-child .inputGroup {
+  flex-basis: calc(50% - 10px);
 }
 
 .error {
@@ -60,9 +72,13 @@
 }
 
 .label {
+
   display: block;
-  font-weight: 500;
-  margin-bottom: 5px;
+  font-family: "Roboto", sans-serif;
+  font-size: 22px;
+  /* Alterado de 24px para 22px */
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
 .select {
@@ -72,5 +88,98 @@
   border-radius: 6px;
   font-size: 16px;
   color: #1A556D;
+  height: 51px;
+  /* Adicione esta linha */
+}
 
+.input::placeholder {
+  color: #1A556D;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.select {
+  color: #1A556D;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Adicione estas regras */
+
+.radioIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.radioIcon.checked path {
+  fill: blue;
+  /* Ou qualquer cor que você queira quando selecionado */
+}
+
+.hiddenRadio {
+  display: none;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radioLabel span {
+  margin-left: 5px;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.iconGroup {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.iconOption {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.iconText {
+  font-family: "Roboto", sans-serif;
+  font-size: 22px;
+  font-weight: medium;
+  color: #1A556D;
+  margin-right: 24px;
+}
+
+.iconText:first-child {
+  margin-right: 50px;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.hiddenRadio {
+  display: none;
+}
+
+.halfWidth {
+  flex-basis: 50%;
+
+}
+
+/* Remova as seguintes regras */
+.firstOption {
+  font-weight: bold;
+}
+
+.select option:first-child {
+  font-weight: bold;
 }

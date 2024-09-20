@@ -26,6 +26,8 @@ import Danger from "@/assets/icons/danger.svg";
 import WhatsApp from "@/assets/icons/whatsapp.svg";
 import TrueIcon from "@/assets/icons/trueIcon.svg";
 import FalseIcon from "@/assets/icons/falseIcon.svg";
+import CheckBox from "@/assets/icons/checkbox-check.svg";
+import CheckBoxUncheck from "@/assets/icons/checkbox-uncheck.svg";
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -55,3 +57,5 @@ export const DangerIcon = Danger;
 export const WhatsAppIcon = WhatsApp;
 export const RadioTrueIcon = TrueIcon;
 export const RadioFalseIcon = FalseIcon;
+export const CheckBoxUncheckIcon = CheckBoxUncheck;
+export const CheckBoxIcon = CheckBox;

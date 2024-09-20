@@ -3,6 +3,7 @@ import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./VehicleSelectionSection.module.css";
 import { VehicleCategory, VehicleType } from "@/utils/enums/vehicleEnums";
+import CheckboxIcon from "@/components/Checkbox";
 
 interface VehicleOption {
   category: VehicleCategory;
@@ -114,15 +115,23 @@ const VehicleSelectionSection: React.FC = () => {
                   ? "Médios"
                   : "Pesados"}
               </h4>
-              <label>
-                <input
-                  type="checkbox"
+              <label
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  fontFamily: "Roboto",
+                  fontSize: "22px",
+                  fontWeight: "regular",
+                }}
+                onClick={() =>
+                  handleAllCategoryChange(categoryOption.category, !allChecked)
+                }
+              >
+                <CheckboxIcon
                   checked={allChecked}
-                  onChange={(e) =>
-                    handleAllCategoryChange(
-                      categoryOption.category,
-                      e.target.checked
-                    )
+                  onChange={(checked) =>
+                    handleAllCategoryChange(categoryOption.category, checked)
                   }
                 />
                 Todos os{" "}
@@ -139,15 +148,31 @@ const VehicleSelectionSection: React.FC = () => {
                     v.type === vehicle.type
                 );
                 return (
-                  <label key={vehicle.type}>
-                    <input
-                      type="checkbox"
+                  <label
+                    key={vehicle.type}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      fontFamily: "Roboto",
+                      fontSize: "22px",
+                      fontWeight: "regular",
+                    }}
+                    onClick={() =>
+                      handleVehicleChange(
+                        categoryOption.category,
+                        vehicle.type,
+                        !(vehicleState?.eligible || false)
+                      )
+                    }
+                  >
+                    <CheckboxIcon
                       checked={vehicleState?.eligible || false}
-                      onChange={(e) =>
+                      onChange={(checked) =>
                         handleVehicleChange(
                           categoryOption.category,
                           vehicle.type,
-                          e.target.checked
+                          checked
                         )
                       }
                     />

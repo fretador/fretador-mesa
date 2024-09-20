@@ -50,7 +50,15 @@ const AwaitingApprovalList: React.FC<AwaitingApprovalListProps> = ({
     }
   };
 
+<<<<<<< HEAD
+  if (loading) return <p>Carregando motoristas...</p>;
+=======
+  const handleNewDriver = () => {
+    console.log("Card clicado!");
+  };
+
   if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
+>>>>>>> 664cf0f (feat: application of the Loading component on pages that fetch data from the backend (Home, Freights and Drivers))
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;
 
   return (

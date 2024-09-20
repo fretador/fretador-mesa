@@ -24,16 +24,27 @@
 
 .label {
   display: block;
-  font-weight: 500;
-  margin-bottom: 5px;
+  font-family: "Roboto", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 8px;
 }
 
 .input {
-  width: 100%;
-  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  background-color: rgba(27, 85, 109, 0.3);
+  color: rgba(26, 85, 109, 0.50);
+  padding: 16px 8px;
+  width: 80%;
+}
+
+.input::placeholder {
+  color: #1A556D;
 }
 
 .error {
@@ -44,4 +55,29 @@
   color: red;
   font-size: 12px;
   margin-top: 5px;
+}
+
+.iconGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.iconOption {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.iconText {
+  font-family: "Roboto", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.hiddenRadio {
+  display: none;
 }

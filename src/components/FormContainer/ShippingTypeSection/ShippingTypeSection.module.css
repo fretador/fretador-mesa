@@ -4,9 +4,10 @@
 }
 
 .title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 24px;
+  font-family: "Roboto", sans-serif;
+  font-weight: medium;
+  margin-bottom: 8px;
 }
 
 .radioGroup {
@@ -28,4 +29,29 @@
 .inlineRadioGroup {
   display: flex;
   gap: 20px;
+}
+
+.iconGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.iconOption {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.iconText {
+  font-family: "Roboto", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.hiddenRadio {
+  display: none;
 }

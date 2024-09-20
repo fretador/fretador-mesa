@@ -1,19 +1,16 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import styles from "./FreightValuesSection.module.css";
+import { RadioTrueIcon, RadioFalseIcon } from "@/utils/icons";
+import { NumericFormat } from "react-number-format";
 
 const FreightValueSection: React.FC = () => {
   const {
     register,
-    setValue,
+    control,
     formState: { errors },
   } = useFormContext<CreateFreightInput>();
-
-  const handlePedagioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value === "true";
-    setValue("pedagioIncluso", value);
-  };
 
   return (
     <section className={styles.section}>
@@ -21,20 +18,31 @@ const FreightValueSection: React.FC = () => {
         {/* Valor do Frete */}
         <div className={styles.inputGroup}>
           <label htmlFor="value" className={styles.label}>
-            Valor do Frete (R$)
+            Valor do Frete
           </label>
-          <input
-            id="value"
-            type="number"
-            step="0.01"
-            {...register("value", {
-              valueAsNumber: true,
+          <Controller
+            name="value"
+            control={control}
+            rules={{
               required: "Valor do frete é obrigatório",
-            })}
-            className={`${styles.input} ${
-              errors.value ? styles.errorInput : ""
-            }`}
-            placeholder="Valor do frete"
+              min: { value: 0, message: "O valor deve ser maior ou igual a 0" },
+            }}
+            render={({ field: { onChange, value } }) => (
+              <NumericFormat
+                id="value"
+                value={value}
+                onValueChange={(v) => onChange(v.floatValue)}
+                decimalScale={2}
+                fixedDecimalScale
+                prefix="R$ "
+                thousandSeparator="."
+                decimalSeparator=","
+                className={`${styles.input} ${
+                  errors.value ? styles.errorInput : ""
+                }`}
+                placeholder="R$ 0,00"
+              />
+            )}
           />
           {errors.value && (
             <p className={styles.errorMessage}>{errors.value.message}</p>
@@ -42,33 +50,72 @@ const FreightValueSection: React.FC = () => {
         </div>
 
         {/* Pedágio Incluso */}
-        {/* Pedágio Incluso */}
         <div className={styles.inputGroup}>
           <label className={styles.label}>Pedágio Incluso?</label>
-          <div className={styles.radioGroup}>
-            <label>
-              <input
-                type="radio"
-                {...register("pedagioIncluso", {
-                  required: true,
-                  setValueAs: (value) => value === "true",
-                })}
-                value="true"
-              />
-              Sim
-            </label>
-            <label>
-              <input
-                type="radio"
-                {...register("pedagioIncluso", {
-                  required: true,
-                  setValueAs: (value) => value === "true",
-                })}
-                value="false"
-              />
-              Não
-            </label>
-          </div>
+          <Controller
+            name="pedagioIncluso"
+            control={control}
+            rules={{ required: true }}
+            defaultValue={false}
+            render={({ field }) => (
+              <div className={styles.iconGroup}>
+                <div
+                  className={styles.iconOption}
+                  onClick={() => field.onChange(true)}
+                >
+                  {field.value === true ? (
+                    <RadioTrueIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <RadioFalseIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                  <input
+                    type="radio"
+                    name="pedagioIncluso"
+                    value="true"
+                    checked={field.value === true}
+                    className={styles.hiddenRadio}
+                    onChange={() => {}}
+                  />
+                  <span className={styles.iconText}>Sim</span>
+                </div>
+                <div
+                  className={styles.iconOption}
+                  onClick={() => field.onChange(false)}
+                >
+                  {field.value === false ? (
+                    <RadioTrueIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <RadioFalseIcon
+                      className={styles.icon}
+                      width={24}
+                      height={24}
+                    />
+                  )}
+                  <input
+                    type="radio"
+                    name="pedagioIncluso"
+                    value="false"
+                    checked={field.value === false}
+                    className={styles.hiddenRadio}
+                    onChange={() => {}}
+                  />
+                  <span className={styles.iconText}>Não</span>
+                </div>
+              </div>
+            )}
+          />
           {errors.pedagioIncluso && (
             <p className={styles.errorMessage}>
               {errors.pedagioIncluso.message}
