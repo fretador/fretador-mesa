@@ -31,10 +31,12 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   background-color: rgba(27, 85, 109, 0.3);
+  outline: none;
 }
 
 .textarea::placeholder {
-  color: #1A556D;
+  /* color: #1A556D; */
+  color: rgba(26, 85, 109, 0.50);
 }
 
 .error {

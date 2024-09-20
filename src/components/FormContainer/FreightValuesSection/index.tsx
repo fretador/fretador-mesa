@@ -135,7 +135,7 @@ const FreightValueSection: React.FC = () => {
             className={`${styles.input} ${
               errors.formaPagamento ? styles.errorInput : ""
             }`}
-            placeholder="Pix, Depósito, Pamcard, etc..."
+            placeholder="Pix, Depósito, Pamcard, etc."
           />
           {errors.formaPagamento && (
             <p className={styles.errorMessage}>
