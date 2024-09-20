@@ -5,15 +5,15 @@
 
 .rowInputs {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   /* Alinha os elementos no topo */
-  gap: 20px;
+  gap: 88px;
 }
 
-.inputGroup {
+/* .inputGroup {
   flex: 1;
-}
+} */
 
 .radioGroup {
   display: flex;
@@ -26,7 +26,7 @@
   display: block;
   font-family: "Roboto", sans-serif;
   font-size: 22px;
-  font-weight: 400;
+  font-weight: 700;
   margin-bottom: 8px;
 }
 
@@ -34,17 +34,16 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 16px;
-  font-family: "Roboto", sans-serif;
   font-weight: 700;
   font-style: normal;
   background-color: rgba(27, 85, 109, 0.3);
-  color: rgba(26, 85, 109, 0.50);
+  color: #1A556D;
   padding: 16px 8px;
-  width: 80%;
+  width: 120%;
 }
 
 .input::placeholder {
-  color: #1A556D;
+  color: rgba(26, 85, 109, 0.50);
 }
 
 .error {
@@ -58,8 +57,9 @@
 }
 
 .iconGroup {
+  margin-top: 20px;
   display: flex;
-  gap: 10px;
+  gap: 32px;
 }
 
 .iconOption {
@@ -69,7 +69,7 @@
 }
 
 .icon {
-  margin-right: 5px;
+  margin-right: 8px;
 }
 
 .iconText {
