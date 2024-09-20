@@ -16,16 +16,7 @@ import SearchComponent from "@/components/SearchButton";
 import Body from "@/components/Body";
 import AddNewFreightButton from "@/components/AddNewFreightButton";
 import Loading from "@/components/Loading";
-
-type FreightStatusOption =
-  | "DISPONIVEL"
-  | "INDISPONIVEL"
-  | "EM_TRANSITO"
-  | "WAITING"
-  | "APPROVED"
-  | "IN_PROGRESS"
-  | "FINISHED"
-  | undefined;
+import { FreightStatus } from "@/utils/enums/freightStatusEnum"; // Importando o enum correto
 
 const Freights: React.FC = () => {
   const router = useRouter();
@@ -52,7 +43,7 @@ const Freights: React.FC = () => {
     if (height >= 950) {
       setLimit(10);
     } else if (height >= 800 && height < 950) {
-      setLimit(8)
+      setLimit(8);
     } else if (height >= 720 && height < 800) {
       setLimit(7);
     } else if (height < 720) {
@@ -72,11 +63,11 @@ const Freights: React.FC = () => {
 
   const handleApplyFilters = (
     searchTerm: string,
-    selectedStatuses: string[]
+    selectedStatuses: FreightStatus[] // Usando o enum FreightStatus aqui
   ) => {
     const updatedFilters: FreightFilters = {
       ...filters,
-      status: selectedStatuses.join(","),
+      status: selectedStatuses.join(","), // Usando os valores do enum diretamente
     };
 
     if (searchTerm) {
@@ -122,6 +113,11 @@ const Freights: React.FC = () => {
     }
   };
 
+  // Função para redirecionar para a página de detalhes do frete
+  const handleFreightClick = (freightId: string) => {
+    router.push(`/fretes/${freightId}`); // Exemplo de redirecionamento
+  };
+
   return (
     <AuthenticatedLayout>
       <div className={styles.container}>
@@ -136,16 +132,6 @@ const Freights: React.FC = () => {
           <div className={styles.header}>
             <Header title={routeName} />
           </div>
-          {/* {showFilter && (
-            <div className={styles.filterButton}>
-              <StatusFilter2
-                onApply={(searchTerm, selectedStatuses) =>
-                  handleApplyFilters(searchTerm, selectedStatuses)
-                }
-                onCancel={handleCancelFilter}
-              />
-            </div>
-          )} */}
           <div className={styles.content}>
             <Body>
               <div className={styles.searchComponents}>
@@ -171,14 +157,20 @@ const Freights: React.FC = () => {
               ) : (
                 <>
                   {freights.map((freight) => {
-                    const status: FreightStatusOption =
-                      freight.status as FreightStatusOption;
+                    const status: FreightStatus =
+                      freight.status as FreightStatus;
                     return (
-                      <Row.Root key={freight.id} freightStatus={status}>
+                      <Row.Root
+                        key={freight.id}
+                        freightStatus={status}
+                        onClick={() => handleFreightClick(freight.id)}
+                      >
                         <Row.FreightDate
                           date={formatDateToBrazilian(freight.creationDate)}
                         />
-                        <Row.FreightCode code={freight.freightCode.toString()} />
+                        <Row.FreightCode
+                          code={freight.freightCode.toString()}
+                        />
                         <Row.Cte cte={freight.numCte || "N/A"} />
                         <Row.Route
                           originState={freight.gatheringState}
