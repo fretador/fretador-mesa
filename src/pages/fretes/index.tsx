@@ -115,7 +115,7 @@ const Freights: React.FC = () => {
 
   // Função para redirecionar para a página de detalhes do frete
   const handleFreightClick = (freightId: string) => {
-    router.push(`/frete-em-curso/${freightId}`); // Exemplo de redirecionamento
+    router.push(`/fretes/${freightId}`); // Exemplo de redirecionamento
   };
 
   return (
