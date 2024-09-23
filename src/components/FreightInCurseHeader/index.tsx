@@ -87,7 +87,7 @@ const FreightInCurseHeader = ({
             src={driverPhoto}
             width={80}
             height={80}
-            alt="imagem do motorista"
+            alt="imagem do perfil do motorista"
             className={styles.driverInformationsImage}
           />
 
