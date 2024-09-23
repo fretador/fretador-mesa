@@ -29,14 +29,19 @@ const WeeklyFlow = () => {
         >
           <defs>
             <linearGradient id="colorFluxo" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="25%" stopColor="#1B556D" stopOpacity={0.95} />
-              <stop offset="95%" stopColor="#1B556D" stopOpacity={0.8} />
+              <stop offset="15%" stopColor="#18485B" />
+              <stop offset="95%" stopColor="#3facd5cc" />
             </linearGradient>
           </defs>
           <XAxis dataKey="name" stroke="#000" tick={{ fill: '#000' }} />
-          <YAxis stroke="#000" tick={{ fill: '#000' }} />
+          <YAxis
+            stroke="#000"
+            tick={{ fill: '#000' }}
+            tickFormatter={(tick) => Number.isInteger(tick) ? tick : ''}
+            allowDecimals={false}
+          />
           <Tooltip />
-          <Bar dataKey="fluxo" fill="url(#colorFluxo)" isAnimationActive={false} />
+          <Bar dataKey="fluxo" fill="url(#colorFluxo)" isAnimationActive={false} radius={[6, 6, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
