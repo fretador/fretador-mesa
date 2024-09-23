@@ -104,7 +104,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   driverName={freight?.driverName}
                   origin={freight?.origin}
                   destination={freight?.destination}
-                  driverPhoto={freight?.targetedDrivers[0].userPhoto}
+                  driverPhoto={freight?.targetedDrivers[0]?.userPhoto}
                 />
 
                 <SeparatorIcon />
