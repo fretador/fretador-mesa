@@ -27,7 +27,7 @@ const FreightInProgress: React.FC = () => {
   useEffect(() => {
     // Simula a atualização do estágio após 2 segundos
     setTimeout(() => {
-      setCurrentStage(3); // Atualiza para o estágio 3 (Em rota)
+      setCurrentStage(2); // Atualiza para o estágio 3 (Em rota)
     }, 2000);
   }, []);
 

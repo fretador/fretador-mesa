@@ -2,32 +2,67 @@
     position: relative;
     width: 1100px;
     margin: 0 auto; 
-    padding: 100px 0;
+    padding: 24px 0;
+  }
+
+  .iconsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px -16px;
+  }
+
+  .iconContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 82px;
+  }
+
+  .iconsContainer p {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 10px;
+    margin-bottom: 22px;
+  }
+
+  .icon {
+    color: red;
   }
   
   .progressBar {
-    height: 8px;
+    height: 4px;
     background-color: #12938D; 
     border-radius: 5px; 
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
   }
   
   .stageDot {
-    width: 24px;
-    height: 24px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    background-color: #A8A5A5; /* Cor cinza */
-    position: absolute;
-    top: -6px; /* Posiciona a bolinha acima da barra */
-    transform: translateX(-50%); /* Centraliza a bolinha */
+    background-color: #A8A5A5;
+    margin: 0px 16px;
   }
   
   .activeDot {
     background-color: #ED9C03; 
     animation: radarPulse 2.5s infinite; 
   }
-  
+
+  .prevDot {
+    background-color: #ED9C03; 
+  }
+
+  .activeText {
+    color: #1C952C;
+  }
+
   @keyframes radarPulse {
     0% {
       box-shadow: 0 0 0 0 rgba(237, 156, 3, 0.4);
