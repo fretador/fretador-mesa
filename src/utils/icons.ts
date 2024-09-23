@@ -28,6 +28,12 @@ import TrueIcon from "@/assets/icons/trueIcon.svg";
 import FalseIcon from "@/assets/icons/falseIcon.svg";
 import CheckBox from "@/assets/icons/checkbox-check.svg";
 import CheckBoxUncheck from "@/assets/icons/checkbox-uncheck.svg";
+import PickupOrder from "@/assets/icons/pickupOrder.svg"
+import CarryingLoad from "@/assets/icons/carryingLoad.svg"
+import InRoute from "@/assets/icons/inRoute.svg"
+import ArrivalAtDestination from "@/assets/icons/arrivalAtDestination.svg"
+import SendingReceipts from "@/assets/icons/sendingReceipts.svg"
+import Balance from "@/assets/icons/balance.svg"
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -59,3 +65,9 @@ export const RadioTrueIcon = TrueIcon;
 export const RadioFalseIcon = FalseIcon;
 export const CheckBoxUncheckIcon = CheckBoxUncheck;
 export const CheckBoxIcon = CheckBox;
+export const PickupOrderIcon = PickupOrder
+export const CarryingLoadIcon = CarryingLoad
+export const InRouteIcon = InRoute
+export const ArrivalAtDestinationIcon = ArrivalAtDestination
+export const SendingReceiptsIcon = SendingReceipts
+export const BalanceIcon = Balance

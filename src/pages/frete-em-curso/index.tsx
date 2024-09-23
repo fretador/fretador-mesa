@@ -36,45 +36,13 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
 
   // Simular a atualização do estágio atual do frete com dados mockados
   useEffect(() => {
-    // Verifica se o freightId está disponível
-    if (freightId) {
-      // Função para buscar os dados do frete
-      const fetchFreightData = async () => {
-        try {
-          console.log("freightId", freightId);
-          const response = await FreightService.getFreightById(
-            freightId as string
-          );
-          console.log("response", response);
-          setFreight(response);
-          setCurrentStage(response.status);
-          setLoading(false);
-        } catch (err) {
-          setError("Erro ao carregar os dados do frete");
-          setLoading(false);
-        }
-      };
 
-      fetchFreightData();
-    }
-  }, [freightId]);
+    // Simula a atualização do estágio após 2 segundos
+    setTimeout(() => {
+      setCurrentStage(2); // Atualiza para o estágio 3 (Em rota)
+    }, 2000);
+  }, []);
 
-  if (loading) {
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <Loading />
-    </div>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
 
   return (
     <AuthenticatedLayout>
