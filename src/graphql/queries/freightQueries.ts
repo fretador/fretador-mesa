@@ -31,6 +31,7 @@ export const GET_FREIGHT_BY_ID = gql`
       origin
       destination
       status
+      targetedDrivers
     }
   }
 `;

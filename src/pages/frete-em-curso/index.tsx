@@ -14,6 +14,7 @@ import ProgressBar from "@/components/ProgressBar";
 import FreightInCurseOptions from "@/components/FreightInCurseOptions";
 import FreightStep from "@/components/FreightStep";
 import { FreightService } from "@/services/freightService";
+import Loading from "@/components/Loading";
 
 interface FreightInProgressProps {
   freightId: string;
@@ -43,9 +44,10 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
           console.log("freightId", freightId);
           const response = await FreightService.getFreightById(
             freightId as string
-          ); // Usando o serviço para buscar os dados do frete
+          );
+          console.log("response", response);
           setFreight(response);
-          setCurrentStage(response.stage); // Atualiza para o estágio correto do backend
+          setCurrentStage(response.status);
           setLoading(false);
         } catch (err) {
           setError("Erro ao carregar os dados do frete");
@@ -58,7 +60,16 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   }, [freightId]);
 
   if (loading) {
-    return <p>Carregando...</p>;
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <Loading />
+    </div>;
   }
 
   if (error) {
@@ -91,10 +102,9 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   freightCode={freight?.freightCode}
                   statusFreight={freight?.status}
                   driverName={freight?.driverName}
-                  cityOrigin={freight?.cityOrigin}
-                  stateOrigin={freight?.stateOrigin}
-                  cityDestiny={freight?.cityDestiny}
-                  stateDestiny={freight?.stateDestiny}
+                  origin={freight?.origin}
+                  destination={freight?.destination}
+                  driverPhoto={freight?.targetedDrivers[0].userPhoto}
                 />
 
                 <SeparatorIcon />
