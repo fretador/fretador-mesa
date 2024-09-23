@@ -66,14 +66,20 @@
   font-weight: 700;
   font-style: normal;
   background-color: rgba(27, 85, 109, 0.3);
-  color: rgba(26, 85, 109, 0.50);
+  /* color: rgba(26, 85, 109, 0.50); */
+  color: #1A556D;
   padding: 16px 8px;
+  outline: 0;
+}
+
+.input::placeholder {
+  color: rgba(26, 85, 109, 0.50);
 }
 
 .inputDate {
   height: 44px;
   font-family: "Roboto", sans-serif;
-  font-weight: 400;
+  font-weight: 700;
   font-size: 24px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -90,8 +96,4 @@
   color: red;
   font-size: 14px;
   margin-top: 4px;
-}
-
-.input::placeholder {
-  color: #1A556D;
 }

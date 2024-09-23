@@ -16,7 +16,9 @@ const CreateFreight: React.FC = () => {
   return (
     <AuthenticatedLayout>
       <div className={styles.container}>
-        <Sidebar />
+        <div>
+          <Sidebar />
+        </div>
 
         <div
           className={

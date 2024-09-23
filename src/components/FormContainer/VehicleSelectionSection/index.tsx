@@ -123,6 +123,7 @@ const VehicleSelectionSection: React.FC = () => {
                   fontFamily: "Roboto",
                   fontSize: "22px",
                   fontWeight: "regular",
+                  marginBottom: "2px"
                 }}
                 onClick={() =>
                   handleAllCategoryChange(categoryOption.category, !allChecked)
@@ -157,6 +158,7 @@ const VehicleSelectionSection: React.FC = () => {
                       fontFamily: "Roboto",
                       fontSize: "22px",
                       fontWeight: "regular",
+                      marginBottom: "2px"
                     }}
                     onClick={() =>
                       handleVehicleChange(

@@ -1,5 +1,5 @@
 .section {
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
   background-color: #B2CEDA;
   max-width: 1284px;
   gap: 27px;
@@ -9,7 +9,7 @@
   font-family: "Roboto", sans-serif;
   font-size: 32px;
   font-weight: bold;
-  margin-bottom: 32px;
+  margin-bottom: 25px;
 }
 
 .radioGroup {
@@ -25,9 +25,12 @@
   gap: 20px;
 }
 
-.radioGroup,
-.inputGroup {
+.radioGroup {
   margin-bottom: 20px;
+}
+
+.inputGroup {
+  margin-bottom: 32px;
 }
 
 .radioOptions {
@@ -44,6 +47,8 @@
   background-color: rgba(27, 85, 109, 0.3);
   color: #1A556D;
   height: 51px;
+  font-weight: 700;
+  outline: 0;
   /* Adicione esta linha */
 }
 
@@ -72,13 +77,12 @@
 }
 
 .label {
-
   display: block;
   font-family: "Roboto", sans-serif;
   font-size: 22px;
   /* Alterado de 24px para 22px */
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .select {
@@ -93,10 +97,9 @@
 }
 
 .input::placeholder {
-  color: #1A556D;
-  font-family: "Roboto", sans-serif;
+  color: rgba(26, 85, 109, 0.50);
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .select {
@@ -141,7 +144,8 @@
 .iconGroup {
   display: flex;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+  margin-top: 18px;
 }
 
 .iconOption {
@@ -176,8 +180,8 @@
 }
 
 /* Remova as seguintes regras */
-.firstOption {
-  font-weight: bold;
+.inputGroup .firstOption {
+  font-weight: 700;
 }
 
 .select option:first-child {

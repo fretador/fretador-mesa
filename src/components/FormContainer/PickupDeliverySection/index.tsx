@@ -150,7 +150,7 @@ const PickupDeliverySection: React.FC = () => {
 
   return (
     <section className={styles.section}>
-      <h2 className={styles.title}>Dados da Coleta/Entrega</h2>
+      <h2 className={styles.title}>Dados da Coleta / Entrega</h2>
       <div className={styles.inputWrapper}>
         <label htmlFor="pickupDeliveryData" className={styles.labelDate}>
           DATA DO CARREGAMENTO

@@ -13,7 +13,7 @@ const CheckboxIcon: React.FC<CheckboxIconProps> = ({ checked, onChange }) => {
   return (
     <span
       onClick={handleClick}
-      style={{ cursor: "pointer", marginRight: "8px" }}
+      style={{ cursor: "pointer", marginRight: "8px", marginTop: "9px" }}
     >
       {checked ? <CheckBoxIcon /> : <CheckBoxUncheckIcon />}
     </span>
