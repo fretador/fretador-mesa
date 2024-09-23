@@ -16,6 +16,8 @@ const DailyFlow = () => {
   const remainingValue = 100 - newFreights;
   const remainingPercentage = 100 - cancelledFreightsPercentage;
 
+  const getPaddingAngle = (value: number) => value > 0 ? 3 : 0;
+
   return (
     <div className={styles.container}>
       <p>FLUXO DIÁRIO</p>
@@ -32,7 +34,7 @@ const DailyFlow = () => {
                 ],
                 innerRadius: 48,
                 outerRadius: 70,
-                paddingAngle: 3,
+                paddingAngle: getPaddingAngle(cancelledFreightsPercentage),
                 cornerRadius: 5,
                 startAngle: 0,
                 cx: 100,
@@ -56,7 +58,7 @@ const DailyFlow = () => {
                 ],
                 innerRadius: 48,
                 outerRadius: 70,
-                paddingAngle: 3,
+                paddingAngle: getPaddingAngle(newFreights),
                 cornerRadius: 5,
                 startAngle: 0,
                 cx: 100,
