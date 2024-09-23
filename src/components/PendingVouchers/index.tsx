@@ -21,6 +21,7 @@ const PendingVouchers = () => {
   return (
     <div className={styles.container}>
       <p className={styles.title}>Comprovantes de entrega para aprovar</p>
+      {pendingFreights.length === 0 && <p>Não há comprovantes no momento.</p>}
 
       {pendingFreights.map((freight) => (
         <RowPendingVouchers
