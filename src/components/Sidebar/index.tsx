@@ -12,16 +12,23 @@ import {
   WarningIcon,
   ClientsBook,
 } from "@/utils/icons";
-import { useAppSelector } from "@/store/store";
+import { useAppSelector, useAppDispatch } from "@/store/store";
+import { resetNotification } from "@/store/slices/notificationsSlice";
 import styles from "./Sidebar.module.css";
 import { useRouter } from "next/router";
 
 const Sidebar: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const notifications = useAppSelector((state) => state.notifications);
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   // Extrai o nome da rota atual e converte para caixa alta
   const routeName = router.pathname.replace("/", "").toUpperCase();
+
+  const handleItemClick = (context: keyof typeof notifications) => {
+    dispatch(resetNotification(context as any));
+  };
 
   return (
     <SidebarComp.Root
@@ -41,30 +48,40 @@ const Sidebar: React.FC = () => {
           text="FRETES"
           isRetracted={isRetracted}
           isFocused={routeName === "FRETES"}
+          onClick={() => handleItemClick("fretes")}
+          badge={notifications?.fretes}
         />
         <SidebarComp.Item
           icon={<PersonAddIcon />}
           text="MOTORISTAS"
           isRetracted={isRetracted}
           isFocused={routeName === "MOTORISTAS"}
+          onClick={() => handleItemClick("motoristas")}
+          badge={notifications?.motoristas}
         />
         <SidebarComp.Item
           icon={<ClientsBook />}
           text="CLIENTES"
           isRetracted={isRetracted}
           isFocused={routeName === "CLIENTES"}
+          onClick={() => handleItemClick("clientes")}
+          badge={notifications?.clientes}
         />
         <SidebarComp.Item
           icon={<HelpIcon />}
           text="OCORRÊNCIAS"
           isRetracted={isRetracted}
           isFocused={routeName === "OCORRENCIAS"}
+          onClick={() => handleItemClick("ocorrencias")}
+          badge={notifications?.ocorrencias}
         />
         <SidebarComp.Item
           icon={<FinanceIcon />}
           text="FINANCEIRO"
           isRetracted={isRetracted}
           isFocused={routeName === "FINANCEIRO"}
+          onClick={() => handleItemClick("financeiro")}
+          badge={notifications?.financeiro}
         />
         <SidebarComp.Separator isRetracted={isRetracted} />
         <SidebarComp.Item
