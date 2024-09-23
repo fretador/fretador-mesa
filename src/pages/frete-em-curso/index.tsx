@@ -15,6 +15,8 @@ import FreightInCurseOptions from "@/components/FreightInCurseOptions";
 import FreightStep from "@/components/FreightStep";
 import { FreightService } from "@/services/freightService";
 import Loading from "@/components/Loading";
+import { FreightStatus } from "@/utils/enums/freightStatusEnum";
+import { Freight } from "@/utils/types/Freight";
 
 interface FreightInProgressProps {
   freightId: string;
@@ -23,24 +25,69 @@ interface FreightInProgressProps {
 const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
-
-  // Pega o freightId da URL
-
-  // Estado para armazenar os dados do frete
-  const [freight, setFreight] = useState<any>(null);
+  const [freight, setFreight] = useState<Freight | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentStage, setCurrentStage] = useState(0);
 
-  // Definir o estado do estágio atual do frete
-  const [currentStage, setCurrentStage] = useState(0); // Inicializa com o estágio 0
-
-  // Simular a atualização do estágio atual do frete com dados mockados
   useEffect(() => {
-    // Simula a atualização do estágio após 2 segundos
-    setTimeout(() => {
-      setCurrentStage(2); // Atualiza para o estágio 3 (Em rota)
-    }, 2000);
-  }, []);
+    const fetchFreightData = async () => {
+      try {
+        setLoading(true);
+        const freightData = await FreightService.getFreightById(freightId);
+        setFreight(freightData);
+        console.log("freightData", freightData);
+        setCurrentStage(
+          getStageFromStatus(freightData?.status as FreightStatus)
+        );
+      } catch (err) {
+        setError("Erro ao carregar os dados do frete");
+        console.error("Erro ao buscar dados do frete:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (freightId) {
+      fetchFreightData();
+    }
+  }, [freightId]);
+
+  const getStageFromStatus = (status: FreightStatus): number => {
+    // Implemente a lógica para mapear o status do frete para um estágio
+    // Exemplo simplificado:
+    const stageMap: { [key in FreightStatus]?: number } = {
+      [FreightStatus.WAITING]: 0,
+      [FreightStatus.TARGETED]: 0,
+      [FreightStatus.REQUESTED]: 0,
+      [FreightStatus.APPROVED]: 0,
+      [FreightStatus.PICKUP_ORDER_SENT]: 0,
+      [FreightStatus.OPERATION_REQUIRED]: 4,
+      [FreightStatus.OPERATION_APPROVED]: 4,
+      [FreightStatus.ADMIN_REQUIRED]: 4,
+      [FreightStatus.ADMIN_APPROVED]: 4,
+      [FreightStatus.FINANCIAL_REQUIRED]: 5,
+      [FreightStatus.FINANCIAL_APPROVED]: 5,
+      [FreightStatus.LOADING_STARTED]: 2,
+      [FreightStatus.LOADING_FINISHED]: 2,
+      [FreightStatus.UNLOADING_STARTED]: 2,
+      [FreightStatus.UNLOADING_FINISHED]: 3,
+      [FreightStatus.INVOICE_SENT]: 4,
+      [FreightStatus.INVOICE_COUPON_SENT]: 4,
+      [FreightStatus.INVOICE_COUPON_REFUSED]: 4,
+      [FreightStatus.DRIVER_ARRIVED]: 5,
+      [FreightStatus.DRIVER_SELECTED]: 18,
+    };
+    return stageMap[status] || 0;
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <div>Erro: {error}</div>;
+  }
 
   return (
     <AuthenticatedLayout>
@@ -60,31 +107,35 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
           <div className={styles.content}>
             <Body>
               <div>
-                <SearchComponent />
-              </div>
-
-              <div className={styles.freightInCurseContainer}>
-                <FreightInCurseHeader
-                  freightCode={freight?.freightCode}
-                  statusFreight={freight?.status}
-                  driverName={freight?.driverName}
-                  origin={freight?.origin}
-                  destination={freight?.destination}
-                  driverPhoto={freight?.targetedDrivers[0]?.userPhoto}
+                <SearchComponent
+                  onSearch={(query) => console.log("Busca:", query)}
                 />
-
-                <SeparatorIcon />
-
-                {/* Adicionar a barra de progresso aqui */}
-                <ProgressBar currentStage={currentStage} />
-
-                <SeparatorIcon />
-
-                <div className={styles.freightInCurseOptionsContainer}>
-                  <h2>Dados do embarque:</h2>
-                  <FreightInCurseOptions />
-                </div>
               </div>
+
+              {freight && (
+                <div className={styles.freightInCurseContainer}>
+                  <FreightInCurseHeader
+                    freightCode={freight.freightCode}
+                    statusFreight={freight.status}
+                    driverName={freight.driverName}
+                    origin={freight.origin}
+                    destination={freight.destination}
+                    driverPhoto={freight.targetedDrivers[0]?.userPhoto}
+                  />
+
+                  <SeparatorIcon />
+
+                  {/* Adicionar a barra de progresso aqui */}
+                  <ProgressBar currentStage={currentStage} />
+
+                  <SeparatorIcon />
+
+                  <div className={styles.freightInCurseOptionsContainer}>
+                    <h2>Dados do embarque:</h2>
+                    <FreightInCurseOptions />
+                  </div>
+                </div>
+              )}
 
               <FreightStep
                 theme="dark"
