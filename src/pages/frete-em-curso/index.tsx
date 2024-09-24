@@ -115,17 +115,20 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
               {freight && (
                 <div className={styles.freightInCurseContainer}>
                   <FreightInCurseHeader
-                    freightCode={freight.freightCode}
-                    statusFreight={freight.status}
-                    driverName={freight.driverName}
+                    freightCode={freight.freightCode.toString()}
+                    statusFreight={freight.status as FreightStatus}
+                    driverName={freight.targetedDrivers[0]?.name}
                     origin={freight.origin}
                     destination={freight.destination}
-                    driverPhoto={freight.targetedDrivers[0]?.userPhoto}
+                    driverPhoto={
+                      freight.targetedDrivers[0]?.userPhoto.imageUrl ||
+                      freight.targetedDrivers[0]?.userPhoto ||
+                      ""
+                    }
                   />
 
                   <SeparatorIcon />
 
-                  {/* Adicionar a barra de progresso aqui */}
                   <ProgressBar currentStage={currentStage} />
 
                   <SeparatorIcon />

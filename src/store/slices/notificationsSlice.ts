@@ -15,7 +15,7 @@ interface NotificationState {
 }
 
 const initialState: NotificationState = {
-  fretes: 1,
+  fretes: 0,
   motoristas: 2,
   ocorrencias: 3,
   financeiro: 1,

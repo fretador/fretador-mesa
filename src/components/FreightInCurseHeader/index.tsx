@@ -65,9 +65,9 @@ const FreightInCurseHeader = ({
   freightCode,
   statusFreight,
   driverName,
-  driverPhoto,
   origin,
   destination,
+  driverPhoto,
 }: FreightInCurseProps) => {
   // Extração da cidade e estado para origin e destiny
   const { city: cityOrigin, state: stateOrigin } = extractCityAndState(origin);

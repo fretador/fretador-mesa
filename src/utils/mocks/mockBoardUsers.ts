@@ -1,14 +1,14 @@
 import { BoardUser } from "@/utils/Interfaces/BoardUsers";
 
 const today = "2024-08-09T12:00:00Z";
-const defaultAvatarPath = "../../assets/images/avatar.jpg";
+const defaultAvatarPath = "../../assets/src/images/avatar.png";
 export const mockBoardUsers: BoardUser[] = [
   {
     id: "1",
     active: true,
     updateDate: today,
     creationDate: "2023-01-01T00:00:00Z",
-    name: "João Silva",
+    name: "Zé do Frete",
     email: "joao.silva@exemplo.com",
     profile: "ADMINISTRADOR",
     hashPassword: "$2a$10$abcdefghijklmnopqrstuvwxyz123456",
