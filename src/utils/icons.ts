@@ -34,6 +34,7 @@ import InRoute from "@/assets/icons/inRoute.svg"
 import ArrivalAtDestination from "@/assets/icons/arrivalAtDestination.svg"
 import SendingReceipts from "@/assets/icons/sendingReceipts.svg"
 import Balance from "@/assets/icons/balance.svg"
+import Back from "@/assets/icons/back.svg"
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -71,3 +72,4 @@ export const InRouteIcon = InRoute
 export const ArrivalAtDestinationIcon = ArrivalAtDestination
 export const SendingReceiptsIcon = SendingReceipts
 export const BalanceIcon = Balance
+export const BackIcon = Back
