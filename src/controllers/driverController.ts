@@ -15,9 +15,7 @@ export const useDriverController = () => {
 
 	const loadDrivers = useCallback(
 		async (page: number, limit: number, filter: DriverFilters) => {
-			const status = filter.status ?? [];
-			dispatch(fetchDriversStart({ status }));
-
+			dispatch(fetchDriversStart());
 			try {
 				const response = await DriverService.getDrivers(page, limit, filter);
 				const transformedDrivers: Driver[] = DriverService.transformDrivers(
@@ -26,20 +24,29 @@ export const useDriverController = () => {
 				const pageInfo: PageInfo = DriverService.transformPageInfo(
 					response.pageInfo
 				);
-				dispatch(
-					fetchDriversSuccess({ drivers: transformedDrivers, pageInfo, status })
-				);
+				dispatch(fetchDriversSuccess({ drivers: transformedDrivers, pageInfo }));
 			} catch (error: unknown) {
 				const errorMessage =
 					error instanceof Error ? error.message : "An unknown error occurred";
 				console.error("Error loading drivers:", errorMessage);
-				dispatch(fetchDriversFailure({ error: errorMessage, status }));
+				dispatch(fetchDriversFailure(errorMessage));
 			}
 		},
 		[dispatch]
 	);
 
+	const loadDriverById = useCallback(async (id: string) => {
+		try {
+			const driver = await DriverService.getDriverById(id);
+			return driver;
+		} catch (error) {
+			console.error("Error loading driver by ID:", error);
+			throw error;
+		}
+	}, []);
+
 	return {
 		loadDrivers,
+		loadDriverById,
 	};
 };

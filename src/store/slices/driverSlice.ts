@@ -3,68 +3,61 @@ import { Driver } from "@/utils/types/Driver";
 import { PageInfo } from "@/utils/types/PageInfo";
 
 interface DriverState {
-	driversByStatus: {
-		[statusKey: string]: {
-			drivers: Driver[];
-			pageInfo: PageInfo | null;
-			loading: boolean;
-			error: string | null;
-		};
-	};
+	drivers: Driver[];
+	pageInfo: PageInfo | null;
+	loading: boolean;
+	error: string | null;
 }
 
 const initialState: DriverState = {
-	driversByStatus: {},
+	drivers: [],
+	pageInfo: null,
+	loading: false,
+	error: null,
 };
 
 const driverSlice = createSlice({
 	name: "driver",
 	initialState,
 	reducers: {
-		fetchDriversStart(state, action: PayloadAction<{ status: string[] }>) {
-			const { status } = action.payload;
-			const statusKey = status.sort().join(",");
-			state.driversByStatus[statusKey] = {
-				drivers: [],
-				pageInfo: null,
-				loading: true,
-				error: null,
-			};
+		fetchDriversStart(state) {
+			state.loading = true;
+			state.error = null;
 		},
 		fetchDriversSuccess(
 			state,
-			action: PayloadAction<{
-				drivers: Driver[];
-				pageInfo: PageInfo;
-				status: string[];
-			}>
+			action: PayloadAction<{ drivers: Driver[]; pageInfo: PageInfo }>
 		) {
-			const { drivers, pageInfo, status } = action.payload;
-			const statusKey = status.sort().join(",");
-			state.driversByStatus[statusKey] = {
-				drivers,
-				pageInfo,
-				loading: false,
-				error: null,
-			};
+			state.loading = false;
+			state.drivers = action.payload.drivers;
+			state.pageInfo = action.payload.pageInfo;
 		},
-		fetchDriversFailure(
-			state,
-			action: PayloadAction<{ error: string; status: string[] }>
-		) {
-			const { error, status } = action.payload;
-			const statusKey = status.sort().join(",");
-			state.driversByStatus[statusKey] = {
-				drivers: [],
-				pageInfo: null,
-				loading: false,
-				error,
-			};
+		fetchDriversFailure(state, action: PayloadAction<string>) {
+			state.loading = false;
+			state.error = action.payload;
+		},
+		createDriverStart(state) {
+			state.loading = true;
+			state.error = null;
+		},
+		createDriverSuccess(state, action: PayloadAction<Driver>) {
+			state.loading = false;
+			state.drivers = [action.payload, ...state.drivers];
+		},
+		createDriverFailure(state, action: PayloadAction<string>) {
+			state.loading = false;
+			state.error = action.payload;
 		},
 	},
 });
 
-export const { fetchDriversStart, fetchDriversSuccess, fetchDriversFailure } =
-	driverSlice.actions;
+export const {
+	fetchDriversStart,
+	fetchDriversSuccess,
+	fetchDriversFailure,
+	createDriverStart,
+	createDriverSuccess,
+	createDriverFailure,
+} = driverSlice.actions;
 
 export default driverSlice.reducer;
