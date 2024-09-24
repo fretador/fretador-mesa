@@ -32,6 +32,7 @@ export const GET_FREIGHT_BY_ID = gql`
       destination
       status
       targetedDrivers
+      freightCode
     }
   }
 `;

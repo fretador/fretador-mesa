@@ -2,8 +2,8 @@ import React from "react";
 
 import styles from "./SidebarCompHeader.module.css";
 import { useAppSelector } from "@/store/store";
-import FretadorIcon from "@/assets/images/fretadorIcon.svg";
-import defaultAvatar from "@/assets/images/avatar.jpg";
+import FretadorIcon from "@/assets/src/images/fretadorIcon.svg";
+import defaultAvatar from "../../../../public/assets/src/images/avatar.png";
 import { BoardUser } from "@/utils/Interfaces/BoardUsers";
 import CustomImage from "@/components/CustomImage";
 
