@@ -9,7 +9,10 @@ import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import { BackIcon } from "@/utils/icons";
 import DriverAndOwnerDetails from "@/components/DriverApproval/DriverAndOwnerDetails";
+<<<<<<< HEAD
 import VehicleDetails from "@/components/DriverApproval/VehicleDetails";
+=======
+>>>>>>> dd86752 (feat: create DriverAndOwnerDetails and ActionButtons components)
 
 const DriverApproval: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);

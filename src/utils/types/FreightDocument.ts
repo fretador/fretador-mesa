@@ -1,6 +1,9 @@
+import { UpdateDataTypeEnum } from "../enums/updateDataTypeEnum";
+
 export interface FreightDocument {
-	id: string;
-	name: string;
-	url: string;
-	dateOfSubmission: string;
+  id: string;
+  type: UpdateDataTypeEnum;
+  name: string;
+  url: string;
+  dateOfSubmission: string;
 }
