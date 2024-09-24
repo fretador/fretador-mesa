@@ -153,7 +153,11 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
               <FreightStep
                 theme="light"
                 date="07/06/2024"
-                content="Autorizar embarque?"
+                content={
+                  freight?.status === FreightStatus.ACCEPTED
+                    ? "Frete aceito pelo motorista"
+                    : "Autorizar embarque"
+                }
                 authorizeBoarding={true}
               />
 
