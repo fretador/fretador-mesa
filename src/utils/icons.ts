@@ -35,6 +35,9 @@ import ArrivalAtDestination from "@/assets/icons/arrivalAtDestination.svg"
 import SendingReceipts from "@/assets/icons/sendingReceipts.svg"
 import Balance from "@/assets/icons/balance.svg"
 import Back from "@/assets/icons/back.svg"
+import PencilSolid from "@/assets/icons/pencilSolid.svg"
+import Download from "@/assets/icons/download.svg"
+
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -73,3 +76,5 @@ export const ArrivalAtDestinationIcon = ArrivalAtDestination
 export const SendingReceiptsIcon = SendingReceipts
 export const BalanceIcon = Balance
 export const BackIcon = Back
+export const PencilSolidIcon = PencilSolid
+export const DownloadIcon = Download

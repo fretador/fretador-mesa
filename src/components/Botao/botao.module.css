@@ -9,7 +9,3 @@
   cursor: pointer;
   transition: background-color .3s ease;
 }
-
-.botao:hover {
-  background-color: #1a6884;
-}

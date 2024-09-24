@@ -7,10 +7,8 @@ import styles from "./DriverApproval.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
-import SearchComponent from "@/components/SearchButton";
-import { Row } from "@/components/Row";
-import RowTitle from "@/components/RowTitle";
 import { BackIcon } from "@/utils/icons";
+import DriverAndOwnerDetails from "@/components/DriverApproval/DriverAndOwnerDetails";
 
 const DriverApproval: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -25,7 +23,7 @@ const DriverApproval: React.FC = () => {
       case "motorista":
         return (
           <div>
-            <h2>Dados do Motorista</h2>
+            <DriverAndOwnerDetails />
           </div>
         );
       case "veiculo":
