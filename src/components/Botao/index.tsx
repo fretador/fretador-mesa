@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./botao.module.css";
 
 interface BotaoProps {
-  text: string;
+  text: React.ReactNode;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit" | "reset";
   className?: string;
