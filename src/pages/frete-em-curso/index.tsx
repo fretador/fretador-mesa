@@ -61,8 +61,9 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
       [FreightStatus.TARGETED]: 0,
       [FreightStatus.REQUESTED]: 0,
       [FreightStatus.APPROVED]: 0,
-      [FreightStatus.PICKUP_ORDER_SENT]: 0,
-      [FreightStatus.OPERATION_REQUIRED]: 4,
+      [FreightStatus.ACCEPTED]: 0,
+      [FreightStatus.DRIVER_SELECTED]: 0,
+      [FreightStatus.OPERATION_REQUIRED]: 0,
       [FreightStatus.OPERATION_APPROVED]: 4,
       [FreightStatus.ADMIN_REQUIRED]: 4,
       [FreightStatus.ADMIN_APPROVED]: 4,
@@ -76,7 +77,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
       [FreightStatus.INVOICE_COUPON_SENT]: 4,
       [FreightStatus.INVOICE_COUPON_REFUSED]: 4,
       [FreightStatus.DRIVER_ARRIVED]: 5,
-      [FreightStatus.DRIVER_SELECTED]: 18,
     };
     return stageMap[status] || 0;
   };
@@ -142,15 +142,17 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
 
               <FreightStep
                 theme="dark"
-                date="07/06/2024"
-                hour="15:02:23"
-                content="Frete solicitado pelo motorista"
+                date={freight?.updateDate}
+                content={
+                  freight?.status === FreightStatus.TARGETED
+                    ? "Frete enviado ao motorista"
+                    : "Frete solicitado pelo motorista"
+                }
               />
 
               <FreightStep
                 theme="light"
                 date="07/06/2024"
-                hour="15:02:23"
                 content="Autorizar embarque?"
                 authorizeBoarding={true}
               />
@@ -158,7 +160,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
               <FreightStep
                 theme="dark"
                 date="07/06/2024"
-                hour="15:02:23"
                 content="Motorista iniciou a viagem"
                 actionButton={true}
                 actionButtonText="rastrear"
@@ -168,7 +169,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
               <FreightStep
                 theme="light"
                 date="07/06/2024"
-                hour="15:02:23"
                 content="Anexo enviado pelo motorista"
                 actionButton={true}
                 actionButtonText="ver anexos"
@@ -176,7 +176,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                 hasAttachment={true}
                 attachmentPath={
                   freight?.attachmentPath || "/default-attachment.png"
-                } // Exemplo de como utilizar o dado
+                }
               />
             </Body>
           </div>

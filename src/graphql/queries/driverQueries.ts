@@ -27,3 +27,21 @@ export const GET_DRIVERS_QUERY = gql`
     }
   }
 `;
+
+export const GET_DRIVER_BY_ID = gql`
+  query GetDriverById($id: ID!) {
+    driver(id: $id) {
+      id
+      name
+      cpf
+      status
+      phoneNumber
+      vehicle {
+        type
+      }
+      userPhoto {
+        imageUrl
+      }
+    }
+  }
+`;

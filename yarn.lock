@@ -4318,6 +4318,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: fb681b242cccabed45494468f64282a7d375ea970e0adbcc5dcc92dcb7aba49b2081c2c9739d41bf71ce89ed68dd73bebfe06ca35129490704775d091895710b
+  languageName: node
+  linkType: hard
+
 "debug@npm:4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.4, debug@npm:^4.3.5":
   version: 4.3.7
   resolution: "debug@npm:4.3.7"
@@ -5409,6 +5416,7 @@ __metadata:
     "@types/redux-mock-store": ^1.0.6
     "@types/testing-library__react": ^10.2.0
     babel-jest: ^29.7.0
+    date-fns: ^4.1.0
     eslint: ^8
     eslint-config-next: 14.2.5
     framer-motion: ^11.3.31

@@ -33,6 +33,7 @@ export const GET_FREIGHT_BY_ID = gql`
       status
       targetedDrivers
       freightCode
+      updateDate
     }
   }
 `;
