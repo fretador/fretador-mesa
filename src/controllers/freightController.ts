@@ -19,20 +19,15 @@ export const useFreightController = () => {
 
 	const loadFreights = useCallback(
 		async (filters: FreightFilters, page: number, limit: number) => {
-			console.log("Loading Freights with Filters:", filters);
 			dispatch(fetchFreightsStart());
 			try {
 				const response = await FreightService.getFreights(filters, page, limit);
-				console.log("Resposta do backend:", response);
-
 				const transformedFreights: Freight[] = FreightService.transformFreights(
 					response.data
 				);
-
 				const pageInfo: PageInfo = FreightService.transformPageInfo(
 					response.pageInfo
 				);
-
 				dispatch(fetchFreightsSuccess({ freights: transformedFreights, pageInfo }));
 			} catch (error: unknown) {
 				const errorMessage =
