@@ -1,5 +1,5 @@
 import apolloClient from "@/app/apolloClient";
-import { GET_DRIVERS_QUERY } from "@/graphql/queries/driverQueries";
+import { GET_DRIVERS_QUERY, GET_DRIVER_BY_ID } from "@/graphql/queries/driverQueries";
 import { Driver } from "@/utils/types/Driver";
 import { PageInfo } from "@/utils/types/PageInfo";
 import { GetDriversResponse } from "@/utils/types/GetDriversResponse";
@@ -21,6 +21,19 @@ export const DriverService = {
 			data: response.data.drivers.edges.map((edge: DriverNode) => edge.node),
 			pageInfo: response.data.drivers.pageInfo,
 		};
+	},
+
+	getDriverById: async (id: string) => {
+		const response = await apolloClient.query<{ driver: Driver }>({
+			query: GET_DRIVER_BY_ID,
+			variables: { id },
+		});
+
+		if (!response.data || !response.data.driver) {
+			throw new Error("Failed to fetch driver by ID");
+		}
+
+		return response.data.driver;
 	},
 
 	transformDrivers: (data: Driver[]) => {
