@@ -32,8 +32,8 @@ interface StatusHistoryItem {
 const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [freight, setFreight] = useState<Freight | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState(0);
 
@@ -132,14 +132,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
         content = "Ordem de Coleta enviada para o motorista";
         hasAttachment = true;
         attachmentPath = freight?.pickupOrderPhoto ?? undefined;
-        actionButtonText = "Ver Anexo";
-        handleActionButton = () => {
-          if (attachmentPath) {
-            window.open(attachmentPath, "_blank");
-          } else {
-            console.log("URL do anexo não disponível");
-          }
-        };
         break;
       default:
         content = `Status: ${item.status}`;
@@ -223,7 +215,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   {...getFreightStepProps(item, index)}
                 />
               ))}
-
               <LocationMap />
             </Body>
           </div>
