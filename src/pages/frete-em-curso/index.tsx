@@ -18,7 +18,10 @@ import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { Freight } from "@/utils/types/Freight";
 import { Type } from "@/utils/enums/typeEnum";
 import FreightInCourseOptions from "@/components/FreightInCourseOptions";
+<<<<<<< HEAD
 import LocationMap from "@/components/LocationMap";
+=======
+>>>>>>> 4c0b7cb ( feature(FreightInCourseOptions):renamed componente, re-ordenate the position of actions)
 
 interface FreightInProgressProps {
   freightId: string;
@@ -31,7 +34,6 @@ interface StatusHistoryItem {
 
 const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
-  const router = useRouter();
   const [freight, setFreight] = useState<Freight | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -223,7 +225,10 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   {...getFreightStepProps(item, index)}
                 />
               ))}
+<<<<<<< HEAD
               <LocationMap />
+=======
+>>>>>>> 4c0b7cb ( feature(FreightInCourseOptions):renamed componente, re-ordenate the position of actions)
             </Body>
           </div>
         </div>
