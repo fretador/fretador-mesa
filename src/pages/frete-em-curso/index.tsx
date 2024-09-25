@@ -32,8 +32,8 @@ interface StatusHistoryItem {
 const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [freight, setFreight] = useState<Freight | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState(0);
 
@@ -196,19 +196,19 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                     }
                   />
 
-                  <SeparatorIcon />
+                <SeparatorIcon />
 
                   {/* Adicionar a barra de progresso aqui */}
                   <ProgressBar currentStage={currentStage} />
 
-                  <SeparatorIcon />
+                <SeparatorIcon />
 
                   <div className={styles.freightInCurseOptionsContainer}>
                     <h2>Dados do embarque:</h2>
                     <FreightInCourseOptions />
                   </div>
                 </div>
-              )}
+              </div>
 
               {freight?.statusHistory?.map((item, index) => (
                 <FreightStep
