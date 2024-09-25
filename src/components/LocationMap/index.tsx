@@ -16,9 +16,11 @@ const LocationMap = () => {
   return (
     <LoadScript googleMapsApiKey="AIzaSyDJMiTjF5Ihj0IJLGtVKycm88B0RUgwoHE">
       <div className={styles.mapContainer}>
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
-          {/* Você pode adicionar marcadores, polígonos, etc. aqui */}
-        </GoogleMap>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={10}
+        ></GoogleMap>
       </div>
     </LoadScript>
   );
