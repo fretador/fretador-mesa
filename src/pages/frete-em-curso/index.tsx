@@ -132,7 +132,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
         content = "Ordem de Coleta enviada para o motorista";
         hasAttachment = true;
         attachmentPath = freight?.pickupOrderPhoto ?? undefined;
-
         break;
       default:
         content = `Status: ${item.status}`;
@@ -196,19 +195,19 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                     }
                   />
 
-                <SeparatorIcon />
+                  <SeparatorIcon />
 
                   {/* Adicionar a barra de progresso aqui */}
                   <ProgressBar currentStage={currentStage} />
 
-                <SeparatorIcon />
+                  <SeparatorIcon />
 
                   <div className={styles.freightInCurseOptionsContainer}>
                     <h2>Dados do embarque:</h2>
                     <FreightInCourseOptions />
                   </div>
                 </div>
-              </div>
+              )}
 
               {freight?.statusHistory?.map((item, index) => (
                 <FreightStep
