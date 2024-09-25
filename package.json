@@ -19,6 +19,7 @@
     "@hookform/resolvers": "^3.9.0",
     "@mui/material": "^5.16.7",
     "@mui/x-charts": "^7.14.0",
+    "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.7",
     "@svgr/webpack": "^8.1.0",
     "date-fns": "^4.1.0",
