@@ -18,6 +18,7 @@ import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { Freight } from "@/utils/types/Freight";
 import { Type } from "@/utils/enums/typeEnum";
 import FreightInCourseOptions from "@/components/FreightInCourseOptions";
+import LocationMap from "@/components/LocationMap";
 
 interface FreightInProgressProps {
   freightId: string;
@@ -222,6 +223,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   {...getFreightStepProps(item, index)}
                 />
               ))}
+              <LocationMap />
             </Body>
           </div>
         </div>
