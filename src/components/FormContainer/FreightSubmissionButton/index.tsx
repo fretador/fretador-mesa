@@ -20,7 +20,11 @@ const FreightSubmissionButtons: React.FC<FreightSubmissionButtonsProps> = ({
 
   return (
     <div className={styles.submitWrapper}>
-      <Botao type="submit" text="Enviar" className={styles.submitButton} />
+      <Botao
+        type="submit"
+        text="Criar Oferta"
+        className={styles.submitButton}
+      />
       <Botao
         type="button"
         text="Direcionar para Motorista"
