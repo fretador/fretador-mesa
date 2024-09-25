@@ -10,6 +10,8 @@ import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import { BackIcon } from "@/utils/icons";
 import DriverAndOwnerDetails from "@/components/DriverApproval/DriverAndOwnerDetails";
 import VehicleDetails from "@/components/DriverApproval/VehicleDetails";
+import Attachments from "@/components/DriverApproval/Attachments";
+import ActionButtons from "@/components/DriverApproval/ActionButtons";
 
 const DriverApproval: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -36,13 +38,13 @@ const DriverApproval: React.FC = () => {
       case "anexos":
         return (
           <div>
-            <h2>Anexos</h2>
+            <Attachments />
           </div>
         );
       case "preferencias":
         return (
-          <div>
-            <h2>Preferências</h2>
+          <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'center', height: '708px'}}>
+            <ActionButtons />
           </div>
         );
       default:

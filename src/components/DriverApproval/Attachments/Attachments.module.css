@@ -1,0 +1,39 @@
+.container {
+  width: 1200px;
+  margin-left: 32px;
+}
+
+.titleContainer {
+  display: flex;
+  margin-bottom: 32px;
+  margin-top: 32px;
+}
+
+.titleContainer p {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1B556D;
+  text-decoration: underline;
+}
+
+.images {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 66px;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageContainer p {
+  color: #0D0D0D;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
