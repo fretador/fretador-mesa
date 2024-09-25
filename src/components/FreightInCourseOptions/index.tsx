@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./FreightInCourseOptions.module.css";
 import {
   DangerIcon,
@@ -7,13 +7,24 @@ import {
   WhatsAppIcon,
 } from "@/utils/icons";
 
-const FreightInCourseOptions = () => {
+const FreightInCourseOptions: React.FC = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleSendOccurrence = () => {
     console.log("Enviou ocorrência");
   };
 
   const handleAttachDocuments = () => {
-    console.log("Anexou documentos");
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      // Aqui você pode processar os arquivos selecionados
+      console.log("Arquivos selecionados:", files);
+      // Implemente a lógica para enviar os arquivos para o servidor aqui
+    }
   };
 
   const handleSendAlert = () => {
@@ -26,6 +37,13 @@ const FreightInCourseOptions = () => {
 
   return (
     <div className={styles.container}>
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        onChange={handleFileChange}
+        multiple
+      />
       <div className={styles.iconContainer} onClick={handleAttachDocuments}>
         <PaperClipIcon />
         <p>Anexar Documentos</p>
