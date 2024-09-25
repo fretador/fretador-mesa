@@ -25,17 +25,22 @@ export const GET_FREIGHTS = gql`
 `;
 
 export const GET_FREIGHT_BY_ID = gql`
-  query GetFreightById($id: ID!) {
-    freight(id: $id) {
-      id
-      origin
-      destination
-      status
-      targetedDrivers
-      freightCode
-      updateDate
-      type
-      statusHistory
-    }
-  }
+	query GetFreightById($id: ID!) {
+		freight(id: $id) {
+			id
+			origin
+			destination
+			status
+			targetedDrivers
+			freightCode
+			updateDate
+			type
+			statusHistory {
+				status
+				updateData
+				updateDataType
+				updateDate
+			}
+		}
+	}
 `;
