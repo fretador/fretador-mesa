@@ -11,20 +11,25 @@ import SearchComponent from "@/components/SearchButton";
 import FreightInCurseHeader from "@/components/FreightInCurseHeader";
 import { SeparatorIcon } from "@/utils/icons";
 import ProgressBar from "@/components/ProgressBar";
-import FreightInCurseOptions from "@/components/FreightInCurseOptions";
 import FreightStep from "@/components/FreightStep";
 import { FreightService } from "@/services/freightService";
 import Loading from "@/components/Loading";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { Freight } from "@/utils/types/Freight";
+import { Type } from "@/utils/enums/typeEnum";
+import FreightInCourseOptions from "@/components/FreightInCourseOptions";
 
 interface FreightInProgressProps {
   freightId: string;
 }
 
+interface StatusHistoryItem {
+  updateDate: string;
+  status: FreightStatus;
+}
+
 const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
-  const router = useRouter();
   const [freight, setFreight] = useState<Freight | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,8 +59,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   }, [freightId]);
 
   const getStageFromStatus = (status: FreightStatus): number => {
-    // Implemente a lógica para mapear o status do frete para um estágio
-    // Exemplo simplificado:
     const stageMap: { [key in FreightStatus]?: number } = {
       [FreightStatus.WAITING]: 0,
       [FreightStatus.TARGETED]: 0,
@@ -69,6 +72,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
       [FreightStatus.ADMIN_APPROVED]: 4,
       [FreightStatus.FINANCIAL_REQUIRED]: 5,
       [FreightStatus.FINANCIAL_APPROVED]: 5,
+      [FreightStatus.PICKUP_ORDER_SENT]: 1,
       [FreightStatus.LOADING_STARTED]: 2,
       [FreightStatus.LOADING_FINISHED]: 2,
       [FreightStatus.UNLOADING_STARTED]: 2,
@@ -79,6 +83,73 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
       [FreightStatus.DRIVER_ARRIVED]: 5,
     };
     return stageMap[status] || 0;
+  };
+
+  const getFreightStepProps = (
+    item: StatusHistoryItem,
+    index: number,
+    freight: Freight | null | undefined
+  ) => {
+    const theme = index % 2 === 0 ? "dark" : "light";
+    let content = "";
+    let primaryButtonLabel: string | undefined;
+    let onPrimaryButtonClick: (() => void) | undefined;
+    let actionButtonText: string | undefined;
+    let handleActionButton: (() => void) | undefined;
+    let hasAttachment = false;
+    let attachmentPath: string | undefined;
+
+    const freightType = freight?.type ?? Type.TARGETED;
+
+    switch (item.status) {
+      case FreightStatus.TARGETED:
+        content =
+          freightType === Type.TARGETED
+            ? "Frete enviado ao motorista"
+            : "Frete solicitado pelo motorista";
+        break;
+      case FreightStatus.APPROVED:
+        content =
+          freightType === Type.TARGETED
+            ? "Frete aceito pelo motorista - Enviar Ordem de Coleta"
+            : "Autorizar embarque";
+        primaryButtonLabel = freightType !== Type.TARGETED ? "Sim" : undefined;
+        onPrimaryButtonClick = () => console.log("Botão de ação clicado");
+        break;
+      case FreightStatus.DRIVER_ARRIVED:
+        content = "Motorista chegou ao local de coleta";
+        actionButtonText = "rastrear";
+        handleActionButton = () => console.log("Botão de rastreamento clicado");
+        break;
+      case FreightStatus.PICKUP_ORDER_SENT:
+        content = "Ordem de Coleta enviada para o motorista";
+        hasAttachment = true;
+        attachmentPath = freight?.pickupOrderPhoto ?? undefined;
+        actionButtonText = "Ver Anexo";
+        handleActionButton = () => {
+          if (attachmentPath) {
+            window.open(attachmentPath, "_blank");
+          } else {
+            console.log("URL do anexo não disponível");
+          }
+        };
+        break;
+      default:
+        content = `Status: ${item.status}`;
+    }
+
+    return {
+      theme,
+      date: item.updateDate,
+      content,
+      primaryButtonLabel,
+      onPrimaryButtonClick,
+      actionButtonText,
+      handleActionButton,
+      hasAttachment,
+      attachmentPath,
+      disabled: false,
+    };
   };
 
   if (loading) {
@@ -121,9 +192,9 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                     origin={freight.origin}
                     destination={freight.destination}
                     driverPhoto={
-                      freight.targetedDrivers[0]?.userPhoto.imageUrl ||
-                      freight.targetedDrivers[0]?.userPhoto ||
-                      ""
+                      (freight.targetedDrivers[0]?.userPhoto?.imageUrl ||
+                        freight.targetedDrivers[0]?.userPhoto ||
+                        "") as string
                     }
                   />
 
@@ -135,53 +206,17 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
 
                   <div className={styles.freightInCurseOptionsContainer}>
                     <h2>Dados do embarque:</h2>
-                    <FreightInCurseOptions />
+                    <FreightInCourseOptions />
                   </div>
                 </div>
               )}
 
-              <FreightStep
-                theme="dark"
-                date={freight?.updateDate}
-                content={
-                  freight?.status === FreightStatus.TARGETED
-                    ? "Frete enviado ao motorista"
-                    : "Frete solicitado pelo motorista"
-                }
-              />
-
-              <FreightStep
-                theme="light"
-                date="07/06/2024"
-                content={
-                  freight?.status === FreightStatus.ACCEPTED
-                    ? "Frete aceito pelo motorista"
-                    : "Autorizar embarque"
-                }
-                authorizeBoarding={true}
-              />
-
-              <FreightStep
-                theme="dark"
-                date="07/06/2024"
-                content="Motorista iniciou a viagem"
-                actionButton={true}
-                actionButtonText="rastrear"
-                handleActionButton={() => console.log("Botão de ação clicado")}
-              />
-
-              <FreightStep
-                theme="light"
-                date="07/06/2024"
-                content="Anexo enviado pelo motorista"
-                actionButton={true}
-                actionButtonText="ver anexos"
-                handleActionButton={() => console.log("Botão de ação clicado")}
-                hasAttachment={true}
-                attachmentPath={
-                  freight?.attachmentPath || "/default-attachment.png"
-                }
-              />
+              {freight?.statusHistory?.map((item, index) => (
+                <FreightStep
+                  key={`${item.status}-${index}`}
+                  {...getFreightStepProps(item, index)}
+                />
+              ))}
             </Body>
           </div>
         </div>

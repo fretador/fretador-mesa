@@ -5,6 +5,15 @@
   background-color: #D3DFE4;
   color: #1B556D;
   position: relative;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.container.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
 }
 
 .dateAndHourContainer {
@@ -15,80 +24,82 @@
 }
 
 .date {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
-  
 }
 
 .hour {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 }
 
 .verticalSeparator {
   border-left: 1px solid #A8A5A5;
   height: 80px;
-  margin: 12px 37px 12px 0px;
+  margin: 0 20px;
 }
 
 .mainContentContainer {
-  max-width: 65%;
+  flex-grow: 1;
+  max-width: 50%;
 }
 
 .mainContentContainer p {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   text-transform: uppercase;
+  margin: 0;
 }
 
-.authorizeBoardingButtons {
+.actionsContainer {
   display: flex;
-  margin-left: 68px;
-  gap: 40px;
+  gap: 10px;
+  margin-left: auto;
 }
 
-.authorizeBoardingButtons button,
-.actionButtonContainer button {
-  padding: 8px 24px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-  font-size: 16px;
+.primaryButton,
+.secondaryButton,
+.actionButton {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
   font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.authorizeBoardingButtons .authorizeBoardingButtonNo {
-  background-color: #fdfdfd;
+.primaryButton {
+  background-color: #1A556D;
+  color: #FFFFFF;
+  border: none;
+}
+
+.secondaryButton {
+  background-color: #FFFFFF;
   color: #1A556D;
   border: 2px solid #1A556D;
-  transition: background-color color .3s ease;
 }
 
-.authorizeBoardingButtonNo:hover {
-  background-color: #1a6884;
-  color: #fdfdfd;
+.actionButton {
+  background-color: #FAFDFD;
+  color: #1A556D;
+  border: 1px solid #1A556D;
 }
 
-.actionButtonContainer {
-  display: flex;
-  position: absolute;
-  right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.actionButtonContainer button {
-  text-transform: uppercase;
-}
-
-.imagesContainer {
-  background-color: none;
+.attachmentContainer {
   display: flex;
   align-items: center;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
+  margin-left: 20px;
 }
 
-.imagesContainer img {
-  cursor: pointer;
+.attachmentLink {
+  color: #1A556D;
+  text-decoration: none;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.attachmentLink:hover {
+  text-decoration: underline;
 }

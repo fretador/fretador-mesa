@@ -3,57 +3,47 @@ import styles from "./FreightStep.module.css";
 import Botao from "../Botao";
 import Image from "next/image";
 
-type ActionButtonTextType = "rastrear" | "ver ocorrência" | "ver anexos";
-
 interface BaseFreightStepProps {
   theme: "dark" | "light";
-  date: string | "";
+  date: string;
   content: string;
-  authorizeBoarding?: boolean;
-  actionButton?: boolean;
+  disabled?: boolean;
+  primaryButtonLabel?: string;
+  secondaryButtonLabel?: string;
+  onPrimaryButtonClick?: () => void;
+  onSecondaryButtonClick?: () => void;
+  actionButtonText?: string;
+  handleActionButton?: () => void;
 }
 
-// Condicional para o actionButton e o handleActionButton
-interface ActionButtonTrueProps extends BaseFreightStepProps {
-  actionButton: true;
-  actionButtonText: ActionButtonTextType;
-  handleActionButton: () => void;
-}
-
-interface ActionButtonFalseProps extends BaseFreightStepProps {
-  actionButton?: false;
-  actionButtonText?: never;
-  handleActionButton?: never;
-}
-
-// Condicional para hasAttachment e attachmentPath
-interface HasAttachmentTrueProps extends BaseFreightStepProps {
+interface FreightStepWithAttachment extends BaseFreightStepProps {
   hasAttachment: true;
   attachmentPath: string;
 }
 
-interface HasAttachmentFalseProps extends BaseFreightStepProps {
+interface FreightStepWithoutAttachment extends BaseFreightStepProps {
   hasAttachment?: false;
   attachmentPath?: never;
 }
 
 type FreightStepProps =
-  | (ActionButtonTrueProps & HasAttachmentTrueProps)
-  | (ActionButtonTrueProps & HasAttachmentFalseProps)
-  | (ActionButtonFalseProps & HasAttachmentTrueProps)
-  | (ActionButtonFalseProps & HasAttachmentFalseProps);
+  | FreightStepWithAttachment
+  | FreightStepWithoutAttachment;
 
-const FreightStep = ({
+const FreightStep: React.FC<FreightStepProps> = ({
   theme,
   date,
   content,
-  authorizeBoarding = false,
-  actionButton = false,
+  disabled = false,
+  primaryButtonLabel,
+  secondaryButtonLabel,
+  onPrimaryButtonClick,
+  onSecondaryButtonClick,
   actionButtonText,
   handleActionButton,
   hasAttachment = false,
   attachmentPath,
-}: FreightStepProps) => {
+}) => {
   const backgroundColor = theme === "dark" ? "#D3DFE4" : "#FAFDFD";
 
   const formatDate = (dateString: string) => {
@@ -68,62 +58,68 @@ const FreightStep = ({
 
   const { formattedDate, formattedTime } = formatDate(date);
 
-  const handleYesButton = () => {
-    console.log("Funcionário da mesa autorizou o embarque");
-  };
-
-  const handleNoButton = () => {
-    console.log("Funcionário da mesa não autorizou o embarque");
-  };
-
   return (
-    <>
-      <div className={styles.container} style={{ backgroundColor }}>
-        <div className={styles.dateAndHourContainer}>
-          <p className={styles.date}>{formattedDate}</p>
-          <p className={styles.hour}>{formattedTime}</p>
-        </div>
+    <div
+      className={`${styles.container} ${disabled ? styles.disabled : ""}`}
+      style={{ backgroundColor }}
+    >
+      <div className={styles.dateAndHourContainer}>
+        <p className={styles.date}>{formattedDate}</p>
+        <p className={styles.hour}>{formattedTime}</p>
+      </div>
 
-        <div className={styles.verticalSeparator}></div>
+      <div className={styles.verticalSeparator}></div>
 
-        <div className={styles.mainContentContainer}>
-          <p>{content}</p>
-        </div>
+      <div className={styles.mainContentContainer}>
+        <p>{content}</p>
+      </div>
 
-        {authorizeBoarding && (
-          <div className={styles.authorizeBoardingButtons}>
-            <Botao
-              text="SIM"
-              className={styles.authorizeBoardingButtonYes}
-              onClick={handleYesButton}
-            />
-            <Botao
-              text="NÃO"
-              className={styles.authorizeBoardingButtonNo}
-              onClick={handleNoButton}
-            />
-          </div>
+      <div className={styles.actionsContainer}>
+        {primaryButtonLabel && (
+          <Botao
+            text={primaryButtonLabel}
+            className={styles.primaryButton}
+            onClick={onPrimaryButtonClick}
+            disabled={disabled}
+          />
         )}
-
-        {actionButton && (
-          <div className={styles.actionButtonContainer}>
-            <Botao text={actionButtonText!} onClick={handleActionButton!} />
-          </div>
+        {secondaryButtonLabel && (
+          <Botao
+            text={secondaryButtonLabel}
+            className={styles.secondaryButton}
+            onClick={onSecondaryButtonClick}
+            disabled={disabled}
+          />
+        )}
+        {actionButtonText && (
+          <Botao
+            text={actionButtonText}
+            className={styles.actionButton}
+            onClick={handleActionButton}
+            disabled={disabled}
+          />
         )}
       </div>
 
-      {hasAttachment && (
-        <div className={styles.imagesContainer}>
+      {hasAttachment && attachmentPath && (
+        <div className={styles.attachmentContainer}>
           <Image
-            src={attachmentPath!}
-            alt="frete-em-curso-imagem"
-            width={88}
-            height={120}
+            src="/attachment-icon.png" // Substitua pelo caminho do seu ícone de anexo
+            alt="Ícone de anexo"
+            width={24}
+            height={24}
           />
-          {/* Adicione as outras imagens conforme necessário */}
+          <a
+            href={attachmentPath}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.attachmentLink}
+          >
+            Ver anexo
+          </a>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
