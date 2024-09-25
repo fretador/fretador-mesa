@@ -41,7 +41,10 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
     .replaceAll("-", " ")
     .toUpperCase();
 
+<<<<<<< HEAD
   // Simular a atualização do estágio atual do frete com dados mockados
+=======
+>>>>>>> e7fb5e1 (feat: add LocationMap component)
   useEffect(() => {
     const fetchFreightData = async () => {
       try {
