@@ -1698,6 +1698,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@googlemaps/js-api-loader@npm:1.16.2":
+  version: 1.16.2
+  resolution: "@googlemaps/js-api-loader@npm:1.16.2"
+  dependencies:
+    fast-deep-equal: ^3.1.3
+  checksum: 122ee57cc6a936e50358aedc4e79042353590467210e901fb42d4e7d9123c248c4db5cd5407a350cb5bea6de9e9ef1a508c08ba593475285d90bc4b93db42f51
+  languageName: node
+  linkType: hard
+
+"@googlemaps/markerclusterer@npm:2.5.3":
+  version: 2.5.3
+  resolution: "@googlemaps/markerclusterer@npm:2.5.3"
+  dependencies:
+    fast-deep-equal: ^3.1.3
+    supercluster: ^8.0.1
+  checksum: aa74e9b59d302a0c7444c48818f017532172973dece223c9a3f9b5cdb8aeba7ea3dd87ee785420972d24e7738937e76373e8aae8a0cf10f045bf9869d1b6b9ee
+  languageName: node
+  linkType: hard
+
 "@graphql-typed-document-node/core@npm:^3.1.1":
   version: 3.2.0
   resolution: "@graphql-typed-document-node/core@npm:3.2.0"
@@ -2397,6 +2416,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-google-maps/api@npm:^2.19.3":
+  version: 2.19.3
+  resolution: "@react-google-maps/api@npm:2.19.3"
+  dependencies:
+    "@googlemaps/js-api-loader": 1.16.2
+    "@googlemaps/markerclusterer": 2.5.3
+    "@react-google-maps/infobox": 2.19.2
+    "@react-google-maps/marker-clusterer": 2.19.2
+    "@types/google.maps": 3.55.2
+    invariant: 2.2.4
+  peerDependencies:
+    react: ^16.8 || ^17 || ^18
+    react-dom: ^16.8 || ^17 || ^18
+  checksum: fd12a3ee4ee2c987dff07f791396b57b16c60dcffc53cd151afe2c6a0cb3f1fc1c21d341871b8b0b362cfc6a17541d42ff5e6f5960e6795bc05314bd81b10250
+  languageName: node
+  linkType: hard
+
+"@react-google-maps/infobox@npm:2.19.2":
+  version: 2.19.2
+  resolution: "@react-google-maps/infobox@npm:2.19.2"
+  checksum: e2022d857931492d0fd457b72fa729076da1e3e0c5281a402a71127e35d683cb7ca4074e2888682a612ca4b5d2b0d6abc26cce94aa9a315abeaa61b4f6239f24
+  languageName: node
+  linkType: hard
+
+"@react-google-maps/marker-clusterer@npm:2.19.2":
+  version: 2.19.2
+  resolution: "@react-google-maps/marker-clusterer@npm:2.19.2"
+  checksum: fde23240ae153ec8aeddd1d702f1e2a8ee51412fe3b5079a88d4e1697f8c580e743afe6bb815214b218cefddb1a2097a9d982440c2207906dd1dd2a88b8068cb
+  languageName: node
+  linkType: hard
+
 "@react-spring/animated@npm:~9.7.4":
   version: 9.7.4
   resolution: "@react-spring/animated@npm:9.7.4"
@@ -2881,6 +2931,13 @@ __metadata:
   version: 3.0.2
   resolution: "@types/d3-timer@npm:3.0.2"
   checksum: 1643eebfa5f4ae3eb00b556bbc509444d88078208ec2589ddd8e4a24f230dd4cf2301e9365947e70b1bee33f63aaefab84cd907822aae812b9bc4871b98ab0e1
+  languageName: node
+  linkType: hard
+
+"@types/google.maps@npm:3.55.2":
+  version: 3.55.2
+  resolution: "@types/google.maps@npm:3.55.2"
+  checksum: c0b554fddb0a59ddbe7cfb1ef8bc4aeacd9660b726546ec75fca62619680572338ceb3bcc5c63b035c87e6cc91532fa78f7f0d1aa2b5be4ac7fdebcffb396b39
   languageName: node
   linkType: hard
 
@@ -5402,6 +5459,7 @@ __metadata:
     "@hookform/resolvers": ^3.9.0
     "@mui/material": ^5.16.7
     "@mui/x-charts": ^7.14.0
+    "@react-google-maps/api": ^2.19.3
     "@reduxjs/toolkit": ^2.2.7
     "@svgr/webpack": ^8.1.0
     "@testing-library/dom": ^10.4.0
@@ -5966,6 +6024,15 @@ __metadata:
   version: 2.0.3
   resolution: "internmap@npm:2.0.3"
   checksum: 7ca41ec6aba8f0072fc32fa8a023450a9f44503e2d8e403583c55714b25efd6390c38a87161ec456bf42d7bc83aab62eb28f5aef34876b1ac4e60693d5e1d241
+  languageName: node
+  linkType: hard
+
+"invariant@npm:2.2.4":
+  version: 2.2.4
+  resolution: "invariant@npm:2.2.4"
+  dependencies:
+    loose-envify: ^1.0.0
+  checksum: cc3182d793aad82a8d1f0af697b462939cb46066ec48bbf1707c150ad5fad6406137e91a262022c269702e01621f35ef60269f6c0d7fd178487959809acdfb14
   languageName: node
   linkType: hard
 
@@ -7019,6 +7086,13 @@ __metadata:
     object.assign: ^4.1.4
     object.values: ^1.1.6
   checksum: f4b05fa4d7b5234230c905cfa88d36dc8a58a6666975a3891429b1a8cdc8a140bca76c297225cb7a499fad25a2c052ac93934449a2c31a44fc9edd06c773780a
+  languageName: node
+  linkType: hard
+
+"kdbush@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "kdbush@npm:4.0.2"
+  checksum: 6782ef2cdaec9322376b9955a16b0163beda0cefa2f87da76e8970ade2572d8b63bec915347aaeac609484b0c6e84d7b591f229ef353b68b460238095bacde2d
   languageName: node
   linkType: hard
 
@@ -8931,6 +9005,15 @@ __metadata:
   version: 4.2.0
   resolution: "stylis@npm:4.2.0"
   checksum: 0eb6cc1b866dc17a6037d0a82ac7fa877eba6a757443e79e7c4f35bacedbf6421fadcab4363b39667b43355cbaaa570a3cde850f776498e5450f32ed2f9b7584
+  languageName: node
+  linkType: hard
+
+"supercluster@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "supercluster@npm:8.0.1"
+  dependencies:
+    kdbush: ^4.0.2
+  checksum: 39d141f768a511efa53260252f9dab9a2ce0228b334e55482c8d3019e151932f05e1a9a0252d681737651b13c741c665542a6ddb40ec27de96159ea7ad41f7f4
   languageName: node
   linkType: hard
 
