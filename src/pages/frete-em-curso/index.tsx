@@ -157,6 +157,33 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
       case FreightStatus.INVOICE_COUPON_REFUSED:
         content = "Recusada a Documentação do Frete";
         break;
+      case FreightStatus.FINANCIAL_APPROVED:
+        content = "Pagamento Realizado";
+        break;
+      case FreightStatus.FINANCIAL_REQUIRED:
+        content = "Pagamento pendente";
+        break;
+      case FreightStatus.ADMIN_REQUIRED:
+        content = "Aguardando aprovação do administrador";
+        break;
+      case FreightStatus.ADMIN_APPROVED:
+        content = "Aprovado pelo administrador";
+        break;
+      case FreightStatus.OPERATION_REQUIRED:
+        content = "Aguardando aprovação da operação";
+        break;
+      case FreightStatus.OPERATION_APPROVED:
+        content = "Aprovado pela operação";
+        break;
+      case FreightStatus.DRIVER_SELECTED:
+        content = "Motorista selecionado";
+        break;
+      case FreightStatus.FINISHED:
+        content = "Frete finalizado";
+        break;
+      case FreightStatus.CANCELED:
+        content = "Frete cancelado";
+        break;
       default:
         content = `Status: ${item.status}`;
     }
