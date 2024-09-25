@@ -30,10 +30,16 @@ interface StatusHistoryItem {
 
 const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const router = useRouter();
   const [freight, setFreight] = useState<Freight | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState(0);
+
+  const routeName = router.pathname
+    .replace("/", "")
+    .replaceAll("-", " ")
+    .toUpperCase();
 
   useEffect(() => {
     const fetchFreightData = async () => {
@@ -173,14 +179,12 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
           }
         >
           <div className={styles.header}>
-            <Header title={`FRETE EM CURSO - ${freight?.freightCode || ""}`} />
+            <Header title={routeName} />
           </div>
           <div className={styles.content}>
             <Body>
               <div>
-                <SearchComponent
-                  onSearch={(query) => console.log("Busca:", query)}
-                />
+                <SearchComponent />
               </div>
 
               {freight && (
@@ -200,6 +204,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
 
                   <SeparatorIcon />
 
+                  {/* Adicionar a barra de progresso aqui */}
                   <ProgressBar currentStage={currentStage} />
 
                   <SeparatorIcon />

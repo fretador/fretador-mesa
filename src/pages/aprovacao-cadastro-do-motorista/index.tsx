@@ -9,17 +9,18 @@ import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import { BackIcon } from "@/utils/icons";
 import DriverAndOwnerDetails from "@/components/DriverApproval/DriverAndOwnerDetails";
-<<<<<<< HEAD
 import VehicleDetails from "@/components/DriverApproval/VehicleDetails";
-=======
->>>>>>> dd86752 (feat: create DriverAndOwnerDetails and ActionButtons components)
 
 const DriverApproval: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("motorista");
 
-  const backButtonContent = <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}><BackIcon /> <p style={{fontWeight: '700'}}>Voltar</p></div>
+  const backButtonContent = (
+    <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+      <BackIcon /> <p style={{ fontWeight: "700" }}>Voltar</p>
+    </div>
+  );
   const routeName = "APROVAÇÃO CADASTRO DO MOTORISTA";
 
   const renderContent = () => {
@@ -71,39 +72,53 @@ const DriverApproval: React.FC = () => {
           <div className={styles.content}>
             <Body>
               <div className={styles.backButtonContainer}>
-                <Botao text={backButtonContent} className={styles.backButton} /> 
+                <Botao text={backButtonContent} className={styles.backButton} />
               </div>
 
               <div className={styles.mainContentContainer}>
                 <div className={styles.menu}>
                   <button
                     onClick={() => setActiveTab("motorista")}
-                    className={activeTab === "motorista" ? styles.activeTabButton : styles.tabButton}
+                    className={
+                      activeTab === "motorista"
+                        ? styles.activeTabButton
+                        : styles.tabButton
+                    }
                   >
                     Motorista/Proprietário
                   </button>
                   <button
                     onClick={() => setActiveTab("veiculo")}
-                    className={activeTab === "veiculo" ? styles.activeTabButton : styles.tabButton}
+                    className={
+                      activeTab === "veiculo"
+                        ? styles.activeTabButton
+                        : styles.tabButton
+                    }
                   >
                     Dados do Veículo
                   </button>
                   <button
                     onClick={() => setActiveTab("anexos")}
-                    className={activeTab === "anexos" ? styles.activeTabButton : styles.tabButton}
+                    className={
+                      activeTab === "anexos"
+                        ? styles.activeTabButton
+                        : styles.tabButton
+                    }
                   >
                     Anexos
                   </button>
                   <button
                     onClick={() => setActiveTab("preferencias")}
-                    className={activeTab === "preferencias" ? styles.activeTabButton : styles.tabButton}
+                    className={
+                      activeTab === "preferencias"
+                        ? styles.activeTabButton
+                        : styles.tabButton
+                    }
                   >
                     Preferências
                   </button>
                 </div>
-                <div className={styles.content}>
-                  {renderContent()}
-                </div>
+                <div className={styles.content}>{renderContent()}</div>
               </div>
             </Body>
           </div>
