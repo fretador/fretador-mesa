@@ -36,11 +36,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const [freight, setFreight] = useState<Freight | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState(0);
-
-  const routeName = router.pathname
-    .replace("/", "")
-    .replaceAll("-", " ")
-    .toUpperCase();
+  const [routeName, setRouteName] = useState("");
 
   useEffect(() => {
     const fetchFreightData = async () => {
@@ -52,6 +48,13 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
         setCurrentStage(
           getStageFromStatus(freightData?.status as FreightStatus)
         );
+
+        // Atualiza o routeName com o pathname e o freightCode
+        const pathName = router.pathname
+          .replace("/", "")
+          .replaceAll("-", " ")
+          .toUpperCase();
+        setRouteName(`${pathName} ${freightData.freightCode.toString()}`);
       } catch (err) {
         setError("Erro ao carregar os dados do frete");
         console.error("Erro ao buscar dados do frete:", err);
@@ -63,7 +66,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
     if (freightId) {
       fetchFreightData();
     }
-  }, [freightId]);
+  }, [freightId, router.pathname]);
 
   const getStageFromStatus = (status: FreightStatus): number => {
     const stageMap: { [key in FreightStatus]?: number } = {
@@ -172,7 +175,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
           }
         >
           <div className={styles.header}>
-            <Header title={routeName} />
+            <Header title={`FRETE EM CURSO ${freight?.freightCode}`} />
           </div>
           <div className={styles.content}>
             <Body>
