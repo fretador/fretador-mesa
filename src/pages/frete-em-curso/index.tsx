@@ -136,6 +136,27 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
         hasAttachment = true;
         attachmentPath = freight?.pickupOrderPhoto ?? undefined;
         break;
+      case FreightStatus.LOADING_STARTED:
+        content = "Início do carregamento";
+        break;
+      case FreightStatus.LOADING_FINISHED:
+        content = "Carregamento finalizado";
+        break;
+      case FreightStatus.UNLOADING_STARTED:
+        content = "Início do descarregamento";
+        break;
+      case FreightStatus.UNLOADING_FINISHED:
+        content = "Descarregamento finalizado";
+        break;
+      case FreightStatus.INVOICE_SENT:
+        content = "Envio da Nota Fiscal";
+        break;
+      case FreightStatus.INVOICE_COUPON_SENT:
+        content = "Envio da Documentação do Frete";
+        break;
+      case FreightStatus.INVOICE_COUPON_REFUSED:
+        content = "Recusada a Documentação do Frete";
+        break;
       default:
         content = `Status: ${item.status}`;
     }

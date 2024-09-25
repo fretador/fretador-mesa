@@ -1,6 +1,7 @@
 import React from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import styles from "./LocationMap.module.css";
+import Loading from "../Loading";
 
 const containerStyle = {
   width: "100%",
@@ -27,7 +28,9 @@ const LocationMap = () => {
       ></GoogleMap>
     </div>
   ) : (
-    <div>Carregando...</div>
+    <div className={styles.loadingContainer}>
+      <Loading />
+    </div>
   );
 };
 
