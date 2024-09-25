@@ -80,7 +80,6 @@ const FreightStep: React.FC<FreightStepProps> = ({
             text={primaryButtonLabel}
             className={styles.primaryButton}
             onClick={onPrimaryButtonClick}
-            disabled={disabled}
           />
         )}
         {secondaryButtonLabel && (
@@ -88,7 +87,6 @@ const FreightStep: React.FC<FreightStepProps> = ({
             text={secondaryButtonLabel}
             className={styles.secondaryButton}
             onClick={onSecondaryButtonClick}
-            disabled={disabled}
           />
         )}
         {actionButtonText && (
@@ -96,7 +94,6 @@ const FreightStep: React.FC<FreightStepProps> = ({
             text={actionButtonText}
             className={styles.actionButton}
             onClick={handleActionButton}
-            disabled={disabled}
           />
         )}
       </div>

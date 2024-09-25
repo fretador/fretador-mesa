@@ -135,14 +135,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
         content = "Ordem de Coleta enviada para o motorista";
         hasAttachment = true;
         attachmentPath = freight?.pickupOrderPhoto ?? undefined;
-        actionButtonText = "Ver Anexo";
-        handleActionButton = () => {
-          if (attachmentPath) {
-            window.open(attachmentPath, "_blank");
-          } else {
-            console.log("URL do anexo não disponível");
-          }
-        };
+
         break;
       default:
         content = `Status: ${item.status}`;
