@@ -19,7 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ConfirmationModal from "@/components/ModalRoot/ConfirmationModal";
 
 const FormContainer: React.FC = () => {
-  const [targetedDriver, setTargetedDriver] = useState<string[]>([]);
+  // const [targetedDriver, setTargetedDriver] = useState<string[]>([]);
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] =
     useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
@@ -59,10 +59,18 @@ const FormContainer: React.FC = () => {
     formState: { errors },
     watch,
     setValue,
+    getValues,
   } = methods;
 
-  const onSubmit = (data: CreateFreightInput) => {
-    setIsConfirmationModalOpen(true);
+  const onSubmit = async (data: CreateFreightInput) => {
+    try {
+      await FreightService.createFreight(data);
+      console.log("Frete submetido com sucesso:", data);
+      setIsConfirmationModalOpen(true);
+    } catch (error) {
+      console.error("Erro ao submeter o frete:", error);
+      // Aqui você pode adicionar uma lógica para mostrar um erro ao usuário
+    }
   };
 
   const watchedFields = watch();
@@ -82,8 +90,20 @@ const FormContainer: React.FC = () => {
 
   const handleDirectToDriver = (driverIds?: string[]) => {
     if (driverIds && driverIds.length > 0) {
-      setTargetedDriver(driverIds);
+      // Altera o tipo para TARGETED
+      setValue("type", Type.TARGETED);
+
+      // Adiciona os IDs dos motoristas ao array targetedDrivers
+      setValue("targetedDrivers", driverIds);
+
       console.log(`Motoristas selecionados: ${driverIds}`);
+      console.log(`Tipo de frete alterado para: ${Type.TARGETED}`);
+
+      setIsAssignFreightModalOpen(false);
+
+      // Submete o formulário automaticamente
+      const currentValues = getValues();
+      onSubmit(currentValues);
     }
   };
 
