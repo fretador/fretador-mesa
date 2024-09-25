@@ -1,0 +1,49 @@
+.container {
+  width: 1100px;
+  /* margin-bottom: 54px; */
+  margin-left: 32px;
+}
+
+.titleContainer {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.titleContainer p {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1B556D;
+  text-decoration: underline;
+}
+
+.pencilIcon {
+  cursor: pointer;
+}
+
+.informations {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  align-items: flex-start;
+}
+
+.informations p {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1B556D;
+}
+
+.informations span {
+  color: #0D0D0D;
+}
+
+.lineOne, .lineTwo, .lineThree {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.lineThree {
+  margin-bottom: 48px;
+}
