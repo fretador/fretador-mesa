@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import { BackIcon } from "@/utils/icons";
 import DriverAndOwnerDetails from "@/components/DriverApproval/DriverAndOwnerDetails";
+import VehicleDetails from "@/components/DriverApproval/VehicleDetails";
 
 const DriverApproval: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -29,7 +30,7 @@ const DriverApproval: React.FC = () => {
       case "veiculo":
         return (
           <div>
-            <h2>Dados do Veículo</h2>
+            <VehicleDetails />
           </div>
         );
       case "anexos":
