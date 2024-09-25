@@ -4,6 +4,7 @@ import { Photo, PhotoHistory } from "./Photo";
 import { StatusHistoryItem } from "./StatusHistory";
 import { BoardUser } from "./BoardUser";
 import { Driver } from "./Driver";
+import { Type } from "../enums/typeEnum";
 
 export interface Freight {
   _id: string;
@@ -53,7 +54,6 @@ export interface Freight {
   toll: boolean;
   travelDistance: number;
   value: string;
-  type: string;
   parent: string | null;
   freightCode: number;
   licensePlate: string | null;
@@ -80,4 +80,5 @@ export interface Freight {
   interestedUsers: string[];
   numCte: string | null;
   targetedDrivers: Driver[];
+  type: Type;
 }
