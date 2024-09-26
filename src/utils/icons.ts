@@ -37,7 +37,7 @@ import Balance from "@/assets/icons/balance.svg"
 import Back from "@/assets/icons/back.svg"
 import PencilSolid from "@/assets/icons/pencilSolid.svg"
 import Download from "@/assets/icons/download.svg"
-
+import Fretador from "@/assets/icons/fretador.svg"
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -78,3 +78,4 @@ export const BalanceIcon = Balance
 export const BackIcon = Back
 export const PencilSolidIcon = PencilSolid
 export const DownloadIcon = Download
+export const FretadorIcon = Fretador
