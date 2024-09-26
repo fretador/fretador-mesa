@@ -26,7 +26,9 @@ const Drivers: React.FC = () => {
   const [selectedVehicles, setSelectedVehicles] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const [awaitingApprovalDrivers, setAwaitingApprovalDrivers] = useState<Driver[]>([]);
+  const [awaitingApprovalDrivers, setAwaitingApprovalDrivers] = useState<
+    Driver[]
+  >([]);
   const [Drivers, setDrivers] = useState<Driver[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -55,8 +57,8 @@ const Drivers: React.FC = () => {
     setSearchTerm(term);
   };
 
-  const handleNewDriver = () => {
-    alert("Motorista selecionado");
+  const handleNewDriver = (driverId: string) => {
+    router.push(`/cadastro-do-motorista/${driverId}`);
   };
 
   // Função para buscar motoristas aguardando analise
@@ -74,7 +76,9 @@ const Drivers: React.FC = () => {
       const response = await DriverService.getDrivers(1, 10, filter);
       setAwaitingApprovalDrivers(response.data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao buscar motoristas");
+      setError(
+        err instanceof Error ? err.message : "Erro ao buscar motoristas"
+      );
     } finally {
       setLoading(false);
     }
@@ -95,7 +99,9 @@ const Drivers: React.FC = () => {
       const response = await DriverService.getDrivers(1, 10, filter);
       setDrivers(response.data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao buscar motoristas");
+      setError(
+        err instanceof Error ? err.message : "Erro ao buscar motoristas"
+      );
     } finally {
       setLoading(false);
     }
@@ -150,11 +156,7 @@ const Drivers: React.FC = () => {
                 />
               </div>
 
-              <DriversList
-                drivers={Drivers}
-                loading={loading}
-                error={error}
-              />
+              <DriversList drivers={Drivers} loading={loading} error={error} />
             </Body>
           </div>
         </div>

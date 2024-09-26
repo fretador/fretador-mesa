@@ -13,7 +13,11 @@ import VehicleDetails from "@/components/DriverApproval/VehicleDetails";
 import Attachments from "@/components/DriverApproval/Attachments";
 import ActionButtons from "@/components/DriverApproval/ActionButtons";
 
-const DriverApproval: React.FC = () => {
+interface DriverApprovalProps {
+  driverId: string;
+}
+
+const DriverApproval: React.FC<DriverApprovalProps> = ({ driverId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("motorista");
@@ -47,7 +51,14 @@ const DriverApproval: React.FC = () => {
         );
       case "preferencias":
         return (
-          <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'center', height: '708px'}}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "center",
+              height: "708px",
+            }}
+          >
             <ActionButtons />
           </div>
         );
