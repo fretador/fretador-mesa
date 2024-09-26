@@ -55,6 +55,8 @@
   /* Ajuste 150px para a altura aproximada de um FreightStep */
   overflow-y: auto;
   padding-right: 10px;
+  display: flex;
+  flex-direction: column;
   /* Espaço para a barra de rolagem */
 }
 
@@ -75,3 +77,7 @@
 .freightStepContainer::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+/* .freightStepContainer>* {
+  flex-direction: column;
+} */
