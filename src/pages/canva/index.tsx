@@ -6,7 +6,7 @@ import { Row } from "@/components/Row";
 import { useAppSelector } from "@/store/store";
 import Sidebar from "@/components/Sidebar";
 import RowTitle from "@/components/RowTitle";
-import AssignFreightModal from "@/components/ModalRoot/AssignFreightModal"; 
+import DriverRegistrationApproval from "@/components/ModalRoot/DriverRegistrationApproval";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -53,10 +53,12 @@ const Canva: React.FC = () => {
             Direcionar Frete
           </button>
 
-          {/* Renderizando o novo modal AssignFreight */}
-          <AssignFreightModal
+          {/* Renderizando o novo modal DriverRegistrationApproval */}
+          <DriverRegistrationApproval
             isOpen={isModalOpen}
             onRequestClose={toggleModal}
+            onApprove={toggleModal}
+            onReject={toggleModal}
           />
         </div>
       </div>
