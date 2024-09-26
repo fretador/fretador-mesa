@@ -260,12 +260,14 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                 </div>
               )}
 
-              {freight?.statusHistory?.map((item, index) => (
-                <FreightStep
-                  key={`${item.status}-${index}`}
-                  {...getFreightStepProps(item, index)}
-                />
-              ))}
+              <div className={styles.freightStepContainer}>
+                {freight?.statusHistory?.map((item, index) => (
+                  <FreightStep
+                    key={`${item.status}-${index}`}
+                    {...getFreightStepProps(item, index, freight)}
+                  />
+                ))}
+              </div>
               <LocationMap />
             </Body>
           </div>
