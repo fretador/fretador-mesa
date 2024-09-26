@@ -1,4 +1,4 @@
-import { FreightDocument } from "./FreightDocument";
+import { Document } from "./Document";
 import { RequestingDriver } from "./RequestingDriver";
 import { Photo, PhotoHistory } from "./Photo";
 import { StatusHistoryItem } from "./StatusHistory";
@@ -40,7 +40,7 @@ export interface Freight {
   gatheringState: string;
   gatheringCNPJ: string | null;
   gatheringCorporateName: string | null;
-  otherDocuments: FreightDocument[];
+  otherDocuments: Document[];
   invoicePhoto: string | null;
   invoiceCouponPhotos: Photo[];
   invoiceCouponRejectedPhotos: string | null;
