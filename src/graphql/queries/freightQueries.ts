@@ -35,6 +35,14 @@ export const GET_FREIGHT_BY_ID = gql`
 			freightCode
 			updateDate
 			type
+			documents {
+				id
+				name
+				url
+				status
+				dateOfSubmission
+				lastUpdated
+			}
 			statusHistory {
 				status
 				updateData
