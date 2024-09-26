@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import styles from "./FreightInCourseOptions.module.css";
+import { useDocumentController } from "@/controllers/documentController";
 import {
   DangerIcon,
   PaperClipIcon,
@@ -9,6 +10,7 @@ import {
 
 const FreightInCourseOptions: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { handleFileChange } = useDocumentController();
 
   const handleSendOccurrence = () => {
     console.log("Enviou ocorrência");
@@ -16,15 +18,6 @@ const FreightInCourseOptions: React.FC = () => {
 
   const handleAttachDocuments = () => {
     fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      // Aqui você pode processar os arquivos selecionados
-      console.log("Arquivos selecionados:", files);
-      // Implemente a lógica para enviar os arquivos para o servidor aqui
-    }
   };
 
   const handleSendAlert = () => {
@@ -41,7 +34,7 @@ const FreightInCourseOptions: React.FC = () => {
         type="file"
         ref={fileInputRef}
         style={{ display: "none" }}
-        onChange={handleFileChange}
+        onChange={(event) => handleFileChange(event, undefined)}
         multiple
       />
       <div className={styles.iconContainer} onClick={handleAttachDocuments}>
