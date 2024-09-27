@@ -2,12 +2,13 @@ import React from "react";
 import { useRouter } from "next/router";
 import FreightInProgress from "@/pages/frete-em-curso/index";
 import Loading from "@/components/Loading";
+import DriverApproval from ".";
 
-const FreightPage: React.FC = () => {
+const DriverPage: React.FC = () => {
   const router = useRouter();
-  const { freightId } = router.query;
+  const { driverId } = router.query;
 
-  if (!freightId) {
+  if (!driverId) {
     return (
       <div
         style={{
@@ -22,7 +23,7 @@ const FreightPage: React.FC = () => {
     );
   }
 
-  return <FreightInProgress freightId={freightId as string} />;
+  return <DriverApproval driverId={driverId as string} />;
 };
 
-export default FreightPage;
+export default DriverPage;

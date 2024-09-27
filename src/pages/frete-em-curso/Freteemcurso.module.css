@@ -7,7 +7,7 @@
   box-sizing: border-box;
   background: linear-gradient(180deg, #BCBCBC 0%, #FFF 100%);
 }
-  
+
 .contentWrapper {
   display: flex;
   flex-direction: column;
@@ -50,4 +50,34 @@
 }
 
 
+.freightStepContainer {
+  max-height: calc(3 * 150px);
+  /* Ajuste 150px para a altura aproximada de um FreightStep */
+  overflow-y: auto;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  /* Espaço para a barra de rolagem */
+}
 
+/* Estilize a barra de rolagem para uma melhor aparência (opcional) */
+.freightStepContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.freightStepContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.freightStepContainer::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.freightStepContainer::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* .freightStepContainer>* {
+  flex-direction: column;
+} */

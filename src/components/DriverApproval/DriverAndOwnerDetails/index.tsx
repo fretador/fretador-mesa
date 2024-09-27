@@ -1,91 +1,126 @@
 import React from "react";
-import styles from './DriverAndOwnerDetails.module.css'
+import styles from "./DriverAndOwnerDetails.module.css";
 import { DownloadIcon, LogoWhatsAppIcon, PencilSolidIcon } from "@/utils/icons";
 import Botao from "@/components/Botao";
 import ActionButtons from "../ActionButtons";
+import { Driver } from "@/utils/types/Driver";
 
-const DriverAndOwnerDetails = () => {
+interface DriverAndOwnerDetailsProps {
+  driver: Driver;
+}
+
+const DriverAndOwnerDetails = ({ driver }: DriverAndOwnerDetailsProps) => {
   return (
     <>
       {/* Motorista */}
       <div className={styles.container}>
-
         <div className={styles.titleContainer}>
           <p>Dados do Motorista</p>
-          <div className={styles.pencilIcon}><PencilSolidIcon /></div>
+          <div className={styles.pencilIcon}>
+            <PencilSolidIcon />
+          </div>
         </div>
 
         <div className={styles.informations}>
           <div className={styles.nameAndCpf}>
-            <p className={styles.driverName}>Nome: <span>José Carlos da Silva dos Santos Magalhães Ribeiro</span></p>
-            <p>CPF: <span>000.000.000-00</span></p>
+            <p className={styles.driverName}>
+              Nome: <span>{driver.name}</span>
+            </p>
+            <p>
+              CPF: <span>{driver.cpf}</span>
+            </p>
           </div>
 
           <div className={styles.cnhAndContact}>
-            <p>CNH: <span>82114037783</span></p>
+            <p>
+              CNH: <span>{driver.cnh}</span>
+            </p>
             <div className={styles.whatsappContainer}>
               <LogoWhatsAppIcon />
-              <p><span>(88)98888-8888</span></p>
+              <p>
+                <span>{driver.phoneNumber}</span>
+              </p>
             </div>
-            <p>E-mail: <span>josecarlosdasilva@gmail.com</span></p>
+            <p>
+              E-mail: <span>{driver.email}</span>
+            </p>
           </div>
         </div>
-
       </div>
 
       {/* Proprietário */}
       <div className={styles.container}>
-
         <div className={styles.titleContainer}>
           <p>Dados do Proprietário</p>
-          <div className={styles.pencilIcon}><PencilSolidIcon /></div>
+          <div className={styles.pencilIcon}>
+            <PencilSolidIcon />
+          </div>
         </div>
 
         <div className={styles.informations}>
           <div className={styles.nameAndCpf}>
-            <p className={styles.driverName}>Nome: <span>José Carlos da Silva dos Santos Magalhães Ribeiro</span></p>
-            <p>CPF: <span>000.000.000-00</span></p>
+            <p className={styles.driverName}>
+              Nome: <span>{driver.owner.name}</span>
+            </p>
+            <p>
+              CPF: <span>{driver.owner.cpf}</span>
+            </p>
           </div>
 
           <div className={styles.cnhAndContact}>
-            <p>CNH: <span>82114037783</span></p>
+            <p>
+              CNH: <span>{driver.owner.cnh}</span>
+            </p>
             <div className={styles.whatsappContainer}>
               <LogoWhatsAppIcon />
-              <p><span>(88)98888-8888</span></p>
+              <p>
+                <span>{driver.owner.phoneNumber}</span>
+              </p>
             </div>
-            <p>E-mail: <span>josecarlosdasilva@gmail.com</span></p>
+            <p>
+              E-mail: <span>{driver.owner.email}</span>
+            </p>
           </div>
         </div>
-
       </div>
 
       {/* Pagamento */}
       <div className={styles.container}>
-
         <div className={styles.titleContainer}>
           <p>Dados do Pagamento</p>
-          <div className={styles.pencilIcon}><PencilSolidIcon /></div>
+          <div className={styles.pencilIcon}>
+            <PencilSolidIcon />
+          </div>
         </div>
 
         <div className={styles.informations}>
           <div className={styles.nameAndCpf}>
-            <p className={styles.driverName}>Favorecido: <span>José Carlos da Silva dos Santos Magalhães Ribeiro</span></p>
-            <p>CPF/CNPJ: <span>000.000.000-00</span></p>
+            <p className={styles.driverName}>
+              Favorecido: <span>{driver.owner.name}</span>
+            </p>
+            <p>
+              CPF/CNPJ: <span>{driver.owner.cpf}</span>
+            </p>
           </div>
 
           <div className={styles.bankDetailsAndPix}>
-            <p>Dados Bancários: <span>Banco: Bradesco (237) / Ag 0000 / CC - 000000-0</span></p>
-            <p>PIX: <span>josecarlosdasilva@gmail.com</span></p>
+            <p>
+              Dados Bancários:{" "}
+              <span>
+                Banco: {driver.owner.bankName} / Ag {driver.owner.bankAgency} /
+                CC - {driver.owner.bankAccount}
+              </span>
+            </p>
+            <p>
+              PIX: <span>{driver.owner.pix}</span>
+            </p>
           </div>
         </div>
-
       </div>
 
       <ActionButtons />
     </>
-    
+  );
+};
 
-  )
-}
-
-export default DriverAndOwnerDetails
+export default DriverAndOwnerDetails;

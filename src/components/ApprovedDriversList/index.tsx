@@ -4,6 +4,7 @@ import { Driver } from "@/utils/types/Driver";
 import styles from "./ApprovedDriversList.module.css";
 import RowTitle from "../RowTitle";
 import Loading from "../Loading";
+import { useRouter } from "next/router";
 
 interface ApprovedDriversListProps {
   drivers: Driver[];
@@ -16,6 +17,8 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
   loading,
   error,
 }) => {
+  const router = useRouter();
+
   if (loading)
     return (
       <div className={styles.loadingContainer}>
@@ -23,6 +26,10 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
       </div>
     );
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;
+
+  const handleDriverClick = (driverId: string) => {
+    router.push(`/cadastro-do-motorista/${driverId}`);
+  };
 
   return (
     <div className={styles.container}>
@@ -40,7 +47,11 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
       />
       <div className={styles.content}>
         {drivers.map((driver: Driver) => (
-          <Row.Root key={driver.id} customBackgroundColor="#B2CEDA">
+          <Row.Root
+            key={driver.id}
+            customBackgroundColor="#B2CEDA"
+            onClick={() => handleDriverClick(driver.id)}
+          >
             <Row.Driver
               driverPhotoUrl={driver.userPhoto?.imageUrl || "/driver-mock.png"}
               driverName={driver.name}

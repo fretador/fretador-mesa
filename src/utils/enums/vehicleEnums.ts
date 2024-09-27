@@ -22,4 +22,5 @@ export enum VehicleType {
 export enum VehicleStatus {
   ATIVO = "ATIVO",
   INATIVO = "INATIVO",
+  INATIVO_PENDENTE = "INATIVO_PENDENTE",
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
@@ -37,6 +37,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const [error, setError] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState(0);
   const [routeName, setRouteName] = useState("");
+  const freightStepContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchFreightData = async () => {
@@ -67,6 +68,13 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
       fetchFreightData();
     }
   }, [freightId, router.pathname]);
+
+  useEffect(() => {
+    // Efeito para scrollar para o topo (step mais recente)
+    if (freightStepContainerRef.current) {
+      freightStepContainerRef.current.scrollTop = 0;
+    }
+  }, [freight]);
 
   const getStageFromStatus = (status: FreightStatus): number => {
     const stageMap: { [key in FreightStatus]?: number } = {
@@ -260,12 +268,24 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                 </div>
               )}
 
-              {freight?.statusHistory?.map((item, index) => (
-                <FreightStep
-                  key={`${item.status}-${index}`}
-                  {...getFreightStepProps(item, index)}
-                />
-              ))}
+              <div
+                className={styles.freightStepContainer}
+                ref={freightStepContainerRef}
+              >
+                {freight?.statusHistory
+                  ?.slice()
+                  .reverse()
+                  .map((item, index) => (
+                    <FreightStep
+                      key={`${item.status}-${index}`}
+                      {...getFreightStepProps(
+                        item,
+                        freight?.statusHistory.length - 1 - index,
+                        freight
+                      )}
+                    />
+                  ))}
+              </div>
               <LocationMap />
             </Body>
           </div>
