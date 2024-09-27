@@ -3,10 +3,16 @@ import { gql } from "@apollo/client";
 export const UPDATE_FREIGHT_STATUS = gql`
   mutation UpdateFreightStatus(
     $id: ID!
-    $status: FreightStatusEnum!
+    $status: FreightStatus!
     $updateData: JSON!
+    $updateDataType: UpdateDataTypeEnum!
   ) {
-    updateFreightStatus(id: $id, status: $status, updateData: $updateData) {
+    updateFreightStatus(
+      id: $id
+      status: $status
+      updateData: $updateData
+      updateDataType: $updateDataType
+    ) {
       status
     }
   }

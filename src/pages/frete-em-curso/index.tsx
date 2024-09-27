@@ -263,7 +263,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
 
                   <div className={styles.freightInCurseOptionsContainer}>
                     <h2>Dados do embarque:</h2>
-                    <FreightInCourseOptions />
+                    <FreightInCourseOptions freightId={freight.id} />
                   </div>
                 </div>
               )}
