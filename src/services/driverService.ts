@@ -8,51 +8,11 @@ import { PageInfo } from "@/utils/types/PageInfo";
 import { GetDriversResponse } from "@/utils/types/GetDriversResponse";
 import { DriverFilters } from "@/utils/types/DriverFilters";
 import { DriverNode } from "@/utils/types/DriverNode";
-
-const bancosBrasileiros = [
-  "Banco do Brasil",
-  "Caixa Econômica Federal",
-  "Bradesco",
-  "Itaú Unibanco",
-  "Santander",
-  "Nubank",
-  "Inter",
-  "Banco Original",
-  "Banco Pan",
-  "BTG Pactual",
-  "Banco Safra",
-  "Banco C6",
-  "Banco BS2",
-  "Banco Neon",
-  "Banco Next",
-];
-
-function selecionarBancoAleatorio(): string {
-  const indiceAleatorio = Math.floor(Math.random() * bancosBrasileiros.length);
-  return bancosBrasileiros[indiceAleatorio];
-}
-
-function gerarDadosBancarios(cpf: string): {
-  agencia: string;
-  conta: string;
-  banco: string;
-} {
-  // Remove caracteres não numéricos do CPF
-  const cpfLimpo = cpf.replace(/\D/g, "");
-
-  // Gera número da agência (4 dígitos)
-  const agencia = cpfLimpo.slice(0, 4).padStart(4, "0");
-
-  // Gera número da conta (8 dígitos + 1 dígito verificador)
-  const contaSemDigito = cpfLimpo.slice(4, 12).padStart(8, "0");
-  const digitoVerificador = (parseInt(contaSemDigito) % 9).toString();
-  const conta = `${contaSemDigito}-${digitoVerificador}`;
-
-  // Seleciona um banco aleatório
-  const banco = selecionarBancoAleatorio();
-
-  return { agencia, conta, banco };
-}
+import { gerarDadosBancarios } from "@/utils/mocks/bankDataGenerator";
+import {
+  generateRandomPlate,
+  generateRandomVehicleData,
+} from "@/utils/mocks/vehicleDataGenerator";
 
 export const DriverService = {
   getDrivers: async (page: number, limit: number, filter: DriverFilters) => {
@@ -89,6 +49,7 @@ export const DriverService = {
       const firstName = driver.name.split(" ")[0].toLowerCase();
       const generatedEmail = `${firstName}@fretador.com.br`;
       const { agencia, conta, banco } = gerarDadosBancarios(driver.cpf);
+      const randomVehicleData = generateRandomVehicleData(driver.cpf);
 
       return {
         ...driver,
@@ -112,8 +73,11 @@ export const DriverService = {
           vehiclePhoto: driver.vehicle?.vehiclePhoto?.imageUrl,
           anttPhoto: driver.vehicle?.anttPhoto?.imageUrl,
           documentPhoto: driver.vehicle?.documentPhoto?.imageUrl,
-          // semiTrailerDocumentPhotos: driver.vehicle?.semiTrailerDocumentPhotos,
-          // semiTrailerPhotos: driver.vehicle?.semiTrailerPhotos,
+        },
+        vehicle: {
+          ...driver.vehicle,
+          plate: generateRandomPlate(),
+          ...randomVehicleData,
         },
       };
     });
