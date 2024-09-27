@@ -42,6 +42,37 @@ export const GET_DRIVER_BY_ID = gql`
       userPhoto {
         imageUrl
       }
+      cnhPhoto {
+        imageUrl
+      }
+      rgPhoto {
+        imageUrl
+      }
+      proofResidencePhoto {
+        imageUrl
+      }
+      vehicleOwner {
+        contact
+        email
+      }
+      vehicle {
+        anttPhoto {
+          imageUrl
+        }
+        documentPhoto {
+          imageUrl
+        }
+        semiTrailerDocumentPhotos {
+          imageUrl
+        }
+        semiTrailerPhotos {
+          imageUrl
+        }
+
+        vehiclePhoto {
+          imageUrl
+        }
+      }
     }
   }
 `;
