@@ -18,3 +18,8 @@ export enum VehicleType {
   BITREM = "BITREM",
   RODOTREM = "RODOTREM",
 }
+
+export enum VehicleStatus {
+  ATIVO = "ATIVO",
+  INATIVO = "INATIVO",
+}
