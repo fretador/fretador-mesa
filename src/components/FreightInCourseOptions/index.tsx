@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./FreightInCourseOptions.module.css";
 import { useDocumentController } from "@/controllers/documentController";
 import {
@@ -10,7 +10,7 @@ import {
 
 const FreightInCourseOptions: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { handleFileChange } = useDocumentController();
+  const { uploadDocuments, processingStatus } = useDocumentController();
 
   const handleSendOccurrence = () => {
     console.log("Enviou ocorrência");
@@ -34,7 +34,7 @@ const FreightInCourseOptions: React.FC = () => {
         type="file"
         ref={fileInputRef}
         style={{ display: "none" }}
-        onChange={(event) => handleFileChange(event, undefined)}
+        onChange={(event) => uploadDocuments(event)}
         multiple
       />
       <div className={styles.iconContainer} onClick={handleAttachDocuments}>
@@ -56,6 +56,8 @@ const FreightInCourseOptions: React.FC = () => {
         <WhatsAppIcon />
         <p>Falar Com Motorista</p>
       </div>
+
+      {processingStatus && <p>{processingStatus}</p>}
     </div>
   );
 };
