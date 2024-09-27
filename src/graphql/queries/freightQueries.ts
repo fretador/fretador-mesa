@@ -37,9 +37,12 @@ export const GET_FREIGHT_BY_ID = gql`
 			type
 			documents {
 				id
-				name
-				url
+				type
 				status
+				url
+				name
+				sender
+				message
 				dateOfSubmission
 				lastUpdated
 			}
