@@ -7,23 +7,38 @@ import {
 } from "@/graphql/mutations/documentMutations";
 import apolloClient from "@/app/apolloClient";
 
-export const DocumentService = {
+interface DocumentService {
+  uploadDocument(file: File): Promise<string>;
+  generateSignedUrl(file: File): Promise<{fileUrl: string; signedUrl: string}>;
+  uploadToS3(file: File, url: string): Promise<void>;
+  addDocuments(freightId: string, documents: DocumentInput[]): Promise<any>;
+  removeDocuments(freightId: string, documentIds: string[]): Promise<any>;
+  updateDocuments(freightId: string, documentUpdates: DocumentInput[]): Promise<any>;
+}
+
+export const DocumentService: DocumentService = {
 	async uploadDocument(file: File): Promise<string> {
-		const url = await this.generateSignedUrl(file);
-		await this.uploadToS3(file, url);
-		return url;
+		const {fileUrl, signedUrl} = await this.generateSignedUrl(file);
+		await this.uploadToS3(file, signedUrl);
+		return fileUrl;
 	},
 
-	async generateSignedUrl(file: File): Promise<string> {
-		const response = await fetch(`http://192.168.15.3:3030/dev/file/url?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthService.getBoardUserToken()}`,
-			},
-		});
+	async generateSignedUrl(file: File): Promise<{fileUrl: string; signedUrl: string}> {
+		const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+		const response = await fetch(
+			`${baseUrl}/file/url?fileName=${encodeURIComponent(
+				file.name
+			)}&fileType=${encodeURIComponent(file.type)}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${AuthService.getBoardUserToken()}`,
+				},
+			}
+		);
 		const data = await response.json();
-		return data.signedUrl;
+		return data;
 	},
 
 	async uploadToS3(file: File, url: string): Promise<void> {
