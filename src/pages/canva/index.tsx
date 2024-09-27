@@ -1,3 +1,4 @@
+// src/pages/Canva.tsx
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Body from "@/components/Body";
@@ -7,13 +8,25 @@ import { useAppSelector } from "@/store/store";
 import Sidebar from "@/components/Sidebar";
 import RowTitle from "@/components/RowTitle";
 import DriverRegistrationApproval from "@/components/ModalRoot/DriverRegistrationApproval";
+import DriverBlockModal from "@/components/ModalRoot/DriverBlockModal"; // Verifique o caminho da importação
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBlockModalOpen, setIsBlockModalOpen] = useState(false); // Estado para o novo modal
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const toggleBlockModal = () => {
+    setIsBlockModalOpen(!isBlockModalOpen);
+  };
+
+  const handleBlock = (reason: string) => {
+    // Lógica para bloquear o motorista com o motivo fornecido
+    console.log("Motivo do bloqueio:", reason);
+    toggleBlockModal();
   };
 
   return (
@@ -53,12 +66,24 @@ const Canva: React.FC = () => {
             Direcionar Frete
           </button>
 
-          {/* Renderizando o novo modal DriverRegistrationApproval */}
+          {/* Botão para abrir o novo modal DriverBlockModal */}
+          <button onClick={toggleBlockModal} className={styles.openModalButton}>
+            Bloquear Motorista
+          </button>
+
+          {/* Renderizando o modal DriverRegistrationApproval */}
           <DriverRegistrationApproval
             isOpen={isModalOpen}
             onRequestClose={toggleModal}
             onApprove={toggleModal}
             onReject={toggleModal}
+          />
+
+          {/* Renderizando o novo modal DriverBlockModal */}
+          <DriverBlockModal
+            isOpen={isBlockModalOpen}
+            onRequestClose={toggleBlockModal}
+            onBlock={handleBlock}
           />
         </div>
       </div>
