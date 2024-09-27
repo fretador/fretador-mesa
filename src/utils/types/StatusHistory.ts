@@ -1,6 +1,8 @@
+import { UpdateDataTypeEnum } from "../enums/updateDataTypeEnum";
+
 export interface StatusHistoryItem {
-	date: string;
 	status: string;
-	city?: string | null;
-	state?: string | null;
+	updateDate: string;
+	updateDataType: UpdateDataTypeEnum;
+	updateData: JSON;
 }
