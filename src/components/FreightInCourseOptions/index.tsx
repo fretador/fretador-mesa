@@ -36,9 +36,32 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const files = Array.from(event.target.files || []);
+    let files = Array.from(event.target.files || []);
+
+    if (files.length > 3) {
+      alert(
+        "Você pode selecionar no máximo 3 documentos por vez. Apenas os 3 primeiros serão processados."
+      );
+      files = files.slice(0, 3);
+    }
+
     setSelectedFiles(files);
-    await uploadDocuments(event);
+
+    // Crie um novo objeto FileList com os arquivos limitados
+    const dataTransfer = new DataTransfer();
+    files.forEach((file) => dataTransfer.items.add(file));
+    const newFileList = dataTransfer.files;
+
+    // Crie um novo evento com o FileList limitado
+    const newEvent = {
+      ...event,
+      target: {
+        ...event.target,
+        files: newFileList,
+      },
+    };
+
+    await uploadDocuments(newEvent);
 
     const newstatus = FreightStatus.PICKUP_ORDER_SENT;
     console.log("newstatus", newstatus);
@@ -50,7 +73,6 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
     }));
     const updateDataType = UpdateDataTypeEnum.DOCUMENT;
 
-    // Use o freightId aqui
     FreightService.updateFreightStatus(
       freightId,
       newstatus,
@@ -58,7 +80,6 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       updateDataType
     );
 
-    // Mostra o modal de confirmação
     setShowModal(true);
   };
 
@@ -82,6 +103,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         style={{ display: "none" }}
         onChange={handleFileChange}
         multiple
+        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
       />
       <div className={styles.iconContainer} onClick={handleAttachDocuments}>
         <PaperClipIcon />
