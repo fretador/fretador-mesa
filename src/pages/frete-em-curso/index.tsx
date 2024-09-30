@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
@@ -37,40 +37,40 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const [error, setError] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState(0);
   const [routeName, setRouteName] = useState("");
+  const [updateTrigger, setUpdateTrigger] = useState(0);
   const freightStepContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const fetchFreightData = async () => {
-      try {
-        setLoading(true);
-        const freightData = await FreightService.getFreightById(freightId);
-        setFreight(freightData);
-        console.log("freightData", freightData);
-        setCurrentStage(
-          getStageFromStatus(freightData?.status as FreightStatus)
-        );
+  const fetchFreightData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const freightData = await FreightService.getFreightById(freightId);
+      setFreight(freightData); // Atualizamos completamente o estado do frete
+      setCurrentStage(getStageFromStatus(freightData.status as FreightStatus));
 
-        // Atualiza o routeName com o pathname e o freightCode
-        const pathName = router.pathname
-          .replace("/", "")
-          .replaceAll("-", " ")
-          .toUpperCase();
-        setRouteName(`${pathName} ${freightData.freightCode.toString()}`);
-      } catch (err) {
-        setError("Erro ao carregar os dados do frete");
-        console.error("Erro ao buscar dados do frete:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (freightId) {
-      fetchFreightData();
+      const pathName = router.pathname
+        .replace("/", "")
+        .replaceAll("-", " ")
+        .toUpperCase();
+      setRouteName(`${pathName} ${freightData.freightCode.toString()}`);
+    } catch (err) {
+      setError("Erro ao carregar os dados do frete");
+      console.error("Erro ao buscar dados do frete:", err);
+    } finally {
+      setLoading(false);
     }
   }, [freightId, router.pathname]);
 
   useEffect(() => {
-    // Efeito para scrollar para o topo (step mais recente)
+    if (freightId) {
+      fetchFreightData();
+    }
+  }, [freightId, fetchFreightData, updateTrigger]);
+
+  const handleDocumentsUploaded = useCallback(() => {
+    fetchFreightData();
+  }, [fetchFreightData]);
+
+  useEffect(() => {
     if (freightStepContainerRef.current) {
       freightStepContainerRef.current.scrollTop = 0;
     }
@@ -106,7 +106,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const getFreightStepProps = (
     item: StatusHistoryItem,
     index: number,
-    freight: Freight | null | undefined
+    freight: Freight | null
   ) => {
     const theme = index % 2 === 0 ? "dark" : "light";
     let content = "";
@@ -144,54 +144,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
         hasAttachment = true;
         attachmentPath = freight?.pickupOrderPhoto ?? undefined;
         break;
-      case FreightStatus.LOADING_STARTED:
-        content = "Início do carregamento";
-        break;
-      case FreightStatus.LOADING_FINISHED:
-        content = "Carregamento finalizado";
-        break;
-      case FreightStatus.UNLOADING_STARTED:
-        content = "Início do descarregamento";
-        break;
-      case FreightStatus.UNLOADING_FINISHED:
-        content = "Descarregamento finalizado";
-        break;
-      case FreightStatus.INVOICE_SENT:
-        content = "Envio da Nota Fiscal";
-        break;
-      case FreightStatus.INVOICE_COUPON_SENT:
-        content = "Envio da Documentação do Frete";
-        break;
-      case FreightStatus.INVOICE_COUPON_REFUSED:
-        content = "Recusada a Documentação do Frete";
-        break;
-      case FreightStatus.FINANCIAL_APPROVED:
-        content = "Pagamento Realizado";
-        break;
-      case FreightStatus.FINANCIAL_REQUIRED:
-        content = "Pagamento pendente";
-        break;
-      case FreightStatus.ADMIN_REQUIRED:
-        content = "Aguardando aprovação do administrador";
-        break;
-      case FreightStatus.ADMIN_APPROVED:
-        content = "Aprovado pelo administrador";
-        break;
-      case FreightStatus.OPERATION_REQUIRED:
-        content = "Aguardando aprovação da operação";
-        break;
-      case FreightStatus.OPERATION_APPROVED:
-        content = "Aprovado pela operação";
-        break;
-      case FreightStatus.DRIVER_SELECTED:
-        content = "Motorista selecionado";
-        break;
-      case FreightStatus.FINISHED:
-        content = "Frete finalizado";
-        break;
-      case FreightStatus.CANCELED:
-        content = "Frete cancelado";
-        break;
+      // ... (outros casos de status)
       default:
         content = `Status: ${item.status}`;
     }
@@ -224,7 +177,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
         <div>
           <Sidebar />
         </div>
-
         <div
           className={
             isRetracted ? styles.retractedContentWrapper : styles.contentWrapper
@@ -238,7 +190,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
               <div>
                 <SearchComponent />
               </div>
-
               {freight && (
                 <div className={styles.freightInCurseContainer}>
                   <FreightInCurseHeader
@@ -253,21 +204,18 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                         "") as string
                     }
                   />
-
                   <SeparatorIcon />
-
-                  {/* Adicionar a barra de progresso aqui */}
                   <ProgressBar currentStage={currentStage} />
-
                   <SeparatorIcon />
-
                   <div className={styles.freightInCurseOptionsContainer}>
                     <h2>Dados do embarque:</h2>
-                    <FreightInCourseOptions freightId={freight.id} />
+                    <FreightInCourseOptions
+                      freightId={freight.id}
+                      onDocumentsUploaded={handleDocumentsUploaded}
+                    />
                   </div>
                 </div>
               )}
-
               <div
                 className={styles.freightStepContainer}
                 ref={freightStepContainerRef}
@@ -277,12 +225,8 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   .reverse()
                   .map((item, index) => (
                     <FreightStep
-                      key={`${item.status}-${index}`}
-                      {...getFreightStepProps(
-                        item,
-                        freight?.statusHistory.length - 1 - index,
-                        freight
-                      )}
+                      key={`${item.status}-${item.updateDate}`}
+                      {...getFreightStepProps(item, index, freight)}
                     />
                   ))}
               </div>

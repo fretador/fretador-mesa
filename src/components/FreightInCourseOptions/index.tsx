@@ -8,17 +8,19 @@ import {
   WhatsAppIcon,
 } from "@/utils/icons";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
-import DocumentSentModal from "@/components/ModalRoot/DocumentSentModal";
 import { UpdateDataTypeEnum } from "@/utils/enums/updateDataTypeEnum";
 import { FreightService } from "@/services/freightService";
+import DocumentSentModal from "@/components/ModalRoot/DocumentSentModal";
 
 // Adicione esta prop ao componente
 interface FreightInCourseOptionsProps {
   freightId: string;
+  onDocumentsUploaded: () => void;
 }
 
 const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   freightId,
+  onDocumentsUploaded,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { uploadDocuments, processingStatus } = useDocumentController();
@@ -36,51 +38,59 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let files = Array.from(event.target.files || []);
+    try {
+      let files = Array.from(event.target.files || []);
 
-    if (files.length > 3) {
-      alert(
-        "Você pode selecionar no máximo 3 documentos por vez. Apenas os 3 primeiros serão processados."
+      if (files.length > 3) {
+        alert(
+          "Você pode selecionar no máximo 3 documentos por vez. Apenas os 3 primeiros serão processados."
+        );
+        files = files.slice(0, 3);
+      }
+
+      setSelectedFiles(files);
+
+      // Crie um novo objeto FileList com os arquivos limitados
+      const dataTransfer = new DataTransfer();
+      files.forEach((file) => dataTransfer.items.add(file));
+      const newFileList = dataTransfer.files;
+
+      // Crie um novo evento com o FileList limitado
+      const newEvent = {
+        ...event,
+        target: {
+          ...event.target,
+          files: newFileList,
+        },
+      };
+
+      await uploadDocuments(newEvent);
+
+      const newstatus = FreightStatus.PICKUP_ORDER_SENT;
+      console.log("newstatus", newstatus);
+
+      const updateData = files.map((file) => ({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+      }));
+      const updateDataType = UpdateDataTypeEnum.DOCUMENT;
+
+      await FreightService.updateFreightStatus(
+        freightId,
+        newstatus,
+        updateData,
+        updateDataType
       );
-      files = files.slice(0, 3);
+
+      setShowModal(true);
+      onDocumentsUploaded();
+    } catch (error) {
+      console.error("Erro ao processar os documentos:", error);
+      alert(
+        "Ocorreu um erro ao processar os documentos. Por favor, tente novamente."
+      );
     }
-
-    setSelectedFiles(files);
-
-    // Crie um novo objeto FileList com os arquivos limitados
-    const dataTransfer = new DataTransfer();
-    files.forEach((file) => dataTransfer.items.add(file));
-    const newFileList = dataTransfer.files;
-
-    // Crie um novo evento com o FileList limitado
-    const newEvent = {
-      ...event,
-      target: {
-        ...event.target,
-        files: newFileList,
-      },
-    };
-
-    await uploadDocuments(newEvent);
-
-    const newstatus = FreightStatus.PICKUP_ORDER_SENT;
-    console.log("newstatus", newstatus);
-
-    const updateData = files.map((file) => ({
-      name: file.name,
-      type: file.type,
-      size: file.size,
-    }));
-    const updateDataType = UpdateDataTypeEnum.DOCUMENT;
-
-    FreightService.updateFreightStatus(
-      freightId,
-      newstatus,
-      updateData,
-      updateDataType
-    );
-
-    setShowModal(true);
   };
 
   const handleSendAlert = () => {
@@ -93,6 +103,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
 
   const closeModal = () => {
     setShowModal(false);
+    setSelectedFiles([]);
   };
 
   return (
