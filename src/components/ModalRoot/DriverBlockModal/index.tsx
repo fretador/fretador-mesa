@@ -1,7 +1,6 @@
-// src/components/ModalRoot/DriverBlockModal/index.tsx
-import React, { useState, useEffect } from "react";
-import ModalRoot from "../index";
-import styles from "./DriverBlockModal.module.css";
+import React, { useState, useEffect } from 'react';
+import ModalRoot from '../index';
+import styles from './DriverBlockModal.module.css';
 
 interface DriverBlockModalProps {
   isOpen: boolean;
@@ -15,12 +14,12 @@ const DriverBlockModal: React.FC<DriverBlockModalProps> = ({
   onBlock,
 }) => {
   const [step, setStep] = useState(1);
-  const [reason, setReason] = useState("");
+  const [reason, setReason] = useState('');
 
   useEffect(() => {
     if (isOpen) {
       setStep(1);
-      setReason("");
+      setReason('');
     }
   }, [isOpen]);
 
@@ -34,7 +33,7 @@ const DriverBlockModal: React.FC<DriverBlockModalProps> = ({
 
   return (
     <ModalRoot isOpen={isOpen} onRequestClose={onRequestClose}>
-      <div className={styles.content}>
+      <div className={styles.content} id="modalContent">
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>Bloquear Motorista</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>

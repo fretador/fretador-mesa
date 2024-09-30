@@ -1,4 +1,3 @@
-// src/pages/Canva.tsx
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Body from "@/components/Body";
@@ -8,12 +7,15 @@ import { useAppSelector } from "@/store/store";
 import Sidebar from "@/components/Sidebar";
 import RowTitle from "@/components/RowTitle";
 import DriverRegistrationApproval from "@/components/ModalRoot/DriverRegistrationApproval";
-import DriverBlockModal from "@/components/ModalRoot/DriverBlockModal"; // Verifique o caminho da importação
-
+import DriverBlockModal from "@/components/ModalRoot/DriverBlockModal";
+import ModalRoot from "@/components/ModalRoot";
+import PhotoRequestModal from "@/components/ModalRoot/PhotoRequestModal"; 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isBlockModalOpen, setIsBlockModalOpen] = useState(false); // Estado para o novo modal
+  const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
+  const [isRootModalOpen, setIsRootModalOpen] = useState(false);
+  const [isPhotoRequestModalOpen, setIsPhotoRequestModalOpen] = useState(false); 
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -23,8 +25,15 @@ const Canva: React.FC = () => {
     setIsBlockModalOpen(!isBlockModalOpen);
   };
 
+  const toggleRootModal = () => {
+    setIsRootModalOpen(!isRootModalOpen);
+  };
+
+  const togglePhotoRequestModal = () => {
+    setIsPhotoRequestModalOpen(!isPhotoRequestModalOpen);
+  };
+
   const handleBlock = (reason: string) => {
-    // Lógica para bloquear o motorista com o motivo fornecido
     console.log("Motivo do bloqueio:", reason);
     toggleBlockModal();
   };
@@ -63,15 +72,21 @@ const Canva: React.FC = () => {
             </Row.Root>
           </Body>
           <button onClick={toggleModal} className={styles.openModalButton}>
-            Direcionar Frete
+            Aprovação de Cadastro
           </button>
 
-          {/* Botão para abrir o novo modal DriverBlockModal */}
           <button onClick={toggleBlockModal} className={styles.openModalButton}>
             Bloquear Motorista
           </button>
 
-          {/* Renderizando o modal DriverRegistrationApproval */}
+          <button onClick={toggleRootModal} className={styles.openModalButton}>
+            Abrir ModalRoot
+          </button>
+
+          <button onClick={togglePhotoRequestModal} className={styles.openModalButton}>
+            Abrir PhotoRequestModal
+          </button>
+
           <DriverRegistrationApproval
             isOpen={isModalOpen}
             onRequestClose={toggleModal}
@@ -79,11 +94,23 @@ const Canva: React.FC = () => {
             onReject={toggleModal}
           />
 
-          {/* Renderizando o novo modal DriverBlockModal */}
           <DriverBlockModal
             isOpen={isBlockModalOpen}
             onRequestClose={toggleBlockModal}
             onBlock={handleBlock}
+          />
+
+          <ModalRoot isOpen={isRootModalOpen} onRequestClose={toggleRootModal}>
+            <div>
+              <h2>Conteúdo do ModalRoot</h2>
+              <p>Este é o conteúdo do ModalRoot.</p>
+              <button onClick={toggleRootModal}>Fechar</button>
+            </div>
+          </ModalRoot>
+
+          <PhotoRequestModal
+            isOpen={isPhotoRequestModalOpen}
+            onRequestClose={togglePhotoRequestModal}
           />
         </div>
       </div>
