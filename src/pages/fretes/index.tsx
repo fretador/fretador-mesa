@@ -10,13 +10,14 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import RowTitle from "@/components/RowTitle";
 import { Row } from "@/components/Row";
-import StatusFilter2 from "@/components/StatusFilter2";
+import StatusFilter from "@/components/StatusFilter";
 import styles from "./Fretes.module.css";
 import SearchComponent from "@/components/SearchButton";
 import Body from "@/components/Body";
 import AddNewFreightButton from "@/components/AddNewFreightButton";
 import Loading from "@/components/Loading";
-import { FreightStatus } from "@/utils/enums/freightStatusEnum"; // Importando o enum correto
+import { FreightStatus } from "@/utils/enums/freightStatusEnum";
+import { Freight } from "@/utils/types/Freight";
 
 const Freights: React.FC = () => {
   const router = useRouter();
@@ -34,8 +35,9 @@ const Freights: React.FC = () => {
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [filters, setFilters] = useState<FreightFilters>({});
-  const [showFilter, setShowFilter] = useState(true);
+
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const adjustLimit = () => {
     const height = window.innerHeight;
@@ -61,32 +63,27 @@ const Freights: React.FC = () => {
     };
   }, []);
 
-  const handleApplyFilters = (
-    searchTerm: string,
-    selectedStatuses: FreightStatus[] // Usando o enum FreightStatus aqui
-  ) => {
-    const updatedFilters: FreightFilters = {
-      ...filters,
-      status: selectedStatuses.join(","), // Usando os valores do enum diretamente
-    };
-
-    if (searchTerm) {
-      updatedFilters.deliveryCity = searchTerm;
-      updatedFilters.gatheringCity = searchTerm;
-    }
-
-    console.log("Updated Filters:", updatedFilters);
-
-    setFilters(updatedFilters);
-    setPage(1);
+  const handleStatusFilterApply = (searchTerm: string, statuses: string[]) => {
+    setSearchTerm(searchTerm);
+    setSelectedStatuses(statuses);
   };
 
-  const handleCancelFilter = () => {
-    setFilters({});
-    setShowFilter(false);
+  const handleStatusFilterCancel = () => {
+    setSearchTerm("");
+    setSelectedStatuses([]);
+  };
+
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
   };
 
   const fetchFreights = () => {
+    const filters: FreightFilters = {
+      status:
+        selectedStatuses.length > 0 ? (selectedStatuses as [string]) : undefined,
+      allFilters: searchTerm || undefined,
+    };
+
     loadFreights(filters, page, limit);
   };
 
@@ -98,8 +95,8 @@ const Freights: React.FC = () => {
     return () => {
       clearTimeout(handler);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, page, limit]);
+  
+  }, [searchTerm, selectedStatuses, page, limit]);
 
   const handleNextPage = () => {
     if (pageInfo?.hasNextPage) {
@@ -113,9 +110,19 @@ const Freights: React.FC = () => {
     }
   };
 
-  // Função para redirecionar para a página de detalhes do frete
   const handleFreightClick = (freightId: string) => {
-    router.push(`/frete-em-curso/${freightId}`); // Exemplo de redirecionamento
+    router.push(`/frete-em-curso/${freightId}`);
+  };
+
+  const generateRandomCteAndClient = (freight: Freight) => {
+    const updatedFreight = { ...freight };
+    if (!updatedFreight.numCte) {
+      updatedFreight.numCte = `CTE-${Math.floor(Math.random() * 1000000)}`;
+    }
+    if (!updatedFreight.clientName) {
+      updatedFreight.clientName = `Cliente-${Math.floor(Math.random() * 50)}`;
+    }
+    return updatedFreight;
   };
 
   return (
@@ -135,8 +142,14 @@ const Freights: React.FC = () => {
           <div className={styles.content}>
             <Body>
               <div className={styles.searchComponents}>
-                <SearchComponent />
-                <StatusFilter2 />
+                <SearchComponent onSearch={handleSearch} />
+                <div className={styles.filterComponents}>
+                  <StatusFilter
+                    onApply={handleStatusFilterApply}
+                    onCancel={handleStatusFilterCancel}
+                    type={"freight"}
+                  />
+                </div>
               </div>
 
               <RowTitle
@@ -159,25 +172,36 @@ const Freights: React.FC = () => {
                   {freights.map((freight) => {
                     const status: FreightStatus =
                       freight.status as FreightStatus;
+                    const updatedFreight = generateRandomCteAndClient(freight);
                     return (
                       <Row.Root
-                        key={freight.id}
+                        key={updatedFreight.id}
                         freightStatus={status}
-                        onClick={() => handleFreightClick(freight.id)}
+                        onClick={() => handleFreightClick(updatedFreight.id)}
                       >
                         <Row.FreightDate
-                          date={formatDateToBrazilian(freight.creationDate)}
+                          date={formatDateToBrazilian(
+                            updatedFreight.creationDate
+                          )}
                         />
                         <Row.FreightCode
-                          code={freight.freightCode.toString()}
+                          code={updatedFreight.freightCode.toString()}
                         />
-                        <Row.Cte cte={freight.numCte || "N/A"} />
+                        <Row.Cte cte={updatedFreight.numCte || "-"} />
                         <Row.Route
-                          originState={freight.gatheringState}
-                          destinyState={freight.deliveryState}
+                          originState={updatedFreight.origin.split(", ")[1]}
+                          destinyState={
+                            updatedFreight.destination.split(", ")[1]
+                          }
                         />
-                        <Row.Customer customerName={freight.clientName} />
-                        <Row.Driver driverName={freight.driver} />
+                        <Row.Customer
+                          customerName={updatedFreight.clientName || "-"}
+                        />
+                        <Row.Driver
+                          driverName={
+                            updatedFreight.targetedDrivers[0]?.name || "-"
+                          }
+                        />
                         <Row.FreightStatus freightStatus={status} />
                       </Row.Root>
                     );
