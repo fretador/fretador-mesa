@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
 import AwaitingApprovalList from "@/components/AwaitingApprovalCards";
-import StatusDriversFilter from "@/components/StatusFilter2";
+import StatusFilter from "@/components/StatusFilter";
 import VehicleFilter from "@/components/VehicleFilter";
 import DriversList from "@/components/ApprovedDriversList";
 import { Driver } from "@/utils/types/Driver";
@@ -135,9 +135,10 @@ const Drivers: React.FC = () => {
               <div className={styles.searchComponents}>
                 <SearchComponent onSearch={handleSearch} />
                 <div className={styles.filterComponents}>
-                  <StatusDriversFilter
+                  <StatusFilter
                     onApply={handleStatusFilterApply}
                     onCancel={handleStatusFilterCancel}
+                    type={"driver"}
                   />
                   <VehicleFilter
                     onApply={handleVehicleFilterApply}

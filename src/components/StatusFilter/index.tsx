@@ -1,81 +1,146 @@
 import React, { useState } from "react";
 import styles from "./StatusFilter.module.css";
+import { ArrowDownIcon, MagnifierIcon } from "@/utils/icons";
+import { FreightStatus as FreightStatusEnum } from "@/utils/enums/freightStatusEnum";
+import { CANCELLED } from "dns";
 
-// Custom Search Icon component
-const SearchIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={styles.searchIcon}
-  >
-    <circle cx="11" cy="11" r="8" />
-    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-  </svg>
-);
+interface StatusFilterProps {
+  onApply: (searchTerm: string, selectedStatuses: string[]) => void;
+  onCancel: () => void;
+  type: "driver" | "freight";
+}
 
-const StatusFilter = ({ onApply, onCancel }) => {
+const StatusFilter: React.FC<StatusFilterProps> = ({ onApply, onCancel, type }) => {
+  const [showFilter, setShowFilter] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedStatuses, setSelectedStatuses] = useState([]);
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
 
-  const statuses = [
-    { key: "FINISHED", label: "Finalizado" },
-    { key: "APPROVED", label: "Aprovar" },
-  ];
+  const toggleFilter = () => {
+    setShowFilter((prevState) => !prevState);
+  };
 
-  const handleStatusToggle = (status) => {
-    setSelectedStatuses((prev) =>
-      prev.includes(status)
-        ? prev.filter((s) => s !== status)
-        : [...prev, status]
+  const handleStatusChange = (status: string) => {
+    setSelectedStatuses((prevStatuses) =>
+      prevStatuses.includes(status)
+        ? prevStatuses.filter((s) => s !== status)
+        : [...prevStatuses, status]
     );
   };
 
   const handleApply = () => {
-    console.log("Applying Filters:", { searchTerm, selectedStatuses }); // Log dos filtros aplicados
-    onApply({ searchTerm, selectedStatuses });
+    let statusesToFilter = selectedStatuses;
+
+    if (type === "freight") {
+      statusesToFilter = selectedStatuses.flatMap(
+        (statusValue) => statusValueToActualStatuses[statusValue]
+      );
+    }
+
+    onApply(searchTerm, statusesToFilter);
+    setShowFilter(false);
   };
+
+  const handleCancel = () => {
+    setSearchTerm("");
+    setSelectedStatuses([]);
+    onCancel();
+    setShowFilter(false);
+  };
+
+  const statusValueToActualStatuses: { [key: string]: FreightStatusEnum[] } = {
+    IN_PROGRESS: [
+      FreightStatusEnum.WAITING,
+      FreightStatusEnum.TARGETED,
+      FreightStatusEnum.REQUESTED,
+      FreightStatusEnum.APPROVED,
+      FreightStatusEnum.ACCEPTED,
+      FreightStatusEnum.OPERATION_REQUIRED,
+      FreightStatusEnum.OPERATION_APPROVED,
+      FreightStatusEnum.ADMIN_REQUIRED,
+      FreightStatusEnum.ADMIN_APPROVED,
+      FreightStatusEnum.FINANCIAL_REQUIRED,
+      FreightStatusEnum.FINANCIAL_APPROVED,
+      FreightStatusEnum.LOADING_STARTED,
+      FreightStatusEnum.LOADING_FINISHED,
+      FreightStatusEnum.UNLOADING_STARTED,
+      FreightStatusEnum.UNLOADING_FINISHED,
+      FreightStatusEnum.DRIVER_ARRIVED,
+      FreightStatusEnum.DRIVER_SELECTED,
+      FreightStatusEnum.INVOICE_SENT,
+      FreightStatusEnum.PICKUP_ORDER_SENT,
+    ],
+    DOCUMENTS_RECEIVED: [
+      FreightStatusEnum.INVOICE_COUPON_SENT,
+      FreightStatusEnum.INVOICE_COUPON_REFUSED,
+    ],
+    CANCELLED: [
+      FreightStatusEnum.CANCELED,
+    ],
+    FINISHED: [
+      FreightStatusEnum.FINISHED,
+    ],
+  };
+
+  const statuses =
+    type === "driver"
+      ? [
+        { value: "APPROVED", label: "Aprovado" },
+        { value: "PENDING", label: "Pendente" },
+        { value: "DENIED", label: "Negado" },
+      ]
+      : [
+        { value: "IN_PROGRESS", label: "Em Curso" },
+        { value: "DOCUMENTS_RECEIVED", label: "Documentos Recebidos" },
+        { value: "CANCELLED", label: "Cancelado" },
+        { value: "FINISHED", label: "Finalizado" },
+      ];
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.title}>Filtrar Status</h3>
-      <div className={styles.searchContainer}>
-        <input
-          type="text"
-          placeholder="Buscar"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className={styles.searchInput}
+      <div className={styles.openCloseFilter} onClick={toggleFilter}>
+        <p className={styles.title}>Filtrar Status</p>
+        <ArrowDownIcon
+          className={`${styles.arrowDown} ${showFilter ? styles.rotated : ""}`}
         />
-        <SearchIcon />
       </div>
-      {statuses.map((status) => (
-        <div key={status.key} className={styles.checkboxContainer}>
+
+      <div
+        className={`${styles.filterOptions} ${showFilter ? styles.show : ""}`}
+      >
+        <div className={styles.searchContainer}>
+          <MagnifierIcon className={styles.magnifierIcon} />
           <input
-            type="checkbox"
-            id={status.key}
-            checked={selectedStatuses.includes(status.key)}
-            onChange={() => handleStatusToggle(status.key)}
-            className={styles.checkbox}
+            type="text"
+            placeholder="Buscar"
+            className={styles.searchInputField}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <label htmlFor={status.key} className={styles.checkboxLabel}>
-            {status.label}
-          </label>
         </div>
-      ))}
-      <div className={styles.buttonContainer}>
-        <button onClick={handleApply} className={styles.applyButton}>
-          Aplicar
-        </button>
-        <button onClick={onCancel} className={styles.cancelButton}>
-          Cancelar
-        </button>
+
+        <div className={styles.checkboxList}>
+          {statuses.map((status) => (
+            <div className={styles.checkboxContainer} key={status.value}>
+              <input
+                type="checkbox"
+                id={status.value}
+                name={status.value}
+                checked={selectedStatuses.includes(status.value)}
+                onChange={() => handleStatusChange(status.value)}
+              />
+              <label htmlFor={status.value}>{status.label}</label>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.btnsContainer}>
+          <button className={styles.btnApply} onClick={handleApply}>
+            Aplicar
+          </button>
+          <button className={styles.btnCancel} onClick={handleCancel}>
+            Cancelar
+          </button>
+        </div>
       </div>
     </div>
   );
