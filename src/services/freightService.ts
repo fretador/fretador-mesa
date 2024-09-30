@@ -33,6 +33,7 @@ export const FreightService = {
     const response = await apolloClient.query<{ freight: Freight }>({
       query: GET_FREIGHT_BY_ID,
       variables: { id },
+      fetchPolicy: "network-only",
     });
 
     if (!response.data || !response.data.freight) {

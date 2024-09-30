@@ -15,6 +15,7 @@ import FreightStep from "@/components/FreightStep";
 import { FreightService } from "@/services/freightService";
 import Loading from "@/components/Loading";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
+import { getStageFromStatus } from "@/utils/getStageFromStatusFreight";
 import { Freight } from "@/utils/types/Freight";
 import { Type } from "@/utils/enums/typeEnum";
 import FreightInCourseOptions from "@/components/FreightInCourseOptions";
@@ -29,46 +30,124 @@ interface StatusHistoryItem {
   status: FreightStatus;
 }
 
-const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
-  const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
-  const router = useRouter();
+const useFreightData = (freightId: string) => {
   const [loading, setLoading] = useState(false);
   const [freight, setFreight] = useState<Freight | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [currentStage, setCurrentStage] = useState(0);
-  const [routeName, setRouteName] = useState("");
-  const [updateTrigger, setUpdateTrigger] = useState(0);
-  const freightStepContainerRef = useRef<HTMLDivElement>(null);
 
   const fetchFreightData = useCallback(async () => {
     try {
+      console.log("Fetching freight data...");
       setLoading(true);
       const freightData = await FreightService.getFreightById(freightId);
-      setFreight(freightData); // Atualizamos completamente o estado do frete
+      console.log("Fetched freight data:", freightData);
+      setFreight(freightData);
       setCurrentStage(getStageFromStatus(freightData.status as FreightStatus));
-
-      const pathName = router.pathname
-        .replace("/", "")
-        .replaceAll("-", " ")
-        .toUpperCase();
-      setRouteName(`${pathName} ${freightData.freightCode.toString()}`);
     } catch (err) {
       setError("Erro ao carregar os dados do frete");
       console.error("Erro ao buscar dados do frete:", err);
     } finally {
       setLoading(false);
     }
-  }, [freightId, router.pathname]);
+  }, [freightId]);
+
+  const refreshFreightData = useCallback(() => {
+    console.log("Refreshing freight data...");
+    fetchFreightData();
+  }, [fetchFreightData]);
 
   useEffect(() => {
     if (freightId) {
       fetchFreightData();
     }
-  }, [freightId, fetchFreightData, updateTrigger]);
+  }, [freightId, fetchFreightData]);
+
+  return { loading, freight, error, currentStage, refreshFreightData };
+};
+
+const getFreightStepProps = (
+  item: StatusHistoryItem,
+  index: number,
+  freight: Freight | null
+) => {
+  const theme = index % 2 === 0 ? "dark" : "light";
+  let content = "";
+  let primaryButtonLabel: string | undefined;
+  let onPrimaryButtonClick: (() => void) | undefined;
+  let actionButtonText: string | undefined;
+  let handleActionButton: (() => void) | undefined;
+  let hasAttachment = false;
+  let attachmentPath: string | undefined;
+
+  const freightType = freight?.type ?? Type.TARGETED;
+
+  switch (item.status) {
+    case FreightStatus.TARGETED:
+      content =
+        freightType === Type.TARGETED
+          ? "Frete enviado ao motorista"
+          : "Frete solicitado pelo motorista";
+      break;
+    case FreightStatus.APPROVED:
+      content =
+        freightType === Type.TARGETED
+          ? "Frete aceito pelo motorista - Enviar Ordem de Coleta"
+          : "Autorizar embarque";
+      primaryButtonLabel = freightType !== Type.TARGETED ? "Sim" : undefined;
+      onPrimaryButtonClick = () => console.log("Botão de ação clicado");
+      break;
+    case FreightStatus.DRIVER_ARRIVED:
+      content = "Motorista chegou ao local de coleta";
+      actionButtonText = "rastrear";
+      handleActionButton = () => console.log("Botão de rastreamento clicado");
+      break;
+    case FreightStatus.PICKUP_ORDER_SENT:
+      content = "Ordem de Coleta enviada para o motorista";
+      hasAttachment = true;
+      attachmentPath = freight?.pickupOrderPhoto ?? undefined;
+      break;
+    // ... (outros casos de status)
+    default:
+      content = `Status: ${item.status}`;
+  }
+
+  return {
+    theme,
+    date: item.updateDate,
+    content,
+    primaryButtonLabel,
+    onPrimaryButtonClick,
+    actionButtonText,
+    handleActionButton,
+    hasAttachment,
+    attachmentPath,
+    disabled: false,
+  };
+};
+
+const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
+  const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const router = useRouter();
+  const { loading, freight, error, currentStage, refreshFreightData } =
+    useFreightData(freightId);
+  const [routeName, setRouteName] = useState("");
+  const freightStepContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (freight) {
+      const pathName = router.pathname
+        .replace("/", "")
+        .replaceAll("-", " ")
+        .toUpperCase();
+      setRouteName(`${pathName} ${freight.freightCode.toString()}`);
+    }
+  }, [freight, router.pathname]);
 
   const handleDocumentsUploaded = useCallback(() => {
-    fetchFreightData();
-  }, [fetchFreightData]);
+    console.log("Documents uploaded, refreshing freight data");
+    refreshFreightData();
+  }, [refreshFreightData]);
 
   useEffect(() => {
     if (freightStepContainerRef.current) {
@@ -76,96 +155,9 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
     }
   }, [freight]);
 
-  const getStageFromStatus = (status: FreightStatus): number => {
-    const stageMap: { [key in FreightStatus]?: number } = {
-      [FreightStatus.WAITING]: 0,
-      [FreightStatus.TARGETED]: 0,
-      [FreightStatus.REQUESTED]: 0,
-      [FreightStatus.APPROVED]: 0,
-      [FreightStatus.ACCEPTED]: 0,
-      [FreightStatus.DRIVER_SELECTED]: 0,
-      [FreightStatus.OPERATION_REQUIRED]: 0,
-      [FreightStatus.OPERATION_APPROVED]: 4,
-      [FreightStatus.ADMIN_REQUIRED]: 4,
-      [FreightStatus.ADMIN_APPROVED]: 4,
-      [FreightStatus.FINANCIAL_REQUIRED]: 5,
-      [FreightStatus.FINANCIAL_APPROVED]: 5,
-      [FreightStatus.INVOICE_SENT]: 2,
-      [FreightStatus.PICKUP_ORDER_SENT]: 1,
-      [FreightStatus.LOADING_STARTED]: 2,
-      [FreightStatus.LOADING_FINISHED]: 2,
-      [FreightStatus.UNLOADING_STARTED]: 2,
-      [FreightStatus.UNLOADING_FINISHED]: 3,
-      [FreightStatus.INVOICE_COUPON_SENT]: 4,
-      [FreightStatus.INVOICE_COUPON_REFUSED]: 4,
-      [FreightStatus.DRIVER_ARRIVED]: 5,
-    };
-    return stageMap[status] || 0;
-  };
-
-  const getFreightStepProps = (
-    item: StatusHistoryItem,
-    index: number,
-    freight: Freight | null
-  ) => {
-    const theme = index % 2 === 0 ? "dark" : "light";
-    let content = "";
-    let primaryButtonLabel: string | undefined;
-    let onPrimaryButtonClick: (() => void) | undefined;
-    let actionButtonText: string | undefined;
-    let handleActionButton: (() => void) | undefined;
-    let hasAttachment = false;
-    let attachmentPath: string | undefined;
-
-    const freightType = freight?.type ?? Type.TARGETED;
-
-    switch (item.status) {
-      case FreightStatus.TARGETED:
-        content =
-          freightType === Type.TARGETED
-            ? "Frete enviado ao motorista"
-            : "Frete solicitado pelo motorista";
-        break;
-      case FreightStatus.APPROVED:
-        content =
-          freightType === Type.TARGETED
-            ? "Frete aceito pelo motorista - Enviar Ordem de Coleta"
-            : "Autorizar embarque";
-        primaryButtonLabel = freightType !== Type.TARGETED ? "Sim" : undefined;
-        onPrimaryButtonClick = () => console.log("Botão de ação clicado");
-        break;
-      case FreightStatus.DRIVER_ARRIVED:
-        content = "Motorista chegou ao local de coleta";
-        actionButtonText = "rastrear";
-        handleActionButton = () => console.log("Botão de rastreamento clicado");
-        break;
-      case FreightStatus.PICKUP_ORDER_SENT:
-        content = "Ordem de Coleta enviada para o motorista";
-        hasAttachment = true;
-        attachmentPath = freight?.pickupOrderPhoto ?? undefined;
-        break;
-      // ... (outros casos de status)
-      default:
-        content = `Status: ${item.status}`;
-    }
-
-    return {
-      theme,
-      date: item.updateDate,
-      content,
-      primaryButtonLabel,
-      onPrimaryButtonClick,
-      actionButtonText,
-      handleActionButton,
-      hasAttachment,
-      attachmentPath,
-      disabled: false,
-    };
-  };
-
-  if (loading) {
-    return <Loading />;
-  }
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
   if (error) {
     return <div>Erro: {error}</div>;
