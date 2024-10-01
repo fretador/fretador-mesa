@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./DocumentSentModal.module.css";
-
+import { CloseIcon } from "@/utils/icons";
+import Button from "@/components/Button";
+import Botao from "@/components/Botao";
 interface DocumentSentModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -19,9 +21,16 @@ const DocumentSentModal: React.FC<DocumentSentModalProps> = ({
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
-        <h2>{title}</h2>
+        <div className={styles.modalHeader}>
+          <h2 className={styles.modalTitle}>{title}</h2>
+          <button className={styles.closeButton} onClick={onClose}>
+            <CloseIcon />
+          </button>
+        </div>
         <p>{message}</p>
-        <button onClick={onClose}>OK</button>
+        <div className={styles.buttonsContainer}>
+          <Botao onClick={onClose} text="OK" type="button" />
+        </div>
       </div>
     </div>
   );
