@@ -4,6 +4,7 @@ import styles from "./RowTitle.module.css";
 interface RowTitleProps {
   CityState?: string;
   Cnpj?: string;
+  Contract?: string;
   CorporateName?: string;
   Cte?: string;
   Customer?: string;
@@ -18,6 +19,7 @@ interface RowTitleProps {
   OccurrenceType?: string;
   PaymentDate?: string;
   PaymentMethod?: string;
+  PaymentType: string;
   Route?: string;
   TradeName?: string;
   Value?: string;
