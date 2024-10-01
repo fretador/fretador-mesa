@@ -83,7 +83,78 @@ const getFreightStepProps = (
   const freightType = freight?.type ?? Type.TARGETED;
 
   switch (item.status) {
-    // ... casos existentes ...
+    case FreightStatus.TARGETED:
+      content =
+        freightType === Type.TARGETED
+          ? "Frete enviado ao motorista"
+          : "Frete solicitado pelo motorista";
+      break;
+    case FreightStatus.APPROVED:
+      content =
+        freightType === Type.TARGETED
+          ? "Frete aceito pelo motorista - Enviar Ordem de Coleta"
+          : "Autorizar embarque";
+      primaryButtonLabel = freightType !== Type.TARGETED ? "Sim" : undefined;
+      onPrimaryButtonClick = () => console.log("Botão de ação clicado");
+      break;
+    case FreightStatus.DRIVER_ARRIVED:
+      content = "Motorista chegou ao local de coleta";
+      actionButtonText = "rastrear";
+      handleActionButton = () => console.log("Botão de rastreamento clicado");
+      break;
+    case FreightStatus.PICKUP_ORDER_SENT:
+      content = "Ordem de Coleta enviada para o motorista";
+      hasAttachment = true;
+      attachmentPath = freight?.pickupOrderPhoto ?? undefined;
+      break;
+    case FreightStatus.LOADING_STARTED:
+      content = "Início do carregamento";
+      break;
+    case FreightStatus.LOADING_FINISHED:
+      content = "Carregamento finalizado";
+      break;
+    case FreightStatus.UNLOADING_STARTED:
+      content = "Início do descarregamento";
+      break;
+    case FreightStatus.UNLOADING_FINISHED:
+      content = "Descarregamento finalizado";
+      break;
+    case FreightStatus.INVOICE_SENT:
+      content = "Envio da Nota Fiscal";
+      break;
+    case FreightStatus.INVOICE_COUPON_SENT:
+      content = "Envio da Documentação do Frete";
+      break;
+    case FreightStatus.INVOICE_COUPON_REFUSED:
+      content = "Recusada a Documentação do Frete";
+      break;
+    case FreightStatus.FINANCIAL_APPROVED:
+      content = "Pagamento Realizado";
+      break;
+    case FreightStatus.FINANCIAL_REQUIRED:
+      content = "Pagamento pendente";
+      break;
+    case FreightStatus.ADMIN_REQUIRED:
+      content = "Aguardando aprovação do administrador";
+      break;
+    case FreightStatus.ADMIN_APPROVED:
+      content = "Aprovado pelo administrador";
+      break;
+    case FreightStatus.OPERATION_REQUIRED:
+      content = "Aguardando aprovação da operação";
+      break;
+    case FreightStatus.OPERATION_APPROVED:
+      content = "Aprovado pela operação";
+      break;
+    case FreightStatus.DRIVER_SELECTED:
+      content = "Motorista selecionado";
+      break;
+    case FreightStatus.FINISHED:
+      content = "Frete finalizado";
+      break;
+    case FreightStatus.CANCELED:
+      content = "Frete cancelado";
+      break;
     default:
       content = `Status: ${item.status}`;
   }
@@ -134,9 +205,13 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
     }
   }, [freight]);
 
-  // if (loading) {
-  //   return <Loading />;
-  // }
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <Loading />
+      </div>
+    );
+  }
 
   if (error) {
     return <div>Erro: {error}</div>;
@@ -158,9 +233,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
           </div>
           <div className={styles.content}>
             <Body>
-              <div>
-                <SearchComponent />
-              </div>
               {freight && (
                 <div className={styles.freightInCurseContainer}>
                   <FreightInCurseHeader

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import styles from "./DocumentTypeModal.module.css";
 import { CloseIcon } from "../../../utils/icons";
+import Loading from "@/components/Loading";
 
 interface DocumentTypeModalProps {
   isOpen: boolean;
   files: File[];
   onClose: () => void;
   onSubmit: (filesWithTypes: { file: File; type: string }[]) => void;
+  isLoading: boolean;
 }
 
 const documentTypes = [
@@ -23,6 +25,7 @@ const DocumentTypeModal: React.FC<DocumentTypeModalProps> = ({
   files,
   onClose,
   onSubmit,
+  isLoading,
 }) => {
   const [fileTypes, setFileTypes] = useState(
     files.map((file) => ({
@@ -86,42 +89,50 @@ const DocumentTypeModal: React.FC<DocumentTypeModalProps> = ({
             <CloseIcon />
           </button>
         </div>
-        <div className={styles.content}>
-          {fileTypes.map((fileType, index) => (
-            <div key={index} className={styles.fileItem}>
-              <p>{fileType.file.name}</p>
-              <select
-                value={fileType.type}
-                onChange={(e) => handleTypeChange(index, e.target.value)}
-              >
-                <option value="">Selecione o tipo</option>
-                {documentTypes.map((docType, idx) => (
-                  <option key={idx} value={docType}>
-                    {docType}
-                  </option>
-                ))}
-              </select>
-              {fileType.type === "Outros" && (
-                <input
-                  type="text"
-                  placeholder="Especifique o tipo"
-                  value={fileType.customType}
-                  onChange={(e) =>
-                    handleCustomTypeChange(index, e.target.value)
-                  }
-                />
-              )}
+        {isLoading ? (
+          <div className={styles.content}>
+            <div className={styles.loadingContainer}>
+              <Loading />
             </div>
-          ))}
-          <div className={styles.buttonsContainer}>
-            <button className={styles.button} onClick={onClose}>
-              Cancelar
-            </button>
-            <button className={styles.button} onClick={handleSubmit}>
-              Enviar
-            </button>
           </div>
-        </div>
+        ) : (
+          <div className={styles.content}>
+            {fileTypes.map((fileType, index) => (
+              <div key={index} className={styles.fileItem}>
+                <p>{fileType.file.name}</p>
+                <select
+                  value={fileType.type}
+                  onChange={(e) => handleTypeChange(index, e.target.value)}
+                >
+                  <option value="">Selecione o tipo</option>
+                  {documentTypes.map((docType, idx) => (
+                    <option key={idx} value={docType}>
+                      {docType}
+                    </option>
+                  ))}
+                </select>
+                {fileType.type === "Outros" && (
+                  <input
+                    type="text"
+                    placeholder="Especifique o tipo"
+                    value={fileType.customType}
+                    onChange={(e) =>
+                      handleCustomTypeChange(index, e.target.value)
+                    }
+                  />
+                )}
+              </div>
+            ))}
+            <div className={styles.buttonsContainer}>
+              <button className={styles.button} onClick={onClose}>
+                Cancelar
+              </button>
+              <button className={styles.button} onClick={handleSubmit}>
+                Enviar
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

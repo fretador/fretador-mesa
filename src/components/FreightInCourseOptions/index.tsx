@@ -30,6 +30,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [showTypeModal, setShowTypeModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSendOccurrence = () => {
     console.log("Enviou ocorrência");
@@ -57,6 +58,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
     filesWithTypes: { file: File; type: string }[]
   ) => {
     try {
+      setIsLoading(true);
       // Criar novos arquivos com nomes modificados
       const modifiedFiles = filesWithTypes.map(({ file, type }) => {
         const newName = `${type}_${file.name}`;
@@ -92,7 +94,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         updateData,
         updateDataType
       );
-
+      setIsLoading(false);
       setShowTypeModal(false);
       setShowModal(true);
       onDocumentsUploaded();
@@ -101,7 +103,13 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       alert(
         "Ocorreu um erro ao processar os documentos. Por favor, tente novamente."
       );
+      setIsLoading(false);
     }
+  };
+
+  const handleCloseTypeModal = () => {
+    setShowTypeModal(false);
+    setIsLoading(false);
   };
 
   const handleSendAlert = () => {
@@ -147,7 +155,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         <p>Falar Com Motorista</p>
       </div>
 
-      {processingStatus && <p>{processingStatus}</p>}
+      {/* {processingStatus && <p>{processingStatus}</p>} */}
 
       <DocumentSentModal isOpen={showModal} onClose={closeModal} />
 
@@ -155,8 +163,9 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         <DocumentTypeModal
           isOpen={showTypeModal}
           files={selectedFiles}
-          onClose={() => setShowTypeModal(false)}
+          onClose={handleCloseTypeModal}
           onSubmit={handleTypeModalSubmit}
+          isLoading={isLoading}
         />
       )}
     </div>
