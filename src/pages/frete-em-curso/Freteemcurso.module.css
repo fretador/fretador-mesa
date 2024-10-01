@@ -81,3 +81,14 @@
 /* .freightStepContainer>* {
   flex-direction: column;
 } */
+
+.mapContainer {
+  margin-top: 200px;
+}
+
+.mapContainer h2 {
+  font-size: 32px;
+  color: #1A556D;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
