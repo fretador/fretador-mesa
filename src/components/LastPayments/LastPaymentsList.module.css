@@ -20,6 +20,12 @@
   color: #1B556D;
 }
 
+.actionsButtons {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
 .header h4 {
   font-size: 24px;
   font-weight: 600;
