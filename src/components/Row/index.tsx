@@ -1,5 +1,6 @@
 import CityState from "./CityState";
 import Cnpj from "./Cnpj";
+import Contract from "./Contract";
 import CorporateName from "./CorporateName";
 import Cte from "./Cte";
 import Customer from "./Customer";
@@ -14,6 +15,7 @@ import OccurrenceStatus from "./OccurrenceStatus";
 import OccurrenceType from "./OccurrenceType";
 import PaymentDate from "./PaymentDate";
 import PaymentMethod from "./PaymentMethod";
+import PaymentType from "./PaymentType";
 import Route from "./Route";
 import RowRoot from "./RowRoot";
 import TradeName from "./TradeName";
@@ -26,6 +28,7 @@ export const Row = {
   Root: RowRoot,
   CityState: CityState,
   Cnpj: Cnpj,
+  Contract: Contract,
   CorporateName: CorporateName,
   Cte: Cte,
   Customer: Customer,
@@ -40,6 +43,7 @@ export const Row = {
   OccurrenceType: OccurrenceType,
   PaymentDate: PaymentDate,
   PaymentMethod: PaymentMethod,
+  PaymentType: PaymentType,
   Route: Route,
   TradeName: TradeName,
   Value: Value,

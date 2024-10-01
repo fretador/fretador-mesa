@@ -45,12 +45,13 @@
   box-sizing: border-box;
 }
 
-.awaitingApprovalContainer {
+.entriesContainer {
   display: flex;
   flex-direction: column;
 }
 
-.awaitingApprovalContainer h2 {
+.entriesContainer h2,
+.lastPaymentsContainer h2 {
   font-size: 32px;
   font-weight: 700;
   color: #1B556D;
