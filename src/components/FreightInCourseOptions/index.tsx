@@ -96,8 +96,9 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       );
       setIsLoading(false);
       setShowTypeModal(false);
+      console.log("showModal antes", showModal);
       setShowModal(true);
-      onDocumentsUploaded();
+      console.log("showModal depois", showModal);
     } catch (error) {
       console.error("Erro ao processar os documentos:", error);
       alert(
@@ -109,6 +110,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
 
   const handleCloseTypeModal = () => {
     setShowTypeModal(false);
+    setShowModal(true);
     setIsLoading(false);
   };
 
@@ -121,6 +123,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   };
 
   const closeModal = () => {
+    onDocumentsUploaded();
     setShowModal(false);
     setSelectedFiles([]);
   };
