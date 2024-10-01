@@ -7,6 +7,9 @@ import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
+import StatusFilter from "@/components/StatusFilter";
+import VehicleFilter from "@/components/VehicleFilter";
+import EntriesCards from "@/components/EntriesCards";
 
 const Financial: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -31,9 +34,27 @@ const Financial: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <div>
-                <SearchComponent />
+              <div className={styles.searchComponents}>
+                <SearchComponent onSearch={() => {}} />
+                <div className={styles.filterComponents}>
+                  <StatusFilter
+                    onApply={() => {}}
+                    onCancel={() => {}}
+                    type={"driver"}
+                  />
+                  <VehicleFilter
+                    onApply={() => {}}
+                    onCancel={() => {}}
+                  />
+                </div>
               </div>
+
+              <div className={styles.awaitingApprovalContainer}>
+                <h2>Entradas</h2>
+                <EntriesCards />
+              </div>
+
+
             </Body>
           </div>
         </div>
