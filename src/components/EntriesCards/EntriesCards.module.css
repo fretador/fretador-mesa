@@ -1,0 +1,16 @@
+.horizontalList {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 16px;
+  scrollbar-width: none;
+  user-select: none;
+  /* scrollbar-width: thin; */
+}
+
+.loadingContainer {
+  height: 192px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
