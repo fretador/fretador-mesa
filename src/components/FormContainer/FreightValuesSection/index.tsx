@@ -21,7 +21,7 @@ const FreightValueSection: React.FC = () => {
             Valor do Frete
           </label>
           <Controller
-            name="value"
+            name="pickupDeliveryData"
             control={control}
             rules={{
               required: "Valor do frete é obrigatório",
@@ -38,14 +38,14 @@ const FreightValueSection: React.FC = () => {
                 thousandSeparator="."
                 decimalSeparator=","
                 className={`${styles.input} ${
-                  errors.value ? styles.errorInput : ""
+                  errors?.pickupDeliveryData ? styles.errorInput : ""
                 }`}
                 placeholder="R$ 0,00"
               />
             )}
           />
-          {errors.value && (
-            <p className={styles.errorMessage}>{errors.value.message}</p>
+          {errors?.pickupDeliveryData && (
+            <p className={styles.errorMessage}>{errors.pickupDeliveryData.message}</p>
           )}
         </div>
 
@@ -131,15 +131,15 @@ const FreightValueSection: React.FC = () => {
           <input
             id="formaPagamento"
             type="text"
-            {...register("formaPagamento")}
+            {...register("shippingType")}
             className={`${styles.input} ${
-              errors.formaPagamento ? styles.errorInput : ""
+              errors.shippingType ? styles.errorInput : ""
             }`}
             placeholder="Pix, Depósito, Pamcard, etc."
           />
-          {errors.formaPagamento && (
+          {errors.shippingType && (
             <p className={styles.errorMessage}>
-              {errors.formaPagamento.message}
+              {errors.shippingType.message}
             </p>
           )}
         </div>

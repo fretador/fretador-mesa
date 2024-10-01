@@ -4,10 +4,12 @@ import { PencilSolidIcon } from "@/utils/icons";
 import ActionButtons from "../ActionButtons";
 import {
   BodyworkCategory,
-  BodyworkType,
+  BodyworkType
+} from "@/utils/enums/bodyworkEnums";
+import {
   VehicleCategory,
-  VehicleType,
-} from "@/utils/enum";
+  VehicleType
+} from "@/utils/enums/vehicleEnums";
 
 interface VehicleDetailsProps {
   vehicle: {
