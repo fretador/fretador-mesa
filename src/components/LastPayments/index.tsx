@@ -34,7 +34,11 @@ const LastPaymentsList: React.FC<LastPaymentsListProps> = ({
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h4>Ordenar A-Z</h4>
+        <h2>Últimos Pagamentos</h2>
+        <div className={styles.actionsButtons}>
+          <h4>Ordenar A-Z</h4>
+          <h4>Exportar CSV</h4>
+        </div>
       </div>
 
       <RowTitle
@@ -63,6 +67,78 @@ const LastPaymentsList: React.FC<LastPaymentsListProps> = ({
           <Row.Value value={1200} />
           <Row.PaymentDate date={new Date()} />
           <Row.PaymentType paymentType="adiantamento" />
+        </Row.Root>
+
+        <Row.Root
+          customBackgroundColor="#B2CEDA"
+          onClick={() => {}}
+        >
+          <Row.Driver
+            driverPhotoUrl={"/driver-mock.png"}
+            driverName={"André P. Souza"}
+            showImage={true}
+            textColor="#1B556D"
+            textFontWeight="700"
+          />
+          <Row.Contract contract="000000" />
+          <Row.Route originState="SP" destinyState="RJ" />
+          <Row.Value value={1200} />
+          <Row.PaymentDate date={new Date()} />
+          <Row.PaymentType paymentType="saldo" />
+        </Row.Root>
+
+        <Row.Root
+          customBackgroundColor="#B2CEDA"
+          onClick={() => {}}
+        >
+          <Row.Driver
+            driverPhotoUrl={"/driver-mock.png"}
+            driverName={"André P. Souza"}
+            showImage={true}
+            textColor="#1B556D"
+            textFontWeight="700"
+          />
+          <Row.Contract contract="000000" />
+          <Row.Route originState="SP" destinyState="RJ" />
+          <Row.Value value={1200} />
+          <Row.PaymentDate date={new Date()} />
+          <Row.PaymentType paymentType="saldo parcial" />
+        </Row.Root>
+
+        <Row.Root
+          customBackgroundColor="#B2CEDA"
+          onClick={() => {}}
+        >
+          <Row.Driver
+            driverPhotoUrl={"/driver-mock.png"}
+            driverName={"André P. Souza"}
+            showImage={true}
+            textColor="#1B556D"
+            textFontWeight="700"
+          />
+          <Row.Contract contract="000000" />
+          <Row.Route originState="SP" destinyState="RJ" />
+          <Row.Value value={1200} />
+          <Row.PaymentDate date={new Date()} />
+          <Row.PaymentType paymentType="despesas" />
+        </Row.Root>
+
+        <Row.Root
+          customBackgroundColor="#B2CEDA"
+          onClick={() => {}}
+        >
+          <Row.Driver
+            driverPhotoUrl={"/driver-mock.png"}
+            driverName={"André P. Souza"}
+            showImage={true}
+            textColor="#1B556D"
+            textFontWeight="700"
+          />
+          <Row.Contract contract="000000" />
+          <Row.Route originState="SP" destinyState="RJ" />
+          <Row.Value value={1200} />
+          <Row.PaymentDate date={new Date()} />
+          <Row.PaymentType paymentType="ocorrência" />
         </Row.Root>
       </div>
     </div>

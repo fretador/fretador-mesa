@@ -37,17 +37,6 @@ const Financial: React.FC = () => {
             <Body>
               <div className={styles.searchComponents}>
                 <SearchComponent onSearch={() => {}} />
-                <div className={styles.filterComponents}>
-                  <StatusFilter
-                    onApply={() => {}}
-                    onCancel={() => {}}
-                    type={"driver"}
-                  />
-                  <VehicleFilter
-                    onApply={() => {}}
-                    onCancel={() => {}}
-                  />
-                </div>
               </div>
 
               <div className={styles.entriesContainer}>
@@ -56,7 +45,6 @@ const Financial: React.FC = () => {
               </div>
 
               <div className={styles.lastPaymentsContainer}>
-                <h2>Últimos Pagamentos</h2>
                 <LastPaymentsList />
               </div>
 
