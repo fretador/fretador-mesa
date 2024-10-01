@@ -273,7 +273,11 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                     />
                   ))}
               </div>
-              <LocationMap />
+
+              <div className={styles.mapContainer}>
+                <h2>Localização</h2>
+                <LocationMap />
+              </div>
             </Body>
           </div>
         </div>
