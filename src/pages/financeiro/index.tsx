@@ -1,5 +1,4 @@
 import React from "react";
-import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";

@@ -23,3 +23,14 @@
   white-space: nowrap;
   font-weight: 700;
 }
+
+@media screen and (max-width: 1280px) {
+  .container {
+    min-width: 1050px;
+  }
+
+  .content p {
+    min-width: 100px;
+  }
+
+}

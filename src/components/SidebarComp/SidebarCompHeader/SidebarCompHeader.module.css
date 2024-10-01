@@ -52,6 +52,14 @@
   box-shadow: 0 0 0 1px #000, 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
 }
 
+@media screen and (max-width: 1280px) {
+  .retractedAvatar {
+    width: 3rem;
+    height: 3rem;
+  }
+
+}
+
 @media (min-height: 800px) {
   .userSection {
     margin: 1rem 0;
