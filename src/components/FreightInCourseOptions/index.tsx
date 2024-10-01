@@ -1,3 +1,5 @@
+// FreightInCourseOptions.tsx
+
 import React, { useRef, useState } from "react";
 import styles from "./FreightInCourseOptions.module.css";
 import { useDocumentController } from "@/controllers/documentController";
@@ -11,6 +13,7 @@ import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { UpdateDataTypeEnum } from "@/utils/enums/updateDataTypeEnum";
 import { FreightService } from "@/services/freightService";
 import DocumentSentModal from "@/components/ModalRoot/DocumentSentModal";
+import DocumentTypeModal from "@/components/ModalRoot/DocumentTypeModal";
 
 // Adicione esta prop ao componente
 interface FreightInCourseOptionsProps {
@@ -26,6 +29,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   const { uploadDocuments, processingStatus } = useDocumentController();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [showTypeModal, setShowTypeModal] = useState(false);
 
   const handleSendOccurrence = () => {
     console.log("Enviou ocorrência");
@@ -35,41 +39,47 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let files = Array.from(event.target.files || []);
+
+    if (files.length > 3) {
+      alert(
+        "Você pode selecionar no máximo 3 documentos por vez. Apenas os 3 primeiros serão processados."
+      );
+      files = files.slice(0, 3);
+    }
+
+    setSelectedFiles(files);
+    setShowTypeModal(true);
+  };
+
+  const handleTypeModalSubmit = async (
+    filesWithTypes: { file: File; type: string }[]
   ) => {
     try {
-      let files = Array.from(event.target.files || []);
+      // Criar novos arquivos com nomes modificados
+      const modifiedFiles = filesWithTypes.map(({ file, type }) => {
+        const newName = `${type}_${file.name}`;
+        return new File([file], newName, { type: file.type });
+      });
 
-      if (files.length > 3) {
-        alert(
-          "Você pode selecionar no máximo 3 documentos por vez. Apenas os 3 primeiros serão processados."
-        );
-        files = files.slice(0, 3);
-      }
-
-      setSelectedFiles(files);
-
-      // Crie um novo objeto FileList com os arquivos limitados
+      // Criar um novo FileList com os arquivos modificados
       const dataTransfer = new DataTransfer();
-      files.forEach((file) => dataTransfer.items.add(file));
+      modifiedFiles.forEach((file) => dataTransfer.items.add(file));
       const newFileList = dataTransfer.files;
 
-      // Crie um novo evento com o FileList limitado
       const newEvent = {
-        ...event,
         target: {
-          ...event.target,
           files: newFileList,
         },
-      };
+      } as React.ChangeEvent<HTMLInputElement>;
 
-      await uploadDocuments(newEvent);
+      const uploadedFiles = await uploadDocuments(newEvent);
+      console.log("uploadedFiles", uploadedFiles);
 
       const newstatus = FreightStatus.PICKUP_ORDER_SENT;
-      console.log("newstatus", newstatus);
 
-      const updateData = files.map((file) => ({
+      const updateData = modifiedFiles.map((file) => ({
         name: file.name,
         type: file.type,
         size: file.size,
@@ -83,6 +93,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         updateDataType
       );
 
+      setShowTypeModal(false);
       setShowModal(true);
       onDocumentsUploaded();
     } catch (error) {
@@ -136,20 +147,18 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         <p>Falar Com Motorista</p>
       </div>
 
-      {selectedFiles.length > 0 && (
-        <div>
-          <p>Documentos selecionados:</p>
-          <ul>
-            {selectedFiles.map((file, index) => (
-              <li key={index}>{file.name}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
       {processingStatus && <p>{processingStatus}</p>}
 
       <DocumentSentModal isOpen={showModal} onClose={closeModal} />
+
+      {showTypeModal && (
+        <DocumentTypeModal
+          isOpen={showTypeModal}
+          files={selectedFiles}
+          onClose={() => setShowTypeModal(false)}
+          onSubmit={handleTypeModalSubmit}
+        />
+      )}
     </div>
   );
 };

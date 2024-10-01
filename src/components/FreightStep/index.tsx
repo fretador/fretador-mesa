@@ -1,7 +1,14 @@
 import React from "react";
 import styles from "./FreightStep.module.css";
 import Botao from "../Botao";
-import Image from "next/image";
+import { AttachmentDarkIcon, AttachmentLightIcon } from "@/utils/icons";
+
+interface DocumentData {
+  name: string;
+  type: string;
+  size: number;
+  path?: string; // Caso queira usar links para os documentos
+}
 
 interface BaseFreightStepProps {
   theme: "dark" | "light";
@@ -14,6 +21,7 @@ interface BaseFreightStepProps {
   onSecondaryButtonClick?: () => void;
   actionButtonText?: string;
   handleActionButton?: () => void;
+  updateData?: DocumentData[];
 }
 
 interface FreightStepWithAttachment extends BaseFreightStepProps {
@@ -43,6 +51,7 @@ const FreightStep: React.FC<FreightStepProps> = ({
   handleActionButton,
   hasAttachment = false,
   attachmentPath,
+  updateData,
 }) => {
   const backgroundColor = theme === "dark" ? "#D3DFE4" : "#FAFDFD";
 
@@ -58,6 +67,16 @@ const FreightStep: React.FC<FreightStepProps> = ({
 
   const { formattedDate, formattedTime } = formatDate(date);
 
+  // Função para extrair o nome até o símbolo '_'
+  const getDisplayName = (name: string) => {
+    const index = name.indexOf("_");
+    return index !== -1 ? name.substring(0, index) : name;
+  };
+
+  // Seleciona o ícone de anexo com base no tema
+  const AttachmentIcon =
+    theme === "dark" ? AttachmentDarkIcon : AttachmentLightIcon;
+
   return (
     <div
       className={`${styles.container} ${disabled ? styles.disabled : ""}`}
@@ -72,6 +91,20 @@ const FreightStep: React.FC<FreightStepProps> = ({
 
       <div className={styles.mainContentContainer}>
         <p>{content}</p>
+
+        {/* Renderizar documentos se updateData existir */}
+        {updateData && updateData.length > 0 && (
+          <div className={styles.documentsContainer}>
+            {updateData.map((doc, idx) => (
+              <div key={idx} className={styles.documentItem}>
+                <AttachmentIcon width={24} height={24} />
+                <span className={styles.documentName}>
+                  {getDisplayName(doc.name)}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className={styles.actionsContainer}>
@@ -100,12 +133,7 @@ const FreightStep: React.FC<FreightStepProps> = ({
 
       {hasAttachment && attachmentPath && (
         <div className={styles.attachmentContainer}>
-          <Image
-            src="/attachment-icon.png" // Substitua pelo caminho do seu ícone de anexo
-            alt="Ícone de anexo"
-            width={24}
-            height={24}
-          />
+          <AttachmentIcon width={24} height={24} />
           <a
             href={attachmentPath}
             target="_blank"

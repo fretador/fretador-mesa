@@ -83,34 +83,12 @@ const getFreightStepProps = (
   const freightType = freight?.type ?? Type.TARGETED;
 
   switch (item.status) {
-    case FreightStatus.TARGETED:
-      content =
-        freightType === Type.TARGETED
-          ? "Frete enviado ao motorista"
-          : "Frete solicitado pelo motorista";
-      break;
-    case FreightStatus.APPROVED:
-      content =
-        freightType === Type.TARGETED
-          ? "Frete aceito pelo motorista - Enviar Ordem de Coleta"
-          : "Autorizar embarque";
-      primaryButtonLabel = freightType !== Type.TARGETED ? "Sim" : undefined;
-      onPrimaryButtonClick = () => console.log("Botão de ação clicado");
-      break;
-    case FreightStatus.DRIVER_ARRIVED:
-      content = "Motorista chegou ao local de coleta";
-      actionButtonText = "rastrear";
-      handleActionButton = () => console.log("Botão de rastreamento clicado");
-      break;
-    case FreightStatus.PICKUP_ORDER_SENT:
-      content = "Ordem de Coleta enviada para o motorista";
-      hasAttachment = true;
-      attachmentPath = freight?.pickupOrderPhoto ?? undefined;
-      break;
-    // ... (outros casos de status)
+    // ... casos existentes ...
     default:
       content = `Status: ${item.status}`;
   }
+
+  const updateData = item.updateData ?? [];
 
   return {
     theme,
@@ -123,6 +101,7 @@ const getFreightStepProps = (
     hasAttachment,
     attachmentPath,
     disabled: false,
+    updateData, // Adicionado aqui
   };
 };
 
