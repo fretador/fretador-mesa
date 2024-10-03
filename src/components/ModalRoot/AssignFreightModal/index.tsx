@@ -39,21 +39,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
       setError(null);
       try {
         const response = await DriverService.getDrivers(1, 5000, {});
-        const transformedDrivers = DriverService.transformDrivers(response.data);
-        
-        // Verifique se todos os motoristas têm as propriedades necessárias
-        const validDrivers = transformedDrivers.map(driver => ({
-          ...driver,
-          owner: {
-            ...driver.owner,
-            cnh: (driver.owner as { cnh?: string }).cnh || '',
-            document: (driver.owner as { document?: string }).document || '',
-            address: (driver.owner as any).address || '',
-            contact: (driver.owner as any).contact || '',
-          }
-        }));
-        
-        setAllDrivers(validDrivers);
+        setAllDrivers(DriverService.transformDrivers(response.data));
       } catch (err) {
         setError("Falha ao buscar motoristas. Por favor, tente novamente.");
       } finally {
@@ -155,7 +141,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
                     className={styles.suggestionItem}
                   >
                     {formatCPF(driver.cpf)} - {driver.name} - Placa{" "}
-                    {driver.vehicle.plate}
+                    {driver.plate}
                   </li>
                 ))}
               </ul>

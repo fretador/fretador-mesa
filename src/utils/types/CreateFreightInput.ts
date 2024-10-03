@@ -4,7 +4,6 @@ import { CargoLoadType } from "../enums/cargoLoadTypeEnum";
 import { CargoType } from "../enums/cargoTypeEnum";
 import { ShippingType } from "../enums/shippingTypeEnum";
 import { Type } from "../enums/typeEnum";
-import Value from '../../components/Row/Value/index';
 
 export interface CreateFreightInput {
   pickupDeliveryData: string;
@@ -34,7 +33,6 @@ export interface CreateFreightInput {
   eligibleBodyworks: EligibleBodywork[];
   type: Type;
   targetedDrivers: string[];
-  value: number
 }
 interface EligibleVehicle {
 	category: VehicleCategory;

@@ -29,7 +29,7 @@ interface AttachmentsProps {
 
 const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
   const imageData = useMemo(() => {
-    const attachments: Partial<Driver['attachments']> = driver.attachments || {};
+    const attachments = driver.attachments || {};
     return [
       {
         id: "1",

@@ -96,7 +96,6 @@ const Freights: React.FC = () => {
       clearTimeout(handler);
     };
   
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, selectedStatuses, page, limit]);
 
   const handleNextPage = () => {

@@ -29,7 +29,7 @@ const FreightSubmissionButtons: React.FC<FreightSubmissionButtonsProps> = ({
         type="button"
         text="Direcionar para Motorista"
         className={styles.secondaryButton}
-        onClick={() => { onDirectToDriver(); }}
+        onClick={onDirectToDriver}
       />
     </div>
   );

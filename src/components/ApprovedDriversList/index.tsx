@@ -43,7 +43,8 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
         WhatsApp="Whatsapp"
         Vehicle="Veículo"
         DriverStatus="Status"
-        titleStyles={{ color: "#1B556D", fontWeight: "700", fontSize: "20px" }} PaymentType={""}      />
+        titleStyles={{ color: "#1B556D", fontWeight: "700", fontSize: "20px" }}
+      />
       <div className={styles.content}>
         {drivers.map((driver: Driver) => (
           <Row.Root

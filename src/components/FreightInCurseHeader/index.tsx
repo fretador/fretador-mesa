@@ -26,7 +26,6 @@ interface FreightInCurseProps {
 const statusMessages: { [key in StatusFreightProps]: string } = {
   WAITING: "Aguardando Motorista",
   TARGETED: "Motorista Selecionado",
-  ACCEPTED: "Aceito",
   REQUESTED: "Frete solicitado",
   APPROVED: "Frete aprovado",
   PICKUP_ORDER_SENT: "Ordem de coleta enviada",

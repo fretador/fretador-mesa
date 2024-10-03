@@ -63,7 +63,7 @@ export const DriverService = {
           bankAgency: agencia,
           bankAccount: conta,
           pix: driver.email || generatedEmail,
-          isDriverAsOwner: true,          
+          isDriverAsOwner: true,
         },
         attachments: {
           userPhoto: driver.userPhoto?.imageUrl,

@@ -10,5 +10,4 @@ export interface Vehicle {
 	type: VehicleType;
 	typeByBoard: BoardType;
 	vehiclePhoto: Photo;
-	plate?: string;
 }

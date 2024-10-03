@@ -1,14 +1,8 @@
+import { UserDocument} from "./UserDocument";
+
 export interface VehicleOwner {
-	name: string;
-	cpf: string;
-	cnh: string;
-	phoneNumber: string;
 	email: string;
-	document: string;
+	document: UserDocument;
 	address: string;
 	contact: string;
-	bankName: string;
-	bankAgency: string;
-	bankAccount: string;
-	pix: string;
 }
