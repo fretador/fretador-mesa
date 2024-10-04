@@ -11,6 +11,7 @@ import StatusFilter from "@/components/StatusFilter";
 import VehicleFilter from "@/components/VehicleFilter";
 import EntriesCards from "@/components/EntriesCards";
 import LastPaymentsList from "@/components/LastPayments";
+import FinancialFilter from "@/components/FinancialFilter";
 
 const Financial: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -37,6 +38,8 @@ const Financial: React.FC = () => {
             <Body>
               <div className={styles.searchComponents}>
                 <SearchComponent onSearch={() => {}} />
+                <FinancialFilter />
+
               </div>
 
               <div className={styles.entriesContainer}>
