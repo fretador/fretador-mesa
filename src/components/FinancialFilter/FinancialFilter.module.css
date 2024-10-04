@@ -5,7 +5,7 @@
 .openCloseFilter {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 48px;
   cursor: pointer;
   margin-bottom: 5px;
   position: relative;
@@ -27,7 +27,7 @@
 
 .filterOptions {
   width: 251px;
-  height: 213px;
+  height: 168px;
   border-radius: 0px 20px 20px 20px;
   background: rgba(27, 85, 109, 0.30);
   backdrop-filter: blur(15px);
@@ -54,7 +54,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .searchInputField {
@@ -125,6 +125,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  margin-top: 16px;
 }
 
 .btnApply {

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import styles from './AdvanceFilter.module.css'
+import styles from './FinancialFilter.module.css'
 import { ArrowDownIcon, MagnifierIcon } from "@/utils/icons";
 
-const AdvanceFilter = () => {
+const FinancialFilter = () => {
 
   const [showFilter, setShowFilter] = useState(false);
   const toggleFilter = () => {
@@ -11,16 +11,14 @@ const AdvanceFilter = () => {
 
   const options =
     [
-      { value: "IN_PROGRESS", label: "Em Curso" },
-      { value: "DOCUMENTS_RECEIVED", label: "Documentos Recebidos" },
-      { value: "CANCELLED", label: "Cancelado" },
-      { value: "FINISHED", label: "Finalizado" },
+      { value: "", label: "Adiantamentos" },
+      { value: "", label: "Saldos" },
     ]
 
   return (
     <div className={styles.container}>
       <div className={styles.openCloseFilter} onClick={toggleFilter}>
-        <p className={styles.title}>Filtrar Adiantamento</p>
+        <p className={styles.title}>Filtrar</p>
         <ArrowDownIcon
           className={`${styles.arrowDown} ${showFilter ? styles.rotated : ""}`}
         />
@@ -64,4 +62,4 @@ const AdvanceFilter = () => {
   )
 }
 
-export default AdvanceFilter
+export default FinancialFilter
