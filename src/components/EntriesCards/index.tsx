@@ -5,17 +5,13 @@ import Loading from "../Loading";
 import EntriesCard from "../EntriesCard/EntriesCard";
 
 interface AwaitingApprovalListProps {
-  drivers: Driver[];
   loading: boolean;
   error: string | null;
-  handleNewDriver: () => void;
 }
 
 const EntriesCards: React.FC<AwaitingApprovalListProps> = ({
-  drivers,
   loading,
   error,
-  handleNewDriver,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
