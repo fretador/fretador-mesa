@@ -7,8 +7,6 @@ import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
-import StatusFilter from "@/components/StatusFilter";
-import VehicleFilter from "@/components/VehicleFilter";
 import EntriesCards from "@/components/EntriesCards";
 import LastPaymentsList from "@/components/LastPayments";
 import FinancialFilter from "@/components/FinancialFilter";
@@ -50,8 +48,6 @@ const Financial: React.FC = () => {
               <div className={styles.lastPaymentsContainer}>
                 <LastPaymentsList />
               </div>
-
-
             </Body>
           </div>
         </div>
