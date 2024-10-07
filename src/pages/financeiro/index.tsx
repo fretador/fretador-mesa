@@ -42,7 +42,7 @@ const Financial: React.FC = () => {
 
               <div className={styles.entriesContainer}>
                 <h2>Entradas</h2>
-                <EntriesCards />
+                <EntriesCards loading={false} error={'Erro'} />
               </div>
 
               <div className={styles.lastPaymentsContainer}>

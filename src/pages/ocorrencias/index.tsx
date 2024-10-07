@@ -33,7 +33,6 @@ const Ocurrencies: React.FC = () => {
           <div className={styles.content}>
             <Body>
               <div>
-                <SearchComponent />
               </div>
             </Body>
           </div>

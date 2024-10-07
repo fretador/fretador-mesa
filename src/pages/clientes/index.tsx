@@ -35,7 +35,7 @@ const Clients: React.FC = () => {
           <div className={styles.content}>
             <Body>
               <div className={styles.searchComponents}>
-                <SearchComponent />
+                <SearchComponent onSearch={() => {}} />
               </div>
 
               <div className={styles.cards}>
