@@ -19,7 +19,7 @@ interface RowTitleProps {
   OccurrenceType?: string;
   PaymentDate?: string;
   PaymentMethod?: string;
-  PaymentType: string;
+  PaymentType?: string;
   Route?: string;
   TradeName?: string;
   Value?: string;
