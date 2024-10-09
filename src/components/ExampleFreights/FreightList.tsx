@@ -29,7 +29,7 @@ const FreightListNew: React.FC = () => {
   return (
     <div>
       <h1>Freight List</h1>
-      <FreightFilters setFilters={setFilters} /> */}
+      <FreightFilters setFilters={setFilters} />
       
       <RowTitle
         FreightDate="DATA"

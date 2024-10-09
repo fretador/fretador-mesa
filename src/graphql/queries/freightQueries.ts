@@ -1,27 +1,28 @@
 import { gql } from "@apollo/client";
 
 export const GET_FREIGHTS = gql`
-  query GetFreights($page: Int, $limit: Int, $filter: FreightFilterInput) {
-    freights(page: $page, limit: $limit, filter: $filter) {
-      edges {
-        node {
-          id
-          creationDate
-          freightCode
-          origin
-          destination
-          status
-          value
-        }
-      }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        currentPage
-        totalPages
-      }
-    }
-  }
+	query GetFreights($page: Int, $limit: Int, $filter: FreightFilterInput) {
+		freights(page: $page, limit: $limit, filter: $filter) {
+			edges {
+				node {
+					id
+					creationDate
+					freightCode
+					origin
+					destination
+					status
+					value
+					targetedDrivers
+				}
+			}
+			pageInfo {
+				hasNextPage
+				hasPreviousPage
+				currentPage
+				totalPages
+			}
+		}
+	}
 `;
 
 export const GET_FREIGHT_BY_ID = gql`

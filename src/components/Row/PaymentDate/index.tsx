@@ -10,9 +10,7 @@ const PaymentDate = ({ date }: PaymentDateProps) => {
   const formattedDate = date.toLocaleDateString();
 
   return (
-    <div className={styles.container}>
-      <p className={styles.date}>{formattedDate}</p>
-    </div>
+    <p className={styles.date}>{formattedDate}</p>
   )
 }
 

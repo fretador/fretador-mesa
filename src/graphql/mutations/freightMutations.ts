@@ -11,10 +11,11 @@ export const CREATE_FREIGHT = gql`
 `;
 
 export const UPDATE_FREIGHT = gql`
-	mutation UpdateFreight($id: ID!, $input: UpdateFreightInput!) {
-		updateFreight(id: $id, input: $input) {
-			status
-			updateDate
-		}
-	}
+  mutation UpdateFreight($id: ID!, $input: UpdateFreightInput!) {
+    updateFreight(id: $id, input: $input) {
+      status
+      updateDate
+      statusHistory
+    }
+  }
 `;

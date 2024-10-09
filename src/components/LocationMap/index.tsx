@@ -5,7 +5,8 @@ import Loading from "../Loading";
 
 const containerStyle = {
   width: "100%",
-  height: "400px",
+  height: "750px",
+  borderRadius: "12px"
 };
 
 const center = {

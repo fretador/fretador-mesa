@@ -103,3 +103,24 @@
 .attachmentLink:hover {
   text-decoration: underline;
 }
+
+/* Novos estilos adicionados */
+
+.documentsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.documentItem {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+  margin-bottom: 8px;
+}
+
+.documentName {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #333;
+}

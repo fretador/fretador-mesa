@@ -8,6 +8,7 @@ import { FreightNode } from "@/utils/types/FreightNode";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import { CREATE_FREIGHT, UPDATE_FREIGHT_STATUS } from "@/graphql/mutations";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
+import { UpdateDataTypeEnum } from "@/utils/enums/updateDataTypeEnum";
 
 export const FreightService = {
   getFreights: async (filters: FreightFilters, page: number, limit: number) => {
@@ -32,6 +33,7 @@ export const FreightService = {
     const response = await apolloClient.query<{ freight: Freight }>({
       query: GET_FREIGHT_BY_ID,
       variables: { id },
+      fetchPolicy: "network-only",
     });
 
     if (!response.data || !response.data.freight) {
@@ -70,13 +72,14 @@ export const FreightService = {
   updateFreightStatus: async (
     id: string,
     status: FreightStatus,
-    updateData: any
+    updateData: any,
+    updateDataType: UpdateDataTypeEnum
   ): Promise<FreightStatus> => {
     const response = await apolloClient.mutate<{
       updateFreightStatus: FreightStatus;
     }>({
       mutation: UPDATE_FREIGHT_STATUS,
-      variables: { id, status, updateData },
+      variables: { id, status, updateData, updateDataType },
     });
 
     if (!response.data || !response.data.updateFreightStatus) {

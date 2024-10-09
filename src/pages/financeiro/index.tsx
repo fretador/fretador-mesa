@@ -1,5 +1,4 @@
 import React from "react";
-import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -8,6 +7,9 @@ import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
+import EntriesCards from "@/components/EntriesCards";
+import LastPaymentsList from "@/components/LastPayments";
+import FinancialFilter from "@/components/FinancialFilter";
 
 const Financial: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -32,8 +34,19 @@ const Financial: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <div>
-                <SearchComponent />
+              <div className={styles.searchComponents}>
+                <SearchComponent onSearch={() => {}} />
+                <FinancialFilter />
+
+              </div>
+
+              <div className={styles.entriesContainer}>
+                <h2>Entradas</h2>
+                <EntriesCards loading={false} error={'Erro'} />
+              </div>
+
+              <div className={styles.lastPaymentsContainer}>
+                <LastPaymentsList />
               </div>
             </Body>
           </div>

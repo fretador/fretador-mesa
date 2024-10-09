@@ -1,3 +1,4 @@
+// src/pages/Canva.tsx
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Body from "@/components/Body";
@@ -10,12 +11,15 @@ import DriverRegistrationApproval from "@/components/ModalRoot/DriverRegistratio
 import DriverBlockModal from "@/components/ModalRoot/DriverBlockModal";
 import ModalRoot from "@/components/ModalRoot";
 import PhotoRequestModal from "@/components/ModalRoot/PhotoRequestModal"; 
+
+
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
   const [isRootModalOpen, setIsRootModalOpen] = useState(false);
   const [isPhotoRequestModalOpen, setIsPhotoRequestModalOpen] = useState(false); 
+
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -24,6 +28,7 @@ const Canva: React.FC = () => {
   const toggleBlockModal = () => {
     setIsBlockModalOpen(!isBlockModalOpen);
   };
+
 
   const toggleRootModal = () => {
     setIsRootModalOpen(!isRootModalOpen);
@@ -87,6 +92,13 @@ const Canva: React.FC = () => {
             Abrir PhotoRequestModal
           </button>
 
+          {/* Botão para abrir o novo modal DriverBlockModal */}
+          <button onClick={toggleBlockModal} className={styles.openModalButton}>
+            Bloquear Motorista
+          </button>
+
+          {/* Renderizando o modal DriverRegistrationApproval */}
+
           <DriverRegistrationApproval
             isOpen={isModalOpen}
             onRequestClose={toggleModal}
@@ -94,11 +106,15 @@ const Canva: React.FC = () => {
             onReject={toggleModal}
           />
 
+
+          {/* Renderizando o novo modal DriverBlockModal */}
+
           <DriverBlockModal
             isOpen={isBlockModalOpen}
             onRequestClose={toggleBlockModal}
             onBlock={handleBlock}
           />
+
 
           <ModalRoot isOpen={isRootModalOpen} onRequestClose={toggleRootModal}>
             <div>
@@ -112,6 +128,7 @@ const Canva: React.FC = () => {
             isOpen={isPhotoRequestModalOpen}
             onRequestClose={togglePhotoRequestModal}
           />
+
         </div>
       </div>
     </div>
