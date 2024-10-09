@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import FreightInProgress from "@/pages/frete-em-curso/index";
 import Loading from "@/components/Loading";
-import RegisteredDriver from ".";
+import DriverApproval from ".";
 
 const DriverPage: React.FC = () => {
   const router = useRouter();
@@ -23,7 +23,7 @@ const DriverPage: React.FC = () => {
     );
   }
 
-  return <RegisteredDriver driverId={driverId as string} />;
+  return <DriverApproval driverId={driverId as string} />;
 };
 
 export default DriverPage;

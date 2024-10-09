@@ -58,7 +58,7 @@ const Drivers: React.FC = () => {
   };
 
   const handleNewDriver = (driverId: string) => {
-    router.push(`/cadastro-do-motorista/${driverId}`);
+    router.push(`/aprovacao-cadastro-do-motorista/${driverId}`);
   };
 
   // Função para buscar motoristas aguardando analise

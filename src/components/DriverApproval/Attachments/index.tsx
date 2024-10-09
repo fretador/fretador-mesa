@@ -100,7 +100,7 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
         ))}
       </div>
 
-      {imageData.length > 0 && <ActionButtons />}
+      {/* {imageData.length > 0 && <ActionButtons />} */}
     </div>
   );
 };

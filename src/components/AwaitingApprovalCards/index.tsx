@@ -3,20 +3,22 @@ import { Driver } from "@/utils/types/Driver";
 import styles from "./AwaitingApprovalList.module.css";
 import AwaitingApprovalCard from "../AwaitingApprovalCard";
 import Loading from "../Loading";
+import { useRouter } from "next/router";
 
 interface AwaitingApprovalListProps {
   drivers: Driver[];
   loading: boolean;
   error: string | null;
-  handleNewDriver: () => void;
+  // handleNewDriver: () => void;
 }
 
 const AwaitingApprovalList: React.FC<AwaitingApprovalListProps> = ({
   drivers,
   loading,
   error,
-  handleNewDriver,
+  // handleNewDriver,
 }) => {
+  const router = useRouter()
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
@@ -50,6 +52,10 @@ const AwaitingApprovalList: React.FC<AwaitingApprovalListProps> = ({
     }
   };
 
+  const handleNewDriver = (driverId: string) => {
+    router.push(`/aprovacao-cadastro-do-motorista/${driverId}`);
+  };
+
   if (loading)
     return (
       <div className={styles.loadingContainer}>
@@ -74,7 +80,7 @@ const AwaitingApprovalList: React.FC<AwaitingApprovalListProps> = ({
           driverStatus={driver.status}
           vehicle={driver.vehicle?.type}
           contact={driver.phoneNumber}
-          handleNewDriver={handleNewDriver}
+          handleNewDriver={() => handleNewDriver(driver.id)}
         />
       ))}
     </div>

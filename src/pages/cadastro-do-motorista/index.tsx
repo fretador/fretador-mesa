@@ -15,11 +15,11 @@ import ActionButtons from "@/components/DriverApproval/ActionButtons";
 import { DriverService } from "@/services/driverService";
 import { Driver } from "@/utils/types/Driver";
 
-interface DriverApprovalProps {
+interface RegisteredDriverProps {
   driverId: string;
 }
 
-const DriverApproval: React.FC<DriverApprovalProps> = ({ driverId }) => {
+const RegisteredDriver: React.FC<RegisteredDriverProps> = ({ driverId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("motorista");
@@ -60,7 +60,7 @@ const DriverApproval: React.FC<DriverApprovalProps> = ({ driverId }) => {
       <BackIcon /> <p style={{ fontWeight: "700" }}>Voltar</p>
     </div>
   );
-  const routeName = "APROVAÇÃO CADASTRO DO MOTORISTA";
+  const routeName = "CADASTRO DO MOTORISTA";
 
   const renderContent = () => {
     if (loading) {
@@ -80,18 +80,21 @@ const DriverApproval: React.FC<DriverApprovalProps> = ({ driverId }) => {
         return (
           <div>
             <DriverAndOwnerDetails driver={driver} />
+            <ActionButtons showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
       case "veiculo":
         return (
           <div>
             <VehicleDetails vehicle={driver.vehicle} />
+            <ActionButtons showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
       case "anexos":
         return (
           <div>
             <Attachments driver={driver} />
+            <ActionButtons showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
       case "preferencias":
@@ -104,7 +107,7 @@ const DriverApproval: React.FC<DriverApprovalProps> = ({ driverId }) => {
               height: "708px",
             }}
           >
-            <ActionButtons driverId={driverId} />
+            <ActionButtons showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
       default:
@@ -190,4 +193,4 @@ const DriverApproval: React.FC<DriverApprovalProps> = ({ driverId }) => {
   );
 };
 
-export default DriverApproval;
+export default RegisteredDriver;
