@@ -7,6 +7,7 @@ import styles from "./Configuracoes.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
+import PaymentDetails from "@/components/PaymentDetails";
 
 const Config: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -31,7 +32,7 @@ const Config: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <div></div>
+              <PaymentDetails buttonTitle="Informar Pagamento" onButtonClick={() => console.log('Informou pagamento')} />
             </Body>
           </div>
         </div>

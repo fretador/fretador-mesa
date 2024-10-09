@@ -1,18 +1,16 @@
 import React from "react";
-import Botao from "@/components/Botao";
+import { useAppSelector } from "@/store/store";
+import { useRouter } from "next/router";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
-import styles from "./Ocorrencias.module.css";
-import { useAppSelector } from "@/store/store";
-import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
-import SearchComponent from "@/components/SearchButton";
+import FormQuote from "@/components/FormQuote";
+import styles from "./Cotacao.module.css";
 
-const Ocurrencies: React.FC = () => {
+const CreateQuote: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
-
   const routeName = router.pathname.replace("/", "").toUpperCase();
 
   return (
@@ -28,12 +26,12 @@ const Ocurrencies: React.FC = () => {
           }
         >
           <div className={styles.header}>
-            <Header title={routeName} />
+            <Header title={"Cotar Frete"} />
           </div>
           <div className={styles.content}>
             <Body>
-              <div>
-              </div>
+              {/* Substituímos o formulário pelo FormContainer */}
+              <FormQuote />
             </Body>
           </div>
         </div>
@@ -42,4 +40,4 @@ const Ocurrencies: React.FC = () => {
   );
 };
 
-export default Ocurrencies;
+export default CreateQuote;
