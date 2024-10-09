@@ -12,9 +12,11 @@
 }
 
 .content {
-    background-color: white; /* Fundo do modal */
+
+    background-color: white; 
     border: none;
-    border-radius: 0; /* Bordas retas */
+    border-radius: 0; 
+
     max-width: 512px;
     width: 100%;
     display: flex;
@@ -28,8 +30,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top-left-radius: 0; /* Bordas retas */
-    border-top-right-radius: 0; /* Bordas retas */
+    border-top-left-radius: 0; 
+    border-top-right-radius: 0;
+
 }
 
 .modalTitle {
