@@ -153,7 +153,6 @@ const Drivers: React.FC = () => {
                   drivers={awaitingApprovalDrivers}
                   loading={loading}
                   error={error}
-                  handleNewDriver={handleNewDriver}
                 />
               </div>
 
