@@ -10,6 +10,7 @@ import SearchComponent from "@/components/SearchButton";
 import PendingOccurrencesCards from "@/components/PendingOccurrencesCards";
 import { Driver } from "@/utils/types/Driver";
 import PendingOccurrencesCard from "@/components/PendingOccurrencesCard";
+import AnsweredOccurrencesList from "@/components/AnsweredOccurrencesList";
 
 const Ocurrencies: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -50,6 +51,8 @@ const Ocurrencies: React.FC = () => {
                   error={error}
                 />
               </div>
+
+              <AnsweredOccurrencesList loading={loading} error={error} />
             </Body>
           </div>
         </div>

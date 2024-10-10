@@ -34,6 +34,7 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
   return (
     <div className={styles.container}>
       <div className={styles.header}>
+        <h2>Aprovados</h2>
         <h4>Ordenar A-Z</h4>
       </div>
 

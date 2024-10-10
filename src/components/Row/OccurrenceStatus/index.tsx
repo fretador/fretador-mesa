@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './OccurrenceStatus.module.css';
 
-type OccurrenceStatusOption = "aberto" | "em tratamento" | "encerrado"
+type OccurrenceStatusOption = "respondido" | "em aberto" | "reaberto" | "finalizado"
 
 interface OccurrenceStatusProps {
   occurrenceStatus: OccurrenceStatusOption
@@ -10,11 +10,13 @@ interface OccurrenceStatusProps {
 const OccurrenceStatus = ({occurrenceStatus}: OccurrenceStatusProps) => {
 
   const statusClassName =
-    occurrenceStatus === "aberto"
-      ? styles.open
-      : occurrenceStatus === "em tratamento"
-      ? styles.treatment
-      : occurrenceStatus === "encerrado"
+    occurrenceStatus === "respondido"
+      ? styles.answered
+      : occurrenceStatus === "em aberto"
+      ? styles.opened
+      : occurrenceStatus === "reaberto"
+      ? styles.reopened
+      : occurrenceStatus === "finalizado"
       ? styles.finished
       : ''
 
