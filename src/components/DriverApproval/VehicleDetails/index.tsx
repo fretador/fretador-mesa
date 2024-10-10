@@ -99,8 +99,6 @@ const VehicleDetails: React.FC<VehicleDetailsProps> = ({ vehicle }) => {
           </div>
         </div>
       </div>
-
-      <ActionButtons />
     </>
   );
 };
