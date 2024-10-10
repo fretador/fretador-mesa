@@ -9,9 +9,7 @@ import {
   SettingsIcon,
   SupportIcon,
   TruckIcon,
-  WarningIcon,
   ClientsBook,
-  CalculatorIcon,
 } from "@/utils/icons";
 import { useAppSelector, useAppDispatch } from "@/store/store";
 import { resetNotification } from "@/store/slices/notificationsSlice";
@@ -65,8 +63,8 @@ const Sidebar: React.FC = () => {
           text="CLIENTES"
           isRetracted={isRetracted}
           isFocused={routeName === "CLIENTES"}
-          onClick={() => handleItemClick("clientes")}
-          badge={notifications?.clientes}
+          onClick={() => handleItemClick("clientes" as keyof typeof notifications)}
+          badge={notifications?.motoristas} // ajustar para clientes
         />
         <SidebarComp.Item
           icon={<HelpIcon />}
@@ -75,14 +73,6 @@ const Sidebar: React.FC = () => {
           isFocused={routeName === "OCORRENCIAS"}
           onClick={() => handleItemClick("ocorrencias")}
           badge={notifications?.ocorrencias}
-        />
-        <SidebarComp.Item
-          icon={<CalculatorIcon />}
-          text="COTAÇÕES"
-          isRetracted={isRetracted}
-          isFocused={routeName === "COTACAO"}
-          onClick={() => handleItemClick("cotacao")}
-          badge={notifications?.cotacao}
         />
         <SidebarComp.Item
           icon={<FinanceIcon />}

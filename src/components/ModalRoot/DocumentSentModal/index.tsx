@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./DocumentSentModal.module.css";
 import { CloseIcon } from "@/utils/icons";
-import Button from "@/components/Button";
 import Botao from "@/components/Botao";
 interface DocumentSentModalProps {
   isOpen: boolean;

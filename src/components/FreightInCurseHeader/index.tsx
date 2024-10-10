@@ -24,6 +24,7 @@ interface FreightInCurseProps {
 
 // Dicionário para converter os status
 const statusMessages: { [key in StatusFreightProps]: string } = {
+  ACCEPTED: "Aceito",
   WAITING: "Aguardando Motorista",
   TARGETED: "Motorista Selecionado",
   REQUESTED: "Frete solicitado",

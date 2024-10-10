@@ -10,6 +10,7 @@ export interface Driver {
   _id: string;
   active: boolean;
   cnhPhoto: Photo;
+  cnh?: string;
   cpf: string;
   creationDate: string;
   updateDate: string;
@@ -39,4 +40,21 @@ export interface Driver {
   city: string;
   state: string;
   email?: string;
+  owner?: Owner;
+  
 }
+
+export interface Owner {
+  _id?: string;
+  name: string;
+  cpf: string;
+  cnh?: string;
+  phoneNumber: string;
+  email: string;
+  pix: string;
+  bankName: string;
+  bankAgency: string;
+  bankAccount: string;
+  isDriverAsOwner?: boolean;
+}
+

@@ -5,9 +5,11 @@ import ActionButtons from "../ActionButtons";
 import {
   BodyworkCategory,
   BodyworkType,
+} from "@/utils/enums/bodyworkEnums";
+import {
   VehicleCategory,
   VehicleType,
-} from "@/utils/enum";
+} from "@/utils/enums/vehicleEnums";
 
 interface VehicleDetailsProps {
   vehicle: {

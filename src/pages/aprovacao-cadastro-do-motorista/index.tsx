@@ -12,6 +12,15 @@ import DriverAndOwnerDetails from "@/components/DriverApproval/DriverAndOwnerDet
 import VehicleDetails from "@/components/DriverApproval/VehicleDetails";
 import Attachments from "@/components/DriverApproval/Attachments";
 import ActionButtons from "@/components/DriverApproval/ActionButtons";
+import { Driver } from "@/utils/types/Driver";
+import {
+  BodyworkCategory,
+  BodyworkType,
+} from "@/utils/enums/bodyworkEnums";
+import {
+  VehicleCategory,
+  VehicleType,
+} from "@/utils/enums/vehicleEnums";
 
 const DriverApproval: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -30,19 +39,48 @@ const DriverApproval: React.FC = () => {
       case "motorista":
         return (
           <div>
-            <DriverAndOwnerDetails />
+            <DriverAndOwnerDetails driver={{
+              _id: "",
+              active: false,
+            } as Driver}
+          />
           </div>
         );
       case "veiculo":
         return (
           <div>
-            <VehicleDetails />
+            <VehicleDetails vehicle={{
+              type: "",
+              plate: "",
+              renavam: "",
+              chassi: "",
+              antt: "",
+              tracker: "",
+              ownerName: "",
+              ownerDocument: "",
+              bodyworkCategory: BodyworkCategory.ABERTA,
+              bodyworkType: BodyworkType.GRADE_BAIXA,
+              vehicleCategory: VehicleCategory.LEVE,
+              vehicleType: VehicleType.UTILITARIO
+            }} />
           </div>
         );
       case "anexos":
         return (
           <div>
-            <Attachments />
+            <Attachments driver={
+              {
+                attachments: {
+                  anttPhoto: "",
+                  cnh: "",
+                  documentPhoto: "",
+                  proofResidencePhoto: "",
+                  rg: "",
+                  userPhoto: "",
+                  vehiclePhoto: "",
+                }
+              }
+            } />
           </div>
         );
       case "preferencias":

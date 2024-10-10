@@ -60,25 +60,25 @@ const DriverAndOwnerDetails = ({ driver }: DriverAndOwnerDetailsProps) => {
         <div className={styles.informations}>
           <div className={styles.nameAndCpf}>
             <p className={styles.driverName}>
-              Nome: <span>{driver.owner.name}</span>
+              Nome: <span>{driver.owner?.name}</span>
             </p>
             <p>
-              CPF: <span>{driver.owner.cpf}</span>
+              CPF: <span>{driver.owner?.cpf}</span>
             </p>
           </div>
 
           <div className={styles.cnhAndContact}>
             <p>
-              CNH: <span>{driver.owner.cnh}</span>
+              CNH: <span>{driver.owner?.cnh}</span>
             </p>
             <div className={styles.whatsappContainer}>
               <LogoWhatsAppIcon />
               <p>
-                <span>{driver.owner.phoneNumber}</span>
+                <span>{driver.owner?.phoneNumber}</span>
               </p>
             </div>
             <p>
-              E-mail: <span>{driver.owner.email}</span>
+              E-mail: <span>{driver.owner?.email}</span>
             </p>
           </div>
         </div>
@@ -96,10 +96,10 @@ const DriverAndOwnerDetails = ({ driver }: DriverAndOwnerDetailsProps) => {
         <div className={styles.informations}>
           <div className={styles.nameAndCpf}>
             <p className={styles.driverName}>
-              Favorecido: <span>{driver.owner.name}</span>
+              Favorecido: <span>{driver.owner?.name}</span>
             </p>
             <p>
-              CPF/CNPJ: <span>{driver.owner.cpf}</span>
+              CPF/CNPJ: <span>{driver.owner?.cpf}</span>
             </p>
           </div>
 
@@ -107,12 +107,12 @@ const DriverAndOwnerDetails = ({ driver }: DriverAndOwnerDetailsProps) => {
             <p>
               Dados Bancários:{" "}
               <span>
-                Banco: {driver.owner.bankName} / Ag {driver.owner.bankAgency} /
-                CC - {driver.owner.bankAccount}
+                Banco: {driver.owner?.bankName} / Ag {driver.owner?.bankAgency} /
+                  CC - {driver.owner?.bankAccount}
               </span>
             </p>
             <p>
-              PIX: <span>{driver.owner.pix}</span>
+              PIX: <span>{driver.owner?.pix}</span>
             </p>
           </div>
         </div>

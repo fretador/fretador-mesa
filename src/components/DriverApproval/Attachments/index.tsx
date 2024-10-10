@@ -4,7 +4,7 @@ import ActionButtons from "../ActionButtons";
 import Image from "next/image";
 
 interface Driver {
-  attachments?: {
+  attachments: {
     anttPhoto: string;
     cnh: string;
     documentPhoto: string;

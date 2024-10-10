@@ -141,7 +141,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
                     className={styles.suggestionItem}
                   >
                     {formatCPF(driver.cpf)} - {driver.name} - Placa{" "}
-                    {driver.plate}
+                    {driver.vehicle.plate}
                   </li>
                 ))}
               </ul>
