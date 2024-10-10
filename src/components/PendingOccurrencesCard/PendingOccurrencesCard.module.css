@@ -1,0 +1,63 @@
+.container {
+  width: 326px;
+  height: 192px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  border: 1px solid #BA8501;
+  background: #E2D0A3;
+  padding: 16px;
+  cursor: pointer;
+  margin-top: 24px;
+}
+
+.driverNameContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.driverNameContainer p {
+  font-size: 20px;
+  color: #1B556D;
+  font-weight: 700;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.separator {
+  width: 326px;
+  border-bottom: 1px solid #BA8501;
+  margin-bottom: 23px;
+}
+
+.freightNumberContainer,
+.occurrenceTypeContainer,
+.dateContainer {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+}
+
+.freightNumberContainer,
+.occurrenceTypeContainer {
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1B556D;
+}
+
+.value {
+  font-size: 20px;
+  font-weight: 400;
+  color: #0D0D0D;
+}
