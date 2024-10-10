@@ -1,13 +1,18 @@
 .occurrenceStatusValue {
-  text-transform: capitalize;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
-.advance {
+.answered {
   color: #0B7517;
 }
 
-.treatment {
+.opened {
   color: #BA8501;
+}
+
+.reopened {
+  color: #1A556D;
 }
 
 .finished {
