@@ -2,26 +2,7 @@ import React, { useMemo, useEffect } from "react";
 import styles from "./Attachments.module.css";
 import ActionButtons from "../ActionButtons";
 import Image from "next/image";
-
-interface Driver {
-  attachments: {
-    anttPhoto: string;
-    cnh: string;
-    documentPhoto: string;
-    proofResidencePhoto: string;
-    rg: string;
-    userPhoto: string;
-    vehiclePhoto: string;
-  };
-  cnhPhoto?: { imageUrl: string };
-  rgPhoto?: { imageUrl: string };
-  userPhoto?: { imageUrl: string };
-  vehicle?: {
-    vehiclePhoto?: { imageUrl: string };
-    anttPhoto?: { imageUrl: string };
-    documentPhoto?: { imageUrl: string };
-  };
-}
+import { Driver } from "@/utils/types/Driver"
 
 interface AttachmentsProps {
   driver: Driver;

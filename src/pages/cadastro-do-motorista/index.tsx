@@ -35,7 +35,7 @@ const RegisteredDriver: React.FC<RegisteredDriverProps> = ({ driverId }) => {
         const transformedDriver = DriverService.transformDrivers([
           driverData,
         ])[0];
-        setDriver(transformedDriver);
+        setDriver(driverData);
         console.log("driverData", driverData);
         console.log("transformedDriver", transformedDriver);
       } catch (err) {

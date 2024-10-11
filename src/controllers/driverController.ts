@@ -18,13 +18,10 @@ export const useDriverController = () => {
 			dispatch(fetchDriversStart());
 			try {
 				const response = await DriverService.getDrivers(page, limit, filter);
-				const transformedDrivers: Driver[] = DriverService.transformDrivers(
-					response.data
-				);
 				const pageInfo: PageInfo = DriverService.transformPageInfo(
 					response.pageInfo
 				);
-				dispatch(fetchDriversSuccess({ drivers: transformedDrivers, pageInfo }));
+				dispatch(fetchDriversSuccess({ drivers: response.data, pageInfo }));
 			} catch (error: unknown) {
 				const errorMessage =
 					error instanceof Error ? error.message : "An unknown error occurred";

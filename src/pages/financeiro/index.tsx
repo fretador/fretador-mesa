@@ -46,7 +46,7 @@ const Financial: React.FC = () => {
               </div>
 
               <div className={styles.lastPaymentsContainer}>
-                <LastPaymentsList />
+                <LastPaymentsList drivers={[]} loading={false} error={null} />
               </div>
             </Body>
           </div>

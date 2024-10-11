@@ -26,6 +26,7 @@ interface FreightInProgressProps {
 }
 
 interface StatusHistoryItem {
+  updateData: JSON;
   updateDate: string;
   status: FreightStatus;
 }
@@ -269,7 +270,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   .map((item, index) => (
                     <FreightStep
                       key={`${item.status}-${item.updateDate}`}
-                      {...getFreightStepProps(item, index, freight)}
+                      {...getFreightStepProps(item as StatusHistoryItem & { status: FreightStatus }, index, freight)}
                     />
                   ))}
               </div>

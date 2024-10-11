@@ -93,13 +93,23 @@ const DriverApproval: React.FC<ApproveDriverProps> = ({ driverId }) => {
       case "anexos":
         return (
           <div>
-            <Attachments driver={driver} />
+            <Attachments driver={{
+              ...driver, attachments: {
+                anttPhoto: '',
+                cnh: '',
+                documentPhoto: '',
+                proofResidencePhoto: '',
+                rg: '',
+                userPhoto: '',
+                vehiclePhoto: ''
+              }
+            }} />
             <ActionButtons showApprove={true} showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
       case "preferencias":
         return (
-          <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'center', height: '708px'}}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', height: '708px' }}>
             <ActionButtons showApprove={true} showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
