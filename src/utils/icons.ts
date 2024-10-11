@@ -42,6 +42,7 @@ import AttachmentDark from "@/assets/icons/teenyicons_doc-outline.svg";
 import AttachmentLight from "@/assets/icons/teenyicons_doc-outline (1).svg";
 import Close from "@/assets/icons/close-outline.svg";
 import { FaCalculator } from "react-icons/fa";
+import Play from "@/assets/icons/play.svg"
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -87,3 +88,4 @@ export const AttachmentDarkIcon = AttachmentDark;
 export const AttachmentLightIcon = AttachmentLight;
 export const CloseIcon = Close;
 export const CalculatorIcon = FaCalculator;
+export const Playicon = Play;
