@@ -260,7 +260,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   </div>
                 </div>
               )}
-              <div
+              {/* <div
                 className={styles.freightStepContainer}
                 ref={freightStepContainerRef}
               >
@@ -271,9 +271,10 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                     <FreightStep
                       key={`${item.status}-${item.updateDate}`}
                       {...getFreightStepProps(item as StatusHistoryItem & { status: FreightStatus }, index, freight)}
+                      hasAttachment={false}
                     />
                   ))}
-              </div>
+              </div> */}
 
               <div className={styles.mapContainer}>
                 <h2>Localização</h2>

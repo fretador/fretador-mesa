@@ -4,16 +4,16 @@ import Botao from "../Botao";
 import { AttachmentDarkIcon, AttachmentLightIcon } from "@/utils/icons";
 
 interface DocumentData {
-  name: string;
-  type: string;
-  size: number;
+  name?: string;
+  type?: string;
+  size?: number;
   path?: string; // Caso queira usar links para os documentos
 }
 
 interface BaseFreightStepProps {
-  theme: "dark" | "light";
-  date: string;
-  content: string;
+  theme?: "dark" | "light";
+  date?: string;
+  content?: string;
   disabled?: boolean;
   primaryButtonLabel?: string;
   secondaryButtonLabel?: string;
@@ -65,7 +65,7 @@ const FreightStep: React.FC<FreightStepProps> = ({
     return { formattedDate, formattedTime };
   };
 
-  const { formattedDate, formattedTime } = formatDate(date);
+  const { formattedDate, formattedTime } = date ? formatDate(date) : { formattedDate: "", formattedTime: "" };
 
   // Função para extrair o nome até o símbolo '_'
   const getDisplayName = (name: string) => {
@@ -99,7 +99,7 @@ const FreightStep: React.FC<FreightStepProps> = ({
               <div key={idx} className={styles.documentItem}>
                 <AttachmentIcon width={24} height={24} />
                 <span className={styles.documentName}>
-                  {getDisplayName(doc.name)}
+                  {getDisplayName(doc.name || "")}
                 </span>
               </div>
             ))}

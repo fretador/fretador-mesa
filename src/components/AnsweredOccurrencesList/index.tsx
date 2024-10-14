@@ -113,7 +113,7 @@ const AnsweredOccurrencesList = ({ loading, error }: AnsweredOccurrencesListProp
             <Row.FreightDate date={occurrence.freightDate} />
             <Row.FreightCode code={occurrence.freightCode} />
             <Row.OccurrenceType occurrenceType={occurrence.occurrenceType} />
-            <Row.OccurrenceStatus occurrenceStatus={occurrence.occurrenceStatus} />
+            <Row.OccurrenceStatus occurrenceStatus={"em aberto"} />
           </Row.Root>
         ))}
       </div>

@@ -21,7 +21,7 @@ interface Occurrence {
   id: string,
   cte: string,
   route: string,
-  attachments: [string],
+  attachments: string[],
   observations: string
 }
 
