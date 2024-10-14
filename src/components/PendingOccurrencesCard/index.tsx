@@ -30,7 +30,7 @@ const PendingOccurrencesCard = ({driverName, freightNumber, occurrenceType, date
       </div>
 
       <div className={styles.dateContainer}>
-        <p className={styles.title}>Date:</p>
+        <p className={styles.title}>Data:</p>
         <p className={styles.value}>{date}</p>
       </div>
 
