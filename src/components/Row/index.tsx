@@ -18,6 +18,10 @@ import PaymentMethod from "./PaymentMethod";
 import PaymentType from "./PaymentType";
 import Route from "./Route";
 import RowRoot from "./RowRoot";
+import ServiceDate from "./ServiceDate";
+import ServiceNumber from "./ServiceNumber";
+import ServiceStatus from "./ServiceStatus";
+import ServiceSubject from "./ServiceSubject";
 import TradeName from "./TradeName";
 import Value from "./Value";
 import Vehicle from "./Vehicle";
@@ -45,6 +49,10 @@ export const Row = {
   PaymentMethod: PaymentMethod,
   PaymentType: PaymentType,
   Route: Route,
+  ServiceDate: ServiceDate,
+  ServiceNumber: ServiceNumber,
+  ServiceStatus: ServiceStatus,
+  ServiceSubject: ServiceSubject,
   TradeName: TradeName,
   Value: Value,
   Vehicle: Vehicle,

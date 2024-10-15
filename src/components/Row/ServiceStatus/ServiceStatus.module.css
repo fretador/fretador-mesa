@@ -1,0 +1,20 @@
+.serviceStatusValue {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.answered {
+  color: #0B7517;
+}
+
+.opened {
+  color: #BA8501;
+}
+
+.reopened {
+  color: #1A556D;
+}
+
+.finished {
+  color: #393737
+}

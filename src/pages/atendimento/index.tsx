@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -7,8 +6,8 @@ import styles from "./Atendimentos.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import SearchComponent from "@/components/SearchButton";
-import NewMessagesCard from "@/components/NewMessagesCard";
 import NewMessagesCards from "@/components/NewMessagesCards";
+import RepliedMessagesList from "@/components/RepliedMessagesList";
 
 const Service: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -46,6 +45,8 @@ const Service: React.FC = () => {
                 error={error}
               />
             </div>
+
+            <RepliedMessagesList loading={loading} error={error} />
 
           </Body>
         </div>
