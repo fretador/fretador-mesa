@@ -18,8 +18,6 @@ const Ocurrencies: React.FC = () => {
 
   const routeName = router.pathname.replace("/", "").replace("e", "ê").toUpperCase();
 
-  const [awaitingApprovalDrivers, setAwaitingApprovalDrivers] = useState<Driver[]>([]);
-  const [Drivers, setDrivers] = useState<Driver[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
