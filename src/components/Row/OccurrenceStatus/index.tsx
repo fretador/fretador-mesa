@@ -4,7 +4,7 @@ import styles from './OccurrenceStatus.module.css';
 type OccurrenceStatusOption = "respondido" | "em aberto" | "reaberto" | "finalizado"
 
 interface OccurrenceStatusProps {
-  occurrenceStatus: OccurrenceStatusOption
+  occurrenceStatus: OccurrenceStatusOption | string
 }
 
 const OccurrenceStatus = ({occurrenceStatus}: OccurrenceStatusProps) => {
