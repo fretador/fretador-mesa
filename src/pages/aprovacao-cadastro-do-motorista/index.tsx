@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
@@ -21,11 +21,47 @@ import {
   VehicleCategory,
   VehicleType,
 } from "@/utils/enums/vehicleEnums";
+import { DriverService } from "@/services/driverService";
 
-const DriverApproval: React.FC = () => {
+interface ApproveDriverProps {
+  driverId: string;
+}
+
+const DriverApproval: React.FC<ApproveDriverProps> = ({ driverId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("motorista");
+  const [driver, setDriver] = useState<Driver | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDriver = async () => {
+      try {
+        setLoading(true);
+        const driverData = await DriverService.getDriverById(driverId);
+        const transformedDriver = DriverService.transformDrivers([
+          driverData,
+        ])[0];
+        setDriver(transformedDriver);
+        console.log("driverData", driverData);
+        console.log("transformedDriver", transformedDriver);
+      } catch (err) {
+        setError("Erro ao carregar os dados do motorista");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (driverId) {
+      fetchDriver();
+    }
+  }, [driverId]);
+
+  const handleGoBack = () => {
+    router.back();
+  };
 
   const backButtonContent = (
     <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
@@ -35,6 +71,18 @@ const DriverApproval: React.FC = () => {
   const routeName = "APROVAÇÃO CADASTRO DO MOTORISTA";
 
   const renderContent = () => {
+    if (loading) {
+      return <div>Carregando...</div>;
+    }
+
+    if (error) {
+      return <div>Erro: {error}</div>;
+    }
+
+    if (!driver) {
+      return <div>Nenhum dado do motorista encontrado.</div>;
+    }
+
     switch (activeTab) {
       case "motorista":
         return (
@@ -44,6 +92,8 @@ const DriverApproval: React.FC = () => {
               active: false,
             } as Driver}
           />
+            <DriverAndOwnerDetails driver={driver} />
+            <ActionButtons showApprove={true} showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
       case "veiculo":
@@ -63,6 +113,8 @@ const DriverApproval: React.FC = () => {
               vehicleCategory: VehicleCategory.LEVE,
               vehicleType: VehicleType.UTILITARIO
             }} />
+            <VehicleDetails vehicle={driver.vehicle} />
+            <ActionButtons showApprove={true} showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
       case "anexos":
@@ -81,12 +133,14 @@ const DriverApproval: React.FC = () => {
                 }
               }
             } />
+            <Attachments driver={driver} />
+            <ActionButtons showApprove={true} showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
       case "preferencias":
         return (
           <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'center', height: '708px'}}>
-            <ActionButtons />
+            <ActionButtons showApprove={true} showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
       default:
@@ -112,7 +166,7 @@ const DriverApproval: React.FC = () => {
           <div className={styles.content}>
             <Body>
               <div className={styles.backButtonContainer}>
-                <Botao text={backButtonContent} className={styles.backButton} />
+                <Botao text={backButtonContent} className={styles.backButton} onClick={handleGoBack} />
               </div>
 
               <div className={styles.mainContentContainer}>

@@ -13,6 +13,13 @@
   margin-left: 0.5rem;
 }
 
+@media screen and (max-width: 1540px) {
+  .navList {
+    gap: 0.7rem;
+  }
+
+}
+
 @media screen and (max-width: 1280px) {
   .navList {
     gap: 0.6rem;

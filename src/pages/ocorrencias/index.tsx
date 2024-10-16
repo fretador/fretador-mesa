@@ -1,5 +1,4 @@
-import React from "react";
-import Botao from "@/components/Botao";
+import React, { useState } from "react";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -8,12 +7,19 @@ import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
+import PendingOccurrencesCards from "@/components/PendingOccurrencesCards";
+import { Driver } from "@/utils/types/Driver";
+import PendingOccurrencesCard from "@/components/PendingOccurrencesCard";
+import AnsweredOccurrencesList from "@/components/AnsweredOccurrencesList";
 
 const Ocurrencies: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
 
-  const routeName = router.pathname.replace("/", "").toUpperCase();
+  const routeName = router.pathname.replace("/", "").replace("e", "ê").toUpperCase();
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <AuthenticatedLayout>
@@ -32,8 +38,19 @@ const Ocurrencies: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <div>
+              <div className={styles.searchComponents}>
+                <SearchComponent onSearch={() => {}} />
               </div>
+
+              <div className={styles.pendingOccurrencesContainer}>
+                <h2>Novos</h2>
+                <PendingOccurrencesCards
+                  loading={loading}
+                  error={error}
+                />
+              </div>
+
+              <AnsweredOccurrencesList loading={loading} error={error} />
             </Body>
           </div>
         </div>

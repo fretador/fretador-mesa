@@ -21,6 +21,10 @@ interface RowTitleProps {
   PaymentMethod?: string;
   PaymentType?: string;
   Route?: string;
+  ServiceDate?: string;
+  ServiceNumber?: string;
+  ServiceSubject?: string;
+  ServiceStatus?: string;
   TradeName?: string;
   Value?: string;
   Vehicle?: string;
