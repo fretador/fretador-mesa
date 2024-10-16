@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -7,7 +6,6 @@ import styles from "./Freteemcurso.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
-import SearchComponent from "@/components/SearchButton";
 import FreightInCurseHeader from "@/components/FreightInCurseHeader";
 import { SeparatorIcon } from "@/utils/icons";
 import ProgressBar from "@/components/ProgressBar";
@@ -72,7 +70,7 @@ const getFreightStepProps = (
   index: number,
   freight: Freight | null
 ) => {
-  const theme = index % 2 === 0 ? "dark" : "light";
+  const theme: "dark" | "light" | undefined = index % 2 === 0 ? "dark" : "light"; // Ajuste o tipo aqui
   let content = "";
   let primaryButtonLabel: string | undefined;
   let onPrimaryButtonClick: (() => void) | undefined;
@@ -260,7 +258,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   </div>
                 </div>
               )}
-              {/* <div
+              <div
                 className={styles.freightStepContainer}
                 ref={freightStepContainerRef}
               >
@@ -272,9 +270,11 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                       key={`${item.status}-${item.updateDate}`}
                       {...getFreightStepProps(item as StatusHistoryItem & { status: FreightStatus }, index, freight)}
                       hasAttachment={false}
+                      attachmentPath={undefined}
+                      updateData={item.updateData as unknown as any[]}
                     />
                   ))}
-              </div> */}
+              </div>
 
               <div className={styles.mapContainer}>
                 <h2>Localização</h2>
