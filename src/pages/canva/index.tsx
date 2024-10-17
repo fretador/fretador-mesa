@@ -1,4 +1,3 @@
-// src/pages/Canva.tsx
 import React, { useState } from "react";
 import Header from "@/components/Header";
 import Body from "@/components/Body";
@@ -12,6 +11,7 @@ import DriverBlockModal from "@/components/ModalRoot/DriverBlockModal";
 import ModalRoot from "@/components/ModalRoot";
 import PhotoRequestModal from "@/components/ModalRoot/PhotoRequestModal";
 import SendToFinanceModal from "@/components/ModalRoot/SendToFinanceModal";
+import ValueInputModal from "@/components/ModalRoot/ValueInputModal"; // Importe o novo modal
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -20,6 +20,7 @@ const Canva: React.FC = () => {
   const [isRootModalOpen, setIsRootModalOpen] = useState(false);
   const [isPhotoRequestModalOpen, setIsPhotoRequestModalOpen] = useState(false);
   const [isSendToFinanceModalOpen, setIsSendToFinanceModalOpen] = useState(false);
+  const [isValueInputModalOpen, setIsValueInputModalOpen] = useState(false); // Estado para o novo modal
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -44,6 +45,15 @@ const Canva: React.FC = () => {
 
   const toggleSendToFinanceModal = () => {
     setIsSendToFinanceModalOpen(!isSendToFinanceModalOpen);
+  };
+
+  const toggleValueInputModal = () => {
+    setIsValueInputModalOpen(!isValueInputModalOpen);
+  };
+
+  const handleValueInputConfirm = (value: string) => {
+    console.log("Valor inserido:", value);
+    toggleValueInputModal();
   };
 
   return (
@@ -105,6 +115,11 @@ const Canva: React.FC = () => {
             Enviar para o Financeiro
           </button>
 
+          {/* Botão para abrir o novo modal ValueInputModal */}
+          <button onClick={toggleValueInputModal} className={styles.openModalButton}>
+            Enviar para o Financeiro (Valor)
+          </button>
+
           {/* Renderizando o modal DriverRegistrationApproval */}
           <DriverRegistrationApproval
             isOpen={isModalOpen}
@@ -140,6 +155,14 @@ const Canva: React.FC = () => {
             onApprove={toggleSendToFinanceModal}
             onReject={toggleSendToFinanceModal}
           />
+
+          {/* Renderizando o novo modal ValueInputModal */}
+          {isValueInputModalOpen && (
+            <ValueInputModal
+              onClose={toggleValueInputModal}
+              onConfirm={handleValueInputConfirm}
+            />
+          )}
         </div>
       </div>
     </div>
