@@ -189,19 +189,21 @@ const Freights: React.FC = () => {
                         />
                         <Row.Cte cte={updatedFreight.numCte || "-"} />
                         <Row.Route
-                          originState={updatedFreight.origin.split(", ")[1]}
+                          originState={updatedFreight?.origin?.split(", ")[1]}
                           destinyState={
-                            updatedFreight.destination.split(", ")[1]
+                            updatedFreight?.destination?.split(", ")[1]
                           }
                         />
                         <Row.Customer
                           customerName={updatedFreight.clientName || "-"}
                         />
                         <Row.Driver
-                          driverName={
-                            updatedFreight.targetedDrivers[0]?.name || "-"
-                          }
-                        />
+  driverName={
+    updatedFreight?.targetedDrivers?.length > 0
+      ? updatedFreight.targetedDrivers[0].name
+      : "-"
+  }
+/>
                         <Row.FreightStatus freightStatus={status} />
                       </Row.Root>
                     );
