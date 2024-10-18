@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './ServiceStatus.module.css';
 
-type ServiceStatusOption = "respondido" | "em aberto" | "reaberto" | "finalizado"
+type ServiceStatusOption = "respondido" | "em aberto" | "reaberto" | "finalizado" | string
 
 interface ServiceStatusProps {
   serviceStatus: ServiceStatusOption

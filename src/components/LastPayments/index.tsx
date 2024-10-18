@@ -7,13 +7,11 @@ import Loading from "../Loading";
 import { useRouter } from "next/router";
 
 interface LastPaymentsListProps {
-  drivers: Driver[];
   loading: boolean;
   error: string | null;
 }
 
 const LastPaymentsList: React.FC<LastPaymentsListProps> = ({
-  drivers,
   loading,
   error,
 }) => {
