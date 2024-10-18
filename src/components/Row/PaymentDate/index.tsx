@@ -2,15 +2,13 @@ import styles from './PaymentDate.module.css'
 import React from 'react'
 
 interface PaymentDateProps {
-  date: Date;
+  date: string;
 }
 
 const PaymentDate = ({ date }: PaymentDateProps) => {
 
-  const formattedDate = date.toLocaleDateString();
-
   return (
-    <p className={styles.date}>{formattedDate}</p>
+    <p className={styles.date}>{date}</p>
   )
 }
 
