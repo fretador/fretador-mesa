@@ -3,13 +3,10 @@ import styles from "./Deslogar.module.css";
 import { useRouter } from "next/router";
 import { useAuthController } from "@/controllers/authController";
 import Botao from "@/components/Botao";
-import { FretadorIcon } from "@/utils/icons";
 import Image from "next/image";
 
 const Logout: React.FC = () => {
   const router = useRouter();
-
-  const routeName = router.pathname.replace("/", "").toUpperCase();
 
   useAuthController().logoutUser();
 

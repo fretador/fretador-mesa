@@ -19,7 +19,7 @@ const DriverRegistrationApproval: React.FC<SendToFinanceModalProps> = ({
 }) => {
   return (
     <ModalRoot isOpen={isOpen} onRequestClose={onRequestClose}>
-                     <div className={styles.content}>
+      <div className={styles.content}>
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>Enviar para Financeiro</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>

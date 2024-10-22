@@ -43,7 +43,7 @@ const DriverApproval: React.FC<ApproveDriverProps> = ({ driverId }) => {
         const transformedDriver = DriverService.transformDrivers([
           driverData,
         ])[0];
-        setDriver(transformedDriver);
+        setDriver(driverData);
         console.log("driverData", driverData);
         console.log("transformedDriver", transformedDriver);
       } catch (err) {
@@ -134,12 +134,23 @@ const DriverApproval: React.FC<ApproveDriverProps> = ({ driverId }) => {
               }
             } />
             <Attachments driver={driver} />
+            <Attachments driver={{
+              ...driver, attachments: {
+                anttPhoto: '',
+                cnh: '',
+                documentPhoto: '',
+                proofResidencePhoto: '',
+                rg: '',
+                userPhoto: '',
+                vehiclePhoto: ''
+              }
+            }} />
             <ActionButtons showApprove={true} showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );
       case "preferencias":
         return (
-          <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'center', height: '708px'}}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', height: '708px' }}>
             <ActionButtons showApprove={true} showRequest={true} showDownload={true} showBlock={true} />
           </div>
         );

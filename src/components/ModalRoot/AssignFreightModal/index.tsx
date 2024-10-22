@@ -39,7 +39,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
       setError(null);
       try {
         const response = await DriverService.getDrivers(1, 5000, {});
-        setAllDrivers(DriverService.transformDrivers(response.data));
+        setAllDrivers(response.data);
       } catch (err) {
         setError("Falha ao buscar motoristas. Por favor, tente novamente.");
       } finally {

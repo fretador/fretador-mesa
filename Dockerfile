@@ -13,11 +13,11 @@ RUN npm install
 # Copie todo o código-fonte para o container
 COPY . .
 
-# # Construir o aplicativo Next.js
-# RUN npm run build
+# Construir o aplicativo Next.js
+RUN npm run build
 
 # Expor a porta que o aplicativo irá usar
 EXPOSE 3000
 
 # Comando para iniciar o aplicativo
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]

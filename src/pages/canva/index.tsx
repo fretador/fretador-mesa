@@ -12,6 +12,7 @@ import ModalRoot from "@/components/ModalRoot";
 import PhotoRequestModal from "@/components/ModalRoot/PhotoRequestModal";
 import SendToFinanceModal from "@/components/ModalRoot/SendToFinanceModal";
 import ValueInputModal from "@/components/ModalRoot/ValueInputModal"; // Importe o novo modal
+import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -79,14 +80,14 @@ const Canva: React.FC = () => {
               Driver="MOTORISTA"
               FreightStatus="STATUS"
             />
-            <Row.Root freightStatus="DISPONIVEL">
+            <Row.Root freightStatus={FreightStatus.WAITING}>
               <Row.FreightDate date={new Date().toLocaleDateString()} />
               <Row.FreightCode code={"ABC123"} />
               <Row.Cte cte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
               <Row.Customer customerName={"Joaquim José da Silva Xavier"} />
               <Row.Driver driverName="João Pedro do Nascimento" />
-              <Row.FreightStatus freightStatus="DISPONIVEL" />
+              <Row.FreightStatus freightStatus={FreightStatus.WAITING} />
             </Row.Root>
           </Body>
           <button onClick={toggleModal} className={styles.openModalButton}>
@@ -163,6 +164,7 @@ const Canva: React.FC = () => {
               onConfirm={handleValueInputConfirm}
             />
           )}
+            onReject={toggleSendToFinanceModal} content={""}          />
         </div>
       </div>
     </div>

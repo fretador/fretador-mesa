@@ -34,7 +34,7 @@ const notificationSlice = createSlice({
     // Incrementar o número de notificações
     addNotification: (
       state,
-      action: PayloadAction<keyof NotificationState>
+      action: PayloadAction<keyof Omit<NotificationState, 'seen'>>
     ) => {
       state[action.payload] += 1;
       state.seen[action.payload] = false; // Marca como não vista
@@ -42,7 +42,7 @@ const notificationSlice = createSlice({
     // Resetar notificações quando o usuário atuar sobre elas
     resetNotification: (
       state,
-      action: PayloadAction<keyof NotificationState>
+      action: PayloadAction<keyof Omit<NotificationState, 'seen'>>
     ) => {
       state[action.payload] = 0;
       state.seen[action.payload] = true; // Marca como vista

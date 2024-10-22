@@ -16,6 +16,8 @@ export const storageHelper = {
 	},
 
 	removeBoardUser: () => {
-		sessionStorage.removeItem("boardUser");
+		if (typeof window !== "undefined") { // Verifica se está no ambiente do navegador
+			sessionStorage.removeItem("boardUser");
+		}
 	},
 };
