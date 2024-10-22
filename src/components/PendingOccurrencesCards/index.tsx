@@ -3,9 +3,9 @@ import styles from './PendingOccurrencesCards.module.css'
 import Loading from "../Loading";
 import { useRouter } from "next/router";
 import PendingOccurrencesCard from "../PendingOccurrencesCard";
+import { mockOccurrences } from "../AnsweredOccurrencesList";
 
 interface PendingOccurrencesCardsProps {
-  // occurrences: Occurrences[];
   loading: boolean;
   error: string | null;
 }
@@ -46,10 +46,6 @@ const PendingOccurrencesCards = ({ loading, error }: PendingOccurrencesCardsProp
     }
   };
 
-  const handleNewOccurrence = (occurrenceId: string) => {
-    router.push(`/ocorrencias/${occurrenceId}`);
-  };
-
   if (loading)
     return (
       <div className={styles.loadingContainer}>
@@ -57,6 +53,10 @@ const PendingOccurrencesCards = ({ loading, error }: PendingOccurrencesCardsProp
       </div>
     );
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;
+
+  const handleCardClick = (id: string) => {
+    router.push(`/ocorrencias/${id}`);
+  };
 
   return (
     <div
@@ -67,29 +67,19 @@ const PendingOccurrencesCards = ({ loading, error }: PendingOccurrencesCardsProp
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
     >
-      <PendingOccurrencesCard driverName="Zé do Frete" freightNumber="111111" occurrenceType="Veículo Parado" date="00/00/0000" handleNewOccurrence={() => handleNewOccurrence} />
-      <PendingOccurrencesCard driverName="Zé do Frete" freightNumber="111111" occurrenceType="Veículo Parado" date="00/00/0000" handleNewOccurrence={() => handleNewOccurrence} />
-      <PendingOccurrencesCard driverName="Zé do Frete" freightNumber="111111" occurrenceType="Veículo Parado" date="00/00/0000" handleNewOccurrence={() => handleNewOccurrence} />
-      <PendingOccurrencesCard driverName="Zé do Frete" freightNumber="111111" occurrenceType="Veículo Parado" date="00/00/0000" handleNewOccurrence={() => handleNewOccurrence} />
-      <PendingOccurrencesCard driverName="Zé do Frete" freightNumber="111111" occurrenceType="Veículo Parado" date="00/00/0000" handleNewOccurrence={() => handleNewOccurrence} />
-      <PendingOccurrencesCard driverName="Zé do Frete" freightNumber="111111" occurrenceType="Veículo Parado" date="00/00/0000" handleNewOccurrence={() => handleNewOccurrence} />
-      <PendingOccurrencesCard driverName="Zé do Frete" freightNumber="111111" occurrenceType="Veículo Parado" date="00/00/0000" handleNewOccurrence={() => handleNewOccurrence} />
-      <PendingOccurrencesCard driverName="Zé do Frete" freightNumber="111111" occurrenceType="Veículo Parado" date="00/00/0000" handleNewOccurrence={() => handleNewOccurrence} />
-      <PendingOccurrencesCard driverName="Zé do Frete" freightNumber="111111" occurrenceType="Veículo Parado" date="00/00/0000" handleNewOccurrence={() => handleNewOccurrence} />
-      <PendingOccurrencesCard driverName="Zé do Frete" freightNumber="111111" occurrenceType="Veículo Parado" date="00/00/0000" handleNewOccurrence={() => handleNewOccurrence} />
-
-
-
-      {/* {occurrences.map((occurrence: Occurrence, index: number) => (
+      {mockOccurrences
+      .filter((occurrence) => occurrence.occurrenceStatus === "pendente")
+      .map((occurrence) => (
         <PendingOccurrencesCard
-          key={index}
-          driverName={driver.name}
-          freightNumber = {freight.number}
-          occurrenceType={occurrence.type}
-          date={occurrence.date}
-          handleNewOccurrence={() => handleNewOccurrence(occurrence.id)}
+          key={occurrence.id}
+          driverName={occurrence.driverName}
+          freightNumber={occurrence.freightNumber}
+          occurrenceType={occurrence.occurrenceType}
+          date={occurrence.freightDate}
+          handleNewOccurrence={() => handleCardClick(occurrence.id)}
         />
-      ))} */}
+      ))}
+
     </div>
   )
 }

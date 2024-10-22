@@ -56,3 +56,70 @@
   color: #1B556D;
   margin-top: 40px;
 }
+
+.backButtonContainer {
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+
+.backButton {
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.pendingPaymentContainer {
+  width: 100%;
+  background-color: #B2CEDA;
+  border-radius: 16px;
+}
+
+.informations {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 42px;
+  /* align-items: flex-start; */
+}
+
+.informations p {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1B556D;
+}
+
+.informations span {
+  margin-left: 3px;
+  color: #0D0D0D;
+}
+
+.row {
+  margin: 0px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subtitle {
+  margin: 24px 32px 0px 32px;
+  font-size: 24px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.actionButtonsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 14px;
+  margin-top: 100px;
+}
+
+.actionButtonsContainer .btnDark {
+  width: 328px;
+  padding: 16px 24px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 700;
+}

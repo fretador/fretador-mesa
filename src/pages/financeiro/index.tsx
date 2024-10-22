@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -16,6 +16,9 @@ const Financial: React.FC = () => {
   const router = useRouter();
 
   const routeName = router.pathname.replace("/", "").toUpperCase();
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <AuthenticatedLayout>
@@ -42,11 +45,11 @@ const Financial: React.FC = () => {
 
               <div className={styles.entriesContainer}>
                 <h2>Entradas</h2>
-                <EntriesCards loading={false} error={'Erro'} />
+                <EntriesCards loading={loading} error={error} />
               </div>
 
               <div className={styles.lastPaymentsContainer}>
-                <LastPaymentsList />
+                <LastPaymentsList loading={loading} error={error} />
               </div>
             </Body>
           </div>

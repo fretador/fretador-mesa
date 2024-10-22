@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './PaymentType.module.css';
 
-type PaymentTypeOption = "adiantamento" | "saldo" | "saldo parcial" | "despesas" | "ocorrência"
+type PaymentTypeOption = "adiantamento" | "saldo" | "saldo parcial" | "despesas" | "ocorrência" | string
 
 interface PaymentTypeProps {
   paymentType: PaymentTypeOption
@@ -10,15 +10,15 @@ interface PaymentTypeProps {
 const PaymentType = ({paymentType}: PaymentTypeProps) => {
 
   const statusClassName =
-    paymentType === "adiantamento"
+    paymentType === "Adiantamento"
       ? styles.advance
-      : paymentType === "saldo"
+      : paymentType === "Saldo"
       ? styles.balance
-      : paymentType === "saldo parcial"
+      : paymentType === "Saldo Parcial"
       ? styles.partialBalance
-      : paymentType === "despesas"
+      : paymentType === "Despesas"
       ? styles.expenses
-      : paymentType === "ocorrência"
+      : paymentType === "Ocorrência"
       ? styles.occurrence
       : ''
 
