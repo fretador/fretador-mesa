@@ -10,9 +10,10 @@ import { useAppSelector } from '@/store/store';
 import { BackIcon, Playicon } from '@/utils/icons';
 import Botao from '@/components/Botao';
 import Image from 'next/image';
+import { mockOccurrences } from '@/components/AnsweredOccurrencesList';
 
 interface Occurrence {
-  freightCode: string;
+  freightNumber: string;
   freightDate: string;
   occurrenceType: string;
   occurrenceStatus: string;
@@ -24,61 +25,6 @@ interface Occurrence {
   attachments: string[],
   observations: string
 }
-
-const mockOccurrences = [
-  {
-    id: "01",
-    freightCode: "12345678",
-    freightDate: "01/01/2024",
-    cte: "1234",
-    occurrenceType: "Veículo Parado",
-    occurrenceStatus: "respondido",
-    driverName: "Zé do Frete",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "RJ X SP",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "audio"
-  },
-  {
-    id: "02",
-    freightCode: "87654321",
-    freightDate: "02/01/2024",
-    cte: "1234",
-    occurrenceType: "Carga Avariada",
-    occurrenceStatus: "em aberto",
-    driverName: "Maria da Estrada",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "CE X SP",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "texto"
-  },
-  {
-    id: "03",
-    freightCode: "11223344",
-    freightDate: "03/01/2024",
-    cte: "1234",
-    occurrenceType: "Atraso na Entrega",
-    occurrenceStatus: "reaberto",
-    driverName: "João Pé na Estrada",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "SP X RO",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "audio"
-  },
-  {
-    id: "04",
-    freightCode: "11223366",
-    freightDate: "03/01/2024",
-    cte: "1234",
-    occurrenceType: "Atraso na Entrega",
-    occurrenceStatus: "finalizado",
-    driverName: "João Pé na Estrada",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "RS X SP",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "text"
-  },
-];
 
 const OccurrenceDetails = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -138,7 +84,7 @@ const OccurrenceDetails = () => {
                   <div className={styles.row}>
                     <p>OCORRÊNCIA: <span>{occurrence.id}</span></p>
                     <p>Data: <span>{occurrence.freightDate}</span></p>
-                    <p>Frete número: <span>#{occurrence.freightCode}</span></p>
+                    <p>Frete número: <span>#{occurrence.freightNumber}</span></p>
                     <p>CTE: <span>{occurrence.cte}</span></p>
                   </div>
 
