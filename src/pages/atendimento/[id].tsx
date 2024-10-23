@@ -10,6 +10,7 @@ import { useAppSelector } from '@/store/store';
 import Botao from '@/components/Botao';
 import Image from 'next/image';
 import { BackIcon } from '@/utils/icons';
+import { mockRepliedMessages } from '@/components/RepliedMessagesList';
 
 interface Service {
   id: string,
@@ -22,102 +23,8 @@ interface Service {
   driverPhotoUrl: string,
   route: string,
   attachments: string[],
-  observations: string,
+  driverMessage: string
 }
-
-const mockRepliedMessages = [
-  {
-    id: "01",
-    serviceNumber: "12345678",
-    serviceDate: "01/01/2024",
-    cte: "1234",
-    subject: "Dúvidas",
-    serviceStatus: "respondido",
-    driverName: "Zé do Frete",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "RJ X SP",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "audio"
-  },
-  {
-    id: "02",
-    serviceNumber: "87654321",
-    serviceDate: "02/01/2024",
-    cte: "1234",
-    subject: "Dúvidas",
-    serviceStatus: "respondido",
-    driverName: "Maria da Estrada",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "CE X SP",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "texto"
-  },
-  {
-    id: "03",
-    serviceNumber: "11223344",
-    serviceDate: "03/01/2024",
-    cte: "1234",
-    subject: "Dúvidas",
-    serviceStatus: "reaberto",
-    driverName: "João Pé na Estrada",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "SP X RO",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "audio"
-  },
-  {
-    id: "04",
-    serviceNumber: "11223366",
-    serviceDate: "03/01/2024",
-    cte: "1234",
-    subject: "Dúvidas",
-    serviceStatus: "finalizado",
-    driverName: "João Pé na Estrada",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "RS X SP",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "texto"
-  },
-  {
-    id: "05",
-    serviceNumber: "11223366",
-    serviceDate: "03/01/2024",
-    cte: "1234",
-    subject: "Dúvidas",
-    serviceStatus: "finalizado",
-    driverName: "João Pé na Estrada",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "RS X SP",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "texto"
-  },
-  {
-    id: "06",
-    serviceNumber: "11223366",
-    serviceDate: "03/01/2024",
-    cte: "1234",
-    subject: "Dúvidas",
-    serviceStatus: "finalizado",
-    driverName: "João Pé na Estrada",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "RS X SP",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "texto"
-  },
-  {
-    id: "07",
-    serviceNumber: "11223366",
-    serviceDate: "03/01/2024",
-    cte: "1234",
-    subject: "Dúvidas",
-    serviceStatus: "finalizado",
-    driverName: "João Pé na Estrada",
-    driverPhotoUrl: "/driver-mock.png",
-    route: "RS X SP",
-    attachments: ["/driver-mock.png", "/driver-mock.png", "/driver-mock.png"],
-    observations: "texto"
-  },
-];
 
 const ServiceDetails = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -192,7 +99,7 @@ const ServiceDetails = () => {
                   </div>
 
                   <div className={styles.textContainer}>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis eius, exercitationem iure autem nam quos natus distinctio omnis dignissimos quasi quis asperiores nostrum labore maxime libero sit. Deleniti, voluptas blanditiis!</p>
+                    <p>{service.driverMessage}</p>
                   </div>
 
                   {showActionButtons &&
@@ -205,7 +112,7 @@ const ServiceDetails = () => {
                     </div>
                   }
 
-{showResponseBox && (
+                  {showResponseBox && (
                     <div className={styles.responseContainer}>
 
                       <div className={styles.row}>

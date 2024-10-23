@@ -3,9 +3,9 @@ import styles from './NewMessagesCards.module.css'
 import Loading from "../Loading";
 import { useRouter } from "next/router";
 import NewMessagesCard from "../NewMessagesCard";
+import { mockRepliedMessages } from "../RepliedMessagesList";
 
 interface NewMessagesCardsProps {
-  // messages: Messages[];
   loading: boolean;
   error: string | null;
 }
@@ -58,6 +58,10 @@ const NewMessagesCards = ({ loading, error }: NewMessagesCardsProps) => {
     );
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;
 
+  const handleCardClick = (id: string) => {
+    router.push(`/atendimento/${id}`);
+  };
+
   return (
     <div
       ref={listRef}
@@ -67,27 +71,18 @@ const NewMessagesCards = ({ loading, error }: NewMessagesCardsProps) => {
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
     >
-      <NewMessagesCard driverName="Zé do Frete" serviceNumber="111111" subject="Dúvidas" date="00/00/0000" handleNewMessage={() => handleNewMessage} />
-      <NewMessagesCard driverName="Zé do Frete" serviceNumber="111111" subject="Dúvidas" date="00/00/0000" handleNewMessage={() => handleNewMessage} />
-      <NewMessagesCard driverName="Zé do Frete" serviceNumber="111111" subject="Dúvidas" date="00/00/0000" handleNewMessage={() => handleNewMessage} />
-      <NewMessagesCard driverName="Zé do Frete" serviceNumber="111111" subject="Dúvidas" date="00/00/0000" handleNewMessage={() => handleNewMessage} />
-      <NewMessagesCard driverName="Zé do Frete" serviceNumber="111111" subject="Dúvidas" date="00/00/0000" handleNewMessage={() => handleNewMessage} />
-      <NewMessagesCard driverName="Zé do Frete" serviceNumber="111111" subject="Dúvidas" date="00/00/0000" handleNewMessage={() => handleNewMessage} />
-      <NewMessagesCard driverName="Zé do Frete" serviceNumber="111111" subject="Dúvidas" date="00/00/0000" handleNewMessage={() => handleNewMessage} />
-      <NewMessagesCard driverName="Zé do Frete" serviceNumber="111111" subject="Dúvidas" date="00/00/0000" handleNewMessage={() => handleNewMessage} />
-      <NewMessagesCard driverName="Zé do Frete" serviceNumber="111111" subject="Dúvidas" date="00/00/0000" handleNewMessage={() => handleNewMessage} />
-      <NewMessagesCard driverName="Zé do Frete" serviceNumber="111111" subject="Dúvidas" date="00/00/0000" handleNewMessage={() => handleNewMessage} />
-
-      {/* {messages.map((message: Message, index: number) => (
-        <PendingOccurrencesCard
-          key={index}
-          driverName={driver.name}
-          serviceNumber = {freight.number}
-          subject={messages.subject}
-          date={messages.date}
-          handleNewMessage={() => handleNewMessage(message.id)}
+      {mockRepliedMessages
+      .filter((message) => message.serviceStatus === "pendente")
+      .map((message) => (
+        <NewMessagesCard
+          key={message.id}
+          driverName={message.driverName}
+          serviceNumber={message.serviceNumber}
+          subject={message.subject}
+          date={message.serviceDate}
+          handleNewMessage={() => handleCardClick(message.id)}
         />
-      ))} */}
+      ))}
     </div>
   )
 }
