@@ -44,7 +44,7 @@ export interface Freight {
 	otherDocuments: Document[];
 	invoicePhoto: string | null;
 	invoiceCouponPhotos: Photo[];
-	invoiceCouponRejectedPhotos: string | null;
+	invoiceCouponRejectedPhotos: Photo[] | string | null;
 	packageDescription: string;
 	packageWeight: number;
 	pickupOrderPhoto: string | null;
