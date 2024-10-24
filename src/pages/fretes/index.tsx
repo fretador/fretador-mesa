@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { RootState } from "@/store/store";
@@ -22,108 +22,140 @@ import { Freight } from "@/utils/types/Freight";
 const Freights: React.FC = () => {
   const router = useRouter();
   const routeName = router.pathname.replace("/", "").toUpperCase();
-  const isRetracted = useSelector(
-    (state: RootState) => state.sidebar.isRetracted
-  );
-
   const { loadFreights } = useFreightController();
 
+  // Redux selectors
+  const isRetracted = useSelector((state: RootState) => state.sidebar.isRetracted);
   const freights = useSelector((state: RootState) => state.freight.freights);
   const pageInfo = useSelector((state: RootState) => state.freight.pageInfo);
   const loading = useSelector((state: RootState) => state.freight.loading);
   const error = useSelector((state: RootState) => state.freight.error);
 
+  // Local state
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const adjustLimit = () => {
+  const adjustLimit = useCallback(() => {
     const height = window.innerHeight;
-
     if (height >= 950) {
       setLimit(10);
-    } else if (height >= 800 && height < 950) {
+    } else if (height >= 800) {
       setLimit(8);
-    } else if (height >= 720 && height < 800) {
+    } else if (height >= 720) {
       setLimit(7);
-    } else if (height < 720) {
+    } else {
       setLimit(5);
     }
-  };
-
-  useEffect(() => {
-    adjustLimit();
-
-    window.addEventListener("resize", adjustLimit);
-
-    return () => {
-      window.removeEventListener("resize", adjustLimit);
-    };
   }, []);
 
-  const handleStatusFilterApply = (searchTerm: string, statuses: string[]) => {
-    setSearchTerm(searchTerm);
-    setSelectedStatuses(statuses);
-  };
+  // Window resize effect
+  useEffect(() => {
+    adjustLimit();
+    window.addEventListener("resize", adjustLimit);
+    return () => window.removeEventListener("resize", adjustLimit);
+  }, [adjustLimit]);
 
-  const handleStatusFilterCancel = () => {
-    setSearchTerm("");
-    setSelectedStatuses([]);
-  };
-
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-  };
-
-  const fetchFreights = () => {
+  const fetchFreights = useCallback(() => {
     const filters: FreightFilters = {
-      status:
-        selectedStatuses.length > 0 ? (selectedStatuses as [string]) : undefined,
+      status: selectedStatuses.length > 0 ? (selectedStatuses as [string]) : undefined,
       allFilters: searchTerm || undefined,
     };
-
     loadFreights(filters, page, limit);
-  };
+  }, [selectedStatuses, searchTerm, page, limit, loadFreights]);
 
+  // Debounced fetch effect
   useEffect(() => {
     const handler = setTimeout(() => {
       fetchFreights();
-    }, 100);
+    }, 300); // Increased debounce time for better performance
 
-    return () => {
-      clearTimeout(handler);
-    };
-  
-  }, [searchTerm, selectedStatuses, page, limit]);
+    return () => clearTimeout(handler);
+  }, [fetchFreights]);
 
-  const handleNextPage = () => {
+  // Filter handlers
+  const handleStatusFilterApply = useCallback((newSearchTerm: string, statuses: string[]) => {
+    setSearchTerm(newSearchTerm);
+    setSelectedStatuses(statuses);
+    setPage(1); // Reset to first page when filters change
+  }, []);
+
+  const handleStatusFilterCancel = useCallback(() => {
+    setSearchTerm("");
+    setSelectedStatuses([]);
+    setPage(1); // Reset to first page when filters are cleared
+  }, []);
+
+  const handleSearch = useCallback((term: string) => {
+    setSearchTerm(term);
+    setPage(1); // Reset to first page when search changes
+  }, []);
+
+  // Pagination handlers
+  const handleNextPage = useCallback(() => {
     if (pageInfo?.hasNextPage) {
-      setPage((prevPage) => prevPage + 1);
+      setPage(prev => prev + 1);
     }
-  };
+  }, [pageInfo?.hasNextPage]);
 
-  const handlePreviousPage = () => {
+  const handlePreviousPage = useCallback(() => {
     if (pageInfo?.hasPreviousPage && page > 1) {
-      setPage((prevPage) => prevPage - 1);
+      setPage(prev => prev - 1);
     }
-  };
+  }, [pageInfo?.hasPreviousPage, page]);
 
-  const handleFreightClick = (freightId: string) => {
+  const handleFreightClick = useCallback((freightId: string) => {
     router.push(`/frete-em-curso/${freightId}`);
-  };
+  }, [router]);
 
-  const generateRandomCteAndClient = (freight: Freight) => {
-    const updatedFreight = { ...freight };
-    if (!updatedFreight.numCte) {
-      updatedFreight.numCte = `CTE-${Math.floor(Math.random() * 1000000)}`;
-    }
-    if (!updatedFreight.clientName) {
-      updatedFreight.clientName = `Cliente-${Math.floor(Math.random() * 50)}`;
-    }
-    return updatedFreight;
-  };
+  const generateRandomCteAndClient = useCallback((freight: Freight): Freight => {
+    if (freight.numCte && freight.clientName) return freight;
+    
+    return {
+      ...freight,
+      numCte: freight.numCte || `CTE-${Math.floor(Math.random() * 1000000)}`,
+      clientName: freight.clientName || `Cliente-${Math.floor(Math.random() * 50)}`
+    };
+  }, []);
+
+  const renderFreightRows = () => (
+    freights.map(freight => {
+      const status = freight.status as FreightStatus;
+      const updatedFreight = generateRandomCteAndClient(freight);
+      
+      return (
+        <Row.Root
+          key={updatedFreight.id}
+          freightStatus={status}
+          onClick={() => handleFreightClick(updatedFreight.id)}
+        >
+          <Row.FreightDate
+            date={formatDateToBrazilian(updatedFreight.creationDate)}
+          />
+          <Row.FreightCode
+            code={updatedFreight.freightCode.toString()}
+          />
+          <Row.Cte cte={updatedFreight.numCte || "-"} />
+          <Row.Route
+            originState={updatedFreight?.origin?.split(", ")[1]}
+            destinyState={updatedFreight?.destination?.split(", ")[1]}
+          />
+          <Row.Customer
+            customerName={updatedFreight.clientName || "-"}
+          />
+          <Row.Driver
+            driverName={
+              updatedFreight?.targetedDrivers?.length > 0
+                ? updatedFreight.targetedDrivers[0].name
+                : "-"
+            }
+          />
+          <Row.FreightStatus freightStatus={status} />
+        </Row.Root>
+      );
+    })
+  );
 
   return (
     <AuthenticatedLayout>
@@ -131,11 +163,7 @@ const Freights: React.FC = () => {
         <div>
           <Sidebar />
         </div>
-        <div
-          className={
-            isRetracted ? styles.retractedContentWrapper : styles.contentWrapper
-          }
-        >
+        <div className={isRetracted ? styles.retractedContentWrapper : styles.contentWrapper}>
           <div className={styles.header}>
             <Header title={routeName} />
           </div>
@@ -147,7 +175,7 @@ const Freights: React.FC = () => {
                   <StatusFilter
                     onApply={handleStatusFilterApply}
                     onCancel={handleStatusFilterCancel}
-                    type={"freight"}
+                    type="freight"
                   />
                 </div>
               </div>
@@ -161,6 +189,7 @@ const Freights: React.FC = () => {
                 Driver="MOTORISTA"
                 FreightStatus="STATUS"
               />
+
               {loading ? (
                 <div className={styles.loadingContainer}>
                   <Loading />
@@ -169,45 +198,7 @@ const Freights: React.FC = () => {
                 <p>Erro ao carregar os fretes: {error}</p>
               ) : (
                 <>
-                  {freights.map((freight) => {
-                    const status: FreightStatus =
-                      freight.status as FreightStatus;
-                    const updatedFreight = generateRandomCteAndClient(freight);
-                    return (
-                      <Row.Root
-                        key={updatedFreight.id}
-                        freightStatus={status}
-                        onClick={() => handleFreightClick(updatedFreight.id)}
-                      >
-                        <Row.FreightDate
-                          date={formatDateToBrazilian(
-                            updatedFreight.creationDate
-                          )}
-                        />
-                        <Row.FreightCode
-                          code={updatedFreight.freightCode.toString()}
-                        />
-                        <Row.Cte cte={updatedFreight.numCte || "-"} />
-                        <Row.Route
-                          originState={updatedFreight?.origin?.split(", ")[1]}
-                          destinyState={
-                            updatedFreight?.destination?.split(", ")[1]
-                          }
-                        />
-                        <Row.Customer
-                          customerName={updatedFreight.clientName || "-"}
-                        />
-                        <Row.Driver
-  driverName={
-    updatedFreight?.targetedDrivers?.length > 0
-      ? updatedFreight.targetedDrivers[0].name
-      : "-"
-  }
-/>
-                        <Row.FreightStatus freightStatus={status} />
-                      </Row.Root>
-                    );
-                  })}
+                  {renderFreightRows()}
                   <div className={styles.pagination}>
                     <button
                       onClick={handlePreviousPage}

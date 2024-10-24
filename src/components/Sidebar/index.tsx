@@ -14,7 +14,7 @@ import {
   CalculatorIcon,
 } from "@/utils/icons";
 import { useAppSelector, useAppDispatch } from "@/store/store";
-import { resetNotification } from "@/store/slices/notificationsSlice";
+import { resetNotification, NotificationKey } from "@/store/slices/notificationsSlice";
 import styles from "./Sidebar.module.css";
 import { useRouter } from "next/router";
 
@@ -27,8 +27,8 @@ const Sidebar: React.FC = () => {
   // Extrai o nome da rota atual e converte para caixa alta
   const routeName = router.pathname.replace("/", "").toUpperCase();
 
-  const handleItemClick = (context: keyof typeof notifications) => {
-    dispatch(resetNotification(context as any));
+  const handleItemClick = (context: NotificationKey) => {
+    dispatch(resetNotification(context));
   };
 
   return (
@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
           isRetracted={isRetracted}
           isFocused={routeName === "FRETES"}
           onClick={() => handleItemClick("fretes")}
-          badge={notifications?.fretes}
+          badge={notifications.counters.fretes}
         />
         <SidebarComp.Item
           icon={<PersonAddIcon />}
@@ -58,7 +58,7 @@ const Sidebar: React.FC = () => {
           isRetracted={isRetracted}
           isFocused={routeName === "MOTORISTAS"}
           onClick={() => handleItemClick("motoristas")}
-          badge={notifications?.motoristas}
+          badge={notifications.counters.motoristas}
         />
         <SidebarComp.Item
           icon={<ClientsBook />}
@@ -66,7 +66,7 @@ const Sidebar: React.FC = () => {
           isRetracted={isRetracted}
           isFocused={routeName === "CLIENTES"}
           onClick={() => handleItemClick("clientes")}
-          badge={notifications?.clientes}
+          badge={notifications.counters.clientes}
         />
         <SidebarComp.Item
           icon={<HelpIcon />}
@@ -74,23 +74,24 @@ const Sidebar: React.FC = () => {
           isRetracted={isRetracted}
           isFocused={routeName === "OCORRENCIAS"}
           onClick={() => handleItemClick("ocorrencias")}
-          badge={notifications?.ocorrencias}
+          badge={notifications.counters.ocorrencias}
         />
-        <SidebarComp.Item
+        {/* TODO: Cotações */}
+        {/* <SidebarComp.Item
           icon={<CalculatorIcon />}
           text="COTAÇÕES"
           isRetracted={isRetracted}
           isFocused={routeName === "COTACAO"}
           onClick={() => handleItemClick("cotacao")}
-          badge={notifications?.cotacao}
-        />
+          badge={notifications.counters.cotacao}
+        /> */}
         <SidebarComp.Item
           icon={<FinanceIcon />}
           text="FINANCEIRO"
           isRetracted={isRetracted}
           isFocused={routeName === "FINANCEIRO"}
           onClick={() => handleItemClick("financeiro")}
-          badge={notifications?.financeiro}
+          badge={notifications.counters.financeiro}
         />
         <SidebarComp.Separator isRetracted={isRetracted} />
         <SidebarComp.Item
