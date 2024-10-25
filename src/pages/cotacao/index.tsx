@@ -5,7 +5,7 @@ import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
-import FormQuote from "@/components/FormQuote";
+// import FormQuote from "@/components/FormQuote";
 import styles from "./Cotacao.module.css";
 
 const CreateQuote: React.FC = () => {
@@ -30,8 +30,9 @@ const CreateQuote: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
+              <h1>Cotação</h1>
               {/* Substituímos o formulário pelo FormContainer */}
-              <FormQuote />
+              {/* <FormQuote /> */}
             </Body>
           </div>
         </div>

@@ -17,35 +17,36 @@ const FreightValueSection: React.FC = () => {
       <div className={styles.rowInputs}>
         {/* Valor do Frete */}
         <div className={styles.inputGroup}>
-          <label htmlFor="value" className={styles.label}>
+          <label htmlFor="freightValue" className={styles.label}>
             Valor do Frete
           </label>
           <Controller
-            name="value"
+            name="freightValue"
             control={control}
             rules={{
               required: "Valor do frete é obrigatório",
-              min: { value: 0, message: "O valor deve ser maior ou igual a 0" },
             }}
             render={({ field: { onChange, value } }) => (
               <NumericFormat
-                id="value"
+                id="freightValue"
                 value={value}
-                onValueChange={(v) => onChange(v.floatValue)}
+                onValueChange={(values) => {
+                  onChange(values.value ? values.value.toString() : "");
+                }}
                 decimalScale={2}
                 fixedDecimalScale
                 prefix="R$ "
                 thousandSeparator="."
                 decimalSeparator=","
                 className={`${styles.input} ${
-                  errors.value ? styles.errorInput : ""
+                  errors.freightValue ? styles.errorInput : ""
                 }`}
                 placeholder="R$ 0,00"
               />
             )}
           />
-          {errors.value && (
-            <p className={styles.errorMessage}>{errors.value.message}</p>
+          {errors.freightValue && (
+            <p className={styles.errorMessage}>{errors.freightValue.message}</p>
           )}
         </div>
 
@@ -131,17 +132,10 @@ const FreightValueSection: React.FC = () => {
           <input
             id="formaPagamento"
             type="text"
-            {...register("formaPagamento")}
-            className={`${styles.input} ${
-              errors.formaPagamento ? styles.errorInput : ""
-            }`}
+            disabled={false} 
+            className={`${styles.input}`}
             placeholder="Pix, Depósito, Pamcard, etc."
           />
-          {errors.formaPagamento && (
-            <p className={styles.errorMessage}>
-              {errors.formaPagamento.message}
-            </p>
-          )}
         </div>
       </div>
     </section>

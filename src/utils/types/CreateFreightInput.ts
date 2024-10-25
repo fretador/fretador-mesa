@@ -28,6 +28,7 @@ export interface CreateFreightInput {
   freightType: Type;
   freightValue: string;
   pedagioIncluso: boolean;
+  paymentType?: string;
   observations?: string;
   eligibleVehicles: EligibleVehicle[];
   eligibleBodyworks: EligibleBodywork[];

@@ -3,34 +3,49 @@ import styles from "./Attachments.module.css";
 import ActionButtons from "../ActionButtons";
 import Image from "next/image";
 
+interface PhotoUrl {
+  imageUrl: string;
+}
+
+interface VehiclePhotos {
+  vehiclePhoto?: PhotoUrl;
+  anttPhoto?: PhotoUrl;
+  documentPhoto?: PhotoUrl;
+}
+
+interface DriverAttachments {
+  anttPhoto?: string;
+  cnh?: string;
+  documentPhoto?: string;
+  proofResidencePhoto?: string;
+  rg?: string;
+  userPhoto?: string;
+  vehiclePhoto?: string;
+}
+
 interface Driver {
-  attachments?: {
-    anttPhoto: string;
-    cnh: string;
-    documentPhoto: string;
-    proofResidencePhoto: string;
-    rg: string;
-    userPhoto: string;
-    vehiclePhoto: string;
-  };
-  cnhPhoto?: { imageUrl: string };
-  rgPhoto?: { imageUrl: string };
-  userPhoto?: { imageUrl: string };
-  vehicle?: {
-    vehiclePhoto?: { imageUrl: string };
-    anttPhoto?: { imageUrl: string };
-    documentPhoto?: { imageUrl: string };
-  };
+  attachments?: DriverAttachments;
+  cnhPhoto?: PhotoUrl;
+  rgPhoto?: PhotoUrl;
+  userPhoto?: PhotoUrl;
+  vehicle?: VehiclePhotos;
 }
 
 interface AttachmentsProps {
   driver: Driver;
 }
 
+interface ImageData {
+  id: string;
+  src: string | undefined;
+  alt: string;
+}
+
 const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
-  const imageData = useMemo(() => {
+  const imageData = useMemo((): ImageData[] => {
     const attachments = driver.attachments || {};
-    return [
+    
+    const images: ImageData[] = [
       {
         id: "1",
         src: attachments.userPhoto || driver.userPhoto?.imageUrl,
@@ -48,8 +63,7 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
       },
       {
         id: "4",
-        src:
-          attachments.documentPhoto || driver.vehicle?.documentPhoto?.imageUrl,
+        src: attachments.documentPhoto || driver.vehicle?.documentPhoto?.imageUrl,
         alt: "Doc. Veículo",
       },
       {
@@ -62,9 +76,16 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
         src: attachments.vehiclePhoto || driver.vehicle?.vehiclePhoto?.imageUrl,
         alt: "Foto Veículo",
       },
-      { id: "7", src: attachments.rg || driver.rgPhoto?.imageUrl, alt: "RG" },
-    ].filter(
-      (image) => typeof image.src === "string" && image.src.trim() !== ""
+      {
+        id: "7",
+        src: attachments.rg || driver.rgPhoto?.imageUrl,
+        alt: "RG",
+      },
+    ];
+
+    return images.filter(
+      (image): image is ImageData & { src: string } => 
+        typeof image.src === "string" && image.src.trim() !== ""
     );
   }, [driver]);
 

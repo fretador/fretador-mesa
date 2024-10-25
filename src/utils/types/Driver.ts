@@ -9,6 +9,7 @@ import { RequestedFreightItem } from "./RequestedFreightItem";
 export interface Driver {
   _id: string;
   active: boolean;
+  cnh: string;
   cnhPhoto: Photo;
   cpf: string;
   creationDate: string;
@@ -39,4 +40,18 @@ export interface Driver {
   city: string;
   state: string;
   email?: string;
+  owner: OwnerData;
+}
+
+
+export interface OwnerData {
+  name: string;
+  cpf: string;
+  cnh: string;
+  phoneNumber: string;
+  email: string;
+  bankName: string;
+  bankAgency: string;
+  bankAccount: string;
+  pix: string;
 }
