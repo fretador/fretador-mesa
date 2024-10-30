@@ -47,7 +47,7 @@ export interface Driver {
 export interface OwnerData {
   name: string;
   cpf: string;
-  cnh: string;
+  cnh?: string;
   phoneNumber: string;
   email: string;
   bankName: string;
