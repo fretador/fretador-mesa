@@ -18,6 +18,7 @@ import AddNewFreightButton from "@/components/AddNewFreightButton";
 import Loading from "@/components/Loading";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { Freight } from "@/utils/types/Freight";
+import { PageInfo } from '@/utils/types/PageInfo';
 
 const Freights: React.FC = () => {
   const router = useRouter();
@@ -93,17 +94,27 @@ const Freights: React.FC = () => {
   }, []);
 
   // Pagination handlers
+  const handlePreviousPage = useCallback(() => {
+    if (pageInfo?.hasPreviousPage && page > 1) {
+      setPage(prev => prev - 1);
+    }
+  }, [pageInfo?.hasPreviousPage, page]);
+
   const handleNextPage = useCallback(() => {
     if (pageInfo?.hasNextPage) {
       setPage(prev => prev + 1);
     }
   }, [pageInfo?.hasNextPage]);
 
-  const handlePreviousPage = useCallback(() => {
-    if (pageInfo?.hasPreviousPage && page > 1) {
-      setPage(prev => prev - 1);
+  const handleLastPage = useCallback(() => {
+    if (pageInfo?.totalPages) {
+      setPage(pageInfo?.totalPages);
     }
-  }, [pageInfo?.hasPreviousPage, page]);
+  }, [pageInfo?.totalPages]);
+
+  const handleFirstPage = useCallback(() => {
+    setPage(1);
+  }, []);
 
   const handleFreightClick = useCallback((freightId: string) => {
     router.push(`/frete-em-curso/${freightId}`);
@@ -111,7 +122,7 @@ const Freights: React.FC = () => {
 
   const generateRandomCteAndClient = useCallback((freight: Freight): Freight => {
     if (freight.numCte && freight.clientName) return freight;
-    
+
     return {
       ...freight,
       numCte: freight.numCte || `CTE-${Math.floor(Math.random() * 1000000)}`,
@@ -123,7 +134,7 @@ const Freights: React.FC = () => {
     freights.map(freight => {
       const status = freight.status as FreightStatus;
       const updatedFreight = generateRandomCteAndClient(freight);
-      
+
       return (
         <Row.Root
           key={updatedFreight.id}
@@ -201,6 +212,13 @@ const Freights: React.FC = () => {
                   {renderFreightRows()}
                   <div className={styles.pagination}>
                     <button
+                      onClick={handleFirstPage}
+                      disabled={page === 1}
+                      className={styles.paginationButton}
+                    >
+                      Primeira Página
+                    </button>
+                    <button
                       onClick={handlePreviousPage}
                       disabled={!pageInfo?.hasPreviousPage || page === 1}
                       className={styles.paginationButton}
@@ -216,6 +234,13 @@ const Freights: React.FC = () => {
                       className={styles.paginationButton}
                     >
                       Próxima Página
+                    </button>
+                    <button
+                      onClick={handleLastPage}
+                      disabled={pageInfo?.totalPages === page}
+                      className={styles.paginationButton}
+                    >
+                      Última Página
                     </button>
                   </div>
                 </>
