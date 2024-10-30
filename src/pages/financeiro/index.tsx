@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -14,11 +14,7 @@ import FinancialFilter from "@/components/FinancialFilter";
 const Financial: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
-
   const routeName = router.pathname.replace("/", "").toUpperCase();
-
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   return (
     <AuthenticatedLayout>
@@ -38,18 +34,17 @@ const Financial: React.FC = () => {
           <div className={styles.content}>
             <Body>
               <div className={styles.searchComponents}>
-                <SearchComponent onSearch={() => {}} />
+                <SearchComponent onSearch={() => { }} />
                 <FinancialFilter />
-
               </div>
 
               <div className={styles.entriesContainer}>
                 <h2>Entradas</h2>
-                <EntriesCards loading={loading} error={error} />
+                <EntriesCards />
               </div>
 
               <div className={styles.lastPaymentsContainer}>
-                <LastPaymentsList loading={loading} error={error} />
+                <LastPaymentsList loading={false} error={null} />
               </div>
             </Body>
           </div>
