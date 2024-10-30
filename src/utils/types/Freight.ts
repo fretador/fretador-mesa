@@ -114,4 +114,5 @@ export interface Freight {
 	travelDistance?: number;
 	toll?: boolean;
 	requestFinancialType?: RequestFinancialType;
+	contractNumber: string;
 }
