@@ -31,7 +31,7 @@ const EntriesCards: React.FC = () => {
         setData(result.data);
         setLoading(false);
       } catch (error: any) {
-        setError(error.message || "Erro ao carregar fretes");
+        setError(error?.message ?? "Erro ao carregar fretes");
         setLoading(false);
       }
     };
@@ -76,7 +76,8 @@ const EntriesCards: React.FC = () => {
     }
   };
 
-  const handleCardClick = (id: string) => {
+  const handleCardClick = (id: string | undefined) => {
+    if (!id) return;
     router.push(`/financeiro/${id}`);
   };
 
@@ -89,20 +90,20 @@ const EntriesCards: React.FC = () => {
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
     >
-      {data
-        .map((freight) => {
-          const driver = freight.targetedDrivers ? freight.targetedDrivers[0] : {};
-          return (
-            <EntriesCard
-              key={freight.id}
-              driverName={driver ? driver.name : "N/A"}
-              type={freight.requestFinancialType ? freight.requestFinancialType : "N/A"}
-              paymentMethod={freight.formaPagamento ? freight.formaPagamento : "N/A"}
-              contact={driver ? driver.phoneNumber : "N/A"}
-              handleNewPayment={() => handleCardClick(freight.id)}
-            />
-          );
-        })}
+      {data.map((freight) => {
+        const driver = freight.targetedDrivers?.[0];
+
+        return (
+          <EntriesCard
+            key={freight.id}
+            driverName={driver?.name ?? "Não informado"}
+            type={freight.requestFinancialType ?? "Não informado"}
+            paymentMethod={freight.formaPagamento ?? "Não informado"}
+            contact={driver?.phoneNumber ?? "Não informado"}
+            handleNewPayment={() => freight.id && handleCardClick(freight.id)}
+          />
+        );
+      })}
     </div>
   );
 };
