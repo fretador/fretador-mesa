@@ -12,7 +12,9 @@ export const GET_FREIGHTS = gql`
 					destination
 					status
 					value
-					targetedDrivers
+					targetedDrivers {
+						name
+					}
 				}
 			}
 			pageInfo {
@@ -32,7 +34,12 @@ export const GET_FREIGHT_BY_ID = gql`
 			origin
 			destination
 			status
-			targetedDrivers
+			targetedDrivers {
+				name
+				userPhoto {
+					imageUrl
+				}
+			}
 			freightCode
 			updateDate
 			type
