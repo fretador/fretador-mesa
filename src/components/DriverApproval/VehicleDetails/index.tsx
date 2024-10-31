@@ -1,28 +1,10 @@
 import React from "react";
 import styles from "./VehicleDetails.module.css";
 import { PencilSolidIcon } from "@/utils/icons";
-import ActionButtons from "../ActionButtons";
-import {
-  BodyworkCategory,
-  BodyworkType,
-} from "@/utils/enums/bodyworkEnums";
-import { VehicleCategory, VehicleType } from "@/utils/enums/vehicleEnums";
+import { Vehicle } from "@/utils/types/Vehicle";
 
 interface VehicleDetailsProps {
-  vehicle: {
-    type: string;
-    plate: string;
-    renavam: string;
-    chassi: string;
-    antt: string;
-    tracker: string;
-    ownerName: string;
-    ownerDocument: string;
-    bodyworkCategory: BodyworkCategory;
-    bodyworkType: BodyworkType;
-    vehicleCategory: VehicleCategory;
-    vehicleType: VehicleType;
-  };
+  vehicle: Vehicle
 }
 
 const VehicleDetails: React.FC<VehicleDetailsProps> = ({ vehicle }) => {
