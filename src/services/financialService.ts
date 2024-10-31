@@ -1,4 +1,4 @@
-import { GET_FREIGHTS_FOR_FINANCIAL } from "@/graphql/queries/financialQueries";
+import { GET_FREIGHTS_FOR_FINANCIAL, GET_FREIGHT_FINANCIAL_BY_ID } from "@/graphql/queries/financialQueries";
 import apolloClient from "@/app/apolloClient";
 import { Freight } from "../utils/types/Freight";
 import { PageInfo } from "../utils/types/PageInfo";
@@ -29,6 +29,19 @@ export const FinancialService = {
 			),
 			pageInfo: response.data.freightsForFinancial.pageInfo,
 		};
+	},
+
+	getFreightForFinancialById: async (id: string) => {
+		const response = await apolloClient.query({
+			query: GET_FREIGHT_FINANCIAL_BY_ID,
+			variables: { id },
+		});
+
+		if (!response.data || !response.data.freightForFinancialById) {
+			throw new Error("Failed to fetch freight for financial by id");
+		}
+
+		return response.data.freightForFinancialById;
 	},
 
 	transformFreights: (data: Freight[]) => {

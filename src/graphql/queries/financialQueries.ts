@@ -37,3 +37,33 @@ export const GET_FREIGHTS_FOR_FINANCIAL = gql`
 		}
 	}
 `;
+
+export const GET_FREIGHT_FINANCIAL_BY_ID = gql`
+	query GetFreightFinancialById($id: ID!) {
+		freightForFinancialById(id: $id) {
+			id
+			requestFinancialType
+			formaPagamento
+			contractNumber
+			origin
+			destination
+			value
+			paymentDate
+			numCte
+			status
+			targetedDrivers {
+				id
+				name
+				phoneNumber
+				cpf
+				cnh
+				email
+				bankDetails
+				pix
+				userPhoto {
+					imageUrl
+				}
+			}
+		}
+	}
+`;
