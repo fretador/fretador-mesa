@@ -44,7 +44,7 @@ const Financial: React.FC = () => {
               </div>
 
               <div className={styles.lastPaymentsContainer}>
-                <LastPaymentsList loading={false} error={null} />
+                <LastPaymentsList />
               </div>
             </Body>
           </div>

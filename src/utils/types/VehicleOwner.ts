@@ -1,8 +1,8 @@
-import { UserDocument} from "./UserDocument";
+import { DriverDocument } from "./DriverDocument";
 
 export interface VehicleOwner {
 	email: string;
-	document: UserDocument;
+	document: DriverDocument;
 	address: string;
 	contact: string;
 }
