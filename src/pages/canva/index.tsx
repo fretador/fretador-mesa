@@ -79,14 +79,14 @@ const Canva: React.FC = () => {
               Driver="MOTORISTA"
               FreightStatus="STATUS"
             />
-            <Row.Root freightStatus="DISPONIVEL">
+            <Row.Root>
               <Row.FreightDate date={new Date().toLocaleDateString()} />
               <Row.FreightCode code={"ABC123"} />
               <Row.Cte cte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
               <Row.Customer customerName={"Joaquim José da Silva Xavier"} />
               <Row.Driver driverName="João Pedro do Nascimento" />
-              <Row.FreightStatus freightStatus="DISPONIVEL" />
+              <Row.FreightStatus />
             </Row.Root>
           </Body>
           <button onClick={toggleModal} className={styles.openModalButton}>
@@ -154,6 +154,7 @@ const Canva: React.FC = () => {
             onRequestClose={toggleSendToFinanceModal}
             onApprove={toggleSendToFinanceModal}
             onReject={toggleSendToFinanceModal}
+            content=""
           />
 
           {/* Renderizando o novo modal ValueInputModal */}

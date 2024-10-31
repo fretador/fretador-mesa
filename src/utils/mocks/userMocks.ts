@@ -1,6 +1,4 @@
-import { User } from "../Interfaces/UserInterfaces";
-
-export const mockUsers: User[] = [
+export const mockUsers: any[] = [
 	{
 		_id: "1",
 		active: true,

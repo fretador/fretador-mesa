@@ -2,20 +2,31 @@ import { BoardUser } from "../types/BoardUser";
 
 export const storageHelper = {
 	saveBoardUser: (boardUser: BoardUser) => {
-		sessionStorage.setItem("boardUser", JSON.stringify(boardUser));
+		if (typeof window !== "undefined") {
+			sessionStorage.setItem("boardUser", JSON.stringify(boardUser));
+		}
 	},
 
 	getBoardUserToken: () => {
-		const boardUser = sessionStorage.getItem("boardUser");
-		return boardUser ? JSON.parse(boardUser).token : null;
+		if (typeof window !== "undefined") {
+			const boardUser = sessionStorage.getItem("boardUser");
+			return boardUser ? JSON.parse(boardUser).token : null;
+		}
+		return null;
 	},
 
 	getBoardUser: () => {
-		const boardUser = sessionStorage.getItem("boardUser");
-		return boardUser ? JSON.parse(boardUser) : null;
+		if (typeof window !== "undefined") {
+			const boardUser = sessionStorage.getItem("boardUser");
+			return boardUser ? JSON.parse(boardUser) : null;
+		}
+		return null;
 	},
 
 	removeBoardUser: () => {
-		sessionStorage.removeItem("boardUser");
+		if (typeof window !== "undefined") {
+			sessionStorage.removeItem("boardUser");
+		}
 	},
 };
+

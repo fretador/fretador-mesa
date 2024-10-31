@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -7,7 +6,6 @@ import styles from "./Freteemcurso.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
-import SearchComponent from "@/components/SearchButton";
 import FreightInCurseHeader from "@/components/FreightInCurseHeader";
 import { SeparatorIcon } from "@/utils/icons";
 import ProgressBar from "@/components/ProgressBar";
@@ -26,8 +24,9 @@ interface FreightInProgressProps {
 }
 
 interface StatusHistoryItem {
-  updateDate: string;
-  status: FreightStatus;
+  updateDate: string | null;
+  updateData: any;
+  status: FreightStatus | string;
 }
 
 const useFreightData = (freightId: string) => {
@@ -71,14 +70,12 @@ const getFreightStepProps = (
   index: number,
   freight: Freight | null
 ) => {
-  const theme = index % 2 === 0 ? "dark" : "light";
+  const theme: "dark" | "light" = index % 2 === 0 ? "dark" : "light";
   let content = "";
   let primaryButtonLabel: string | undefined;
   let onPrimaryButtonClick: (() => void) | undefined;
   let actionButtonText: string | undefined;
   let handleActionButton: (() => void) | undefined;
-  let hasAttachment = false;
-  let attachmentPath: string | undefined;
 
   const freightType = freight?.type ?? Type.TARGETED;
 
@@ -104,9 +101,15 @@ const getFreightStepProps = (
       break;
     case FreightStatus.PICKUP_ORDER_SENT:
       content = "Ordem de Coleta enviada para o motorista";
-      hasAttachment = true;
-      attachmentPath = freight?.pickupOrderPhoto ?? undefined;
-      break;
+      return {
+        theme,
+        date: item.updateDate || "",
+        content,
+        hasAttachment: true as const,
+        attachmentPath: freight?.pickupOrderPhoto ?? "",
+        disabled: false,
+        updateData: item.updateData ?? {},
+      };
     case FreightStatus.LOADING_STARTED:
       content = "Início do carregamento";
       break;
@@ -157,22 +160,20 @@ const getFreightStepProps = (
       break;
     default:
       content = `Status: ${item.status}`;
+      break;
   }
-
-  const updateData = item.updateData ?? [];
 
   return {
     theme,
-    date: item.updateDate,
+    date: item.updateDate || "",
     content,
     primaryButtonLabel,
     onPrimaryButtonClick,
     actionButtonText,
     handleActionButton,
-    hasAttachment,
-    attachmentPath,
+    hasAttachment: false as const,
     disabled: false,
-    updateData, // Adicionado aqui
+    updateData: item.updateData ?? {},
   };
 };
 
@@ -190,7 +191,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
         .replace("/", "")
         .replaceAll("-", " ")
         .toUpperCase();
-      setRouteName(`${pathName} ${freight.freightCode.toString()}`);
+      setRouteName(`${pathName} ${freight.freightCode?.toString() ?? ""}`);
     }
   }, [freight, router.pathname]);
 
@@ -229,21 +230,21 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
           }
         >
           <div className={styles.header}>
-            <Header title={`FRETE EM CURSO ${freight?.freightCode}`} />
+            <Header title={`FRETE EM CURSO ${freight?.freightCode ?? ""}`} />
           </div>
           <div className={styles.content}>
             <Body>
               {freight && (
                 <div className={styles.freightInCurseContainer}>
                   <FreightInCurseHeader
-                    freightCode={freight.freightCode.toString()}
+                    freightCode={freight.freightCode?.toString() ?? ""}
                     statusFreight={freight.status as FreightStatus}
-                    driverName={freight.targetedDrivers[0]?.name}
-                    origin={freight.origin}
-                    destination={freight.destination}
+                    driverName={freight.targetedDrivers?.[0]?.name ?? ""}
+                    origin={freight.origin ?? ""}
+                    destination={freight.destination ?? ""}
                     driverPhoto={
-                      (freight.targetedDrivers[0]?.userPhoto?.imageUrl ||
-                        freight.targetedDrivers[0]?.userPhoto ||
+                      (freight.targetedDrivers?.[0]?.userPhoto?.imageUrl ||
+                        freight.targetedDrivers?.[0]?.userPhoto ||
                         "") as string
                     }
                   />
@@ -253,7 +254,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   <div className={styles.freightInCurseOptionsContainer}>
                     <h2>Dados do embarque:</h2>
                     <FreightInCourseOptions
-                      freightId={freight.id}
+                      freightId={freight.id ?? ""}
                       onDocumentsUploaded={handleDocumentsUploaded}
                     />
                   </div>
@@ -268,7 +269,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                   .reverse()
                   .map((item, index) => (
                     <FreightStep
-                      key={`${item.status}-${item.updateDate}`}
+                      key={`${item.status}-${item.updateDate || index}`}
                       {...getFreightStepProps(item, index, freight)}
                     />
                   ))}

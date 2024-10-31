@@ -59,7 +59,7 @@ const Freights: React.FC = () => {
 
   const fetchFreights = useCallback(() => {
     const filters: FreightFilters = {
-      status: selectedStatuses.length > 0 ? (selectedStatuses as [string]) : undefined,
+      status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
       allFilters: searchTerm || undefined,
     };
     loadFreights(filters, page, limit);
@@ -93,63 +93,82 @@ const Freights: React.FC = () => {
   }, []);
 
   // Pagination handlers
-  const handleNextPage = useCallback(() => {
-    if (pageInfo?.hasNextPage) {
-      setPage(prev => prev + 1);
-    }
-  }, [pageInfo?.hasNextPage]);
-
   const handlePreviousPage = useCallback(() => {
     if (pageInfo?.hasPreviousPage && page > 1) {
       setPage(prev => prev - 1);
     }
   }, [pageInfo?.hasPreviousPage, page]);
 
-  const handleFreightClick = useCallback((freightId: string) => {
+  const handleNextPage = useCallback(() => {
+    if (pageInfo?.hasNextPage) {
+      setPage(prev => prev + 1);
+    }
+  }, [pageInfo?.hasNextPage]);
+
+  const handleLastPage = useCallback(() => {
+    if (pageInfo?.totalPages) {
+      setPage(pageInfo.totalPages);
+    }
+  }, [pageInfo?.totalPages]);
+
+  const handleFirstPage = useCallback(() => {
+    setPage(1);
+  }, []);
+
+  const handleFreightClick = useCallback((freightId: string | undefined) => {
+    if (!freightId) return;
     router.push(`/frete-em-curso/${freightId}`);
   }, [router]);
 
-  const generateRandomCteAndClient = useCallback((freight: Freight): Freight => {
+  const generateRandomCteAndClient = (freight: Freight): Freight => {
     if (freight.numCte && freight.clientName) return freight;
-    
+
     return {
       ...freight,
       numCte: freight.numCte || `CTE-${Math.floor(Math.random() * 1000000)}`,
       clientName: freight.clientName || `Cliente-${Math.floor(Math.random() * 50)}`
     };
-  }, []);
+  };
 
   const renderFreightRows = () => (
     freights.map(freight => {
       const status = freight.status as FreightStatus;
       const updatedFreight = generateRandomCteAndClient(freight);
-      
+
       return (
         <Row.Root
-          key={updatedFreight.id}
+          key={updatedFreight.id || Math.random().toString()}
           freightStatus={status}
           onClick={() => handleFreightClick(updatedFreight.id)}
         >
           <Row.FreightDate
-            date={formatDateToBrazilian(updatedFreight.creationDate)}
+            date={
+              updatedFreight.creationDate
+                ? formatDateToBrazilian(updatedFreight.creationDate)
+                : "Não informada"
+            }
           />
           <Row.FreightCode
-            code={updatedFreight.freightCode.toString()}
+            code={updatedFreight.freightCode ? updatedFreight.freightCode.toString() : "-"}
           />
           <Row.Cte cte={updatedFreight.numCte || "-"} />
           <Row.Route
-            originState={updatedFreight?.origin?.split(", ")[1]}
-            destinyState={updatedFreight?.destination?.split(", ")[1]}
+            originState={
+              updatedFreight.origin
+                ? updatedFreight.origin.split(", ")[1]
+                : "Não informada"
+            }
+            destinyState={
+              updatedFreight.destination
+                ? updatedFreight.destination.split(", ")[1]
+                : "Não informada"
+            }
           />
           <Row.Customer
             customerName={updatedFreight.clientName || "-"}
           />
           <Row.Driver
-            driverName={
-              updatedFreight?.targetedDrivers?.length > 0
-                ? updatedFreight.targetedDrivers[0].name
-                : "-"
-            }
+            driverName={updatedFreight.targetedDrivers?.[0]?.name || "-"}
           />
           <Row.FreightStatus freightStatus={status} />
         </Row.Root>
@@ -201,6 +220,13 @@ const Freights: React.FC = () => {
                   {renderFreightRows()}
                   <div className={styles.pagination}>
                     <button
+                      onClick={handleFirstPage}
+                      disabled={page === 1}
+                      className={styles.paginationButton}
+                    >
+                      Primeira Página
+                    </button>
+                    <button
                       onClick={handlePreviousPage}
                       disabled={!pageInfo?.hasPreviousPage || page === 1}
                       className={styles.paginationButton}
@@ -216,6 +242,13 @@ const Freights: React.FC = () => {
                       className={styles.paginationButton}
                     >
                       Próxima Página
+                    </button>
+                    <button
+                      onClick={handleLastPage}
+                          disabled={!pageInfo?.totalPages || pageInfo.totalPages === page}
+                      className={styles.paginationButton}
+                    >
+                      Última Página
                     </button>
                   </div>
                 </>

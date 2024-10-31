@@ -50,7 +50,6 @@ const FormContainer: React.FC = () => {
       eligibleBodyworks: [],
       type: Type.OFFER,
       targetedDrivers: [],
-      value: undefined, // Adicione esta linha
     },
   });
 

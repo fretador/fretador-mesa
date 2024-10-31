@@ -7,46 +7,18 @@ import {
   ShippingBoxIcon,
   VerticalDotsIcon,
 } from "@/utils/icons";
-import { FreightStatus } from "@/utils/enums/freightStatusEnum"; // Importa o enum
-
-// Define os tipos de status possíveis
-type StatusFreightProps = keyof typeof FreightStatus;
+import { FreightStatus } from "@/utils/enums/freightStatusEnum";
+import { freightStatusLabels } from '@/utils/labels/freightStatusLabels';
 
 // Define as props recebidas
 interface FreightInCurseProps {
   freightCode: string;
-  statusFreight: StatusFreightProps;
+  statusFreight: keyof typeof FreightStatus;
   driverName: string;
   origin: string;
   destination: string;
   driverPhoto: string;
 }
-
-// Dicionário para converter os status
-const statusMessages: { [key in StatusFreightProps]: string } = {
-  WAITING: "Aguardando Motorista",
-  TARGETED: "Motorista Selecionado",
-  REQUESTED: "Frete solicitado",
-  APPROVED: "Frete aprovado",
-  PICKUP_ORDER_SENT: "Ordem de coleta enviada",
-  OPERATION_REQUIRED: "Operação necessária",
-  OPERATION_APPROVED: "Operação aprovada",
-  ADMIN_REQUIRED: "Administração necessária",
-  ADMIN_APPROVED: "Administração aprovada",
-  FINANCIAL_REQUIRED: "Financeiro necessário",
-  FINANCIAL_APPROVED: "Financeiro aprovado",
-  LOADING_STARTED: "Carregamento iniciado",
-  LOADING_FINISHED: "Carregamento finalizado",
-  UNLOADING_STARTED: "Descarregamento iniciado",
-  UNLOADING_FINISHED: "Descarregamento finalizado",
-  INVOICE_SENT: "Nota fiscal enviada",
-  INVOICE_COUPON_SENT: "Cupom da nota fiscal enviado",
-  INVOICE_COUPON_REFUSED: "Cupom da nota fiscal recusado",
-  DRIVER_ARRIVED: "Motorista chegou",
-  DRIVER_SELECTED: "Motorista selecionado",
-  FINISHED: "Finalizado",
-  CANCELED: "Cancelado",
-};
 
 // Função para extrair cidade e estado
 const extractCityAndState = (location: string) => {
@@ -73,9 +45,8 @@ const FreightInCurseHeader = ({
   const { city: cityOrigin, state: stateOrigin } = extractCityAndState(origin);
   const { city: cityDestiny, state: stateDestiny } =
     extractCityAndState(destination);
-
-  // Converte o status para uma mensagem amigável
-  const statusMessage = statusMessages[statusFreight];
+  
+  const statusMessage = freightStatusLabels[statusFreight as keyof typeof freightStatusLabels] || 'Status Desconhecido';
 
   return (
     <div className={styles.container}>
