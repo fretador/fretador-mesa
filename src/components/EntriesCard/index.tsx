@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './EntriesCard.module.css'
+import { paymentTypeLabels } from '@/utils/labels/paymentTypeLabels';
 
 interface EntriesCardProps {
   driverName: string;
@@ -9,13 +10,6 @@ interface EntriesCardProps {
   handleNewPayment: () => void;
 }
 
-const typeLabels: { [key: string]: string } = {
-  ADVANCE: 'Adiantamento',
-  BALANCE: 'Saldo',
-  EXPENSES: 'Despesas',
-  PARTIAL_BALANCE: 'Saldo Parcial',
-};
-
 const EntriesCard: React.FC<EntriesCardProps> = ({
   driverName,
   type,
@@ -24,7 +18,7 @@ const EntriesCard: React.FC<EntriesCardProps> = ({
   handleNewPayment,
 }) => {
 
-  const typeLabel = typeLabels[type] || 'Não informado';
+  const typeLabel = paymentTypeLabels[type] || 'Não informado';
 
   return (
     <div className={styles.container} onClick={handleNewPayment}>
