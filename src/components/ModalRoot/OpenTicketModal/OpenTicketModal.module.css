@@ -51,11 +51,11 @@
 
 .select {
     color: #1A556D;
-    margin: 0 auto; /* Centralizar horizontalmente */
+    margin: 0 auto; 
     font-size: 20px;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    width: 80%; /* Definir uma largura específica */
+    width: 80%; 
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
@@ -73,8 +73,8 @@
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     cursor: pointer;
-    margin-top: auto; /* Ajustar a margem para deslocar o botão mais abaixo */
-    margin-bottom: 30px; /* Adicionar margem inferior para espaçamento */
+    margin-top: auto;
+    margin-bottom: 30px; 
 }
 
 .closeButton {
