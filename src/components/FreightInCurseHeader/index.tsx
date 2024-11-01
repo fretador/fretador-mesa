@@ -3,12 +3,14 @@ import styles from "./FreightInCurseHeader.module.css";
 import Image from "next/image";
 import {
   LogoWhatsAppIcon,
+  PencilIcon,
   ShipmentCheckIcon,
   ShippingBoxIcon,
   VerticalDotsIcon,
 } from "@/utils/icons";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { freightStatusLabels } from '@/utils/labels/freightStatusLabels';
+import { useRouter } from "next/router";
 
 // Define as props recebidas
 interface FreightInCurseProps {
@@ -18,6 +20,7 @@ interface FreightInCurseProps {
   origin: string;
   destination: string;
   driverPhoto: string;
+  freightId: string;
 }
 
 // Função para extrair cidade e estado
@@ -40,6 +43,7 @@ const FreightInCurseHeader = ({
   origin,
   destination,
   driverPhoto,
+  freightId,
 }: FreightInCurseProps) => {
   // Extração da cidade e estado para origin e destiny
   const { city: cityOrigin, state: stateOrigin } = extractCityAndState(origin);
@@ -48,9 +52,20 @@ const FreightInCurseHeader = ({
   
   const statusMessage = freightStatusLabels[statusFreight as keyof typeof freightStatusLabels] || 'Status Desconhecido';
 
+  const router = useRouter();
+
+  const handleEditClick = () => {
+    router.push(`/editar-frete/${freightId}`);
+  };
+
   return (
     <div className={styles.container}>
-      <h2>VIAGEM #{freightCode}</h2>
+      <div className={styles.header}>
+        <h2>VIAGEM #{freightCode}</h2>
+        <div className={styles.iconContainer} onClick={handleEditClick}>
+          <PencilIcon />
+        </div>
+      </div>
 
       <div className={styles.freightInformations}>
         <div className={styles.driverInformationsContainer}>

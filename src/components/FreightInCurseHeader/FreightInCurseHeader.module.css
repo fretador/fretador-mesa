@@ -9,6 +9,16 @@
   margin-bottom: 48px;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header .iconContainer {
+  cursor: pointer;
+}
+
 .freightInformations {
   display: flex;
   align-items: center;
