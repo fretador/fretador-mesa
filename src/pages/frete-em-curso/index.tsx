@@ -247,6 +247,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                         freight.targetedDrivers?.[0]?.userPhoto ||
                         "") as string
                     }
+                    freightId={freight.id ?? ""}
                   />
                   <SeparatorIcon />
                   <ProgressBar currentStage={currentStage} />
