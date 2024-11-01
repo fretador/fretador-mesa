@@ -3,7 +3,7 @@ import styles from './OpenTicketModal.module.css';
 
 interface OpenTicketModalProps {
   onAdvance: () => void;
-  onRequestClose: () => void; // Adicionar a propriedade onRequestClose
+  onRequestClose: () => void; 
 }
 
 const OpenTicketModal: React.FC<OpenTicketModalProps> = ({ onAdvance, onRequestClose }) => {
@@ -16,14 +16,14 @@ const OpenTicketModal: React.FC<OpenTicketModalProps> = ({ onAdvance, onRequestC
   const handleSelectFocus = (event: React.FocusEvent<HTMLSelectElement>) => {
     const selectElement = event.target;
     if (selectElement.value === '') {
-      selectElement.value = ''; // Reset the value to ensure the placeholder is shown
+      selectElement.value = ''; 
     }
   };
 
   const handleSelectBlur = (event: React.FocusEvent<HTMLSelectElement>) => {
     const selectElement = event.target;
     if (!selectedOption) {
-      selectElement.value = ''; // Reset the value to ensure the placeholder is shown
+      selectElement.value = ''; 
     }
   };
 
