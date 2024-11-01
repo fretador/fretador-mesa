@@ -1,0 +1,98 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    background-color: white;
+    border: none;
+    border-radius: 0;
+    width: 504px;
+    height: 410px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0;
+}
+
+.modalHeader {
+    background-color: #1A556D;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    width: 100%;
+}
+
+.modalTitle {
+    color: white;
+    margin: 0;
+    font-size: 24px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+
+.modalMessage {
+    font-size: 24px;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 30px;
+}
+
+.select {
+    color: #1A556D;
+    margin: 0 auto; /* Centralizar horizontalmente */
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    width: 80%; /* Definir uma largura específica */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.button {
+    margin: 0 auto;
+    width: 146px;
+    height: 43px;
+    background-color: #1A556D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: auto; /* Ajustar a margem para deslocar o botão mais abaixo */
+    margin-bottom: 30px; /* Adicionar margem inferior para espaçamento */
+}
+
+.closeButton {
+    background: none;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+.closeButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
