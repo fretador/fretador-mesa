@@ -27,7 +27,6 @@
 
 .filterOptions {
   width: 251px;
-  height: 168px;
   border-radius: 0px 20px 20px 20px;
   background: rgba(27, 85, 109, 0.30);
   backdrop-filter: blur(15px);
@@ -126,6 +125,7 @@
   justify-content: center;
   gap: 10px;
   margin-top: 16px;
+  margin: auto;
 }
 
 .btnApply {

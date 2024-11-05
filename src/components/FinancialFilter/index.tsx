@@ -1,19 +1,45 @@
 import React, { useState } from "react";
-import styles from './FinancialFilter.module.css'
+import styles from './FinancialFilter.module.css';
 import { ArrowDownIcon, MagnifierIcon } from "@/utils/icons";
+import { FinancialFilterInput } from "@/utils/types/FinancialFilterInput";
+import { RequestFinancialType } from "@/utils/enums/requestFinancialTypeEnum";
 
-const FinancialFilter = () => {
+interface FinancialFilterProps {
+  onApplyFilters: (filters: FinancialFilterInput) => void;
+}
 
+const FinancialFilter: React.FC<FinancialFilterProps> = ({ onApplyFilters }) => {
   const [showFilter, setShowFilter] = useState(false);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [searchText, setSearchText] = useState<string>("");
+
   const toggleFilter = () => {
     setShowFilter((prevState) => !prevState);
   };
 
-  const options =
-    [
-      { value: "", label: "Adiantamentos" },
-      { value: "", label: "Saldos" },
-    ]
+  const options = [
+    { value: RequestFinancialType.ADVANCE, label: "Adiantamentos" },
+    { value: RequestFinancialType.BALANCE, label: "Saldos" },
+    { value: RequestFinancialType.EXPENSES, label: "Despesas" },
+    { value: RequestFinancialType.PARTIAL_BALANCE, label: "Saldo Parcial" },
+  ];
+
+  const handleCheckboxChange = (value: string) => {
+    setSelectedTypes((prev) =>
+      prev.includes(value)
+        ? prev.filter((type) => type !== value)
+        : [...prev, value]
+    );
+  };
+
+  const handleApplyFilters = () => {
+    const filters: FinancialFilterInput = {
+      type: selectedTypes.length > 0 ? selectedTypes : undefined,
+      searchText: searchText.trim() || undefined,
+    };
+    onApplyFilters(filters);
+    setShowFilter(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -24,15 +50,15 @@ const FinancialFilter = () => {
         />
       </div>
 
-      <div
-        className={`${styles.filterOptions} ${showFilter ? styles.show : ""}`}
-      >
+      <div className={`${styles.filterOptions} ${showFilter ? styles.show : ""}`}>
         <div className={styles.searchContainer}>
           <MagnifierIcon className={styles.magnifierIcon} />
           <input
             type="text"
             placeholder="Buscar"
             className={styles.searchInputField}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
 
@@ -43,6 +69,8 @@ const FinancialFilter = () => {
                 type="checkbox"
                 id={option.value}
                 name={option.value}
+                checked={selectedTypes.includes(option.value)}
+                onChange={() => handleCheckboxChange(option.value)}
               />
               <label htmlFor={option.value}>{option.label}</label>
             </div>
@@ -50,16 +78,16 @@ const FinancialFilter = () => {
         </div>
 
         <div className={styles.btnsContainer}>
-          <button className={styles.btnApply} onClick={() => {}}>
+          <button className={styles.btnApply} onClick={handleApplyFilters}>
             Aplicar
           </button>
-          <button className={styles.btnCancel} onClick={() => {}}>
+          <button className={styles.btnCancel} onClick={() => setShowFilter(false)}>
             Cancelar
           </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FinancialFilter
+export default FinancialFilter;

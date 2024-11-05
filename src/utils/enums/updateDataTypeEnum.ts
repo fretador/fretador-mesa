@@ -3,4 +3,5 @@ export enum UpdateDataTypeEnum {
   OCCURRENCE = "OCCURRENCE",
   ALERT = "ALERT",
   LOCATION = "LOCATION",
+  FINANCIAL = "FINANCIAL",
 }

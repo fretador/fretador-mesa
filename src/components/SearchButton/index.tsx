@@ -29,7 +29,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ onSearch }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-    console.log("Buscando motoristas", searchValue);
+    console.log("searchValue: ", searchValue);
   };
 
   const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {

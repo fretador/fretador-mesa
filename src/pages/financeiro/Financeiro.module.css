@@ -123,3 +123,10 @@
   font-size: 24px;
   font-weight: 700;
 }
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}

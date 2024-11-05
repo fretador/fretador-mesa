@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <Provider store={store}>
-        <Component {...pageProps} />
+          <Component {...pageProps} />
       </Provider>
     </ApolloProvider>
   );
