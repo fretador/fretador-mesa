@@ -17,6 +17,7 @@ import { FreightService } from '@/services/freightService';
 import { dateNow } from '@/utils/dates';
 import { UpdateDataTypeEnum } from '@/utils/enums/updateDataTypeEnum';
 import { formatDateTime } from '@/utils/dates';
+import { usePaymentUpdate } from "@/contexts/PaymentUpdateContext";
 
 interface Payment {
   id: string;
@@ -40,6 +41,7 @@ interface Payment {
 }
 
 const PendingPayment = () => {
+  const { setNeedsUpdate } = usePaymentUpdate();
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
   const { id } = router.query;
@@ -102,6 +104,9 @@ const PendingPayment = () => {
       setPendingPayment((prevPayment) =>
         prevPayment ? { ...prevPayment, status: FreightStatus.FINANCIAL_APPROVED, date: dateNow() } : null
       );
+      
+      // Define que a lista de últimos pagamentos precisa ser atualizada
+      setNeedsUpdate(true);
 
     } catch (error) {
       console.error('Falha ao atualizar o status do pagamento', error);

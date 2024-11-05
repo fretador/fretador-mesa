@@ -17,6 +17,7 @@ export const FinancialService = {
 		}>({
 			query: GET_FREIGHTS_FOR_FINANCIAL,
 			variables: { page, limit, filter: filters },
+			fetchPolicy: "network-only",
 		});
 
 		if (!response.data || !response.data.freightsForFinancial) {
