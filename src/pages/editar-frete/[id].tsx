@@ -83,6 +83,9 @@ const EditFreight = () => {
                     eligible: true
                   }],
                   type: Type.OFFER,
+                  pedagioIncluso: true,
+                  formaPagamento: "Pix",
+                  observations: "Reforçar nunca é demais: cuidado pra não tombar. Vai ser difícil carregar novamente"
                 }}
               />
             </Body>

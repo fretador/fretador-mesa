@@ -61,7 +61,12 @@ const FormContainer: React.FC<FormContainerProps> = ({
       eligibleBodyworks: [],
       type: Type.OFFER,
       targetedDrivers: [],
+      pedagioIncluso: undefined,
+      observations: "",
       ...initialData,
+      
+
+
     },
   });
 
