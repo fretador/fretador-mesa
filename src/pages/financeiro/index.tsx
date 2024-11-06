@@ -30,7 +30,7 @@ const Financial: React.FC = () => {
         limit: 20,
         filter: { ...filters, status: [FreightStatus.FINANCIAL_REQUIRED] },
       },
-      fetchPolicy: "network-only",
+      fetchPolicy: 'cache-and-network',
     }
   );
 
@@ -42,7 +42,7 @@ const Financial: React.FC = () => {
         limit: 20,
         filter: { ...filters, status: [FreightStatus.FINANCIAL_APPROVED] },
       },
-      fetchPolicy: "network-only",
+      fetchPolicy: 'cache-and-network',
     }
   );
 

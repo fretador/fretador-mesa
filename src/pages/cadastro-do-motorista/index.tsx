@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
@@ -12,44 +12,66 @@ import DriverAndOwnerDetails from "@/components/DriverApproval/DriverAndOwnerDet
 import VehicleDetails from "@/components/DriverApproval/VehicleDetails";
 import Attachments from "@/components/DriverApproval/Attachments";
 import ActionButtons from "@/components/DriverApproval/ActionButtons";
-import { DriverService } from "@/services/driverService";
 import { Driver } from "@/utils/types/Driver";
+import { useQuery } from "@apollo/client";
+import { GET_DRIVER_BY_ID } from "@/graphql/queries/driverQueries";
+import { gerarDadosBancarios } from "@/utils/mocks/bankDataGenerator";
+import {
+  generateRandomPlate,
+  generateRandomVehicleData,
+} from "@/utils/mocks/vehicleDataGenerator";
 
-interface RegisteredDriverProps {
-  driverId: string;
-}
-
-const RegisteredDriver: React.FC<RegisteredDriverProps> = ({ driverId }) => {
+const RegisteredDriver: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
+  const { driverId } = router.query;
   const [activeTab, setActiveTab] = useState("motorista");
-  const [driver, setDriver] = useState<Driver | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchDriver = async () => {
-      try {
-        setLoading(true);
-        const driverData = await DriverService.getDriverById(driverId);
-        const transformedDriver = DriverService.transformDrivers([
-          driverData,
-        ])[0];
-        setDriver(transformedDriver);
-        console.log("driverData", driverData);
-        console.log("transformedDriver", transformedDriver);
-      } catch (err) {
-        setError("Erro ao carregar os dados do motorista");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+  const { data, loading, error } = useQuery(GET_DRIVER_BY_ID, {
+    variables: { id: driverId },
+    skip: !driverId,
+  });
+
+  // Função para transformar os dados do motorista
+  const transformDriver = (driver: Driver): Driver => {
+    const firstName = driver.name.split(" ")[0].toLowerCase();
+    const generatedEmail = `${firstName}@fretador.com.br`;
+    const { agencia, conta, banco } = gerarDadosBancarios(driver.cpf);
+    const randomVehicleData = generateRandomVehicleData(driver.cpf);
+
+    return {
+      ...driver,
+      email: driver.email || generatedEmail,
+      owner: {
+        name: driver.name,
+        cpf: driver.cpf,
+        phoneNumber: driver.phoneNumber,
+        email: generatedEmail,
+        bankName: banco,
+        bankAgency: agencia,
+        bankAccount: conta,
+        pix: driver.email || generatedEmail,
+        isDriverAsOwner: true,
+      },
+      attachments: {
+        userPhoto: driver.userPhoto?.imageUrl,
+        cnh: driver.cnhPhoto?.imageUrl,
+        proofResidencePhoto: driver.proofResidencePhoto?.imageUrl,
+        rg: driver.rgPhoto?.imageUrl,
+        vehiclePhoto: driver.vehicle?.vehiclePhoto?.imageUrl,
+        anttPhoto: driver.vehicle?.anttPhoto?.imageUrl,
+        documentPhoto: driver.vehicle?.documentPhoto?.imageUrl,
+      },
+      vehicle: {
+        ...driver.vehicle,
+        plate: generateRandomPlate(),
+        ...randomVehicleData,
+      },
     };
+  };
 
-    if (driverId) {
-      fetchDriver();
-    }
-  }, [driverId]);
+  const driverData = data?.driver;
+  const transformedDriver = driverData ? transformDriver(driverData) : null;
 
   const handleGoBack = () => {
     router.back();
@@ -68,10 +90,10 @@ const RegisteredDriver: React.FC<RegisteredDriverProps> = ({ driverId }) => {
     }
 
     if (error) {
-      return <div>Erro: {error}</div>;
+      return <div>Erro ao carregar os dados do motorista</div>;
     }
 
-    if (!driver) {
+    if (!transformedDriver) {
       return <div>Nenhum dado do motorista encontrado.</div>;
     }
 
@@ -79,22 +101,34 @@ const RegisteredDriver: React.FC<RegisteredDriverProps> = ({ driverId }) => {
       case "motorista":
         return (
           <div>
-            <DriverAndOwnerDetails driver={driver} />
-            <ActionButtons showRequest={true} showDownload={true} showBlock={true} />
+            <DriverAndOwnerDetails driver={transformedDriver} />
+            <ActionButtons
+              showRequest={true}
+              showDownload={true}
+              showBlock={true}
+            />
           </div>
         );
       case "veiculo":
         return (
           <div>
-            <VehicleDetails vehicle={driver.vehicle} />
-            <ActionButtons showRequest={true} showDownload={true} showBlock={true} />
+            <VehicleDetails vehicle={transformedDriver.vehicle} />
+            <ActionButtons
+              showRequest={true}
+              showDownload={true}
+              showBlock={true}
+            />
           </div>
         );
       case "anexos":
         return (
           <div>
-            <Attachments driver={driver} />
-            <ActionButtons showRequest={true} showDownload={true} showBlock={true} />
+            <Attachments driver={transformedDriver} />
+            <ActionButtons
+              showRequest={true}
+              showDownload={true}
+              showBlock={true}
+            />
           </div>
         );
       case "preferencias":
@@ -107,7 +141,11 @@ const RegisteredDriver: React.FC<RegisteredDriverProps> = ({ driverId }) => {
               height: "708px",
             }}
           >
-            <ActionButtons showRequest={true} showDownload={true} showBlock={true} />
+            <ActionButtons
+              showRequest={true}
+              showDownload={true}
+              showBlock={true}
+            />
           </div>
         );
       default:

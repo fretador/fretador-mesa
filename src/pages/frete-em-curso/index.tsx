@@ -10,7 +10,6 @@ import FreightInCurseHeader from "@/components/FreightInCurseHeader";
 import { SeparatorIcon } from "@/utils/icons";
 import ProgressBar from "@/components/ProgressBar";
 import FreightStep from "@/components/FreightStep";
-import { FreightService } from "@/services/freightService";
 import Loading from "@/components/Loading";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { getStageFromStatus } from "@/utils/getStageFromStatusFreight";
@@ -18,6 +17,8 @@ import { Freight } from "@/utils/types/Freight";
 import { Type } from "@/utils/enums/typeEnum";
 import FreightInCourseOptions from "@/components/FreightInCourseOptions";
 import LocationMap from "@/components/LocationMap";
+import { GET_FREIGHT_BY_ID } from "@/graphql/queries";
+import { useQuery } from "@apollo/client";
 
 interface FreightInProgressProps {
   freightId: string;
@@ -30,39 +31,15 @@ interface StatusHistoryItem {
 }
 
 const useFreightData = (freightId: string) => {
-  const [loading, setLoading] = useState(false);
-  const [freight, setFreight] = useState<Freight | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [currentStage, setCurrentStage] = useState(0);
+  const { data, loading, error, refetch } = useQuery(GET_FREIGHT_BY_ID, {
+    variables: { id: freightId },
+    fetchPolicy: 'cache-and-network',
+  });
 
-  const fetchFreightData = useCallback(async () => {
-    try {
-      console.log("Fetching freight data...");
-      setLoading(true);
-      const freightData = await FreightService.getFreightById(freightId);
-      console.log("Fetched freight data:", freightData);
-      setFreight(freightData);
-      setCurrentStage(getStageFromStatus(freightData.status as FreightStatus));
-    } catch (err) {
-      setError("Erro ao carregar os dados do frete");
-      console.error("Erro ao buscar dados do frete:", err);
-    } finally {
-      setLoading(false);
-    }
-  }, [freightId]);
+  const freight: Freight | null = data?.freight || null;
+  const currentStage = freight ? getStageFromStatus(freight.status as FreightStatus) : 0;
 
-  const refreshFreightData = useCallback(() => {
-    console.log("Refreshing freight data...");
-    fetchFreightData();
-  }, [fetchFreightData]);
-
-  useEffect(() => {
-    if (freightId) {
-      fetchFreightData();
-    }
-  }, [freightId, fetchFreightData]);
-
-  return { loading, freight, error, currentStage, refreshFreightData };
+  return { loading, freight, error, currentStage, refetch };
 };
 
 const getFreightStepProps = (
@@ -81,22 +58,20 @@ const getFreightStepProps = (
 
   switch (item.status) {
     case FreightStatus.TARGETED:
-      content =
-        freightType === Type.TARGETED
-          ? "Frete enviado ao motorista"
-          : "Frete solicitado pelo motorista";
+      content = freightType === Type.TARGETED
+        ? "Frete enviado ao motorista"
+        : "Frete solicitado pelo motorista";
       break;
     case FreightStatus.APPROVED:
-      content =
-        freightType === Type.TARGETED
-          ? "Frete aceito pelo motorista - Enviar Ordem de Coleta"
-          : "Autorizar embarque";
+      content = freightType === Type.TARGETED
+        ? "Frete aceito pelo motorista - Enviar Ordem de Coleta"
+        : "Autorizar embarque";
       primaryButtonLabel = freightType !== Type.TARGETED ? "Sim" : undefined;
       onPrimaryButtonClick = () => console.log("Botão de ação clicado");
       break;
     case FreightStatus.DRIVER_ARRIVED:
       content = "Motorista chegou ao local de coleta";
-      actionButtonText = "rastrear";
+      actionButtonText = "Rastrear";
       handleActionButton = () => console.log("Botão de rastreamento clicado");
       break;
     case FreightStatus.PICKUP_ORDER_SENT:
@@ -129,7 +104,7 @@ const getFreightStepProps = (
       content = "Envio da Documentação do Frete";
       break;
     case FreightStatus.INVOICE_COUPON_REFUSED:
-      content = "Recusada a Documentação do Frete";
+      content = "Documentação do Frete recusada";
       break;
     case FreightStatus.FINANCIAL_APPROVED:
       content = "Pagamento Realizado";
@@ -180,8 +155,7 @@ const getFreightStepProps = (
 const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
-  const { loading, freight, error, currentStage, refreshFreightData } =
-    useFreightData(freightId);
+  const { loading, freight, error, currentStage, refetch } = useFreightData(freightId);
   const [routeName, setRouteName] = useState("");
   const freightStepContainerRef = useRef<HTMLDivElement>(null);
 
@@ -197,8 +171,8 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
 
   const handleDocumentsUploaded = useCallback(() => {
     console.log("Documents uploaded, refreshing freight data");
-    refreshFreightData();
-  }, [refreshFreightData]);
+    refetch();
+  }, [refetch]);
 
   useEffect(() => {
     if (freightStepContainerRef.current) {
@@ -215,7 +189,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   }
 
   if (error) {
-    return <div>Erro: {error}</div>;
+    return <div>Erro: {error.message}</div>;
   }
 
   return (

@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
 import { RootState } from "@/store/store";
-import { useFreightController } from "@/controllers/freightController";
+import { GET_FREIGHTS } from "@/graphql/queries";
+import { useQuery } from "@apollo/client";
+import { Freight } from "@/utils/types/Freight";
 import { FreightFilters } from "@/utils/types/FreightFilters";
-import { formatDateToBrazilian } from "@/utils/dates";
+import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
@@ -16,65 +17,100 @@ import SearchComponent from "@/components/SearchButton";
 import Body from "@/components/Body";
 import AddNewFreightButton from "@/components/AddNewFreightButton";
 import Loading from "@/components/Loading";
-import { FreightStatus } from "@/utils/enums/freightStatusEnum";
-import { Freight } from "@/utils/types/Freight";
+import { formatDateToBrazilian } from "@/utils/dates";
+import { FreightNode } from "@/utils/types/FreightNode";
+import { useRouter } from "next/router";
+
+const SESSION_STORAGE_KEYS = {
+  PAGE: "freights_page",
+  SELECTED_STATUSES: "freights_selected_statuses",
+  SEARCH_TERM: "freights_search_term",
+};
 
 const Freights: React.FC = () => {
   const router = useRouter();
   const routeName = router.pathname.replace("/", "").toUpperCase();
-  const { loadFreights } = useFreightController();
-
-  // Redux selectors
   const isRetracted = useSelector((state: RootState) => state.sidebar.isRetracted);
-  const freights = useSelector((state: RootState) => state.freight.freights);
-  const pageInfo = useSelector((state: RootState) => state.freight.pageInfo);
-  const loading = useSelector((state: RootState) => state.freight.loading);
-  const error = useSelector((state: RootState) => state.freight.error);
 
-  // Local state
-  const [page, setPage] = useState(1);
+  const isBrowser = typeof window !== "undefined";
+
+  // Initialize state from session storage
+  const [page, setPage] = useState(() => {
+    if (isBrowser) {
+      const savedPage = sessionStorage.getItem(SESSION_STORAGE_KEYS.PAGE);
+      return savedPage ? Number(savedPage) : 1;
+    }
+    return 1;
+  });
+
   const [limit, setLimit] = useState(10);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
 
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>(() => {
+    if (isBrowser) {
+      const savedStatuses = sessionStorage.getItem(SESSION_STORAGE_KEYS.SELECTED_STATUSES);
+      return savedStatuses ? JSON.parse(savedStatuses) : [];
+    }
+    return [];
+  });
+
+  const [searchTerm, setSearchTerm] = useState(() => {
+    if (isBrowser) {
+      return sessionStorage.getItem(SESSION_STORAGE_KEYS.SEARCH_TERM) || "";
+    }
+    return "";
+  });
+
+  // Save state to session storage when it changes
+  useEffect(() => {
+    if (isBrowser) {
+      sessionStorage.setItem(SESSION_STORAGE_KEYS.PAGE, String(page));
+    }
+  }, [page]);
+
+  useEffect(() => {
+    if (isBrowser) {
+      sessionStorage.setItem(SESSION_STORAGE_KEYS.SELECTED_STATUSES, JSON.stringify(selectedStatuses));
+    }
+  }, [selectedStatuses]);
+
+  useEffect(() => {
+    if (isBrowser) {
+      sessionStorage.setItem(SESSION_STORAGE_KEYS.SEARCH_TERM, searchTerm);
+    }
+  }, [searchTerm]);
+
+  // Query to get freights
+  const { data, loading, error } = useQuery(GET_FREIGHTS, {
+    variables: {
+      page,
+      limit,
+      filter: {
+        status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
+        allFilters: searchTerm || undefined,
+      } as FreightFilters,
+    },
+    fetchPolicy: "cache-and-network",
+  });
+
+  const freights: Freight[] = data?.freights.edges.map((edge: FreightNode) => edge.node || []) || [];
+  const pageInfo = data?.freights.pageInfo || {};
+
+  // Adjust limit based on window height
   const adjustLimit = useCallback(() => {
     const height = window.innerHeight;
-    if (height >= 950) {
-      setLimit(10);
-    } else if (height >= 800) {
-      setLimit(8);
-    } else if (height >= 720) {
-      setLimit(7);
-    } else {
-      setLimit(5);
-    }
+    if (height >= 950) setLimit(10);
+    else if (height >= 800) setLimit(8);
+    else if (height >= 720) setLimit(7);
+    else setLimit(5);
   }, []);
 
-  // Window resize effect
   useEffect(() => {
     adjustLimit();
     window.addEventListener("resize", adjustLimit);
     return () => window.removeEventListener("resize", adjustLimit);
   }, [adjustLimit]);
 
-  const fetchFreights = useCallback(() => {
-    const filters: FreightFilters = {
-      status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
-      allFilters: searchTerm || undefined,
-    };
-    loadFreights(filters, page, limit);
-  }, [selectedStatuses, searchTerm, page, limit, loadFreights]);
-
-  // Debounced fetch effect
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      fetchFreights();
-    }, 300); // Increased debounce time for better performance
-
-    return () => clearTimeout(handler);
-  }, [fetchFreights]);
-
-  // Filter handlers
+  // Handlers for filter and search
   const handleStatusFilterApply = useCallback((newSearchTerm: string, statuses: string[]) => {
     setSearchTerm(newSearchTerm);
     setSelectedStatuses(statuses);
@@ -89,92 +125,34 @@ const Freights: React.FC = () => {
 
   const handleSearch = useCallback((term: string) => {
     setSearchTerm(term);
-    setPage(1); // Reset to first page when search changes
+    setPage(1); // Reset to first page when search term changes
   }, []);
 
-  // Pagination handlers
-  const handlePreviousPage = useCallback(() => {
-    if (pageInfo?.hasPreviousPage && page > 1) {
-      setPage(prev => prev - 1);
-    }
-  }, [pageInfo?.hasPreviousPage, page]);
+  // Handlers for pagination
+  const handlePreviousPage = () => page > 1 && setPage(page - 1);
+  const handleNextPage = () => pageInfo.hasNextPage && setPage(page + 1);
+  const handleFirstPage = () => setPage(1);
+  const handleLastPage = () => pageInfo.totalPages && setPage(pageInfo.totalPages);
 
-  const handleNextPage = useCallback(() => {
-    if (pageInfo?.hasNextPage) {
-      setPage(prev => prev + 1);
-    }
-  }, [pageInfo?.hasNextPage]);
-
-  const handleLastPage = useCallback(() => {
-    if (pageInfo?.totalPages) {
-      setPage(pageInfo.totalPages);
-    }
-  }, [pageInfo?.totalPages]);
-
-  const handleFirstPage = useCallback(() => {
-    setPage(1);
-  }, []);
-
-  const handleFreightClick = useCallback((freightId: string | undefined) => {
-    if (!freightId) return;
-    router.push(`/frete-em-curso/${freightId}`);
-  }, [router]);
-
-  const generateRandomCteAndClient = (freight: Freight): Freight => {
-    if (freight.numCte && freight.clientName) return freight;
-
-    return {
-      ...freight,
-      numCte: freight.numCte || `CTE-${Math.floor(Math.random() * 1000000)}`,
-      clientName: freight.clientName || `Cliente-${Math.floor(Math.random() * 50)}`
-    };
-  };
-
-  const renderFreightRows = () => (
-    freights.map(freight => {
+  const renderFreightRows = () =>
+    freights.map((freight) => {
       const status = freight.status as FreightStatus;
-      const updatedFreight = generateRandomCteAndClient(freight);
-
       return (
         <Row.Root
-          key={updatedFreight.id || Math.random().toString()}
+          key={freight.id || Math.random().toString()}
           freightStatus={status}
-          onClick={() => handleFreightClick(updatedFreight.id)}
+          onClick={() => router.push(`/frete-em-curso/${freight.id}`)}
         >
-          <Row.FreightDate
-            date={
-              updatedFreight.creationDate
-                ? formatDateToBrazilian(updatedFreight.creationDate)
-                : "Não informada"
-            }
-          />
-          <Row.FreightCode
-            code={updatedFreight.freightCode ? updatedFreight.freightCode.toString() : "-"}
-          />
-          <Row.Cte cte={updatedFreight.numCte || "-"} />
-          <Row.Route
-            originState={
-              updatedFreight.origin
-                ? updatedFreight.origin.split(", ")[1]
-                : "Não informada"
-            }
-            destinyState={
-              updatedFreight.destination
-                ? updatedFreight.destination.split(", ")[1]
-                : "Não informada"
-            }
-          />
-          <Row.Customer
-            customerName={updatedFreight.clientName || "-"}
-          />
-          <Row.Driver
-            driverName={updatedFreight.targetedDrivers?.[0]?.name || "-"}
-          />
+          <Row.FreightDate date={formatDateToBrazilian(freight.creationDate || new Date())} />
+          <Row.FreightCode code={String(freight.freightCode) || "-"} />
+          <Row.Cte cte={freight.numCte || "-"} />
+          <Row.Route originState={freight.origin || "Não informada"} destinyState={freight.destination || "Não informada"} />
+          <Row.Customer customerName={freight.clientName || "-"} />
+          <Row.Driver driverName={freight.targetedDrivers?.[0]?.name || "-"} />
           <Row.FreightStatus freightStatus={status} />
         </Row.Root>
       );
-    })
-  );
+    });
 
   return (
     <AuthenticatedLayout>
@@ -190,13 +168,7 @@ const Freights: React.FC = () => {
             <Body>
               <div className={styles.searchComponents}>
                 <SearchComponent onSearch={handleSearch} />
-                <div className={styles.filterComponents}>
-                  <StatusFilter
-                    onApply={handleStatusFilterApply}
-                    onCancel={handleStatusFilterCancel}
-                    type="freight"
-                  />
-                </div>
+                <StatusFilter onApply={handleStatusFilterApply} onCancel={handleStatusFilterCancel} type="freight" />
               </div>
 
               <RowTitle
@@ -214,40 +186,24 @@ const Freights: React.FC = () => {
                   <Loading />
                 </div>
               ) : error ? (
-                <p>Erro ao carregar os fretes: {error}</p>
+                <p>Erro ao carregar os fretes: {error.message}</p>
               ) : (
                 <>
                   {renderFreightRows()}
                   <div className={styles.pagination}>
-                    <button
-                      onClick={handleFirstPage}
-                      disabled={page === 1}
-                      className={styles.paginationButton}
-                    >
+                    <button onClick={handleFirstPage} disabled={page === 1} className={styles.paginationButton}>
                       Primeira Página
                     </button>
-                    <button
-                      onClick={handlePreviousPage}
-                      disabled={!pageInfo?.hasPreviousPage || page === 1}
-                      className={styles.paginationButton}
-                    >
+                    <button onClick={handlePreviousPage} disabled={!pageInfo.hasPreviousPage || page === 1} className={styles.paginationButton}>
                       Página Anterior
                     </button>
                     <span className={styles.pageInfo}>
-                      Página {page} de {pageInfo?.totalPages || 1}
+                      Página {page} de {pageInfo.totalPages || 1}
                     </span>
-                    <button
-                      onClick={handleNextPage}
-                      disabled={!pageInfo?.hasNextPage}
-                      className={styles.paginationButton}
-                    >
+                    <button onClick={handleNextPage} disabled={!pageInfo.hasNextPage} className={styles.paginationButton}>
                       Próxima Página
                     </button>
-                    <button
-                      onClick={handleLastPage}
-                          disabled={!pageInfo?.totalPages || pageInfo.totalPages === page}
-                      className={styles.paginationButton}
-                    >
+                    <button onClick={handleLastPage} disabled={!pageInfo.totalPages || pageInfo.totalPages === page} className={styles.paginationButton}>
                       Última Página
                     </button>
                   </div>

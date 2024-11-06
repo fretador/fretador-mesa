@@ -3,10 +3,11 @@ import Modal from "react-modal";
 import { useRouter } from "next/router";
 import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
-import { FreightService } from "@/services/freightService";
 import styles from "./ConfirmationModal.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import Loading from "@/components/Loading";
+import { useMutation } from "@apollo/client";
+import { CREATE_FREIGHT } from "@/graphql/mutations";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -30,16 +31,20 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     (bodywork: any) => bodywork.eligible
   );
 
+  const [createFreightMutation] = useMutation(CREATE_FREIGHT);
+
   const handleConfirm = async () => {
     const freightData = getValues();
     setIsLoading(true);
     try {
-      const createdFreight = await FreightService.createFreight(freightData);
-      console.log("Frete criado com sucesso:", createdFreight);
+      const { data } = await createFreightMutation({
+        variables: { input: freightData },
+      });
+      console.log("Frete criado com sucesso:", data.createFreight);
       setIsSuccess(true);
-      setIsLoading(false);
     } catch (error) {
       console.error("Erro ao criar o frete:", error);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -99,8 +104,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
               <span className={styles.regularText}>
                 {eligibleVehicles.length > 0
                   ? eligibleVehicles
-                      .map((vehicle: any) => vehicle.type)
-                      .join(", ")
+                    .map((vehicle: any) => vehicle.type)
+                    .join(", ")
                   : "Nenhum veículo selecionado"}
               </span>
             </p>
@@ -109,8 +114,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
               <span className={styles.regularText}>
                 {eligibleBodyworks.length > 0
                   ? eligibleBodyworks
-                      .map((bodywork: any) => bodywork.type)
-                      .join(", ")
+                    .map((bodywork: any) => bodywork.type)
+                    .join(", ")
                   : "Nenhuma carroceria selecionada"}
               </span>
             </p>
