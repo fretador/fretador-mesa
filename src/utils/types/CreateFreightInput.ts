@@ -34,6 +34,7 @@ export interface CreateFreightInput {
   eligibleBodyworks: EligibleBodywork[];
   type: Type;
   targetedDrivers: string[];
+  value?: number
 }
 interface EligibleVehicle {
 	category: VehicleCategory;

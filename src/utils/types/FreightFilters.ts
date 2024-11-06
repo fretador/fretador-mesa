@@ -1,6 +1,8 @@
+import { FreightStatus } from "@/utils/enums/freightStatusEnum";
+
 export interface FreightFilters {
 	deliveryCity?: string;
 	gatheringCity?: string;
-	status?: string[];
+	status?: FreightStatus[];
 	allFilters?: string;
 }
