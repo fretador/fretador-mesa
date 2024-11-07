@@ -112,7 +112,16 @@ const ServiceDetails = () => {
                     <p>Estado: <span>{client.state}</span></p>
                   </div>
 
-                  <div className={styles.title} style={{marginTop: '76px', marginBottom: '44px', cursor: 'pointer'}}>
+                  <div className={styles.title} style={{marginTop: '32px'}}>
+                    <p>Financeiro</p>
+                  </div>
+
+                  <div className={styles.row}>
+                    <p>Prazo para pagamento: <span>Boleto 15/21 dias</span></p>
+                    <p>Consulta feita em: <span>11/10/2023</span></p>
+                  </div>
+
+                  <div className={styles.title} style={{marginTop: '32px', marginBottom: '44px', cursor: 'pointer'}}>
                     <p>Ver últimos embarques</p>
                   </div>
 

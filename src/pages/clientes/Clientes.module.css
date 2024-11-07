@@ -103,6 +103,10 @@
   text-decoration: underline 1px solid #1B556D;
 }
 
+.title p {
+  font-size: 24px;
+}
+
 .row {
   margin: 0px 32px;
   display: flex;
