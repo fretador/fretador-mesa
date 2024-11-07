@@ -17,6 +17,15 @@
 
 .header .iconContainer {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header .iconContainer p {
+  font-weight: 600;
+  color: #1A556D;
+  font-size: 20px;
 }
 
 .freightInformations {

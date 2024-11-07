@@ -11,7 +11,8 @@ import DriverBlockModal from "@/components/ModalRoot/DriverBlockModal";
 import ModalRoot from "@/components/ModalRoot";
 import PhotoRequestModal from "@/components/ModalRoot/PhotoRequestModal";
 import SendToFinanceModal from "@/components/ModalRoot/SendToFinanceModal";
-import ValueInputModal from "@/components/ModalRoot/ValueInputModal"; // Importe o novo modal
+import ValueInputModal from "@/components/ModalRoot/ValueInputModal";
+import OpenTicketModal from "@/components/ModalRoot/OpenTicketModal";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -20,7 +21,8 @@ const Canva: React.FC = () => {
   const [isRootModalOpen, setIsRootModalOpen] = useState(false);
   const [isPhotoRequestModalOpen, setIsPhotoRequestModalOpen] = useState(false);
   const [isSendToFinanceModalOpen, setIsSendToFinanceModalOpen] = useState(false);
-  const [isValueInputModalOpen, setIsValueInputModalOpen] = useState(false); // Estado para o novo modal
+  const [isValueInputModalOpen, setIsValueInputModalOpen] = useState(false);
+  const [isOpenTicketModalOpen, setIsOpenTicketModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -54,6 +56,15 @@ const Canva: React.FC = () => {
   const handleValueInputConfirm = (value: string) => {
     console.log("Valor inserido:", value);
     toggleValueInputModal();
+  };
+
+  const toggleOpenTicketModal = () => {
+    setIsOpenTicketModalOpen(!isOpenTicketModalOpen);
+  };
+
+  const handleAdvance = () => {
+    console.log("Avançando para a próxima etapa do ticket.");
+    toggleOpenTicketModal();
   };
 
   return (
@@ -120,6 +131,11 @@ const Canva: React.FC = () => {
             Enviar para o Financeiro (Valor)
           </button>
 
+          {/* Botão para abrir o novo modal OpenTicketModal */}
+          <button onClick={toggleOpenTicketModal} className={styles.openModalButton}>
+            Abrir Ticket
+          </button>
+
           {/* Renderizando o modal DriverRegistrationApproval */}
           <DriverRegistrationApproval
             isOpen={isModalOpen}
@@ -162,6 +178,14 @@ const Canva: React.FC = () => {
             <ValueInputModal
               onClose={toggleValueInputModal}
               onConfirm={handleValueInputConfirm}
+            />
+          )}
+
+          {/* Renderizando o novo modal OpenTicketModal */}
+          {isOpenTicketModalOpen && (
+            <OpenTicketModal
+              onAdvance={handleAdvance}
+              onRequestClose={toggleOpenTicketModal}
             />
           )}
         </div>

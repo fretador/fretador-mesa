@@ -18,9 +18,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ConfirmationModal from "@/components/ModalRoot/ConfirmationModal";
 import { useMutation } from "@apollo/client";
 import { CREATE_FREIGHT } from "@/graphql/mutations";
+import EditFreightButton from "../EditFreightButton";
 
-const FormContainer: React.FC = () => {
-  const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] = useState(false);
+interface FormContainerProps {
+  initialData?: Partial<CreateFreightInput>
+  showFreightSubmissionButton?: boolean
+  showEditFreightButton?: boolean
+}
+
+const FormContainer: React.FC<FormContainerProps> = ({
+  showFreightSubmissionButton = true,
+  showEditFreightButton = false,
+  initialData
+}) => {
+  // const [targetedDriver, setTargetedDriver] = useState<string[]>([]);
+  const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] =
+    useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [createFreightMutation, { loading: creatingFreight, error: createError }] =
     useMutation(CREATE_FREIGHT);
@@ -50,7 +63,10 @@ const FormContainer: React.FC = () => {
       eligibleBodyworks: [],
       type: Type.OFFER,
       targetedDrivers: [],
-      value: 0
+      value: 0,
+      pedagioIncluso: undefined,
+      observations: "",
+      ...initialData,
     },
   });
 
@@ -61,6 +77,14 @@ const FormContainer: React.FC = () => {
     setValue,
     getValues,
   } = methods;
+
+  useEffect(() => {
+    if (initialData) {
+      Object.entries(initialData).forEach(([key, value]) => {
+        setValue(key as keyof CreateFreightInput, value);
+      });
+    }
+  }, [initialData, setValue]);
 
   const onSubmit = async (data: CreateFreightInput) => {
     try {
@@ -125,9 +149,16 @@ const FormContainer: React.FC = () => {
 
           <ObservationsSection />
 
-          <FreightSubmissionButton
-            onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
-          />
+          {showFreightSubmissionButton && (
+            <FreightSubmissionButton
+              onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
+            />
+          )}
+
+          {showEditFreightButton && (
+            <EditFreightButton />
+          )}
+
         </div>
       </form>
 
