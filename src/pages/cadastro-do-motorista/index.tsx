@@ -16,6 +16,7 @@ import { Driver } from "@/utils/types/Driver";
 import { useQuery } from "@apollo/client";
 import { GET_DRIVER_BY_ID } from "@/graphql/queries/driverQueries";
 import { gerarDadosBancarios } from "@/utils/mocks/bankDataGenerator";
+import Loading from '@/components/Loading';
 import {
   generateRandomPlate,
   generateRandomVehicleData,
@@ -86,7 +87,7 @@ const RegisteredDriver: React.FC = () => {
 
   const renderContent = () => {
     if (loading) {
-      return <div>Carregando...</div>;
+      return <div className={styles.loadingContainer} ><Loading /> </div >;
     }
 
     if (error) {

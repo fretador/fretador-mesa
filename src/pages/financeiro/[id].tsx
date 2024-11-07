@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import styles from './Financeiro.module.css';
 import AuthenticatedLayout from '@/components/AuthenticatedLayout';
@@ -118,18 +118,6 @@ const PendingPayment: React.FC = () => {
     router.back();
   };
 
-  if (loadingPaymentData) {
-    return (
-      <div className={styles.loadingContainer}>
-        <Loading />
-      </div>
-    );
-  }
-
-  if (error) {
-    return <p>Erro ao carregar dados do pagamento.</p>;
-  }
-
   return (
     <AuthenticatedLayout>
       <div className={styles.container}>
@@ -151,71 +139,74 @@ const PendingPayment: React.FC = () => {
                 <Botao text={backButtonContent} className={styles.backButton} onClick={handleGoBack} />
               </div>
 
-              {updatingPayment ? (
-                <div className={styles.loadingContainer}>
-                  <Loading />
-                </div>
-              ) : (
-                pendingPayment && (
-                  <div className={styles.pendingPaymentContainer}>
-                    <div className={styles.informations}>
-                      <div className={styles.row}>
-                        <p>Tipo de pagamento: <span>{paymentTypeLabels[pendingPayment.type] || 'Não informado'}</span></p>
-                        <p>CTE: <span>{pendingPayment.cte}</span></p>
-                        <p>Status: <span>{freightStatusLabels[pendingPayment.status] || 'Status Desconhecido'}</span></p>
-                        <p>Valor a ser pago: <span>{formatCurrency(pendingPayment.value)}</span></p>
-                      </div>
-
-                      <div className={styles.row}>
-                        <p>Data: <span>{formatDateTime(pendingPayment.date)}</span></p>
-                        <p>Rota: <span>{pendingPayment.originState} X {pendingPayment.destinyState}</span></p>
-                        <p>Contrato do Frete: <span>{pendingPayment.contractNumber}</span></p>
-                      </div>
-
-                      <p className={styles.subtitle}>Dados do Motorista</p>
-
-                      <div className={styles.row}>
-                        <p>Nome: <span>{pendingPayment.driverName}</span></p>
-                        <p>CPF: <span>{pendingPayment.cpf}</span></p>
-                      </div>
-
-                      <div className={styles.row}>
-                        <p>CNH: <span>{pendingPayment.cnh}</span></p>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <LogoWhatsAppIcon />
-                          <p style={{ color: '#000' }}>{pendingPayment.contact}</p>
-                        </div>
-                        <p>E-mail: <span>{pendingPayment.email}</span></p>
-                      </div>
-
-                      <p className={styles.subtitle}>Forma de Pagamento</p>
-
-                      <div className={styles.row}>
-                        <p>Dados Bancários: <span>{pendingPayment.bankDetails}</span></p>
-                        <p>Pix: <span>{pendingPayment.pix}</span></p>
-                      </div>
-                    </div>
-
-                    <div className={styles.actionButtonsContainer}>
-                      {pendingPayment.status === FreightStatus.FINANCIAL_APPROVED ? (
-                        <Botao
-                          text="Notificar Motorista"
-                          onClick={() => {
-                            console.log('notificou o motorista');
-                          }}
-                          className={styles.btnDark}
-                        />
-                      ) : (
-                        <Botao
-                          text="Informar Pagamento"
-                          onClick={handleInformarPagamento}
-                          className={styles.btnDark}
-                        />
-                      )}
-                    </div>
+              <div className={styles.pendingPaymentContainer}>
+                {loadingPaymentData || updatingPayment ?
+                  <div className={styles.loadingContainer}>
+                    <Loading />
                   </div>
-                )
-              )}
+                  : error ? (
+                    <p>Erro ao carregar frete: {error.message}</p>
+                  ) : !pendingPayment ? (
+                    <p>Frete não encontrado</p>
+                    ) : (
+                        <>
+                          <div className={styles.informations}>
+                            <div className={styles.row}>
+                              <p>Tipo de pagamento: <span>{paymentTypeLabels[pendingPayment.type] || 'Não informado'}</span></p>
+                              <p>CTE: <span>{pendingPayment.cte}</span></p>
+                              <p>Status: <span>{freightStatusLabels[pendingPayment.status] || 'Status Desconhecido'}</span></p>
+                              <p>Valor a ser pago: <span>{formatCurrency(pendingPayment.value)}</span></p>
+                            </div>
+
+                            <div className={styles.row}>
+                              <p>Data: <span>{formatDateTime(pendingPayment.date)}</span></p>
+                              <p>Rota: <span>{pendingPayment.originState} X {pendingPayment.destinyState}</span></p>
+                              <p>Contrato do Frete: <span>{pendingPayment.contractNumber}</span></p>
+                            </div>
+
+                            <p className={styles.subtitle}>Dados do Motorista</p>
+
+                            <div className={styles.row}>
+                              <p>Nome: <span>{pendingPayment.driverName}</span></p>
+                              <p>CPF: <span>{pendingPayment.cpf}</span></p>
+                            </div>
+
+                            <div className={styles.row}>
+                              <p>CNH: <span>{pendingPayment.cnh}</span></p>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <LogoWhatsAppIcon />
+                                <p style={{ color: '#000' }}>{pendingPayment.contact}</p>
+                              </div>
+                              <p>E-mail: <span>{pendingPayment.email}</span></p>
+                            </div>
+
+                            <p className={styles.subtitle}>Forma de Pagamento</p>
+
+                            <div className={styles.row}>
+                              <p>Dados Bancários: <span>{pendingPayment.bankDetails}</span></p>
+                              <p>Pix: <span>{pendingPayment.pix}</span></p>
+                            </div>
+                          </div>
+
+                          <div className={styles.actionButtonsContainer}>
+                            {pendingPayment.status === FreightStatus.FINANCIAL_APPROVED ? (
+                              <Botao
+                                text="Notificar Motorista"
+                                onClick={() => {
+                                  console.log('notificou o motorista');
+                                }}
+                                className={styles.btnDark}
+                              />
+                            ) : (
+                              <Botao
+                                text="Informar Pagamento"
+                                onClick={handleInformarPagamento}
+                                className={styles.btnDark}
+                              />
+                            )}
+                      </div></>
+                  )}
+              </div>
             </Body>
           </div>
         </div>
