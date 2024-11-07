@@ -43,6 +43,7 @@ export interface Freight {
 	packageWeight?: number;
 	observations?: string;
 	value?: number;
+	freightValue?: string;
 	shippingType?: ShippingType;
 	pedagioIncluso?: boolean;
 	formaPagamento?: string;
@@ -61,11 +62,11 @@ export interface Freight {
 	freightCode?: number;
 	pickupOrderPhoto?: string;
 	invoicePhoto?: string;
-	invoiceCouponDocs?: any[];
+	invoiceCouponDocs?: Photo[];
 	invoiceCouponPhotos?: Photo[];
-	invoiceCouponRejectedPhotos?: any[];
+	invoiceCouponRejectedPhotos?: Photo[];
 	documents?: Document[];
-	otherDocuments?: Document[] | any[];
+	otherDocuments?: Document[];
 	deliveryAddress?: string;
 	deliveryCep?: string;
 	deliveryCity?: string;
@@ -90,7 +91,7 @@ export interface Freight {
 	gatheringLocation?: number[];
 	clientName?: string;
 	client?: string;
-	requestingUsers?: Record<string, RequestingDriver> | any;
+	requestingUsers?: Record<string, RequestingDriver>;
 	interestedUsers?: string[];
 	requestedPhotoResend?: boolean;
 	userImages?: string;
