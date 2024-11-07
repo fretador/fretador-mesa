@@ -1,17 +1,12 @@
 import { gql } from "@apollo/client";
+import { FREIGHT_COMMON_FIELDS, FREIGHT_FULL_FIELDS } from "@/graphql/fragments/freightFragments";
 
 export const GET_FREIGHTS = gql`
 	query GetFreights($page: Int, $limit: Int, $filter: FreightFilterInput) {
 		freights(page: $page, limit: $limit, filter: $filter) {
 			edges {
 				node {
-					id
-					creationDate
-					freightCode
-					origin
-					destination
-					status
-					value
+					...FreightCommonFields
 					targetedDrivers {
 						name
 					}
@@ -25,24 +20,19 @@ export const GET_FREIGHTS = gql`
 			}
 		}
 	}
+	${FREIGHT_COMMON_FIELDS}
 `;
 
 export const GET_FREIGHT_BY_ID = gql`
 	query GetFreightById($id: ID!) {
 		freight(id: $id) {
-			id
-			origin
-			destination
-			status
+			...FreightFullFields
 			targetedDrivers {
 				name
 				userPhoto {
 					imageUrl
 				}
 			}
-			freightCode
-			updateDate
-			type
 			documents {
 				id
 				type
@@ -62,4 +52,5 @@ export const GET_FREIGHT_BY_ID = gql`
 			}
 		}
 	}
+	${FREIGHT_FULL_FIELDS}
 `;
