@@ -13,6 +13,7 @@ import PhotoRequestModal from "@/components/ModalRoot/PhotoRequestModal";
 import SendToFinanceModal from "@/components/ModalRoot/SendToFinanceModal";
 import ValueInputModal from "@/components/ModalRoot/ValueInputModal";
 import OpenTicketModal from "@/components/ModalRoot/OpenTicketModal";
+import FirstTimeMalfunctionConfirmationModal from "@/components/ModalRoot/FirstTimeMalfunctionConfirmationModal";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -23,6 +24,7 @@ const Canva: React.FC = () => {
   const [isSendToFinanceModalOpen, setIsSendToFinanceModalOpen] = useState(false);
   const [isValueInputModalOpen, setIsValueInputModalOpen] = useState(false);
   const [isOpenTicketModalOpen, setIsOpenTicketModalOpen] = useState(false);
+  const [isFirstTimeMalfunctionModalOpen, setIsFirstTimeMalfunctionModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -65,6 +67,24 @@ const Canva: React.FC = () => {
   const handleAdvance = () => {
     console.log("Avançando para a próxima etapa do ticket.");
     toggleOpenTicketModal();
+  };
+
+  const toggleFirstTimeMalfunctionModal = () => {
+    setIsFirstTimeMalfunctionModalOpen(!isFirstTimeMalfunctionModalOpen);
+  };
+
+  const handleConfirm = () => {
+    console.log("Confirmado");
+    toggleFirstTimeMalfunctionModal();
+  };
+
+  const handleCancel = () => {
+    console.log("Cancelado");
+    toggleFirstTimeMalfunctionModal();
+  };
+
+  const handleOnRequestClose = () => {
+    setIsFirstTimeMalfunctionModalOpen(false);
   };
 
   return (
@@ -136,6 +156,11 @@ const Canva: React.FC = () => {
             Abrir Ticket
           </button>
 
+          {/* Botão para abrir o novo modal FirstTimeMalfunctionConfirmationModal */}
+          <button onClick={toggleFirstTimeMalfunctionModal} className={styles.openModalButton}>
+            Confirmar Mal Funcionamento
+          </button>
+
           {/* Renderizando o modal DriverRegistrationApproval */}
           <DriverRegistrationApproval
             isOpen={isModalOpen}
@@ -186,6 +211,15 @@ const Canva: React.FC = () => {
             <OpenTicketModal
               onAdvance={handleAdvance}
               onRequestClose={toggleOpenTicketModal}
+            />
+          )}
+
+          {/* Renderizando o novo modal FirstTimeMalfunctionConfirmationModal */}
+          {isFirstTimeMalfunctionModalOpen && (
+            <FirstTimeMalfunctionConfirmationModal
+              onConfirm={handleConfirm}
+              onCancel={handleCancel}
+              onRequestClose={handleOnRequestClose}
             />
           )}
         </div>
