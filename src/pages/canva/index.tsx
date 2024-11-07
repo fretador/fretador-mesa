@@ -12,7 +12,8 @@ import ModalRoot from "@/components/ModalRoot";
 import PhotoRequestModal from "@/components/ModalRoot/PhotoRequestModal";
 import SendToFinanceModal from "@/components/ModalRoot/SendToFinanceModal";
 import ValueInputModal from "@/components/ModalRoot/ValueInputModal";
-import PaymentNotificationModal from "@/components/ModalRoot/PaymentNotificationModal"; 
+import PaymentNotificationModal from "@/components/ModalRoot/PaymentNotificationModal";
+import PaymentDetailsConfirmedModal from "@/components/ModalRoot/PaymentDetailsConfirmedModal";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -22,7 +23,8 @@ const Canva: React.FC = () => {
   const [isPhotoRequestModalOpen, setIsPhotoRequestModalOpen] = useState(false);
   const [isSendToFinanceModalOpen, setIsSendToFinanceModalOpen] = useState(false);
   const [isValueInputModalOpen, setIsValueInputModalOpen] = useState(false);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); 
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isPaymentDetailsConfirmedModalOpen, setIsPaymentDetailsConfirmedModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -60,6 +62,10 @@ const Canva: React.FC = () => {
 
   const togglePaymentModal = () => {
     setIsPaymentModalOpen(!isPaymentModalOpen);
+  };
+
+  const togglePaymentDetailsConfirmedModal = () => {
+    setIsPaymentDetailsConfirmedModalOpen(!isPaymentDetailsConfirmedModalOpen);
   };
 
   return (
@@ -131,6 +137,11 @@ const Canva: React.FC = () => {
             Informar Pagamento
           </button>
 
+          {/* Botão para abrir o novo modal PaymentDetailsConfirmedModal */}
+          <button onClick={togglePaymentDetailsConfirmedModal} className={styles.openModalButton}>
+            Dados de Pagamento Informados com Sucesso
+          </button>
+
           {/* Renderizando o modal DriverRegistrationApproval */}
           <DriverRegistrationApproval
             isOpen={isModalOpen}
@@ -186,6 +197,12 @@ const Canva: React.FC = () => {
               onClose={togglePaymentModal}
             />
           )}
+
+          {/* Renderizando o novo modal PaymentDetailsConfirmedModal */}
+          <PaymentDetailsConfirmedModal
+            isOpen={isPaymentDetailsConfirmedModalOpen}
+            onRequestClose={togglePaymentDetailsConfirmedModal}
+          />
         </div>
       </div>
     </div>
