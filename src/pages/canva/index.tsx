@@ -12,6 +12,8 @@ import ModalRoot from "@/components/ModalRoot";
 import PhotoRequestModal from "@/components/ModalRoot/PhotoRequestModal";
 import SendToFinanceModal from "@/components/ModalRoot/SendToFinanceModal";
 import ValueInputModal from "@/components/ModalRoot/ValueInputModal";
+import OpenTicketModal from "@/components/ModalRoot/OpenTicketModal";
+import FirstTimeMalfunctionConfirmationModal from "@/components/ModalRoot/FirstTimeMalfunctionConfirmationModal";
 import PaymentNotificationModal from "@/components/ModalRoot/PaymentNotificationModal";
 import PaymentDetailsConfirmedModal from "@/components/ModalRoot/PaymentDetailsConfirmedModal";
 
@@ -23,6 +25,8 @@ const Canva: React.FC = () => {
   const [isPhotoRequestModalOpen, setIsPhotoRequestModalOpen] = useState(false);
   const [isSendToFinanceModalOpen, setIsSendToFinanceModalOpen] = useState(false);
   const [isValueInputModalOpen, setIsValueInputModalOpen] = useState(false);
+  const [isOpenTicketModalOpen, setIsOpenTicketModalOpen] = useState(false);
+  const [isFirstTimeMalfunctionModalOpen, setIsFirstTimeMalfunctionModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isPaymentDetailsConfirmedModalOpen, setIsPaymentDetailsConfirmedModalOpen] = useState(false);
 
@@ -58,6 +62,33 @@ const Canva: React.FC = () => {
   const handleValueInputConfirm = (value: string) => {
     console.log("Valor inserido:", value);
     toggleValueInputModal();
+  };
+
+  const toggleOpenTicketModal = () => {
+    setIsOpenTicketModalOpen(!isOpenTicketModalOpen);
+  };
+
+  const handleAdvance = () => {
+    console.log("Avançando para a próxima etapa do ticket.");
+    toggleOpenTicketModal();
+  };
+
+  const toggleFirstTimeMalfunctionModal = () => {
+    setIsFirstTimeMalfunctionModalOpen(!isFirstTimeMalfunctionModalOpen);
+  };
+
+  const handleConfirm = () => {
+    console.log("Confirmado");
+    toggleFirstTimeMalfunctionModal();
+  };
+
+  const handleCancel = () => {
+    console.log("Cancelado");
+    toggleFirstTimeMalfunctionModal();
+  };
+
+  const handleOnRequestClose = () => {
+    setIsFirstTimeMalfunctionModalOpen(false);
   };
 
   const togglePaymentModal = () => {
@@ -117,12 +148,7 @@ const Canva: React.FC = () => {
             Abrir PhotoRequestModal
           </button>
 
-          {/* Botão para abrir o novo modal DriverBlockModal */}
-          <button onClick={toggleBlockModal} className={styles.openModalButton}>
-            Bloquear Motorista
-          </button>
-
-          {/* Botão para abrir o modal SendToFinanceModal */}
+          {/* Botão para abrir o novo modal SendToFinanceModal */}
           <button onClick={toggleSendToFinanceModal} className={styles.openModalButton}>
             Enviar para o Financeiro
           </button>
@@ -130,6 +156,16 @@ const Canva: React.FC = () => {
           {/* Botão para abrir o novo modal ValueInputModal */}
           <button onClick={toggleValueInputModal} className={styles.openModalButton}>
             Enviar para o Financeiro (Valor)
+          </button>
+
+          {/* Botão para abrir o novo modal OpenTicketModal */}
+          <button onClick={toggleOpenTicketModal} className={styles.openModalButton}>
+            Abrir Ticket
+          </button>
+
+          {/* Botão para abrir o novo modal FirstTimeMalfunctionConfirmationModal */}
+          <button onClick={toggleFirstTimeMalfunctionModal} className={styles.openModalButton}>
+            Confirmar Mal Funcionamento
           </button>
 
           {/* Botão para abrir o novo modal PaymentNotificationModal */}
@@ -184,6 +220,25 @@ const Canva: React.FC = () => {
             <ValueInputModal
               onClose={toggleValueInputModal}
               onConfirm={handleValueInputConfirm}
+            />
+          )}
+
+          {/* Renderizando o novo modal OpenTicketModal */}
+          {isOpenTicketModalOpen && (
+            <OpenTicketModal
+              isOpen={isOpenTicketModalOpen}
+              onRequestClose={toggleOpenTicketModal}
+              onAdvance={handleAdvance}
+            />
+          )}
+
+          {/* Renderizando o novo modal FirstTimeMalfunctionConfirmationModal */}
+          {isFirstTimeMalfunctionModalOpen && (
+            <FirstTimeMalfunctionConfirmationModal
+              isOpen={isFirstTimeMalfunctionModalOpen}
+              onConfirm={handleConfirm}
+              onCancel={handleCancel}
+              onRequestClose={handleOnRequestClose}
             />
           )}
 
