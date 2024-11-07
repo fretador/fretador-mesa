@@ -8,6 +8,7 @@ import Body from "@/components/Body";
 import FormContainer from "@/components/FormContainer";
 import { useQuery } from '@apollo/client';
 import { GET_FREIGHT_BY_ID } from '@/graphql/queries/freightQueries';
+import Loading from "@/components/Loading";
 
 const EditFreight = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -20,19 +21,7 @@ const EditFreight = () => {
     fetchPolicy: "cache-and-network"
   });
 
-  if (loading) {
-    return <div>Carregando...</div>;
-  }
-
-  if (error) {
-    return <div>Erro ao carregar o frete</div>;
-  }
-
   const freight = data?.freight;
-
-  if (!freight) {
-    return <div>Nenhum frete encontrado</div>;
-  }
 
   // Mapeamos os dados do frete para o formato esperado pelo FormContainer
   const initialData = {
@@ -75,11 +64,21 @@ const EditFreight = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <FormContainer
-                showFreightSubmissionButton={false}
-                showEditFreightButton={true}
-                initialData={initialData}
-              />
+              {loading ?
+                <div className={styles.loadingContainer}>
+                  <Loading />
+                </div>
+                : error ? (
+                  <p>Erro ao carregar frete: {error.message}</p>
+                ) : !freight ? (
+                  <p>Frete não encontrado</p>
+                ) : (
+                  <FormContainer
+                    showFreightSubmissionButton={false}
+                    showEditFreightButton={true}
+                    initialData={initialData}
+                  />
+                )}
             </Body>
           </div>
         </div>
