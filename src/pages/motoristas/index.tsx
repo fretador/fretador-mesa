@@ -12,6 +12,7 @@ import StatusFilter from "@/components/StatusFilter";
 import VehicleFilter from "@/components/VehicleFilter";
 import DriversList from "@/components/ApprovedDriversList";
 import { Driver } from "@/utils/types/Driver";
+import { DriverNode } from "@/utils/types/DriverNode";
 import { useQuery } from "@apollo/client";
 import { GET_DRIVERS_QUERY } from "@/graphql/queries/driverQueries";
 
@@ -101,10 +102,10 @@ const Drivers: React.FC = () => {
 
   // Extrair os motoristas dos dados retornados pelas queries
   const awaitingApprovalDrivers: Driver[] =
-    awaitingApprovalData?.drivers?.edges.map((edge: any) => edge.node) || [];
+    awaitingApprovalData?.drivers?.edges.map((edge: DriverNode) => edge.node) || [];
 
   const drivers: Driver[] =
-    driversData?.drivers?.edges.map((edge: any) => edge.node) || [];
+    driversData?.drivers?.edges.map((edge: DriverNode) => edge.node) || [];
 
   return (
     <AuthenticatedLayout>

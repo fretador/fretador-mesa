@@ -10,6 +10,7 @@ import {
   generateRandomPlate,
   generateRandomVehicleData,
 } from "@/utils/mocks/vehicleDataGenerator";
+import { DriverNode } from "@/utils/types/DriverNode";
 
 interface AssignFreightModalProps {
   isOpen: boolean;
@@ -96,7 +97,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
   // Atualizar allDrivers quando driversData estiver disponível
   useEffect(() => {
     if (driversData && driversData.drivers) {
-      const drivers = driversData.drivers.edges.map((edge: any) => edge.node);
+      const drivers = driversData.drivers.edges.map((edge: DriverNode) => edge.node);
       const transformedDrivers = transformDrivers(drivers);
       setAllDrivers(transformedDrivers);
     }
