@@ -24,7 +24,41 @@ export const mockClients = [
     stateRegistration: "123456789",
     address: "Rua das Flores",
     numberAddress: "123",
-    neighborhood: "Centro"
+    neighborhood: "Centro",
+    shipments: [
+      {
+        id: "1",
+        date: "10/02/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "São Paulo",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "2",
+        date: "06/04/2024",
+        vehicle: "Truck",
+        cityOrigin: "Fortaleza",
+        stateOrigin: "CE",
+        status: "Finalizado"
+      },
+      {
+        id: "3",
+        date: "10/05/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "Cordeirópolis",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "4",
+        date: "06/10/2024",
+        vehicle: "Truck",
+        cityOrigin: "Atibaia",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      }
+    ]
   },
   {
     id: "2",
@@ -38,7 +72,41 @@ export const mockClients = [
     stateRegistration: "987654321",
     address: "Avenida Beira Mar",
     numberAddress: "456",
-    neighborhood: "Meireles"
+    neighborhood: "Meireles",
+    shipments: [
+      {
+        id: "1",
+        date: "10/02/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "São Paulo",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "2",
+        date: "06/04/2024",
+        vehicle: "Truck",
+        cityOrigin: "Fortaleza",
+        stateOrigin: "CE",
+        status: "Finalizado"
+      },
+      {
+        id: "3",
+        date: "10/05/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "Cordeirópolis",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "4",
+        date: "06/10/2024",
+        vehicle: "Truck",
+        cityOrigin: "Atibaia",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      }
+    ]
   },
   {
     id: "3",
@@ -52,7 +120,41 @@ export const mockClients = [
     stateRegistration: "654321987",
     address: "Rua dos Programadores",
     numberAddress: "789",
-    neighborhood: "Savassi"
+    neighborhood: "Savassi",
+    shipments: [
+      {
+        id: "1",
+        date: "10/02/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "São Paulo",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "2",
+        date: "06/04/2024",
+        vehicle: "Truck",
+        cityOrigin: "Fortaleza",
+        stateOrigin: "CE",
+        status: "Finalizado"
+      },
+      {
+        id: "3",
+        date: "10/05/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "Cordeirópolis",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "4",
+        date: "06/10/2024",
+        vehicle: "Truck",
+        cityOrigin: "Atibaia",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      }
+    ]
   },
   {
     id: "4",
@@ -66,7 +168,41 @@ export const mockClients = [
     stateRegistration: "876543219",
     address: "Avenida do Batel",
     numberAddress: "321",
-    neighborhood: "Batel"
+    neighborhood: "Batel",
+    shipments: [
+      {
+        id: "1",
+        date: "10/02/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "São Paulo",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "2",
+        date: "06/04/2024",
+        vehicle: "Truck",
+        cityOrigin: "Fortaleza",
+        stateOrigin: "CE",
+        status: "Finalizado"
+      },
+      {
+        id: "3",
+        date: "10/05/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "Cordeirópolis",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "4",
+        date: "06/10/2024",
+        vehicle: "Truck",
+        cityOrigin: "Atibaia",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      }
+    ]
   },
   {
     id: "5",
@@ -80,7 +216,41 @@ export const mockClients = [
     stateRegistration: "543219876",
     address: "Rua das Obras",
     numberAddress: "654",
-    neighborhood: "Pituba"
+    neighborhood: "Pituba",
+    shipments: [
+      {
+        id: "1",
+        date: "10/02/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "São Paulo",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "2",
+        date: "06/04/2024",
+        vehicle: "Truck",
+        cityOrigin: "Fortaleza",
+        stateOrigin: "CE",
+        status: "Finalizado"
+      },
+      {
+        id: "3",
+        date: "10/05/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "Cordeirópolis",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "4",
+        date: "06/10/2024",
+        vehicle: "Truck",
+        cityOrigin: "Atibaia",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      }
+    ]
   },
   {
     id: "6",
@@ -94,7 +264,41 @@ export const mockClients = [
     stateRegistration: "321987654",
     address: "Avenida Boa Viagem",
     numberAddress: "987",
-    neighborhood: "Boa Viagem"
+    neighborhood: "Boa Viagem",
+    shipments: [
+      {
+        id: "1",
+        date: "10/02/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "São Paulo",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "2",
+        date: "06/04/2024",
+        vehicle: "Truck",
+        cityOrigin: "Fortaleza",
+        stateOrigin: "CE",
+        status: "Finalizado"
+      },
+      {
+        id: "3",
+        date: "10/05/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "Cordeirópolis",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "4",
+        date: "06/10/2024",
+        vehicle: "Truck",
+        cityOrigin: "Atibaia",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      }
+    ]
   },
   {
     id: "7",
@@ -108,7 +312,41 @@ export const mockClients = [
     stateRegistration: "987321654",
     address: "Estrada do Campo",
     numberAddress: "159",
-    neighborhood: "Centro"
+    neighborhood: "Centro",
+    shipments: [
+      {
+        id: "1",
+        date: "10/02/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "São Paulo",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "2",
+        date: "06/04/2024",
+        vehicle: "Truck",
+        cityOrigin: "Fortaleza",
+        stateOrigin: "CE",
+        status: "Finalizado"
+      },
+      {
+        id: "3",
+        date: "10/05/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "Cordeirópolis",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "4",
+        date: "06/10/2024",
+        vehicle: "Truck",
+        cityOrigin: "Atibaia",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      }
+    ]
   },
   {
     id: "8",
@@ -122,7 +360,41 @@ export const mockClients = [
     stateRegistration: "654123789",
     address: "Setor de Saúde",
     numberAddress: "741",
-    neighborhood: "Asa Norte"
+    neighborhood: "Asa Norte",
+    shipments: [
+      {
+        id: "1",
+        date: "10/02/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "São Paulo",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "2",
+        date: "06/04/2024",
+        vehicle: "Truck",
+        cityOrigin: "Fortaleza",
+        stateOrigin: "CE",
+        status: "Finalizado"
+      },
+      {
+        id: "3",
+        date: "10/05/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "Cordeirópolis",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "4",
+        date: "06/10/2024",
+        vehicle: "Truck",
+        cityOrigin: "Atibaia",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      }
+    ]
   },
   {
     id: "9",
@@ -136,7 +408,41 @@ export const mockClients = [
     stateRegistration: "789654123",
     address: "Rua da Moda",
     numberAddress: "852",
-    neighborhood: "Ipanema"
+    neighborhood: "Ipanema",
+    shipments: [
+      {
+        id: "1",
+        date: "10/02/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "São Paulo",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "2",
+        date: "06/04/2024",
+        vehicle: "Truck",
+        cityOrigin: "Fortaleza",
+        stateOrigin: "CE",
+        status: "Finalizado"
+      },
+      {
+        id: "3",
+        date: "10/05/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "Cordeirópolis",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "4",
+        date: "06/10/2024",
+        vehicle: "Truck",
+        cityOrigin: "Atibaia",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      }
+    ]
   },
   {
     id: "10",
@@ -150,7 +456,41 @@ export const mockClients = [
     stateRegistration: "987654123",
     address: "Avenida dos Professores",
     numberAddress: "963",
-    neighborhood: "Barão Geraldo"
+    neighborhood: "Barão Geraldo",
+    shipments: [
+      {
+        id: "1",
+        date: "10/02/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "São Paulo",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "2",
+        date: "06/04/2024",
+        vehicle: "Truck",
+        cityOrigin: "Fortaleza",
+        stateOrigin: "CE",
+        status: "Finalizado"
+      },
+      {
+        id: "3",
+        date: "10/05/2024",
+        vehicle: "Carreta Baú",
+        cityOrigin: "Cordeirópolis",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      },
+      {
+        id: "4",
+        date: "06/10/2024",
+        vehicle: "Truck",
+        cityOrigin: "Atibaia",
+        stateOrigin: "SP",
+        status: "Finalizado"
+      }
+    ]
   }
 ];
 

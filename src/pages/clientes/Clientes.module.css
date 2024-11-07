@@ -13,7 +13,6 @@
   width: calc(100% - 16vw);
   margin-left: 10vw;
   transition: width 0.3s, margin-left 0.3s;
-  box-sizing: border-box;
 }
 
 .retractedContentWrapper {
@@ -21,7 +20,6 @@
   flex-direction: column;
   width: calc(100% - 6vw);
   transition: width 0.3s, margin-left 0.3s;
-  box-sizing: border-box;
 }
 
 .header {

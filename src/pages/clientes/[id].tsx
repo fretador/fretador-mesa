@@ -43,6 +43,10 @@ const ServiceDetails = () => {
     router.back();
   };
 
+  const handleLatestShipmentsButton = (id: string) => {
+    router.push(`/ultimos-embarques/${id}`);
+  };
+
   useEffect(() => {
     if (id) {
       const foundClient = mockClients.find(
@@ -121,7 +125,7 @@ const ServiceDetails = () => {
                     <p>Consulta feita em: <span>11/10/2023</span></p>
                   </div>
 
-                  <div className={styles.title} style={{marginTop: '32px', marginBottom: '44px', cursor: 'pointer'}}>
+                  <div className={styles.title} style={{marginTop: '32px', marginBottom: '44px', cursor: 'pointer'}} onClick={() => handleLatestShipmentsButton(client.id)}>
                     <p>Ver últimos embarques</p>
                   </div>
 

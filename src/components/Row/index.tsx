@@ -22,6 +22,7 @@ import ServiceDate from "./ServiceDate";
 import ServiceNumber from "./ServiceNumber";
 import ServiceStatus from "./ServiceStatus";
 import ServiceSubject from "./ServiceSubject";
+import ShipmentStatus from "./ShipmentStatus"
 import TradeName from "./TradeName";
 import Value from "./Value";
 import Vehicle from "./Vehicle";
@@ -53,6 +54,7 @@ export const Row = {
   ServiceNumber: ServiceNumber,
   ServiceStatus: ServiceStatus,
   ServiceSubject: ServiceSubject,
+  ShipmentStatus: ShipmentStatus,
   TradeName: TradeName,
   Value: Value,
   Vehicle: Vehicle,
