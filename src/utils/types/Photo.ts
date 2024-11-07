@@ -1,4 +1,4 @@
-import { PhotoStatus } from "./Enums";
+import { PhotoStatus } from "@/utils/enums/photoStatusEnums";
 
 export interface Photo {
 	imageUrl: string;

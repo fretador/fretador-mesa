@@ -23,7 +23,7 @@ const DriverPage: React.FC = () => {
     );
   }
 
-  return <RegisteredDriver driverId={driverId as string} />;
+  return <RegisteredDriver />;
 };
 
 export default DriverPage;

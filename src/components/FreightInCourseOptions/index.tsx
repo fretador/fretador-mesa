@@ -1,5 +1,3 @@
-// FreightInCourseOptions.tsx
-
 import React, { useRef, useState } from "react";
 import styles from "./FreightInCourseOptions.module.css";
 import { useDocumentController } from "@/controllers/documentController";
@@ -11,11 +9,11 @@ import {
 } from "@/utils/icons";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { UpdateDataTypeEnum } from "@/utils/enums/updateDataTypeEnum";
-import { FreightService } from "@/services/freightService";
 import DocumentSentModal from "@/components/ModalRoot/DocumentSentModal";
 import DocumentTypeModal from "@/components/ModalRoot/DocumentTypeModal";
+import { useMutation } from "@apollo/client";
+import { UPDATE_FREIGHT_STATUS } from "@/graphql/mutations";
 
-// Adicione esta prop ao componente
 interface FreightInCourseOptionsProps {
   freightId: string;
   onDocumentsUploaded: () => void;
@@ -31,6 +29,9 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   const [showModal, setShowModal] = useState(false);
   const [showTypeModal, setShowTypeModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Utilizando a mutation diretamente
+  const [updateFreightStatusMutation] = useMutation(UPDATE_FREIGHT_STATUS);
 
   const handleSendOccurrence = () => {
     console.log("Enviou ocorrência");
@@ -88,17 +89,19 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       }));
       const updateDataType = UpdateDataTypeEnum.DOCUMENT;
 
-      await FreightService.updateFreightStatus(
-        freightId,
-        newstatus,
-        updateData,
-        updateDataType
-      );
+      // Chamando a mutation diretamente
+      await updateFreightStatusMutation({
+        variables: {
+          id: freightId,
+          status: newstatus,
+          updateData: updateData,
+          updateDataType: updateDataType,
+        },
+      });
+
       setIsLoading(false);
       setShowTypeModal(false);
-      console.log("showModal antes", showModal);
       setShowModal(true);
-      console.log("showModal depois", showModal);
     } catch (error) {
       console.error("Erro ao processar os documentos:", error);
       alert(

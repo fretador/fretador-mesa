@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
@@ -13,7 +12,8 @@ import StatusFilter from "@/components/StatusFilter";
 import VehicleFilter from "@/components/VehicleFilter";
 import DriversList from "@/components/ApprovedDriversList";
 import { Driver } from "@/utils/types/Driver";
-import { DriverService } from "@/services/driverService";
+import { useQuery } from "@apollo/client";
+import { GET_DRIVERS_QUERY } from "@/graphql/queries/driverQueries";
 
 const Drivers: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -25,13 +25,6 @@ const Drivers: React.FC = () => {
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [selectedVehicles, setSelectedVehicles] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  const [awaitingApprovalDrivers, setAwaitingApprovalDrivers] = useState<
-    Driver[]
-  >([]);
-  const [Drivers, setDrivers] = useState<Driver[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   // Funções para lidar com os filtros
   const handleStatusFilterApply = (searchTerm: string, statuses: string[]) => {
@@ -61,59 +54,57 @@ const Drivers: React.FC = () => {
     router.push(`/aprovacao-cadastro-do-motorista/${driverId}`);
   };
 
-  // Função para buscar motoristas aguardando analise
-  const fetchAwaitingApprovalDrivers = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const filter = {
+  // Utilizando useQuery para buscar motoristas aguardando aprovação
+  const {
+    data: awaitingApprovalData,
+    loading: awaitingApprovalLoading,
+    error: awaitingApprovalError,
+    refetch: refetchAwaitingApproval,
+  } = useQuery(GET_DRIVERS_QUERY, {
+    variables: {
+      page: 1,
+      limit: 10,
+      filter: {
         status: ["PENDING"],
         vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
         allFilters: searchTerm || undefined,
-      };
+      },
+    },
+    fetchPolicy: 'cache-and-network',
+  });
 
-      const response = await DriverService.getDrivers(1, 10, filter);
-      setAwaitingApprovalDrivers(response.data);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Erro ao buscar motoristas"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Função para buscar motoristas
-  const fetchDrivers = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const filter = {
+  // Utilizando useQuery para buscar motoristas aprovados
+  const {
+    data: driversData,
+    loading: driversLoading,
+    error: driversError,
+    refetch: refetchDrivers,
+  } = useQuery(GET_DRIVERS_QUERY, {
+    variables: {
+      page: 1,
+      limit: 10,
+      filter: {
         status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
         vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
         allFilters: searchTerm || undefined,
-      };
+      },
+    },
+    fetchPolicy: 'cache-and-network',
+  });
 
-      const response = await DriverService.getDrivers(1, 10, filter);
-      setDrivers(response.data);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Erro ao buscar motoristas"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // useEffect para buscar motoristas sempre que os filtros mudarem
+  // useEffect para refetch quando filtros mudarem
   useEffect(() => {
-    if (awaitingApprovalDrivers.length === 0) {
-      fetchAwaitingApprovalDrivers();
-    }
-    fetchDrivers();
+    refetchAwaitingApproval();
+    refetchDrivers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStatuses, selectedVehicles, searchTerm]);
+
+  // Extrair os motoristas dos dados retornados pelas queries
+  const awaitingApprovalDrivers: Driver[] =
+    awaitingApprovalData?.drivers?.edges.map((edge: any) => edge.node) || [];
+
+  const drivers: Driver[] =
+    driversData?.drivers?.edges.map((edge: any) => edge.node) || [];
 
   return (
     <AuthenticatedLayout>
@@ -151,12 +142,22 @@ const Drivers: React.FC = () => {
                 <h2>Aguardando Aprovação</h2>
                 <AwaitingApprovalList
                   drivers={awaitingApprovalDrivers}
-                  loading={loading}
-                  error={error}
+                  loading={awaitingApprovalLoading}
+                  error={
+                    awaitingApprovalError
+                      ? "Erro ao buscar motoristas aguardando aprovação"
+                      : null
+                  }
                 />
               </div>
 
-              <DriversList drivers={Drivers} loading={loading} error={error} />
+              <DriversList
+                drivers={drivers}
+                loading={driversLoading}
+                error={
+                  driversError ? "Erro ao buscar motoristas aprovados" : null
+                }
+              />
             </Body>
           </div>
         </div>

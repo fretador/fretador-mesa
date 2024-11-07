@@ -11,12 +11,13 @@ import ShippingTypeSection from "./ShippingTypeSection";
 import ObservationsSection from "./ObservationsSection";
 import FreightValueSection from "./FreightValuesSection";
 import AssignFreightModal from "@/components/ModalRoot/AssignFreightModal";
-import { FreightService } from "@/services/freightService";
 import { CargoLoadType } from "@/utils/enums/cargoLoadTypeEnum";
 import { Type } from "@/utils/enums/typeEnum";
 import { createFreightSchema } from "@/utils/validations/createFreightSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ConfirmationModal from "@/components/ModalRoot/ConfirmationModal";
+import { useMutation } from "@apollo/client";
+import { CREATE_FREIGHT } from "@/graphql/mutations";
 import EditFreightButton from "../EditFreightButton";
 
 interface FormContainerProps {
@@ -34,6 +35,8 @@ const FormContainer: React.FC<FormContainerProps> = ({
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] =
     useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [createFreightMutation, { loading: creatingFreight, error: createError }] =
+    useMutation(CREATE_FREIGHT);
 
   const methods = useForm<CreateFreightInput>({
     resolver: zodResolver(createFreightSchema),
@@ -55,18 +58,15 @@ const FormContainer: React.FC<FormContainerProps> = ({
       totalWeight: undefined,
       volumes: undefined,
       cubage: undefined,
-      // Remova a propriedade 'value' daqui
       moreDetails: "",
       eligibleVehicles: [],
       eligibleBodyworks: [],
       type: Type.OFFER,
       targetedDrivers: [],
+      value: 0,
       pedagioIncluso: undefined,
       observations: "",
       ...initialData,
-      
-
-
     },
   });
 
@@ -88,7 +88,9 @@ const FormContainer: React.FC<FormContainerProps> = ({
 
   const onSubmit = async (data: CreateFreightInput) => {
     try {
-      await FreightService.createFreight(data);
+      await createFreightMutation({
+        variables: { input: data },
+      });
       console.log("Frete submetido com sucesso:", data);
       setIsConfirmationModalOpen(true);
     } catch (error) {
@@ -104,9 +106,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
       Object.entries(watchedFields).filter(
         ([key, value]) =>
           value !== undefined &&
-          !["cargoValue", "cargoWeight", "toolValue", "totalValue"].includes(
-            key
-          )
+          !["cargoValue", "cargoWeight", "toolValue", "totalValue"].includes(key)
       )
     );
     console.log("Campos observados:", filteredFields);

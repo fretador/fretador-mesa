@@ -1,5 +1,5 @@
 import { Photo } from "./Photo";
-import { AccountType } from "./Enums";
+import { AccountType } from "@/utils/enums/accountTypeEnums";
 
 export interface Wallet {
 	cardPhoto: Photo;

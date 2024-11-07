@@ -62,7 +62,7 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
             />
             <Row.CityState city={driver.city} state={driver.state} />
             <Row.WhatsApp whatsApp={driver.phoneNumber} />
-            <Row.Vehicle vehicle={driver.vehicle?.type || "N/A"} />
+            <Row.Vehicle vehicle={driver.vehicle?.vehicleType || "N/A"} />
             <Row.DriverStatus driverStatus={driver.status} />
           </Row.Root>
         ))}

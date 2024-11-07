@@ -1,4 +1,4 @@
-import { BoardUserProfile } from "./Enums";
+import { BoardUserProfile } from "@/utils/enums/boardUserProfileEnums";
 export interface BoardUser {
 	id?: String;
 	active?: Boolean;

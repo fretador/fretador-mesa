@@ -2,8 +2,14 @@ import React, { useEffect, useState, KeyboardEvent } from "react";
 import ModalRoot from "../../ModalRoot";
 import Loading from "../../Loading";
 import styles from "./AssignFreight.module.css";
-import { DriverService } from "@/services/driverService";
 import { Driver } from "@/utils/types/Driver";
+import { useLazyQuery } from "@apollo/client";
+import { GET_DRIVERS_QUERY } from "@/graphql/queries/driverQueries";
+import { gerarDadosBancarios } from "@/utils/mocks/bankDataGenerator";
+import {
+  generateRandomPlate,
+  generateRandomVehicleData,
+} from "@/utils/mocks/vehicleDataGenerator";
 
 interface AssignFreightModalProps {
   isOpen: boolean;
@@ -29,26 +35,72 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
   const [suggestions, setSuggestions] = useState<Driver[]>([]);
   const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
   const [allDrivers, setAllDrivers] = useState<Driver[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  const [fetchDrivers, { data: driversData, loading: isLoading, error }] =
+    useLazyQuery(GET_DRIVERS_QUERY);
+
+  // Função para transformar os dados dos motoristas
+  const transformDrivers = (data: Driver[]): Driver[] => {
+    return data.map((driver) => {
+      const firstName = driver.name.split(" ")[0].toLowerCase();
+      const generatedEmail = `${firstName}@fretador.com.br`;
+      const { agencia, conta, banco } = gerarDadosBancarios(driver.cpf);
+      const randomVehicleData = generateRandomVehicleData(driver.cpf);
+
+      return {
+        ...driver,
+        email: driver.email || generatedEmail,
+        owner: {
+          name: driver.name,
+          cpf: driver.cpf,
+          phoneNumber: driver.phoneNumber,
+          email: generatedEmail,
+          bankName: banco,
+          bankAgency: agencia,
+          bankAccount: conta,
+          pix: driver.email || generatedEmail,
+          isDriverAsOwner: true,
+        },
+        attachments: {
+          userPhoto: driver.userPhoto?.imageUrl,
+          cnh: driver.cnhPhoto?.imageUrl,
+          proofResidencePhoto: driver.proofResidencePhoto?.imageUrl,
+          rg: driver.rgPhoto?.imageUrl,
+          vehiclePhoto: driver.vehicle?.vehiclePhoto?.imageUrl,
+          anttPhoto: driver.vehicle?.anttPhoto?.imageUrl,
+          documentPhoto: driver.vehicle?.documentPhoto?.imageUrl,
+        },
+        vehicle: {
+          ...driver.vehicle,
+          plate: generateRandomPlate(),
+          ...randomVehicleData,
+        },
+      };
+    });
+  };
 
   // Buscar motoristas quando o modal é aberto
   useEffect(() => {
-    const fetchDrivers = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await DriverService.getDrivers(1, 5000, {});
-        setAllDrivers(DriverService.transformDrivers(response.data));
-      } catch (err) {
-        setError("Falha ao buscar motoristas. Por favor, tente novamente.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    if (isOpen) {
+      fetchDrivers({
+        variables: {
+          page: 1,
+          limit: 5000,
+          filter: {},
+        },
+        fetchPolicy: 'cache-and-network',
+      });
+    }
+  }, [isOpen, fetchDrivers]);
 
-    if (isOpen) fetchDrivers();
-  }, [isOpen]);
+  // Atualizar allDrivers quando driversData estiver disponível
+  useEffect(() => {
+    if (driversData && driversData.drivers) {
+      const drivers = driversData.drivers.edges.map((edge: any) => edge.node);
+      const transformedDrivers = transformDrivers(drivers);
+      setAllDrivers(transformedDrivers);
+    }
+  }, [driversData]);
 
   // Atualizar sugestões com base na entrada
   useEffect(() => {
@@ -117,7 +169,11 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
         </header>
         <div className={styles.modalBody}>
           {isLoading && <Loading />}
-          {error && <p className={styles.error}>{error}</p>}
+          {error && (
+            <p className={styles.error}>
+              Falha ao buscar motoristas. Por favor, tente novamente.
+            </p>
+          )}
           <label className={styles.label} htmlFor="searchInput">
             CPF ou nome do motorista
           </label>
@@ -151,7 +207,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
             <div className={styles.driverDetails}>
               <h3>Dados do Motorista</h3>
               <p>Motorista: {selectedDriver.name}</p>
-              <p>Veículo: {selectedDriver.vehicle.type}</p>
+              <p>Veículo: {selectedDriver.vehicle.vehicleType}</p>
             </div>
           )}
         </div>

@@ -1,19 +1,15 @@
 import { Photo } from "./Photo";
-import { VehicleType, BoardType } from "./Enums";
-import { BodyworkCategory, BodyworkType } from "../enums/bodyworkEnums";
-import { VehicleCategory } from "../enums/vehicleEnums";
-
+import { VehicleType, VehicleCategory } from "@/utils/enums/vehicleEnums";
+import { BodyworkType, BodyworkCategory } from "@/utils/enums/bodyworkEnums";
 export interface Vehicle {
-	anttPhoto: Photo;
-	documentPhoto: Photo;
-	ownedByUser: boolean;
-	semiTrailerDocumentPhotos: Photo[];
-	semiTrailerPhotos: Photo[];
-	vehiclePhoto: Photo;
-	type: VehicleType;
+	anttPhoto?: Photo;
+	documentPhoto?: Photo;
+	ownedByUser?: boolean;
+	semiTrailerDocumentPhotos?: Photo[];
+	semiTrailerPhotos?: Photo[];
+	vehiclePhoto?: Photo;
 	vehicleType: VehicleType;
 	vehicleCategory: VehicleCategory;
-	typeByBoard: BoardType;
 	bodyworkType: BodyworkType;
 	bodyworkCategory: BodyworkCategory;
 	plate?: string;
