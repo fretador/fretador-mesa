@@ -23,11 +23,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Filtrar os veículos e carrocerias elegíveis
-  const eligibleVehicles = getValues("eligibleVehicles").filter(
+  // Filtrar os veículos e carrocerias elegíveis, garantindo que sejam arrays
+  const eligibleVehicles = (getValues("eligibleVehicles") || []).filter(
     (vehicle: any) => vehicle.eligible
   );
-  const eligibleBodyworks = getValues("eligibleBodyworks").filter(
+  const eligibleBodyworks = (getValues("eligibleBodyworks") || []).filter(
     (bodywork: any) => bodywork.eligible
   );
 

@@ -26,7 +26,7 @@ export interface CreateFreightInput {
   moreDetails?: string;
   shippingType: ShippingType;
   freightType: Type;
-  freightValue: string;
+  freightValue?: string;
   pedagioIncluso: boolean;
   paymentType?: string;
   observations?: string;

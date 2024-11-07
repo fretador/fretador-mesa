@@ -207,7 +207,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
             <div className={styles.driverDetails}>
               <h3>Dados do Motorista</h3>
               <p>Motorista: {selectedDriver.name}</p>
-              <p>Veículo: {selectedDriver.vehicle.type}</p>
+              <p>Veículo: {selectedDriver.vehicle.vehicleType}</p>
             </div>
           )}
         </div>
