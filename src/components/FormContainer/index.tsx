@@ -17,8 +17,19 @@ import { Type } from "@/utils/enums/typeEnum";
 import { createFreightSchema } from "@/utils/validations/createFreightSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ConfirmationModal from "@/components/ModalRoot/ConfirmationModal";
+import EditFreightButton from "../EditFreightButton";
 
-const FormContainer: React.FC = () => {
+interface FormContainerProps {
+  initialData?: Partial<CreateFreightInput>
+  showFreightSubmissionButton?: boolean
+  showEditFreightButton?: boolean
+}
+
+const FormContainer: React.FC<FormContainerProps> = ({
+  showFreightSubmissionButton = true,
+  showEditFreightButton = false,
+  initialData
+}) => {
   // const [targetedDriver, setTargetedDriver] = useState<string[]>([]);
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] =
     useState(false);
@@ -50,6 +61,12 @@ const FormContainer: React.FC = () => {
       eligibleBodyworks: [],
       type: Type.OFFER,
       targetedDrivers: [],
+      pedagioIncluso: undefined,
+      observations: "",
+      ...initialData,
+      
+
+
     },
   });
 
@@ -60,6 +77,14 @@ const FormContainer: React.FC = () => {
     setValue,
     getValues,
   } = methods;
+
+  useEffect(() => {
+    if (initialData) {
+      Object.entries(initialData).forEach(([key, value]) => {
+        setValue(key as keyof CreateFreightInput, value);
+      });
+    }
+  }, [initialData, setValue]);
 
   const onSubmit = async (data: CreateFreightInput) => {
     try {
@@ -124,9 +149,16 @@ const FormContainer: React.FC = () => {
 
           <ObservationsSection />
 
-          <FreightSubmissionButton
-            onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
-          />
+          {showFreightSubmissionButton && (
+            <FreightSubmissionButton
+              onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
+            />
+          )}
+
+          {showEditFreightButton && (
+            <EditFreightButton />
+          )}
+
         </div>
       </form>
 

@@ -1,0 +1,21 @@
+.submitWrapper {
+  padding: 62px;
+  background-color: #B2CEDA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.submitButton {
+  font-family: Roboto;
+  background-color: #1a556d;
+  color: white;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 328px;
+}

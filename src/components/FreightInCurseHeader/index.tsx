@@ -64,6 +64,7 @@ const FreightInCurseHeader = ({
         <h2>VIAGEM #{freightCode}</h2>
         <div className={styles.iconContainer} onClick={handleEditClick}>
           <PencilIcon />
+          <p>Editar</p>
         </div>
       </div>
 
