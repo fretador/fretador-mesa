@@ -1,3 +1,5 @@
 export * from "./authMutations";
+export * from "./clientMutations";
+export * from "./documentMutations";
 export * from "./freightMutations";
-export * from "./statusFreightMutation";
+export * from "./statusFreightMutations";
