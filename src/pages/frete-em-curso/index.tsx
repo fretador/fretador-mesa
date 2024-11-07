@@ -180,18 +180,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
     }
   }, [freight]);
 
-  if (loading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <Loading />
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div>Erro: {error.message}</div>;
-  }
-
   return (
     <AuthenticatedLayout>
       <div className={styles.container}>
@@ -208,7 +196,15 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
           </div>
           <div className={styles.content}>
             <Body>
-              {freight && (
+              {loading ?
+                <div className={styles.loadingContainer}>
+                  <Loading />
+                </div>
+                : error ? (
+                  <p>Erro ao carregar frete: {error.message}</p>
+                ) : !freight ? (
+                  <p>Frete não encontrado</p>
+                ) : (
                 <div className={styles.freightInCurseContainer}>
                   <FreightInCurseHeader
                     freightCode={freight.freightCode?.toString() ?? ""}

@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from "react";
 import styles from "./Attachments.module.css";
 import Image from "next/image";
-import { DriverAttachments } from '@/utils/types/Driver';
+import { DriverAttachments } from '@/utils/types/DriverAttachments';
 
 interface PhotoUrl {
   imageUrl: string;

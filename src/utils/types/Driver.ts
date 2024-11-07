@@ -5,7 +5,8 @@ import { Wallet } from "./Wallet";
 import { DriverStatus } from "@/utils/enums/driverStatusEnums";
 import { StatusHistoryItem } from "./StatusHistory";
 import { RequestedFreightItem } from "./RequestedFreightItem";
-
+import { OwnerData } from "./VehicleOwnerData";
+import { DriverAttachments } from "./DriverAttachments";
 export interface Driver {
 	_id: string;
 	active: boolean;
@@ -33,36 +34,10 @@ export interface Driver {
 	acknowledge: boolean;
 	updateAcknowledge: boolean;
 	hashPassword: string;
-	invoiceCouponPhotos: Photo[];
-	invoicePhoto: Photo;
-	pickupOrderPhoto: Photo;
 	favoriteFreights: string[];
 	city: string;
 	state: string;
 	email?: string;
 	owner: OwnerData;
 	attachments: DriverAttachments;
-}
-
-export interface OwnerData {
-	name: string;
-	cpf: string;
-	cnh?: string;
-	phoneNumber: string;
-	email: string;
-	bankName: string;
-	bankAgency: string;
-	bankAccount: string;
-	pix: string;
-	isDriverAsOwner?: boolean;
-}
-
-export interface DriverAttachments {
-	anttPhoto?: string;
-	cnh?: string;
-	documentPhoto?: string;
-	proofResidencePhoto?: string;
-	rg?: string;
-	userPhoto?: string;
-	vehiclePhoto?: string;
 }
