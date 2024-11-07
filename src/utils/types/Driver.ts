@@ -2,7 +2,7 @@ import { Photo } from "./Photo";
 import { Vehicle } from "./Vehicle";
 import { VehicleOwner } from "./VehicleOwner";
 import { Wallet } from "./Wallet";
-import { DriverStatus } from "./Enums";
+import { DriverStatus } from "@/utils/enums/driverStatusEnums";
 import { StatusHistoryItem } from "./StatusHistory";
 import { RequestedFreightItem } from "./RequestedFreightItem";
 

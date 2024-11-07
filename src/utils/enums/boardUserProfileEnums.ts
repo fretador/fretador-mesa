@@ -1,0 +1,6 @@
+export enum BoardUserProfile {
+	ADMINISTRADOR = "ADMINISTRADOR",
+	OPERACAO = "OPERAÇÃO",
+	FINANCEIRO = "FINANCEIRO",
+	SAC = "SAC",
+}

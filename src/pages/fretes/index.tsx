@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -64,7 +65,7 @@ const Freights: React.FC = () => {
   useEffect(() => {
     if (isBrowser) {
       sessionStorage.setItem(SESSION_STORAGE_KEYS.PAGE, String(page));
-    }
+    } 
   }, [page]);
 
   useEffect(() => {
