@@ -12,7 +12,11 @@ import ModalRoot from "@/components/ModalRoot";
 import PhotoRequestModal from "@/components/ModalRoot/PhotoRequestModal";
 import SendToFinanceModal from "@/components/ModalRoot/SendToFinanceModal";
 import ValueInputModal from "@/components/ModalRoot/ValueInputModal";
-import OpenTicketModal from "@/components/ModalRoot/OpenTicketModal";
+<<<<<<< Updated upstream
+import PaymentNotificationModal from "@/components/ModalRoot/PaymentNotificationModal"; 
+=======
+import PaymentNotificationModal from "@/components/ModalRoot/PaymentNotificationModal"; // Importe o novo modal
+>>>>>>> Stashed changes
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -22,7 +26,11 @@ const Canva: React.FC = () => {
   const [isPhotoRequestModalOpen, setIsPhotoRequestModalOpen] = useState(false);
   const [isSendToFinanceModalOpen, setIsSendToFinanceModalOpen] = useState(false);
   const [isValueInputModalOpen, setIsValueInputModalOpen] = useState(false);
-  const [isOpenTicketModalOpen, setIsOpenTicketModalOpen] = useState(false);
+<<<<<<< Updated upstream
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); 
+=======
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); // Estado para o novo modal
+>>>>>>> Stashed changes
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -58,13 +66,8 @@ const Canva: React.FC = () => {
     toggleValueInputModal();
   };
 
-  const toggleOpenTicketModal = () => {
-    setIsOpenTicketModalOpen(!isOpenTicketModalOpen);
-  };
-
-  const handleAdvance = () => {
-    console.log("Avançando para a próxima etapa do ticket.");
-    toggleOpenTicketModal();
+  const togglePaymentModal = () => {
+    setIsPaymentModalOpen(!isPaymentModalOpen);
   };
 
   return (
@@ -131,9 +134,9 @@ const Canva: React.FC = () => {
             Enviar para o Financeiro (Valor)
           </button>
 
-          {/* Botão para abrir o novo modal OpenTicketModal */}
-          <button onClick={toggleOpenTicketModal} className={styles.openModalButton}>
-            Abrir Ticket
+          {/* Botão para abrir o novo modal PaymentNotificationModal */}
+          <button onClick={togglePaymentModal} className={styles.openModalButton}>
+            Informar Pagamento
           </button>
 
           {/* Renderizando o modal DriverRegistrationApproval */}
@@ -181,11 +184,14 @@ const Canva: React.FC = () => {
             />
           )}
 
-          {/* Renderizando o novo modal OpenTicketModal */}
-          {isOpenTicketModalOpen && (
-            <OpenTicketModal
-              onAdvance={handleAdvance}
-              onRequestClose={toggleOpenTicketModal}
+          {/* Renderizando o novo modal PaymentNotificationModal */}
+          {isPaymentModalOpen && (
+            <PaymentNotificationModal
+              motorista="João Silva"
+              contrato="12345"
+              cte="67890"
+              banco="Bradesco"
+              onClose={togglePaymentModal}
             />
           )}
         </div>
