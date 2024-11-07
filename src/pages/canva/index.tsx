@@ -12,11 +12,7 @@ import ModalRoot from "@/components/ModalRoot";
 import PhotoRequestModal from "@/components/ModalRoot/PhotoRequestModal";
 import SendToFinanceModal from "@/components/ModalRoot/SendToFinanceModal";
 import ValueInputModal from "@/components/ModalRoot/ValueInputModal";
-<<<<<<< Updated upstream
 import PaymentNotificationModal from "@/components/ModalRoot/PaymentNotificationModal"; 
-=======
-import PaymentNotificationModal from "@/components/ModalRoot/PaymentNotificationModal"; // Importe o novo modal
->>>>>>> Stashed changes
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -26,11 +22,7 @@ const Canva: React.FC = () => {
   const [isPhotoRequestModalOpen, setIsPhotoRequestModalOpen] = useState(false);
   const [isSendToFinanceModalOpen, setIsSendToFinanceModalOpen] = useState(false);
   const [isValueInputModalOpen, setIsValueInputModalOpen] = useState(false);
-<<<<<<< Updated upstream
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); 
-=======
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); // Estado para o novo modal
->>>>>>> Stashed changes
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
