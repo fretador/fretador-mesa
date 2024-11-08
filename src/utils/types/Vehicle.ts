@@ -8,7 +8,8 @@ export interface Vehicle {
 	semiTrailerDocumentPhotos?: Photo[];
 	semiTrailerPhotos?: Photo[];
 	vehiclePhoto?: Photo;
-	vehicleType: VehicleType;
+	vehicleType?: VehicleType;
+	type?: VehicleType;
 	vehicleCategory: VehicleCategory;
 	bodyworkType: BodyworkType;
 	bodyworkCategory: BodyworkCategory;

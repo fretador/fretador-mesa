@@ -52,7 +52,7 @@ export interface Freight {
 	eligibleBodyworks?: BodyworkType[];
 	elegibleTypeByBoards?: string[];
 	type?: Type;
-	targetedDrivers?: Driver[];
+	targetedDrivers: Driver[];
 	driver?: string;
 	driverName?: string;
 	licensePlate?: string;

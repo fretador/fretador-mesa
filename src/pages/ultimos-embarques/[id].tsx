@@ -6,44 +6,39 @@ import styles from "./UltimosEmbaques.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
-import SearchComponent from "@/components/SearchButton";
 import { Row } from "@/components/Row";
 import RowTitle from "@/components/RowTitle";
 import Botao from "@/components/Botao";
 import { BackIcon } from "@/utils/icons";
-import { mockClients } from "../clientes";
+import { Client } from "@/utils/types/Client";
+import { useQuery } from '@apollo/client';
+import { GET_CLIENT_SHIPMENTS } from '@/graphql/queries';
+import Loading from "@/components/Loading";
+import { formatDateToBrazilian } from "@/utils/dates";
+import { freightStatusLabels } from "@/utils/labels/freightStatusLabels";
+import { FreightStatus } from "@/utils/enums/freightStatusEnum"
+import { splitCityState } from "@/utils/utils";
 
-interface Shipment {
-  id: string;
-  date: string;
-  vehicle: string;
-  cityOrigin: string;
-  stateOrigin: string;
-  status: string;
-}
-
-interface Client {
-  id: string,
-  cnpj: string,
-  corporateName: string,
-  tradeName: string,
-  city: string,
-  state: string,
-  email: string,
-  whatsapp: string,
-  stateRegistration: string,
-  address: string,
-  numberAddress: string,
-  neighborhood: string,
-  shipments: Shipment[]
-}
-
-const Clients: React.FC = () => {
+const ClientShipments: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
   const { id } = router.query;
-  const [client, setClient] = useState<Client | null>(null)
-  const routeName = `Últimos Embarques #${id}`;
+  const [client, setClient] = useState<Client | null>(null);
+  const corporateName = client?.corporateName || '';
+  const routeName = `Últimos Embarques #${corporateName}`;
+
+  const { data, loading, error } = useQuery(GET_CLIENT_SHIPMENTS, {
+    variables: { id },
+    skip: !id,
+    fetchPolicy: "cache-and-network"
+  });
+
+  useEffect(() => {
+    if (data && data.clientShipments) {
+      setClient(data.clientShipments);
+      console.log("Data client: ", data.clientShipments);
+    }
+  }, [data]);
 
   const backButtonContent = (
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -55,16 +50,6 @@ const Clients: React.FC = () => {
     router.back();
   };
 
-  useEffect(() => {
-    if (id) {
-      const foundClient = mockClients.find(
-        (cli) => cli.id === id
-      );
-      setClient(foundClient || null);
-    }
-  }, [id]);
-
-  const corporateName = `${client?.corporateName}`
 
   return (
     <AuthenticatedLayout>
@@ -87,29 +72,59 @@ const Clients: React.FC = () => {
                 <div className={styles.backButtonContainer}>
                   <Botao text={backButtonContent} className={styles.backButton} onClick={handleGoBack} />
                 </div>
-                <div className={styles.searchComponents}>
-                  <SearchComponent onSearch={() => {}} />
-                </div>
               </div>
 
               <div className={styles.cards}>
+                <RowTitle
+                  FreightDate="Data"
+                  CorporateName="Razão Social"
+                  Vehicle="Veículo"
+                  CityState="Saída"
+                  FreightStatus="Status"
+                  titleStyles={{ color: '#1B556D' }}
+                />
 
-                <RowTitle FreightDate="Data" CorporateName="Razão Social" Vehicle="Veículo" CityState="Saída" FreightStatus="Status" titleStyles={{color: '#1B556D'}} />
+                {loading && (
+                  <div className={styles.loadingContainer}>
+                    <Loading />
+                  </div>
+                )}
 
-                {client?.shipments
-                .map((client) => (
-                  <Row.Root
-                    key={client.id}
-                    customBackgroundColor="#B2CEDA"
-                  >
-                    <Row.FreightDate date={client.date} style={{color: '#1B556D', fontWeight: 700}} />
-                    <Row.CorporateName corporateName={corporateName} />
-                    <Row.Vehicle vehicle={client.vehicle} />
-                    <Row.CityState city={client.cityOrigin} state={client.stateOrigin} />
-                    <Row.ShipmentStatus shipmentStatus={client.status} />
-                  </Row.Root>
-                ))}
+                {error && (
+                  <p>Erro ao carregar cliente: {error.message}</p>
+                )}
 
+                {!loading && !error && !client && (
+                  <p>Cliente não encontrado</p>
+                )}
+
+                {!loading && !error && client && (
+                  <>
+                    {client.shipments && client.shipments.length > 0 ? (
+                      client.shipments.map((shipment) => {
+                        const { city, state } = splitCityState(shipment.origin);
+                        return (
+                          <Row.Root
+                            key={shipment.id}
+                            customBackgroundColor="#B2CEDA"
+                            onClick={() => router.push(`/frete-em-curso/${shipment.id}`)}
+                          >
+                            <Row.FreightDate
+                              date={formatDateToBrazilian(shipment.updateDate || "")}
+                              style={{ color: '#1B556D', fontWeight: 700 }}
+                            />
+                            <Row.CorporateName corporateName={corporateName || ""} />
+                            <Row.Vehicle vehicle={shipment.targetedDrivers[0]?.vehicle?.type || ""} />
+                            <Row.CityState city={city} state={state} />
+                            <Row.ShipmentStatus shipmentStatus={freightStatusLabels[shipment.status as keyof typeof FreightStatus]} />
+                          </Row.Root>
+                        );
+                      })
+                    ) : (
+                      <p>Este cliente não possui embarques.</p>
+                    )}
+                  </>
+                )}
               </div>
             </Body>
           </div>
@@ -119,4 +134,4 @@ const Clients: React.FC = () => {
   );
 };
 
-export default Clients;
+export default ClientShipments;

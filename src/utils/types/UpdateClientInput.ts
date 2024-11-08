@@ -1,6 +1,4 @@
-import { Freight } from "./Freight";
-export interface Client {
-	id: string;
+export interface UpdateClientInput {
 	cnpj: string;
 	corporateName: string;
 	tradeName: string;
@@ -12,5 +10,4 @@ export interface Client {
 	address: string;
 	numberAddress: string;
 	neighborhood: string;
-	shipments?: Freight[];
 }
