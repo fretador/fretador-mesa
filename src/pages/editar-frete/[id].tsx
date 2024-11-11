@@ -1,13 +1,16 @@
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
-import styles from './EditarFrete.module.css'
+import styles from './EditarFrete.module.css';
 import Sidebar from "@/components/Sidebar";
 import { useAppSelector } from "@/store/store";
 import Header from "@/components/Header";
 import Body from "@/components/Body";
-import FormContainer from "@/components/FormContainer";
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_FREIGHT_BY_ID } from '@/graphql/queries/freightQueries';
+import { UPDATE_FREIGHT } from '@/graphql/mutations/freightMutations';
+import { UpdateFreightInput } from "@/utils/types/UpdateFreightInput";
+import EditFreightForm from "@/components/EditFreightForm";
+import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 
 const EditFreight = () => {
@@ -18,34 +21,68 @@ const EditFreight = () => {
   const { data, loading, error } = useQuery(GET_FREIGHT_BY_ID, {
     variables: { id },
     skip: !id,
-    fetchPolicy: "cache-and-network"
+    fetchPolicy: "cache-and-network",
   });
 
-  const freight = data?.freight;
+  const [updateFreight, { loading: mutationLoading, error: mutationError }] = useMutation(UPDATE_FREIGHT);
 
-  // Mapeamos os dados do frete para o formato esperado pelo FormContainer
-  const initialData = {
-    pickupDeliveryData: freight.pickupDeliveryData,
-    origin: freight.origin,
-    destination: freight.destination,
-    cargoLoadType: freight.cargoLoadType,
-    needsTarp: freight.needsTarp,
-    needsTracker: freight.needsTracker,
-    product: freight.product,
-    cargoType: freight.cargoType,
-    totalWeight: freight.totalWeight,
-    volumes: freight.volumes,
-    cubage: freight.cubage,
-    moreDetails: freight.moreDetails,
-    eligibleVehicles: freight.eligibleVehicles,
-    eligibleBodyworks: freight.eligibleBodyworks,
-    type: freight.type,
-    pedagioIncluso: freight.pedagioIncluso,
-    formaPagamento: freight.formaPagamento,
-    observations: freight.observations,
+  const [initialData, setInitialData] = useState<UpdateFreightInput | null>(null);
+  const [loadingUpdate, setLoadingUpdate] = useState(null);
+
+  useEffect(() => {
+    if (data?.freight) {
+      const freight = data.freight;
+      setInitialData({
+        pickupDeliveryData: freight.pickupDeliveryData,
+        origin: freight.origin,
+        destination: freight.destination,
+        cargoLoadType: freight.cargoLoadType,
+        needsTarp: freight.needsTarp,
+        needsTracker: freight.needsTracker,
+        product: freight.product,
+        cargoType: freight.cargoType,
+        totalWeight: freight.totalWeight,
+        volumes: freight.volumes,
+        cubage: freight.cubage,
+        moreDetails: freight.moreDetails,
+        eligibleVehicles: freight.eligibleVehicles,
+        eligibleBodyworks: freight.eligibleBodyworks,
+        type: freight.type,
+        pedagioIncluso: freight.pedagioIncluso,
+        paymentType: freight.paymentType,
+        observations: freight.observations,
+      });
+    }
+  }, [data]);
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (error) {
+    return <div>Erro ao carregar o frete</div>;
+  }
+
+  const handleUpdateFreight = async (updatedData: UpdateFreightInput) => {
+    console.log("Updated Data:", updatedData);
+    try {
+      const response = await updateFreight({
+        variables: {
+          id,
+          input: updatedData,
+        },
+      });
+
+      const updatedFreight = response.data.updateFreight;
+      setInitialData(updatedFreight);
+
+      alert("Frete atualizado com sucesso!");
+
+    } catch (error) {
+      console.error("Erro ao atualizar o frete:", error);
+      alert("Erro ao atualizar o frete. Tente novamente.");
+    }
   };
-  // Exibimos os dados do frete para verificação
-  console.log("Initial data: ", initialData);
 
   return (
     <AuthenticatedLayout>
@@ -64,21 +101,27 @@ const EditFreight = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              {loading ?
-                <div className={styles.loadingContainer}>
-                  <Loading />
+              {initialData && (
+                <EditFreightForm
+                  initialData={initialData}
+                  submit={handleUpdateFreight}
+                />
+              )}
+              {mutationLoading && (
+                <div className={styles.loadingOverlay}>
+                  <div className={styles.loadingOverlayItems}>
+                    <Loading />
+                    <p>Atualizando Frete</p>
+                  </div>
                 </div>
-                : error ? (
-                  <p>Erro ao carregar frete: {error.message}</p>
-                ) : !freight ? (
-                  <p>Frete não encontrado</p>
-                ) : (
-                  <FormContainer
-                    showFreightSubmissionButton={false}
-                    showEditFreightButton={true}
-                    initialData={initialData}
-                  />
-                )}
+              )}
+              {mutationError && (
+                <div className={styles.messageContainer}>
+                  <div className={`${styles.message} ${styles.error}`}>
+                    Erro ao atualizar o frete.
+                  </div>
+                </div>
+              )}
             </Body>
           </div>
         </div>

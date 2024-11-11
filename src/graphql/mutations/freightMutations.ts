@@ -15,7 +15,32 @@ export const UPDATE_FREIGHT = gql`
     updateFreight(id: $id, input: $input) {
       status
       updateDate
-      statusHistory
+    }
+  }
+`;
+
+export const EDIT_FREIGHT = gql`
+  mutation EditFreight($id: ID!, $input: FreightInput!) {
+    editFreight(id: $id, input: $input) {
+      id
+      pickupDeliveryData
+      origin
+      destination
+      cargoLoadType
+      needsTarp
+      needsTracker
+      product
+      cargoType
+      totalWeight
+      volumes
+      cubage
+      moreDetails
+      eligibleVehicles
+      eligibleBodyworks
+      type
+      pedagioIncluso
+      formaPagamento
+      observations
     }
   }
 `;
