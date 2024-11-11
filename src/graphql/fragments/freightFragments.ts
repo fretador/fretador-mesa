@@ -61,7 +61,6 @@ export const FREIGHT_COMMON_FIELDS = gql`
 		destination
 		status
 		value
-		# Adicione outros campos comuns aqui
 	}
 `;
 
@@ -92,7 +91,6 @@ export const FREIGHT_FULL_FIELDS = gql`
 		pedagioIncluso
 		formaPagamento
 		observations
-		# Adicione outros campos necessários para o EditFreight
 	}
 	${FREIGHT_COMMON_FIELDS}
 `;

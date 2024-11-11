@@ -21,12 +21,9 @@ import Loading from "@/components/Loading";
 import { formatDateToBrazilian } from "@/utils/dates";
 import { FreightNode } from "@/utils/types/FreightNode";
 import { useRouter } from "next/router";
+import { extractState } from "@/utils/utils";
+import { SESSION_STORAGE_KEYS } from "@/utils/helpers/storageHelper";
 
-const SESSION_STORAGE_KEYS = {
-  PAGE: "freights_page",
-  SELECTED_STATUSES: "freights_selected_statuses",
-  SEARCH_TERM: "freights_search_term",
-};
 
 const Freights: React.FC = () => {
   const router = useRouter();
@@ -65,7 +62,7 @@ const Freights: React.FC = () => {
   useEffect(() => {
     if (isBrowser) {
       sessionStorage.setItem(SESSION_STORAGE_KEYS.PAGE, String(page));
-    } 
+    }
   }, [page]);
 
   useEffect(() => {
@@ -135,6 +132,7 @@ const Freights: React.FC = () => {
   const handleFirstPage = () => setPage(1);
   const handleLastPage = () => pageInfo.totalPages && setPage(pageInfo.totalPages);
 
+  // Função para renderizar as linhas dos fretes
   const renderFreightRows = () =>
     freights.map((freight) => {
       const status = freight.status as FreightStatus;
@@ -147,7 +145,10 @@ const Freights: React.FC = () => {
           <Row.FreightDate date={formatDateToBrazilian(freight.creationDate || new Date())} />
           <Row.FreightCode code={String(freight.freightCode) || "-"} />
           <Row.Cte cte={freight.numCte || "-"} />
-          <Row.Route originState={freight.origin || "Não informada"} destinyState={freight.destination || "Não informada"} />
+          <Row.Route
+            originState={extractState(freight.origin)}
+            destinyState={extractState(freight.destination)}
+          />
           <Row.Customer customerName={freight.clientName || "-"} />
           <Row.Driver driverName={freight.targetedDrivers?.[0]?.name || "-"} />
           <Row.FreightStatus freightStatus={status} />

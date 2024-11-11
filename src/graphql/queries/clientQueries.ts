@@ -47,3 +47,23 @@ export const GET_CLIENT = gql`
 		}
 	}
 `;
+
+export const GET_CLIENT_SHIPMENTS = gql`
+	query GetClientShipments($id: ID!) {
+		clientShipments(id: $id) {
+			id
+			corporateName
+			shipments {
+				id
+				updateDate
+				origin
+				status
+				targetedDrivers {
+					vehicle {
+						type
+					}
+				}
+			}
+		}
+	}
+`;

@@ -161,17 +161,6 @@ const ClientDetails = () => {
                           <p>Ver últimos embarques</p>
                         </div>
 
-                        <div
-                          className={styles.title}
-                          style={{
-                            marginTop: '76px',
-                            marginBottom: '44px',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          <p>Ver últimos embarques</p>
-                        </div>
-
                         <div className={styles.row}>
                           <p>
                             <span>Observações</span>

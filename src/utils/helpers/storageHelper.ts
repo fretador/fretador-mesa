@@ -30,3 +30,8 @@ export const storageHelper = {
 	},
 };
 
+export const SESSION_STORAGE_KEYS = {
+	PAGE: "freights_page",
+	SELECTED_STATUSES: "freights_selected_statuses",
+	SEARCH_TERM: "freights_search_term",
+};
