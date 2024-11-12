@@ -217,6 +217,7 @@ const Canva: React.FC = () => {
           {/* Renderizando o novo modal FirstTimeMalfunctionConfirmationModal */}
           {isFirstTimeMalfunctionModalOpen && (
             <FirstTimeMalfunctionConfirmationModal
+              isOpen={isFirstTimeMalfunctionModalOpen}
               onConfirm={handleConfirm}
               onCancel={handleCancel}
               onRequestClose={handleOnRequestClose}
