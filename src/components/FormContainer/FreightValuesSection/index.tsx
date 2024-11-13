@@ -17,21 +17,21 @@ const FreightValueSection: React.FC = () => {
       <div className={styles.rowInputs}>
         {/* Valor do Frete */}
         <div className={styles.inputGroup}>
-          <label htmlFor="freightValue" className={styles.label}>
+          <label htmlFor="value" className={styles.label}>
             Valor do Frete
           </label>
           <Controller
-            name="freightValue"
+            name="value"  
             control={control}
             rules={{
               required: "Valor do frete é obrigatório",
             }}
             render={({ field: { onChange, value } }) => (
               <NumericFormat
-                id="freightValue"
+                id="value"
                 value={value}
                 onValueChange={(values) => {
-                  onChange(values.value ? values.value.toString() : "");
+                  onChange(values.value ? parseFloat(values.value) : 0);
                 }}
                 decimalScale={2}
                 fixedDecimalScale
@@ -39,14 +39,14 @@ const FreightValueSection: React.FC = () => {
                 thousandSeparator="."
                 decimalSeparator=","
                 className={`${styles.input} ${
-                  errors.freightValue ? styles.errorInput : ""
+                  errors.value ? styles.errorInput : ""
                 }`}
                 placeholder="R$ 0,00"
               />
             )}
           />
-          {errors.freightValue && (
-            <p className={styles.errorMessage}>{errors.freightValue.message}</p>
+          {errors.value && (
+            <p className={styles.errorMessage}>{errors.value.message}</p>
           )}
         </div>
 

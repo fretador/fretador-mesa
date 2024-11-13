@@ -5,10 +5,12 @@ import AssignFreightModal from "@/components/ModalRoot/AssignFreightModal";
 
 interface FreightSubmissionButtonsProps {
   onDirectToDriver: (driverId?: string) => void;
+  onCreateOffer: () => void;
 }
 
 const FreightSubmissionButtons: React.FC<FreightSubmissionButtonsProps> = ({
   onDirectToDriver,
+  onCreateOffer,
 }) => {
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] = useState(false);
 
@@ -31,9 +33,12 @@ const FreightSubmissionButtons: React.FC<FreightSubmissionButtonsProps> = ({
     <>
       <div className={styles.submitWrapper}>
         <Botao
-          type="submit"
+          type="button"
           text="Criar Oferta"
           className={styles.submitButton}
+          onClick={()=>{
+            console.log("Botão Criar Oferta Criado")
+            onCreateOffer()}}
         />
         <Botao
           type="button"

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, get } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
@@ -86,6 +86,22 @@ const FormContainer: React.FC<FormContainerProps> = ({
     }
   }, [initialData, setValue]);
 
+  const handleCreateOffer = () => {
+    console.log('Manipulando a submissão');
+    const currentValues = getValues();
+  
+    const payload = {
+      ...currentValues,
+      value: currentValues.value ? parseFloat(currentValues.value) : 0, // Certifique-se de que value seja um número aqui
+    };
+  
+    console.log("Adicionado os valores para submissão", payload);
+    onSubmit(payload);
+  };
+
+
+  
+
   const onSubmit = async (data: CreateFreightInput) => {
     try {
       await createFreightMutation({
@@ -152,6 +168,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
           {showFreightSubmissionButton && (
             <FreightSubmissionButton
               onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
+              onCreateOffer={()=> handleCreateOffer()}
             />
           )}
 
