@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Loading from '../../components/Loading';
 import styles from './Ocorrencias.module.css';
 import AuthenticatedLayout from '@/components/AuthenticatedLayout';
@@ -10,30 +10,31 @@ import { useAppSelector } from '@/store/store';
 import { BackIcon, Playicon } from '@/utils/icons';
 import Botao from '@/components/Botao';
 import Image from 'next/image';
-import { mockOccurrences } from '@/components/AnsweredOccurrencesList';
+import { useOccurrenceById } from '@/hooks/occurrence/useOccurrenceById';
+import { useUpdateOccurrence } from '@/hooks/occurrence/useUpdateOccurrence';
+import { Occurrence } from '@/utils/Interfaces/Occurrence';
+import Notification from '@/components/Notification';
+import { removeTypename } from '@/utils/removeTypename';
+import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum";
 
-interface Occurrence {
-  freightNumber: string;
-  freightDate: string;
-  occurrenceType: string;
-  occurrenceStatus: string;
-  driverName: string;
-  driverPhotoUrl: string;
-  id: string,
-  cte: string,
-  route: string,
-  attachments: string[],
-  observations: string
-}
-
-const OccurrenceDetails = () => {
+const OccurrenceDetails: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
   const { id } = router.query;
-  const [occurrence, setOccurrence] = useState<Occurrence | null>(null);
+  const { data, loading, error, refetch } = useOccurrenceById(id as string);
+  const { updateOccurrence } = useUpdateOccurrence();
   const routeName = `Ocorrência ${id}`;
+
+  // Estados de UI
   const [showResponseBox, setShowResponseBox] = useState(false);
-  const [showActionButtons, setShowActionButtons] = useState(true)
+  const [showActionButtons, setShowActionButtons] = useState(true);
+  const [responseMessage, setResponseMessage] = useState<string>('');
+
+  // Estados de carregamento e feedback
+  const [isResolving, setIsResolving] = useState<boolean>(false);
+  const [isSendingResponse, setIsSendingResponse] = useState<boolean>(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const backButtonContent = (
     <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
@@ -45,25 +46,144 @@ const OccurrenceDetails = () => {
     router.back();
   };
 
-  useEffect(() => {
-    if (id) {
-      const foundOccurrence = mockOccurrences.find(
-        (occ) => occ.id === id
-      );
-      setOccurrence(foundOccurrence || null);
+  const handleSendResponse = async () => {
+    if (!id || !responseMessage.trim()) {
+      setSendError('A resposta não pode estar vazia.');
+      return;
     }
-  }, [id]);
 
-  if (!occurrence) {
-    return <p>Carregando...</p>;
+    setIsSendingResponse(true);
+    setSendError(null);
+
+    try {
+      // Remover __typename das mensagens existentes
+      const cleanedMessages = data?.messages.map(message => removeTypename(message)) || [];
+
+      // Adicionar a nova mensagem sem __typename
+      const updatedMessages = [
+        ...cleanedMessages,
+        {
+          message: responseMessage,
+          boardUser: "Admin User",
+          admin: true,
+          createdDate: new Date().toISOString(),
+        }
+      ];
+
+      await updateOccurrence({
+        variables: {
+          id: id as string,
+          input: {
+            messages: updatedMessages,
+            updateAcknowledge: true,
+          },
+        },
+      });
+
+      // Refetch para atualizar os dados
+      await refetch();
+      setShowResponseBox(false);
+      setShowActionButtons(true);
+      setResponseMessage('');
+      setSuccessMessage('Resposta enviada com sucesso.');
+    } catch (err) {
+      setSendError('Erro ao enviar resposta.');
+      console.error(err);
+    } finally {
+      setIsSendingResponse(false);
+    }
+  };
+
+  // Função para resolver a ocorrência
+  const handleResolveOccurrence = async () => {
+    if (!id) {
+      setSendError('ID da ocorrência não encontrado.');
+      return;
+    }
+
+    setIsResolving(true);
+    setSendError(null);
+
+    try {
+      await updateOccurrence({
+        variables: {
+          id: id as string,
+          input: {
+            status: OccurrenceStatus.RESOLVED,
+          },
+        },
+      });
+
+      // Refetch para atualizar os dados
+      await refetch();
+
+      setSuccessMessage('Ocorrência resolvida com sucesso.');
+    } catch (err) {
+      setSendError('Erro ao resolver a ocorrência.');
+      console.error(err);
+    } finally {
+      setIsResolving(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <AuthenticatedLayout>
+        <div className={styles.container}>
+          <Sidebar />
+          <div
+            className={
+              isRetracted ? styles.retractedContentWrapper : styles.contentWrapper
+            }
+          >
+            <div className={styles.header}>
+              <Header title={routeName} />
+            </div>
+            <div className={styles.content}>
+              <Body>
+                <div className={styles.loadingContainer}>
+                  <Loading />
+                </div>
+              </Body>
+            </div>
+          </div>
+        </div>
+      </AuthenticatedLayout>
+    );
   }
+
+  if (error || !data) {
+    return (
+      <AuthenticatedLayout>
+        <div className={styles.container}>
+          <Sidebar />
+          <div
+            className={
+              isRetracted ? styles.retractedContentWrapper : styles.contentWrapper
+            }
+          >
+            <div className={styles.header}>
+              <Header title={routeName} />
+            </div>
+            <div className={styles.content}>
+              <Body>
+                <div className={styles.errorContainer}>
+                  <p>Erro ao carregar ocorrência: {error?.message}</p>
+                </div>
+              </Body>
+            </div>
+          </div>
+        </div>
+      </AuthenticatedLayout>
+    );
+  }
+
+  const occurrence: Occurrence = data;
 
   return (
     <AuthenticatedLayout>
       <div className={styles.container}>
-        <div>
-          <Sidebar />
-        </div>
+        <Sidebar />
 
         <div
           className={
@@ -75,6 +195,22 @@ const OccurrenceDetails = () => {
           </div>
           <div className={styles.content}>
             <Body>
+              {/* Renderização do Notification fora das condições */}
+              {successMessage && (
+                <Notification
+                  message={successMessage}
+                  type="success"
+                  onClose={() => setSuccessMessage(null)}
+                />
+              )}
+              {sendError && (
+                <Notification
+                  message={sendError}
+                  type="error"
+                  onClose={() => setSendError(null)}
+                />
+              )}
+
               <div className={styles.backButtonContainer}>
                 <Botao text={backButtonContent} className={styles.backButton} onClick={handleGoBack} />
               </div>
@@ -83,21 +219,21 @@ const OccurrenceDetails = () => {
                 <div className={styles.informations}>
                   <div className={styles.row}>
                     <p>OCORRÊNCIA: <span>{occurrence.id}</span></p>
-                    <p>Data: <span>{occurrence.freightDate}</span></p>
-                    <p>Frete número: <span>#{occurrence.freightNumber}</span></p>
-                    <p>CTE: <span>{occurrence.cte}</span></p>
+                    <p>Data: <span>{new Date(occurrence.creationDate).toLocaleDateString()}</span></p>
+                    <p>Frete número: <span>#{occurrence.id}</span></p>
+                    <p>CTE: <span>{occurrence.id}</span></p>
                   </div>
 
                   <div className={styles.row}>
-                    <p>Rota: <span>{occurrence.route}</span></p>
+                    <p>Rota: <span>{occurrence.route || occurrence.type}</span></p>
                   </div>
 
                   <div className={styles.row}>
-                    <p>Nome do Motorista: <span>{occurrence.driverName}</span></p>
+                    <p>Nome do Motorista: <span>{occurrence.driverName || occurrence.userId}</span></p>
                   </div>
 
                   <div className={styles.row}>
-                    <p>Tipo de Ocorrência: <span>{occurrence.occurrenceType}</span></p>
+                    <p>Tipo de Ocorrência: <span>{occurrence.occurrenceType || occurrence.type}</span></p>
                   </div>
 
                   <div className={styles.row}>
@@ -105,8 +241,8 @@ const OccurrenceDetails = () => {
                   </div>
 
                   <div className={styles.rowPictures}>
-                    {occurrence.attachments.map((item, index) => (
-                      <Image 
+                    {occurrence.attachments?.map((item, index) => (
+                      <Image
                         key={index}
                         src={item}
                         alt={"Arquivo do motorista"}
@@ -129,20 +265,30 @@ const OccurrenceDetails = () => {
                         </div>
                       </div>
                     ) :
-                    (
-                      <div className={styles.textContainer}>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis eius, exercitationem iure autem nam quos natus distinctio omnis dignissimos quasi quis asperiores nostrum labore maxime libero sit. Deleniti, voluptas blanditiis!</p>
-                      </div>
-                    )
+                      (
+                        <div className={styles.textContainer}>
+                          <p>{occurrence.observations || occurrence.messages[0]?.message}</p>
+                        </div>
+                      )
                   }
 
                   {showActionButtons &&
                     <div className={styles.actionButtonsContainer}>
-                      <Botao text="Resolver ocorrência" onClick={() => console.log('Resolveu')} className={styles.btnDark} />
-                      <Botao text="Responder motorista" onClick={() => {
-                        setShowResponseBox(true)
-                        setShowActionButtons(false)
-                      }} className={styles.btnLight} />
+                      <Botao
+                        text={isResolving ? "Resolvend..." : "Resolver ocorrência"}
+                        onClick={handleResolveOccurrence}
+                        className={styles.btnDark}
+                        disabled={isResolving || isSendingResponse}
+                      />
+                      <Botao
+                        text="Responder motorista"
+                        onClick={() => {
+                          setShowResponseBox(true);
+                          setShowActionButtons(false);
+                        }}
+                        className={styles.btnLight}
+                        disabled={isResolving || isSendingResponse}
+                      />
                     </div>
                   }
 
@@ -158,29 +304,31 @@ const OccurrenceDetails = () => {
                         <textarea
                           className={styles.responseTextArea}
                           placeholder="Digite sua resposta aqui"
+                          value={responseMessage}
+                          onChange={(e) => setResponseMessage(e.target.value)}
+                          disabled={isSendingResponse}
                         />
                       </div>
 
-
                       <div className={styles.actionButtonsContainer}>
                         <Botao
-                          text="Enviar"
-                          onClick={() => {
-                            console.log('Resposta enviada');
-                            setShowResponseBox(false);
-                            setShowActionButtons(true)
-                          }}
+                          text={isSendingResponse ? "Enviando..." : "Enviar"}
+                          onClick={handleSendResponse}
+                          disabled={isSendingResponse || !responseMessage.trim()}
                           className={styles.btnDark}
                         />
                         <Botao
                           text="Cancelar"
                           onClick={() => {
-                            setShowResponseBox(false)
-                            setShowActionButtons(true)
+                            setShowResponseBox(false);
+                            setShowActionButtons(true);
                           }}
                           className={styles.btnLight}
+                          disabled={isSendingResponse || isResolving}
                         />
                       </div>
+
+                      {sendError && <p className={styles.errorText}>{sendError}</p>}
                     </div>
                   )}
 
@@ -191,7 +339,7 @@ const OccurrenceDetails = () => {
         </div>
       </div>
     </AuthenticatedLayout>
-   
+
   );
 };
 
