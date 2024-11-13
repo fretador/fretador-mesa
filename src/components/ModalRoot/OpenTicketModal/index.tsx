@@ -3,10 +3,15 @@ import styles from './OpenTicketModal.module.css';
 
 interface OpenTicketModalProps {
   onAdvance: () => void;
-  onRequestClose: () => void; 
+  onRequestClose: () => void;
+  isOpen: boolean; 
 }
 
-const OpenTicketModal: React.FC<OpenTicketModalProps> = ({ onAdvance, onRequestClose }) => {
+const OpenTicketModal: React.FC<OpenTicketModalProps> = ({ onAdvance, onRequestClose, isOpen }) => {
+  if (!isOpen) {
+    return null;
+  }
+
   const [selectedOption, setSelectedOption] = useState('');
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -16,14 +21,14 @@ const OpenTicketModal: React.FC<OpenTicketModalProps> = ({ onAdvance, onRequestC
   const handleSelectFocus = (event: React.FocusEvent<HTMLSelectElement>) => {
     const selectElement = event.target;
     if (selectElement.value === '') {
-      selectElement.value = ''; 
+      selectElement.value = '';
     }
   };
 
   const handleSelectBlur = (event: React.FocusEvent<HTMLSelectElement>) => {
     const selectElement = event.target;
     if (!selectedOption) {
-      selectElement.value = ''; 
+      selectElement.value = '';
     }
   };
 
@@ -41,7 +46,7 @@ const OpenTicketModal: React.FC<OpenTicketModalProps> = ({ onAdvance, onRequestC
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>Abrir Ticket</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
-            X
+            x
           </button>
         </div>
         <p className={styles.modalMessage}>Selecione a opção de ticket que deseja abrir:</p>
