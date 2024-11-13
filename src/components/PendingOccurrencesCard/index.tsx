@@ -3,13 +3,13 @@ import styles from './PendingOccurrencesCard.module.css'
 
 interface PendingOccurrencesCardProps {
   driverName: string,
-  freightNumber: string,
+  freightCode: string,
   occurrenceType: string,
   date: string,
   handleNewOccurrence: () => void
 }
 
-const PendingOccurrencesCard = ({driverName, freightNumber, occurrenceType, date, handleNewOccurrence}: PendingOccurrencesCardProps) => {
+const PendingOccurrencesCard = ({ driverName, freightCode, occurrenceType, date, handleNewOccurrence}: PendingOccurrencesCardProps) => {
   return (
     <div className={styles.container} onClick={handleNewOccurrence}>
 
@@ -19,9 +19,9 @@ const PendingOccurrencesCard = ({driverName, freightNumber, occurrenceType, date
 
       <div className={styles.separator}></div>
 
-      <div className={styles.freightNumberContainer}>
+      <div className={styles.freightCodeContainer}>
         <p className={styles.title}>N. Frete:</p>
-        <p className={styles.value}>{freightNumber}</p>
+        <p className={styles.value}>{freightCode}</p>
       </div>
 
       <div className={styles.occurrenceTypeContainer}>
