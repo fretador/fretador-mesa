@@ -33,7 +33,9 @@ const FreightForm: React.FC<FreightFormProps> = ({
         <FreightValueSection />
         <ObservationsSection />
 
-        {showFreightSubmissionButton && <FreightSubmissionButtons />}
+        {showFreightSubmissionButton && <FreightSubmissionButtons onDirectToDriver={function (driverId?: string): void {
+          throw new Error("Function not implemented.");
+        } } />}
         {showEditFreightButton && <EditFreightButton />}
       </div>
     </form>

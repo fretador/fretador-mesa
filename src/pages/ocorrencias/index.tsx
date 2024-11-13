@@ -1,3 +1,4 @@
+// src/pages/ocorrencias.tsx
 import React, { useState } from "react";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
@@ -8,9 +9,8 @@ import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import SearchComponent from "@/components/SearchButton";
 import PendingOccurrencesCards from "@/components/PendingOccurrencesCards";
-import { Driver } from "@/utils/types/Driver";
-import PendingOccurrencesCard from "@/components/PendingOccurrencesCard";
 import AnsweredOccurrencesList from "@/components/AnsweredOccurrencesList";
+import { useOccurrences } from "@/hooks/occurrence/useOccurrences";
 
 const Ocurrencies: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -18,8 +18,24 @@ const Ocurrencies: React.FC = () => {
 
   const routeName = router.pathname.replace("/", "").replace("e", "ê").toUpperCase();
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const limit = 20;
+
+  const { data, loading, error, refetch } = useOccurrences({
+    page,
+    limit,
+    filter: {},
+  });
+
+  const handleSearch = (searchTerm: string) => {
+    refetch({
+      page: 1,
+      limit,
+      filter: {
+        searchTerm: searchTerm || undefined,
+      },
+    });
+  };
 
   return (
     <AuthenticatedLayout>
@@ -39,18 +55,23 @@ const Ocurrencies: React.FC = () => {
           <div className={styles.content}>
             <Body>
               <div className={styles.searchComponents}>
-                <SearchComponent onSearch={() => {}} />
+                <SearchComponent onSearch={handleSearch} />
               </div>
 
               <div className={styles.pendingOccurrencesContainer}>
                 <h2>Novos</h2>
                 <PendingOccurrencesCards
                   loading={loading}
-                  error={error}
+                  error={error ? error.message : null}
+                  occurrences={data?.edges.map(edge => edge.node) || []}
                 />
               </div>
 
-              <AnsweredOccurrencesList loading={loading} error={error} />
+              <AnsweredOccurrencesList
+                loading={loading}
+                error={error ? error.message : null}
+                occurrences={data?.edges.map(edge => edge.node) || []}
+              />
             </Body>
           </div>
         </div>

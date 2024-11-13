@@ -1,18 +1,21 @@
+// src/components/PendingOccurrencesCards.tsx
 import React, { useRef, useState } from "react";
-import styles from './PendingOccurrencesCards.module.css'
+import styles from './PendingOccurrencesCards.module.css';
 import Loading from "../Loading";
 import { useRouter } from "next/router";
 import PendingOccurrencesCard from "../PendingOccurrencesCard";
-import { mockOccurrences } from "../AnsweredOccurrencesList";
+import { Occurrence } from "@/utils/Interfaces/Occurrence";
+import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum"
+import { occurrenceTypeLabels } from "@/utils/labels/occurrenceTypeLabels";
 
 interface PendingOccurrencesCardsProps {
   loading: boolean;
   error: string | null;
+  occurrences: Occurrence[];
 }
 
-const PendingOccurrencesCards = ({ loading, error }: PendingOccurrencesCardsProps) => {
-
-  const router = useRouter()
+const PendingOccurrencesCards: React.FC<PendingOccurrencesCardsProps> = ({ loading, error, occurrences }) => {
+  const router = useRouter();
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
@@ -52,11 +55,16 @@ const PendingOccurrencesCards = ({ loading, error }: PendingOccurrencesCardsProp
         <Loading />
       </div>
     );
-  if (error) return <p>Erro ao carregar motoristas: {error}</p>;
+  if (error) return <p>Erro ao carregar ocorrências: {error}</p>;
 
   const handleCardClick = (id: string) => {
     router.push(`/ocorrencias/${id}`);
   };
+
+  // Filtrar ocorrências pendentes
+  const pendingOccurrences = occurrences.filter(
+    (occurrence) => occurrence.status === OccurrenceStatus.UNRESOLVED || occurrence.status === OccurrenceStatus.IN_PROGRESS
+  );
 
   return (
     <div
@@ -67,21 +75,19 @@ const PendingOccurrencesCards = ({ loading, error }: PendingOccurrencesCardsProp
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
     >
-      {mockOccurrences
-      .filter((occurrence) => occurrence.occurrenceStatus === "pendente")
-      .map((occurrence) => (
+      {pendingOccurrences.map((occurrence) => (
         <PendingOccurrencesCard
           key={occurrence.id}
-          driverName={occurrence.driverName}
-          freightNumber={occurrence.freightNumber}
-          occurrenceType={occurrence.occurrenceType}
-          date={occurrence.freightDate}
+          driverName={"DriverName"}
+          freightCode={occurrence.freightCode || ""}
+          occurrenceType={occurrenceTypeLabels[occurrence.type as keyof typeof occurrenceTypeLabels]}
+          date={new Date(occurrence.creationDate).toLocaleDateString()}
           handleNewOccurrence={() => handleCardClick(occurrence.id)}
         />
       ))}
 
     </div>
-  )
+  );
 }
 
-export default PendingOccurrencesCards
+export default PendingOccurrencesCards;
