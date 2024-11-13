@@ -19,7 +19,7 @@ const FirstTimeMalfunctionConfirmationModal: React.FC<FirstTimeMalfunctionConfir
     <ModalRoot isOpen={isOpen} onRequestClose={onRequestClose}>
       <div className={styles.content}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>Mal funcionamento</h2>
+          <h2 className={styles.modalTitle}>Mau funcionamento</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
             x
           </button>
