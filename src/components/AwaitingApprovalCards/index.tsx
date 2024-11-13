@@ -78,7 +78,8 @@ const AwaitingApprovalList: React.FC<AwaitingApprovalListProps> = ({
           key={index}
           driverName={driver.name}
           driverStatus={driver.status}
-          vehicle={driver.vehicle?.vehicleType}
+          vehicle={driver.vehicle?.vehicleType ? driver.vehicle?.vehicleType :
+            driver.vehicle?.type ? driver.vehicle?.type : ""}
           contact={driver.phoneNumber}
           handleNewDriver={() => handleNewDriver(driver.id)}
         />
