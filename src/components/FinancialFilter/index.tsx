@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from './FinancialFilter.module.css';
 import { ArrowDownIcon, MagnifierIcon } from "@/utils/icons";
-import { FinancialFilterInput } from "@/utils/types/FinancialFilterInput";
+import { FinancialFilterInput } from "@/utils/Interfaces/FinancialFilterInput";
 import { RequestFinancialType } from "@/utils/enums/requestFinancialTypeEnum";
 
 interface FinancialFilterProps {

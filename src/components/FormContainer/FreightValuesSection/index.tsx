@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
+import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
 import styles from "./FreightValuesSection.module.css";
 import { RadioTrueIcon, RadioFalseIcon } from "@/utils/icons";
 import { NumericFormat } from "react-number-format";

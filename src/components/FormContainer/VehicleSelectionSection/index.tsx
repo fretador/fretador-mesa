@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
+import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
 import styles from "./VehicleSelectionSection.module.css";
 import { VehicleCategory, VehicleType } from "@/utils/enums/vehicleEnums";
 import CheckboxIcon from "@/components/Checkbox";

@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CargoLoadType } from "@/utils/enums/cargoLoadTypeEnum";
 import { Type } from "@/utils/enums/typeEnum";
 import styles from "./EditFreightForm.module.css";
-import { UpdateFreightInput } from "@/utils/types/UpdateFreightInput";
+import { UpdateFreightInput } from "@/utils/Interfaces/UpdateFreightInput";
 import { updateFreightSchema } from "@/utils/validations/updateFreightSchema";
 import FreightForm from "../FreightForm";
 

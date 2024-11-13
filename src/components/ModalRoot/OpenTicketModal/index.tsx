@@ -8,11 +8,11 @@ interface OpenTicketModalProps {
 }
 
 const OpenTicketModal: React.FC<OpenTicketModalProps> = ({ onAdvance, onRequestClose, isOpen }) => {
+  const [selectedOption, setSelectedOption] = useState('');
+
   if (!isOpen) {
     return null;
   }
-
-  const [selectedOption, setSelectedOption] = useState('');
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);

@@ -1,5 +1,5 @@
 import { AuthService } from "@/services/authService";
-import { DocumentInput } from "@/utils/types/DocumentInput";
+import { DocumentInput } from "@/utils/Interfaces/DocumentInput";
 import {
 	ADD_DOCUMENTS_TO_FREIGHT,
 	REMOVE_DOCUMENTS_FROM_FREIGHT,

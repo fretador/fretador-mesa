@@ -10,7 +10,7 @@ import { Row } from "@/components/Row";
 import RowTitle from "@/components/RowTitle";
 import Botao from "@/components/Botao";
 import { BackIcon } from "@/utils/icons";
-import { Client } from "@/utils/types/Client";
+import { Client } from "@/utils/Interfaces/Client";
 import { useQuery } from '@apollo/client';
 import { GET_CLIENT_SHIPMENTS } from '@/graphql/queries';
 import Loading from "@/components/Loading";

@@ -13,7 +13,7 @@ import FreightStep from "@/components/FreightStep";
 import Loading from "@/components/Loading";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { getStageFromStatus } from "@/utils/getStageFromStatusFreight";
-import { Freight } from "@/utils/types/Freight";
+import { Freight } from "@/utils/Interfaces/Freight";
 import { Type } from "@/utils/enums/typeEnum";
 import FreightInCourseOptions from "@/components/FreightInCourseOptions";
 import LocationMap from "@/components/LocationMap";

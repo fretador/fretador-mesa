@@ -5,7 +5,7 @@ import RowTitle from "../RowTitle";
 import Loading from "../Loading";
 import { paymentTypeLabels } from '@/utils/labels/paymentTypeLabels';
 import { formatDateTime } from "@/utils/dates";
-import { Freight } from '@/utils/types/Freight';
+import { Freight } from '@/utils/Interfaces/Freight';
 import { useRouter } from "next/router";
 
 interface LastPaymentsListProps {
