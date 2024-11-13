@@ -88,8 +88,8 @@ const OriginCollectionModal: React.FC<OriginCollectionModalProps> = ({
 
   const headerText =
     type === "Origem"
-      ? "Origem - Local de Coleta"
-      : "Destino - Local de Descarga";
+      ? "Origem, Local de Coleta"
+      : "Destino, Local de Descarga";
 
   const typeToLowerCase = type.toLowerCase() as "origem" | "destino";
 
