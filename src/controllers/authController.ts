@@ -29,7 +29,6 @@ export const useAuthController = () => {
 		if (token && boardUser) {
 			return true;
 		} else {
-			console.log("User is not authenticated");
 			return false;
 		}
 	}, []);

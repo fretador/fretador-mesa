@@ -11,7 +11,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
 
   React.useEffect(() => {
     if (!checkAuthStatus()) {
-      console.log('Nenhuma sessão iniciada. Redirecionando para login...');
       router.push('/login');
     }
   }, [checkAuthStatus, router]);
