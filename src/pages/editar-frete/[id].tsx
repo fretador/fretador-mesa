@@ -27,7 +27,6 @@ const EditFreight = () => {
   const [updateFreight, { loading: mutationLoading, error: mutationError }] = useMutation(UPDATE_FREIGHT);
 
   const [initialData, setInitialData] = useState<UpdateFreightInput | null>(null);
-  const [loadingUpdate, setLoadingUpdate] = useState(null);
 
   useEffect(() => {
     if (data?.freight) {
