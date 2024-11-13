@@ -89,9 +89,70 @@ const PickupDeliverySection: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    setValue("pickupDeliveryData", pickupDeliveryData.pickupDeliveryDate);
+  // useEffect(() => {
+  //   setValue("pickupDeliveryData", pickupDeliveryData.pickupDeliveryDate);
 
+  //   if (pickupDeliveryData.origin) {
+  //     setValue(
+  //       "origin",
+  //       `${pickupDeliveryData.origin.selectedCity}, ${pickupDeliveryData.origin.selectedState}`
+  //     );
+  //     clearErrors("origin");
+  //     if (pickupDeliveryData.origin.additionalInfo) {
+  //       setValue("originCNPJ", pickupDeliveryData.origin.additionalInfo.cnpj);
+  //       setValue(
+  //         "originRazaoSocial",
+  //         pickupDeliveryData.origin.additionalInfo.razaoSocial
+  //       );
+  //       setValue(
+  //         "originEndereco",
+  //         pickupDeliveryData.origin.additionalInfo.endereco
+  //       );
+  //       clearErrors("originCNPJ");
+  //       clearErrors("originRazaoSocial");
+  //       clearErrors("originEndereco");
+  //     } else {
+  //       setValue("originCNPJ", "");
+  //       setValue("originRazaoSocial", "");
+  //       setValue("originEndereco", "");
+  //     }
+  //   }
+
+  //   if (pickupDeliveryData.destination) {
+  //     setValue(
+  //       "destination",
+  //       `${pickupDeliveryData.destination.selectedCity}, ${pickupDeliveryData.destination.selectedState}`
+  //     );
+  //     clearErrors("destination");
+  //     if (pickupDeliveryData.destination.additionalInfo) {
+  //       setValue(
+  //         "destinationCNPJ",
+  //         pickupDeliveryData.destination.additionalInfo.cnpj
+  //       );
+  //       setValue(
+  //         "destinationRazaoSocial",
+  //         pickupDeliveryData.destination.additionalInfo.razaoSocial
+  //       );
+  //       setValue(
+  //         "destinationEndereco",
+  //         pickupDeliveryData.destination.additionalInfo.endereco
+  //       );
+  //       clearErrors("destinationCNPJ");
+  //       clearErrors("destinationRazaoSocial");
+  //       clearErrors("destinationEndereco");
+  //     } else {
+  //       setValue("destinationCNPJ", "");
+  //       setValue("destinationRazaoSocial", "");
+  //       setValue("destinationEndereco", "");
+  //     }
+  //   }
+  // }, [pickupDeliveryData, setValue, clearErrors]);
+
+  useEffect(() => {
+    if (pickupDeliveryData.pickupDeliveryDate) {
+      setValue("pickupDeliveryData", pickupDeliveryData.pickupDeliveryDate);
+    }
+  
     if (pickupDeliveryData.origin) {
       setValue(
         "origin",
@@ -100,14 +161,8 @@ const PickupDeliverySection: React.FC = () => {
       clearErrors("origin");
       if (pickupDeliveryData.origin.additionalInfo) {
         setValue("originCNPJ", pickupDeliveryData.origin.additionalInfo.cnpj);
-        setValue(
-          "originRazaoSocial",
-          pickupDeliveryData.origin.additionalInfo.razaoSocial
-        );
-        setValue(
-          "originEndereco",
-          pickupDeliveryData.origin.additionalInfo.endereco
-        );
+        setValue("originRazaoSocial", pickupDeliveryData.origin.additionalInfo.razaoSocial);
+        setValue("originEndereco", pickupDeliveryData.origin.additionalInfo.endereco);
         clearErrors("originCNPJ");
         clearErrors("originRazaoSocial");
         clearErrors("originEndereco");
@@ -117,7 +172,7 @@ const PickupDeliverySection: React.FC = () => {
         setValue("originEndereco", "");
       }
     }
-
+  
     if (pickupDeliveryData.destination) {
       setValue(
         "destination",
@@ -125,18 +180,9 @@ const PickupDeliverySection: React.FC = () => {
       );
       clearErrors("destination");
       if (pickupDeliveryData.destination.additionalInfo) {
-        setValue(
-          "destinationCNPJ",
-          pickupDeliveryData.destination.additionalInfo.cnpj
-        );
-        setValue(
-          "destinationRazaoSocial",
-          pickupDeliveryData.destination.additionalInfo.razaoSocial
-        );
-        setValue(
-          "destinationEndereco",
-          pickupDeliveryData.destination.additionalInfo.endereco
-        );
+        setValue("destinationCNPJ", pickupDeliveryData.destination.additionalInfo.cnpj);
+        setValue("destinationRazaoSocial", pickupDeliveryData.destination.additionalInfo.razaoSocial);
+        setValue("destinationEndereco", pickupDeliveryData.destination.additionalInfo.endereco);
         clearErrors("destinationCNPJ");
         clearErrors("destinationRazaoSocial");
         clearErrors("destinationEndereco");
@@ -147,6 +193,7 @@ const PickupDeliverySection: React.FC = () => {
       }
     }
   }, [pickupDeliveryData, setValue, clearErrors]);
+  
 
   return (
     <section className={styles.section}>
@@ -160,7 +207,7 @@ const PickupDeliverySection: React.FC = () => {
             id="pickupDeliveryData"
             type="date"
             {...register("pickupDeliveryData")}
-            value={pickupDeliveryData.pickupDeliveryDate}
+            // value={pickupDeliveryData.pickupDeliveryDate}
             onChange={handleDateChange}
             className={`${styles.inputDate} ${
               errors.pickupDeliveryData ? styles.error : ""
@@ -182,11 +229,12 @@ const PickupDeliverySection: React.FC = () => {
           <input
             id="origin"
             type="text"
-            value={
-              pickupDeliveryData.origin
-                ? `${pickupDeliveryData.origin.selectedCity} - ${pickupDeliveryData.origin.selectedState}`
-                : ""
-            }
+            {...register("origin")}
+            // value={
+            //   pickupDeliveryData.origin
+            //     ? `${pickupDeliveryData.origin.selectedCity} - ${pickupDeliveryData.origin.selectedState}`
+            //     : ""
+            // }
             onClick={handleOpenOriginModal}
             readOnly
             className={`${styles.input} ${
@@ -207,11 +255,12 @@ const PickupDeliverySection: React.FC = () => {
           <input
             id="destination"
             type="text"
-            value={
-              pickupDeliveryData.destination
-                ? `${pickupDeliveryData.destination.selectedCity} - ${pickupDeliveryData.destination.selectedState}`
-                : ""
-            }
+            {...register("destination")}
+            // value={
+            //   pickupDeliveryData.destination
+            //     ? `${pickupDeliveryData.destination.selectedCity} - ${pickupDeliveryData.destination.selectedState}`
+            //     : ""
+            // }
             onClick={handleOpenDestinationModal}
             readOnly
             className={`${styles.input} ${
