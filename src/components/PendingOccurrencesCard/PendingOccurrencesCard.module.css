@@ -37,7 +37,7 @@
   margin-bottom: 23px;
 }
 
-.freightNumberContainer,
+.freightCodeContainer,
 .occurrenceTypeContainer,
 .dateContainer {
   width: 100%;
@@ -45,7 +45,7 @@
   gap: 8px;
 }
 
-.freightNumberContainer,
+.freightCodeContainer,
 .occurrenceTypeContainer {
   margin-bottom: 16px;
 }
