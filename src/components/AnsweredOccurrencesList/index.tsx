@@ -34,7 +34,7 @@ const AnsweredOccurrencesList: React.FC<AnsweredOccurrencesListProps> = ({ loadi
 
   // Filtrar ocorrências respondidas ou outros status que não "pendente"
   const answeredOccurrences = occurrences.filter(
-    (occurrence) => occurrence.status !== OccurrenceStatus.UNRESOLVED && occurrence.status !== OccurrenceStatus.IN_PROGRESS
+    (occurrence) => occurrence.occurrenceStatus !== OccurrenceStatus.UNRESOLVED && occurrence.occurrenceStatus !== OccurrenceStatus.IN_PROGRESS
   );
 
   return (
@@ -62,7 +62,7 @@ const AnsweredOccurrencesList: React.FC<AnsweredOccurrencesListProps> = ({ loadi
           >
             <Row.Driver
               driverPhotoUrl={"/driver-mock.png"}
-              driverName={"DriverName"}
+              driverName={occurrence.driverName || ""}
               showImage={true}
               textColor="#1B556D"
               textFontWeight="700"
@@ -70,7 +70,7 @@ const AnsweredOccurrencesList: React.FC<AnsweredOccurrencesListProps> = ({ loadi
             <Row.OccurrenceDate occurrenceDate={new Date(occurrence.creationDate).toLocaleDateString()} />
             <Row.FreightCode code={occurrence.freightCode || ""} />
             <Row.OccurrenceType occurrenceType={occurrenceTypeLabels[occurrence.type as keyof typeof OccurrenceType]} />
-            <Row.OccurrenceStatus occurrenceStatus={occurrenceStatusLabels[occurrence.status as keyof typeof OccurrenceStatus]} />
+            <Row.OccurrenceStatus occurrenceStatus={occurrenceStatusLabels[occurrence.occurrenceStatus as keyof typeof OccurrenceStatus]} />
           </Row.Root>
         ))}
       </div>

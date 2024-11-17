@@ -28,7 +28,7 @@ const PendingVouchers = () => {
           key={freight.freightCode}
           numberOfPhotos={freight.totalCount}
           freightCode={freight.freightCode}
-          cte={freight.numCte}
+          numCte={freight.numCte}
           driverName={freight.driver}
         />
       ))}

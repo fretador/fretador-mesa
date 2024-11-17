@@ -24,7 +24,7 @@ interface Payment {
   type: keyof typeof paymentTypeLabels;
   paymentMethod: string;
   contact: string;
-  cte: string;
+  numCte: string;
   status: keyof typeof FreightStatus;
   value: number;
   date: string;
@@ -59,7 +59,7 @@ const PendingPayment: React.FC = () => {
           type: fetchedData.requestFinancialType || '',
           paymentMethod: fetchedData.formaPagamento || '',
           contact: fetchedData.targetedDrivers[0]?.phoneNumber || '',
-          cte: fetchedData.cte || '',
+          numCte: fetchedData.numCte || '',
           status: fetchedData.status || '',
           value: fetchedData.value || 0,
           date: fetchedData.paymentDate || '',
@@ -153,7 +153,7 @@ const PendingPayment: React.FC = () => {
                           <div className={styles.informations}>
                             <div className={styles.row}>
                               <p>Tipo de pagamento: <span>{paymentTypeLabels[pendingPayment.type] || 'Não informado'}</span></p>
-                              <p>CTE: <span>{pendingPayment.cte}</span></p>
+                              <p>CTE: <span>{pendingPayment.numCte}</span></p>
                               <p>Status: <span>{freightStatusLabels[pendingPayment.status] || 'Status Desconhecido'}</span></p>
                               <p>Valor a ser pago: <span>{formatCurrency(pendingPayment.value)}</span></p>
                             </div>

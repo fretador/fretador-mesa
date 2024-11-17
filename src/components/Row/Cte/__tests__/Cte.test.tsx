@@ -3,10 +3,10 @@ import { render, screen } from '@testing-library/react';
 import Cte from '../index';
 
 describe('Cte component', () => {
-  test('renders the provided cte prop', () => {
+  test('renders the provided numCte prop', () => {
     const cteValue = 'Test CTE value';
     
-    render(<Cte cte={cteValue} />);
+    render(<Cte numCte={cteValue} />);
     
     const cteElement = screen.getByText(cteValue);
     

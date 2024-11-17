@@ -144,7 +144,7 @@ const Freights: React.FC = () => {
         >
           <Row.FreightDate date={formatDateToBrazilian(freight.creationDate || new Date())} />
           <Row.FreightCode code={String(freight.freightCode) || "-"} />
-          <Row.Cte cte={freight.numCte || "-"} />
+          <Row.Cte numCte={freight.numCte || "-"} />
           <Row.Route
             originState={extractState(freight.origin)}
             destinyState={extractState(freight.destination)}

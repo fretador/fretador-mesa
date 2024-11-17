@@ -6,7 +6,7 @@ export const OCCURRENCE_COMMON_FIELDS = gql`
 		active
 		creationDate
 		updateDate
-		status
+		occurrenceStatus
 		type
 		userId
 		updateAcknowledge
@@ -16,7 +16,7 @@ export const OCCURRENCE_COMMON_FIELDS = gql`
 			admin
 			createdDate
 		}
-		files {
+		attachments {
 			admin
 			name
 			url
@@ -36,11 +36,9 @@ export const OCCURRENCE_FULL_FIELDS = gql`
 		driverPhotoUrl
 		freightCode
 		freightDate
-		cte
+		numCte
 		route
-		attachments
 		observations
-		occurrenceStatus
 	}
 	${OCCURRENCE_COMMON_FIELDS}
 `;

@@ -5,12 +5,12 @@ import styles from './PaymentNotificationModal.module.css';
 interface PaymentNotificationModalProps {
   motorista: string;
   contrato: string;
-  cte: string;
+  numCte: string;
   banco: string;
   onClose: () => void;
 }
 
-const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ motorista, contrato, cte, banco, onClose }) => {
+const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ motorista, contrato, numCte, banco, onClose }) => {
   const [valorPago, setValorPago] = useState('');
   const [dataPagamento, setDataPagamento] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +66,7 @@ const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ mot
             Contrato: <span className={styles.value}>{contrato}</span>
           </p>
           <p className={styles.label}>
-            CTE: <span className={styles.value}>{cte}</span>
+            CTE: <span className={styles.value}>{numCte}</span>
           </p>
         </div>
         <p className={styles.label}>
@@ -104,7 +104,7 @@ const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ mot
 PaymentNotificationModal.propTypes = {
   motorista: PropTypes.string.isRequired,
   contrato: PropTypes.string.isRequired,
-  cte: PropTypes.string.isRequired,
+  numCte: PropTypes.string.isRequired,
   banco: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
 };

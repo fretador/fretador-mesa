@@ -54,3 +54,31 @@ export const GET_FREIGHT_BY_ID = gql`
 	}
 	${FREIGHT_FULL_FIELDS}
 `;
+
+export const GET_FREIGHTS_BY_USER_ID = gql`
+	query GetFreightsByUserId(
+		$userId: ID!
+		$freightStatusFilter: [String]
+		$requestStatusFilter: [String]
+	) {
+		freightsByUserId(
+			userId: $userId
+			freightStatusFilter: $freightStatusFilter
+			requestStatusFilter: $requestStatusFilter
+		) {
+			active
+			freightCode
+			id
+			status
+			statusHistory {
+				status
+				updateData
+				updateDataType
+				updateDate
+			}
+			targetedDrivers
+			requestingUsers
+		}
+	}
+	${FREIGHT_FULL_FIELDS}
+`;
