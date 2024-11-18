@@ -21,6 +21,7 @@ import {
   generateRandomPlate,
   generateRandomVehicleData,
 } from "@/utils/mocks/vehicleDataGenerator";
+import DriverHistory from "@/components/DriverHistory";
 
 const RegisteredDriver: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -132,16 +133,10 @@ const RegisteredDriver: React.FC = () => {
             />
           </div>
         );
-      case "preferencias":
+      case "historico":
         return (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "center",
-              height: "708px",
-            }}
-          >
+          <div>
+            <DriverHistory driver={transformedDriver} />          
             <ActionButtons
               showRequest={true}
               showDownload={true}
@@ -212,14 +207,14 @@ const RegisteredDriver: React.FC = () => {
                     Anexos
                   </button>
                   <button
-                    onClick={() => setActiveTab("preferencias")}
+                    onClick={() => setActiveTab("historico")}
                     className={
-                      activeTab === "preferencias"
+                      activeTab === "historico"
                         ? styles.activeTabButton
                         : styles.tabButton
                     }
                   >
-                    Preferências
+                    Histórico
                   </button>
                 </div>
                 <div className={styles.content}>{renderContent()}</div>
