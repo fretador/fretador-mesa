@@ -19,6 +19,7 @@ import ConfirmationModal from "@/components/ModalRoot/ConfirmationModal";
 import { useMutation } from "@apollo/client";
 import { CREATE_FREIGHT } from "@/graphql/mutations";
 import EditFreightButton from "../EditFreightButton";
+import FreightCreationConfirmationModal from "../ModalRoot/FreightCreationConfirmationModal";
 
 interface FormContainerProps {
   initialData?: Partial<CreateFreightInput>;
@@ -33,6 +34,9 @@ const FormContainer: React.FC<FormContainerProps> = ({
 }) => {
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [isFreightModalOpen, setIsFreightModalOpen] = useState(false);
+const [freightCode, setFreightCode] = useState<string | undefined>(undefined);
+const [freightError, setFreightError] = useState<string | undefined>(undefined);
 
   const [createFreightMutation] = useMutation(CREATE_FREIGHT);
 
@@ -43,7 +47,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
       origin: "",
       destination: "",
       cargoLoadType: CargoLoadType.FULL,
-      type: Type.OFFER, // Tipo inicial é OFFER
+      type: Type.OFFER, 
       targetedDrivers: [],
       value: initialData?.value ?? 0,
       observations: "",
@@ -63,17 +67,19 @@ const FormContainer: React.FC<FormContainerProps> = ({
 
   const handleCreateOffer = async () => {
     const currentValues = getValues();
-
+  
     try {
       const { data } = await createFreightMutation({ variables: { input: currentValues } });
-      console.log("Frete criado com sucesso:", data.createFreight);
-      alert("Frete criado com sucesso!");
+      setFreightCode(data.createFreight.freightCode);
+      setFreightError(undefined);
+      setIsFreightModalOpen(true);
     } catch (error) {
       console.error("Erro ao criar o frete:", error);
-      alert("Erro ao criar o frete. Por favor, tente novamente.");
+      setFreightError("An error occurred while creating the freight.");
+      setIsFreightModalOpen(true);
     }
   };
-
+  
   const handleDirectToDriver = () => {
     // Atualiza o tipo do frete para TARGETED
     setValue("type", Type.TARGETED);
@@ -88,20 +94,19 @@ const FormContainer: React.FC<FormContainerProps> = ({
   };
 
   const handleAssignFreight = async (driverIds: string[]) => {
-    // Salva os motoristas selecionados
     setValue("targetedDrivers", driverIds);
     const currentValues = getValues();
-
+  
     try {
       const { data } = await createFreightMutation({ variables: { input: currentValues } });
-      console.log("Frete criado com sucesso:", data.createFreight);
-      alert("Frete criado com sucesso!");
+      setFreightCode(data.createFreight.freightCode);
+      setFreightError(undefined);
+      setIsFreightModalOpen(true);
     } catch (error) {
       console.error("Erro ao criar o frete:", error);
-      alert("Erro ao criar o frete. Por favor, tente novamente.");
+      setFreightError("An error occurred while creating the freight.");
+      setIsFreightModalOpen(true);
     }
-    console.log("Motoristas selecionados:", driverIds);
-    setIsAssignFreightModalOpen(false);
   };
 
   return (
@@ -134,6 +139,14 @@ const FormContainer: React.FC<FormContainerProps> = ({
         onRequestClose={() => setIsAssignFreightModalOpen(false)}
         onConfirm={handleAssignFreight}
       />
+      <FreightCreationConfirmationModal
+  isOpen={isFreightModalOpen}
+  onRequestClose={() => setIsFreightModalOpen(false)}
+  freightCode={freightCode}
+  error={freightError}
+/>
+
+
     </FormProvider>
   );
 };
