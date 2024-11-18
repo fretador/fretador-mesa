@@ -3,7 +3,7 @@ import styles from "./DriverAndOwnerDetails.module.css";
 import { DownloadIcon, LogoWhatsAppIcon, PencilSolidIcon } from "@/utils/icons";
 import Botao from "@/components/Botao";
 import ActionButtons from "../ActionButtons";
-import { Driver } from "@/utils/types/Driver";
+import { Driver } from "@/utils/Interfaces/Driver";
 
 interface DriverAndOwnerDetailsProps {
   driver: Driver;

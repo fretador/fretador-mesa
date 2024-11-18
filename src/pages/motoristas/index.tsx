@@ -11,8 +11,8 @@ import AwaitingApprovalList from "@/components/AwaitingApprovalCards";
 import StatusFilter from "@/components/StatusFilter";
 import VehicleFilter from "@/components/VehicleFilter";
 import DriversList from "@/components/ApprovedDriversList";
-import { Driver } from "@/utils/types/Driver";
-import { DriverNode } from "@/utils/types/DriverNode";
+import { Driver } from "@/utils/Interfaces/Driver";
+import { DriverNode } from "@/utils/Interfaces/DriverNode";
 import { useQuery } from "@apollo/client";
 import { GET_DRIVERS_QUERY } from "@/graphql/queries/driverQueries";
 

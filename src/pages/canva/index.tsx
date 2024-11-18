@@ -125,7 +125,7 @@ const Canva: React.FC = () => {
             <Row.Root>
               <Row.FreightDate date={new Date().toLocaleDateString()} />
               <Row.FreightCode code={"ABC123"} />
-              <Row.Cte cte="000000" />
+              <Row.Cte numCte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
               <Row.Customer customerName={"Joaquim José da Silva Xavier"} />
               <Row.Driver driverName="João Pedro do Nascimento" />
@@ -247,7 +247,7 @@ const Canva: React.FC = () => {
             <PaymentNotificationModal
               motorista="João Silva"
               contrato="12345"
-              cte="67890"
+              numCte="67890"
               banco="Bradesco"
               onClose={togglePaymentModal}
             />

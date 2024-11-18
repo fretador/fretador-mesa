@@ -2,7 +2,7 @@ import React, { useEffect, useState, KeyboardEvent } from "react";
 import ModalRoot from "../../ModalRoot";
 import Loading from "../../Loading";
 import styles from "./AssignFreight.module.css";
-import { Driver } from "@/utils/types/Driver";
+import { Driver } from "@/utils/Interfaces/Driver";
 import { useLazyQuery } from "@apollo/client";
 import { GET_DRIVERS_QUERY } from "@/graphql/queries/driverQueries";
 import { gerarDadosBancarios } from "@/utils/mocks/bankDataGenerator";
@@ -10,7 +10,7 @@ import {
   generateRandomPlate,
   generateRandomVehicleData,
 } from "@/utils/mocks/vehicleDataGenerator";
-import { DriverNode } from "@/utils/types/DriverNode";
+import { DriverNode } from "@/utils/Interfaces/DriverNode";
 
 interface AssignFreightModalProps {
   isOpen: boolean;

@@ -13,8 +13,8 @@ import LastPaymentsList from "@/components/LastPayments";
 import FinancialFilter from "@/components/FinancialFilter";
 import { GET_FREIGHTS_FOR_FINANCIAL } from "@/graphql/queries/financialQueries";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
-import { FinancialFilterInput } from "@/utils/types/FinancialFilterInput";
-import { FreightNode } from "@/utils/types/FreightNode";
+import { FinancialFilterInput } from "@/utils/Interfaces/FinancialFilterInput";
+import { FreightNode } from "@/utils/Interfaces/FreightNode";
 
 const Financial: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);

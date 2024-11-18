@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import { useRouter } from "next/router";
 import { useFormContext } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
+import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
 import styles from "./ConfirmationModal.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import Loading from "@/components/Loading";

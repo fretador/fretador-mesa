@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
+import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
 import styles from "./ObservationsSection.module.css";
 
 const ObservationsSection: React.FC = () => {

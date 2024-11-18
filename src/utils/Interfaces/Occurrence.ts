@@ -1,7 +1,7 @@
 import { OccurrenceStatus } from "../enums/occurrenceStatusEnum";
 import { OccurrenceType } from "../enums/occurrenceTypeEnum";
 import { Message } from "./Message";
-import { File } from "./File";
+import { Attachment } from "./Attachment";
 
 export interface Occurrence {
 	_id?: string;
@@ -10,20 +10,18 @@ export interface Occurrence {
 	creationDate: string; // ISO Date string
 	updateDate: string; // ISO Date string
 	messages: Message[];
-	status: OccurrenceStatus;
+	occurrenceStatus?: OccurrenceStatus;
 	type: OccurrenceType;
 	occurrenceType: OccurrenceType;
 	userId: string;
 	updateAcknowledge: boolean;
-	files: File[];
+	attachments: Attachment[];
 	// Campos adicionais para o frontend
 	driverName?: string;
 	driverPhotoUrl?: string;
 	freightCode?: string;
 	freightDate?: string;
-	cte?: string;
+	numCte?: string;
 	route?: string;
-	attachments?: string[];
 	observations?: string;
-	occurrenceStatus?: string;
 }

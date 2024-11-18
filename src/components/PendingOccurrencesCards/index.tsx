@@ -63,7 +63,7 @@ const PendingOccurrencesCards: React.FC<PendingOccurrencesCardsProps> = ({ loadi
 
   // Filtrar ocorrências pendentes
   const pendingOccurrences = occurrences.filter(
-    (occurrence) => occurrence.status === OccurrenceStatus.UNRESOLVED || occurrence.status === OccurrenceStatus.IN_PROGRESS
+    (occurrence) => occurrence.occurrenceStatus === OccurrenceStatus.UNRESOLVED || occurrence.occurrenceStatus === OccurrenceStatus.IN_PROGRESS
   );
 
   return (
@@ -78,7 +78,7 @@ const PendingOccurrencesCards: React.FC<PendingOccurrencesCardsProps> = ({ loadi
       {pendingOccurrences.map((occurrence) => (
         <PendingOccurrencesCard
           key={occurrence.id}
-          driverName={"DriverName"}
+          driverName={occurrence.driverName || ""}
           freightCode={occurrence.freightCode || ""}
           occurrenceType={occurrenceTypeLabels[occurrence.type as keyof typeof occurrenceTypeLabels]}
           date={new Date(occurrence.creationDate).toLocaleDateString()}

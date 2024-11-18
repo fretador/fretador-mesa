@@ -8,7 +8,7 @@ import Body from "@/components/Body";
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_FREIGHT_BY_ID } from '@/graphql/queries/freightQueries';
 import { UPDATE_FREIGHT } from '@/graphql/mutations/freightMutations';
-import { UpdateFreightInput } from "@/utils/types/UpdateFreightInput";
+import { UpdateFreightInput } from "@/utils/Interfaces/UpdateFreightInput";
 import EditFreightForm from "@/components/EditFreightForm";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";

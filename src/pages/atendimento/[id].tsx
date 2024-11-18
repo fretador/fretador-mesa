@@ -16,7 +16,7 @@ interface Service {
   id: string,
   serviceNumber: string,
   serviceDate: string,
-  cte: string,
+  numCte: string,
   subject: string,
   serviceStatus: string,
   driverName: string,

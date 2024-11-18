@@ -1,6 +1,6 @@
 import React from "react";
 import { Row } from "../Row";
-import { Driver } from "@/utils/types/Driver";
+import { Driver } from "@/utils/Interfaces/Driver";
 import styles from "./ApprovedDriversList.module.css";
 import RowTitle from "../RowTitle";
 import Loading from "../Loading";

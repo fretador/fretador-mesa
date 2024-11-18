@@ -14,7 +14,7 @@ import { useOccurrenceById } from '@/hooks/occurrence/useOccurrenceById';
 import { useUpdateOccurrence } from '@/hooks/occurrence/useUpdateOccurrence';
 import { Occurrence } from '@/utils/Interfaces/Occurrence';
 import Notification from '@/components/Notification';
-import { removeTypename } from '@/utils/removeTypename';
+import { removeTypename } from '@/utils/utils';
 import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum";
 
 const OccurrenceDetails: React.FC = () => {
@@ -109,7 +109,7 @@ const OccurrenceDetails: React.FC = () => {
         variables: {
           id: id as string,
           input: {
-            status: OccurrenceStatus.RESOLVED,
+            occurrenceStatus: OccurrenceStatus.RESOLVED,
           },
         },
       });
@@ -244,7 +244,7 @@ const OccurrenceDetails: React.FC = () => {
                     {occurrence.attachments?.map((item, index) => (
                       <Image
                         key={index}
-                        src={item}
+                        src={item.url}
                         alt={"Arquivo do motorista"}
                         width={142}
                         height={154}

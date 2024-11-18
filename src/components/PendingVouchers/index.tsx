@@ -3,7 +3,7 @@ import { GET_PENDING_APPROVAL_FREIGHTS } from '@/graphql/queries/graphQueries';
 import RowPendingVouchers from './RowPendingVouchers';
 import { ArrowRightIcon } from '@/utils/icons';
 import styles from './PendingVouchers.module.css';
-import { GetPendingApprovalFreightsData } from '@/utils/types/GraphTypes'; 
+import { GetPendingApprovalFreightsData } from '@/utils/Interfaces/GraphTypes';
 import Loading from '../Loading';
 
 const PendingVouchers = () => {
@@ -28,7 +28,7 @@ const PendingVouchers = () => {
           key={freight.freightCode}
           numberOfPhotos={freight.totalCount}
           freightCode={freight.freightCode}
-          cte={freight.numCte}
+          numCte={freight.numCte}
           driverName={freight.driver}
         />
       ))}

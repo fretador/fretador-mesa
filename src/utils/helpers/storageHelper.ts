@@ -1,4 +1,4 @@
-import { BoardUser } from "../types/BoardUser";
+import { BoardUser } from "../Interfaces/BoardUser";
 
 export const storageHelper = {
 	saveBoardUser: (boardUser: BoardUser) => {

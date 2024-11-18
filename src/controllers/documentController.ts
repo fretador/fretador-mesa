@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { DocumentService } from "@/services/documentService";
 import { useRouter } from "next/router";
 import { AuthService } from "@/services/authService";
-import { DocumentInput } from "@/utils/types/DocumentInput";
+import { DocumentInput } from "@/utils/Interfaces/DocumentInput";
 
 interface DocumentController {
   uploadDocuments: (

@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { GET_FREIGHT_STATISTICS } from '@/graphql/queries/graphQueries';
 import { PieChart } from '@mui/x-charts/PieChart';
 import styles from './FreightSummary.module.css';
-import { GetFreightStatisticsData } from '@/utils/types/GraphTypes'; 
+import { GetFreightStatisticsData } from '@/utils/Interfaces/GraphTypes';
 import Loading from '@/components/Loading';
 
 const FreightSummary = () => {

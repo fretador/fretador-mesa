@@ -1,4 +1,4 @@
-export interface File {
+export interface Attachment {
 	admin: boolean;
 	name: string;
 	url: string;

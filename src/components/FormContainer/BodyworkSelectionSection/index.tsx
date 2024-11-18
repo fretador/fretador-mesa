@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/types/CreateFreightInput";
+import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
 import styles from "./BodyworkSelectionSection.module.css";
 import { BodyworkCategory, BodyworkType } from "@/utils/enums/bodyworkEnums";
 import CheckboxIcon from "@/components/Checkbox"; // Importe o componente CheckboxIcon

@@ -7,7 +7,7 @@ import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import { useQuery } from '@apollo/client';
 import { GET_FREIGHT_STATISTICS, GET_OCCURRENCES_STATUS_COUNT, GET_NEW_DRIVERS_COUNT } from '@/graphql/queries/graphQueries';
-import { GetFreightStatisticsData, GetOccurrencesStatusCountData, GetNewDriversCountData } from '@/utils/types/GraphTypes';
+import { GetFreightStatisticsData, GetOccurrencesStatusCountData, GetNewDriversCountData } from '@/utils/Interfaces/GraphTypes';
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import FreightSummary from "@/components/Graphics/FreightSummary";
 import AddNewFreightButton from "@/components/AddNewFreightButton";
