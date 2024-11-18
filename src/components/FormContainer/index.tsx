@@ -21,22 +21,20 @@ import { CREATE_FREIGHT } from "@/graphql/mutations";
 import EditFreightButton from "../EditFreightButton";
 
 interface FormContainerProps {
-  initialData?: Partial<CreateFreightInput>
-  showFreightSubmissionButton?: boolean
-  showEditFreightButton?: boolean
+  initialData?: Partial<CreateFreightInput>;
+  showFreightSubmissionButton?: boolean;
+  showEditFreightButton?: boolean;
 }
 
 const FormContainer: React.FC<FormContainerProps> = ({
   showFreightSubmissionButton = true,
   showEditFreightButton = false,
-  initialData
+  initialData,
 }) => {
-  // const [targetedDriver, setTargetedDriver] = useState<string[]>([]);
-  const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] =
-    useState(false);
+  const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const [createFreightMutation, { loading: creatingFreight, error: createError }] =
-    useMutation(CREATE_FREIGHT);
+
+  const [createFreightMutation] = useMutation(CREATE_FREIGHT);
 
   const methods = useForm<CreateFreightInput>({
     resolver: zodResolver(createFreightSchema),
@@ -44,39 +42,16 @@ const FormContainer: React.FC<FormContainerProps> = ({
       pickupDeliveryData: "",
       origin: "",
       destination: "",
-      originCNPJ: "",
-      originRazaoSocial: "",
-      originEndereco: "",
-      destinationCNPJ: "",
-      destinationRazaoSocial: "",
-      destinationEndereco: "",
       cargoLoadType: CargoLoadType.FULL,
-      needsTarp: false,
-      needsTracker: false,
-      product: "",
-      cargoType: undefined,
-      totalWeight: undefined,
-      volumes: undefined,
-      cubage: undefined,
-      moreDetails: "",
-      eligibleVehicles: [],
-      eligibleBodyworks: [],
-      type: Type.OFFER,
+      type: Type.OFFER, // Tipo inicial é OFFER
       targetedDrivers: [],
       value: initialData?.value ?? 0,
-      pedagioIncluso: undefined,
       observations: "",
       ...initialData,
     },
   });
 
-  const {
-    handleSubmit,
-    formState: { errors },
-    watch,
-    setValue,
-    getValues,
-  } = methods;
+  const { handleSubmit, getValues, setValue } = methods;
 
   useEffect(() => {
     if (initialData) {
@@ -86,108 +61,78 @@ const FormContainer: React.FC<FormContainerProps> = ({
     }
   }, [initialData, setValue]);
 
-  const handleCreateOffer = () => {
-    console.log('Manipulando a submissão');
+  const handleCreateOffer = async () => {
     const currentValues = getValues();
-  
-    const payload = {
-      ...currentValues,
-      value: currentValues.value ? parseFloat(currentValues.value) : 0, 
-    };
-  
-    console.log("Adicionado os valores para submissão", payload);
-    onSubmit(payload);
-  };
 
-
-  
-
-  const onSubmit = async (data: CreateFreightInput) => {
     try {
-      await createFreightMutation({
-        variables: { input: data },
-      });
-      console.log("Frete submetido com sucesso:", data);
-      setIsConfirmationModalOpen(true);
+      const { data } = await createFreightMutation({ variables: { input: currentValues } });
+      console.log("Frete criado com sucesso:", data.createFreight);
+      alert("Frete criado com sucesso!");
     } catch (error) {
-      console.error("Erro ao submeter o frete:", error);
-      // Aqui você pode adicionar uma lógica para mostrar um erro ao usuário
+      console.error("Erro ao criar o frete:", error);
+      alert("Erro ao criar o frete. Por favor, tente novamente.");
     }
   };
 
-  const watchedFields = watch();
+  const handleDirectToDriver = () => {
+    // Atualiza o tipo do frete para TARGETED
+    setValue("type", Type.TARGETED);
+    // Abre o modal de confirmação
+    setIsConfirmationModalOpen(true);
+  };
 
-  useEffect(() => {
-    const filteredFields = Object.fromEntries(
-      Object.entries(watchedFields).filter(
-        ([key, value]) =>
-          value !== undefined &&
-          !["cargoValue", "cargoWeight", "toolValue", "totalValue"].includes(key)
-      )
-    );
-    console.log("Campos observados:", filteredFields);
-  }, [watchedFields]);
+  const handleConfirmFreight = () => {
+    // Após a confirmação, abre o AssignFreightModal
+    setIsAssignFreightModalOpen(true);
+    setIsConfirmationModalOpen(false);
+  };
 
-  const handleDirectToDriver = (driverIds?: string[]) => {
-    if (driverIds && driverIds.length > 0) {
-      // Altera o tipo para TARGETED
-      setValue("type", Type.TARGETED);
+  const handleAssignFreight = async (driverIds: string[]) => {
+    // Salva os motoristas selecionados
+    setValue("targetedDrivers", driverIds);
+    const currentValues = getValues();
 
-      // Adiciona os IDs dos motoristas ao array targetedDrivers
-      setValue("targetedDrivers", driverIds);
-
-      console.log(`Motoristas selecionados: ${driverIds}`);
-      console.log(`Tipo de frete alterado para: ${Type.TARGETED}`);
-
-      setIsAssignFreightModalOpen(false);
-
-      // Submete o formulário automaticamente
-      const currentValues = getValues();
-      onSubmit(currentValues);
+    try {
+      const { data } = await createFreightMutation({ variables: { input: currentValues } });
+      console.log("Frete criado com sucesso:", data.createFreight);
+      alert("Frete criado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao criar o frete:", error);
+      alert("Erro ao criar o frete. Por favor, tente novamente.");
     }
+    console.log("Motoristas selecionados:", driverIds);
+    setIsAssignFreightModalOpen(false);
   };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <form onSubmit={handleSubmit(handleCreateOffer)} className={styles.form}>
         <div className={styles.content}>
           <PickupDeliverySection />
-
           <CargoDetailsSection />
-
           <VehicleSelectionSection />
-
           <BodyworkSelectionSection />
-
           <ShippingTypeSection />
-
           <FreightValueSection />
-
           <ObservationsSection />
-
           {showFreightSubmissionButton && (
             <FreightSubmissionButton
-              onDirectToDriver={() => setIsAssignFreightModalOpen(true)}
-              onCreateOffer={()=> handleCreateOffer()}
+              onDirectToDriver={handleDirectToDriver}
+              onCreateOffer={handleCreateOffer}
             />
           )}
-
-          {showEditFreightButton && (
-            <EditFreightButton />
-          )}
-
+          {showEditFreightButton && <EditFreightButton />}
         </div>
       </form>
-
-      <AssignFreightModal
-        isOpen={isAssignFreightModalOpen}
-        onRequestClose={() => setIsAssignFreightModalOpen(false)}
-        onConfirm={handleDirectToDriver}
-      />
-
       <ConfirmationModal
         isOpen={isConfirmationModalOpen}
         onRequestClose={() => setIsConfirmationModalOpen(false)}
+        onConfirm={handleConfirmFreight}
+      />
+      <AssignFreightModal
+        isOpen={isAssignFreightModalOpen}
+        onRequestClose={() => setIsAssignFreightModalOpen(false)}
+        onConfirm={handleAssignFreight}
       />
     </FormProvider>
   );

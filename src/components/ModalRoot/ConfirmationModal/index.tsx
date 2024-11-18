@@ -1,27 +1,24 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { useRouter } from "next/router";
 import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
 import styles from "./ConfirmationModal.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import Loading from "@/components/Loading";
-import { useMutation } from "@apollo/client";
-import { CREATE_FREIGHT } from "@/graphql/mutations";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
+  onConfirm: () => void;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isOpen,
   onRequestClose,
+  onConfirm,
 }) => {
   const { getValues } = useFormContext<CreateFreightInput>();
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
   // Dicionários para exibição amigável
   const vehicleTypeDictionary: { [key: string]: string } = {
@@ -53,7 +50,6 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     MUNCK: "Munck",
   };
 
-  // Filtrar os veículos e carrocerias elegíveis
   const eligibleVehicles = (getValues("eligibleVehicles") || []).filter(
     (vehicle: any) => vehicle.eligible
   );
@@ -61,31 +57,6 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     (bodywork: any) => bodywork.eligible
   );
 
-  const [createFreightMutation] = useMutation(CREATE_FREIGHT);
-
-  const handleConfirm = async () => {
-    const freightData = getValues();
-    setIsLoading(true);
-    try {
-      const { data } = await createFreightMutation({
-        variables: { input: freightData },
-      });
-      console.log("Frete criado com sucesso:", data.createFreight);
-      setIsSuccess(true);
-    } catch (error) {
-      console.error("Erro ao criar o frete:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleClose = () => {
-    setIsSuccess(false);
-    onRequestClose();
-    router.push("/fretes");
-  };
-
-  // Formatar a data no formato DD/MM/YYYY
   const formatDate = (date: string | undefined): string => {
     if (!date) return "00/00/0000";
     const parsedDate = new Date(date);
@@ -100,7 +71,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       overlayClassName={styles.overlay}
     >
       <div className={styles.modalHeader}>
-        <h2 className={styles.modalTitle}>Cadastrar carga</h2>
+        <h2 className={styles.modalTitle}>Confirmar dados do frete</h2>
         <button className={styles.closeButton} onClick={onRequestClose}>
           <AiOutlineCloseCircle size={32} />
         </button>
@@ -109,17 +80,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       <div className={styles.modalContent}>
         {isLoading ? (
           <Loading />
-        ) : isSuccess ? (
-          <>
-            <p className={`${styles.successMessage} ${styles.boldText}`}>
-              Carga cadastrada com sucesso!
-            </p>
-          </>
         ) : (
           <>
-            <p className={`${styles.modalMessage} ${styles.boldText}`}>
-              Confirmar dados da carga:
-            </p>
             <p>
               <span className={styles.boldText}>Data da Coleta:</span>{" "}
               <span className={styles.regularText}>
@@ -168,15 +130,12 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       </div>
 
       <div className={styles.buttonGroup}>
-        {isSuccess ? (
-          <button className={styles.confirmButton} onClick={handleClose}>
-            OK
-          </button>
-        ) : (
-          <button className={styles.confirmButton} onClick={handleConfirm}>
-            Confirmar
-          </button>
-        )}
+        <button className={styles.confirmButton} onClick={onConfirm}>
+          Confirmar
+        </button>
+        <button className={styles.cancelButton} onClick={onRequestClose}>
+          Cancelar
+        </button>
       </div>
     </Modal>
   );
