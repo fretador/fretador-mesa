@@ -23,7 +23,37 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Filtrar os veículos e carrocerias elegíveis, garantindo que sejam arrays
+  // Dicionários para exibição amigável
+  const vehicleTypeDictionary: { [key: string]: string } = {
+    UTILITARIO: "Utilitário",
+    TOCO: "Toco",
+    HR: "HR",
+    TRES_QUARTOS: "Três Quartos",
+    TRUCK: "Truck",
+    BITRUCK: "Bitruck",
+    CARRETA: "Carreta",
+    CARRETA_LS: "Carreta LS",
+    CARRETA_TRUCADA: "Carreta Trucada",
+    CARRETA_VANDERLEIA: "Carreta Vanderléia",
+    BITREM: "Bitrem",
+    RODOTREM: "Rodotrem",
+  };
+
+  const bodyworkTypeDictionary: { [key: string]: string } = {
+    GRADE_BAIXA: "Grade Baixa",
+    GRADE_ALTA: "Grade Alta",
+    CARROCERIA: "Carroceria",
+    PLATAFORMA: "Plataforma",
+    BAU: "Baú",
+    BAU_FRIGORIFICO: "Baú Frigorífico",
+    SIDER: "Sider",
+    CACAMBA: "Caçamba",
+    TANQUE: "Tanque",
+    GRANELEIRO: "Graneleiro",
+    MUNCK: "Munck",
+  };
+
+  // Filtrar os veículos e carrocerias elegíveis
   const eligibleVehicles = (getValues("eligibleVehicles") || []).filter(
     (vehicle: any) => vehicle.eligible
   );
@@ -53,6 +83,13 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     setIsSuccess(false);
     onRequestClose();
     router.push("/fretes");
+  };
+
+  // Formatar a data no formato DD/MM/YYYY
+  const formatDate = (date: string | undefined): string => {
+    if (!date) return "00/00/0000";
+    const parsedDate = new Date(date);
+    return parsedDate.toLocaleDateString("pt-BR");
   };
 
   return (
@@ -86,7 +123,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             <p>
               <span className={styles.boldText}>Data da Coleta:</span>{" "}
               <span className={styles.regularText}>
-                {getValues("pickupDeliveryData") || "00/00/0000"}
+                {formatDate(getValues("pickupDeliveryData"))}
               </span>
             </p>
             <p>
@@ -104,8 +141,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
               <span className={styles.regularText}>
                 {eligibleVehicles.length > 0
                   ? eligibleVehicles
-                    .map((vehicle: any) => vehicle.type)
-                    .join(", ")
+                      .map(
+                        (vehicle: any) =>
+                          vehicleTypeDictionary[vehicle.type] || vehicle.type
+                      )
+                      .join(", ")
                   : "Nenhum veículo selecionado"}
               </span>
             </p>
@@ -114,8 +154,12 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
               <span className={styles.regularText}>
                 {eligibleBodyworks.length > 0
                   ? eligibleBodyworks
-                    .map((bodywork: any) => bodywork.type)
-                    .join(", ")
+                      .map(
+                        (bodywork: any) =>
+                          bodyworkTypeDictionary[bodywork.type] ||
+                          bodywork.type
+                      )
+                      .join(", ")
                   : "Nenhuma carroceria selecionada"}
               </span>
             </p>

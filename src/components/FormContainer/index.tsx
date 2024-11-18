@@ -63,7 +63,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
       eligibleBodyworks: [],
       type: Type.OFFER,
       targetedDrivers: [],
-      value: 0,
+      value: initialData?.value ?? 0,
       pedagioIncluso: undefined,
       observations: "",
       ...initialData,
@@ -92,7 +92,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
   
     const payload = {
       ...currentValues,
-      value: currentValues.value ? parseFloat(currentValues.value) : 0, // Certifique-se de que value seja um número aqui
+      value: currentValues.value ? parseFloat(currentValues.value) : 0, 
     };
   
     console.log("Adicionado os valores para submissão", payload);
