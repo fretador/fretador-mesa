@@ -153,18 +153,25 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
   };
 
   const handleConfirm = () => {
-    if (selectedDriver) {
+    if (selectedDriver?.id) {
+      console.log("Motorista selecionado no modal:", selectedDriver.id);
+      
+      // Chama onConfirm primeiro
       onConfirm([selectedDriver.id]);
-      onRequestClose();
-    } else {
-      onConfirm([]);
-      onRequestClose();
+  
+      // Espera um pequeno tempo para garantir que onConfirm seja processado
+      setTimeout(() => {
+        onRequestClose();
+        console.log("Modal fechado após confirmação.");
+      }, 100); // 100ms de espera, ajustável conforme necessário
     }
   };
+  
 
   return (
     <ModalRoot isOpen={isOpen} onRequestClose={onRequestClose}>
       <div className={styles.modalContent}>
+          
         <header className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>Direcionar Frete</h2>
         </header>
@@ -215,7 +222,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
         <button
           className={styles.confirmButton}
           onClick={handleConfirm}
-          disabled={isLoading}
+          disabled={isLoading || !selectedDriver} 
         >
           Confirmar
         </button>
