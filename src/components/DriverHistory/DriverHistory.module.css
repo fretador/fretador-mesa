@@ -9,3 +9,12 @@
   align-items: center;
   justify-content: center;
 }
+
+.noFreightsMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #1A556D;
+  font-size: 24px;
+}

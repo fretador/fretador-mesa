@@ -68,17 +68,17 @@ export const GET_FREIGHTS_BY_USER_ID = gql`
 		) {
 			active
 			freightCode
+			creationDate
+			numCte
+			origin
+			destination
 			id
 			status
-			statusHistory {
-				status
-				updateData
-				updateDataType
-				updateDate
+			targetedDrivers {
+				id
+				name
 			}
-			targetedDrivers
 			requestingUsers
 		}
 	}
-	${FREIGHT_FULL_FIELDS}
 `;
