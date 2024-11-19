@@ -1,0 +1,72 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.moveButton {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  padding: 13px 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 12px;
+  border-radius: 100%;
+  background-color: #85aaba;
+  border: none;
+  cursor: pointer;
+}
+
+.btnsContainer {
+  display: flex;
+  background-color: #85aaba;
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+  padding: 0 32px;
+}
+
+.pagination .btn {
+  font-weight: 700;
+  padding: 13px 20px;
+  border: none;
+  background-color: transparent;
+  color: #1b556d;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  color: #fff;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination .activePage {
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  padding: 13px 16px;
+  border-radius: 16px;
+  background-color: #1b556d;
+  color: #fff;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.pagination .move-left {
+  transform: translateX(-100%);
+}
+
+.pagination .move-right {
+  transform: translateX(100%);
+}
