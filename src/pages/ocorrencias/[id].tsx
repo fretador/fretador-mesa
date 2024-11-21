@@ -14,7 +14,11 @@ import { useOccurrenceById } from '@/hooks/occurrence/useOccurrenceById';
 import { useUpdateOccurrence } from '@/hooks/occurrence/useUpdateOccurrence';
 import { Occurrence } from '@/utils/Interfaces/Occurrence';
 import Notification from '@/components/Notification';
+<<<<<<< HEAD
 import { removeTypename } from '@/utils/utils';
+=======
+import { removeTypename } from '@/utils/removeTypename';
+>>>>>>> a0ba014d515ab832f8c766500460121d07b5118c
 import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum";
 
 const OccurrenceDetails: React.FC = () => {
@@ -109,7 +113,11 @@ const OccurrenceDetails: React.FC = () => {
         variables: {
           id: id as string,
           input: {
+<<<<<<< HEAD
             occurrenceStatus: OccurrenceStatus.RESOLVED,
+=======
+            status: OccurrenceStatus.RESOLVED,
+>>>>>>> a0ba014d515ab832f8c766500460121d07b5118c
           },
         },
       });
