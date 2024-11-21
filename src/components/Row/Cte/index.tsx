@@ -2,13 +2,14 @@ import styles from './Cte.module.css';
 import React from 'react'
 
 interface CteProps {
-  numCte: string;
+  cte: string;
+  style?: React.CSSProperties;
 }
 
-const Cte = ({ numCte }: CteProps) => {
+const Cte = ({ cte, style }: CteProps) => {
 
   return (
-    <p>{numCte}</p>
+    <p style={style}>{cte}</p>
   )
 }
 

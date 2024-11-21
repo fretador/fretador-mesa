@@ -1,10 +1,12 @@
 import CityState from "./CityState";
 import Cnpj from "./Cnpj";
+import CollectionLocation from "./CollectionLocation";
 import Contract from "./Contract";
 import CorporateName from "./CorporateName";
 import Cte from "./Cte";
 import Customer from "./Customer";
 import CustomerEmail from "./CustomerEmail";
+import DeliveryLocation from "./DeliveryLocation";
 import Driver from "./Driver";
 import DriverStatus from "./DriverStatus";
 import FreightCode from "./FreightCode";
@@ -13,6 +15,7 @@ import FreightStatus from "./FreightStatus";
 import OccurrenceDate from "./OccurrenceDate";
 import OccurrenceStatus from "./OccurrenceStatus";
 import OccurrenceType from "./OccurrenceType";
+import Nf from './NF'
 import PaymentDate from "./PaymentDate";
 import PaymentMethod from "./PaymentMethod";
 import PaymentType from "./PaymentType";
@@ -32,12 +35,14 @@ import WhatsApp from "./WhatsApp";
 export const Row = {
   Root: RowRoot,
   CityState: CityState,
+  CollectionLocation: CollectionLocation,
   Cnpj: Cnpj,
   Contract: Contract,
   CorporateName: CorporateName,
   Cte: Cte,
   Customer: Customer,
   CustomerEmail: CustomerEmail,
+  DeliveryLocation: DeliveryLocation,
   Driver: Driver,
   DriverStatus: DriverStatus,
   FreightCode: FreightCode,
@@ -46,6 +51,7 @@ export const Row = {
   OccurrenceDate: OccurrenceDate,
   OccurrenceStatus: OccurrenceStatus,
   OccurrenceType: OccurrenceType,
+  Nf: Nf,
   PaymentDate: PaymentDate,
   PaymentMethod: PaymentMethod,
   PaymentType: PaymentType,

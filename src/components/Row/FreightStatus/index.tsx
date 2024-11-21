@@ -4,6 +4,7 @@ import { FreightStatus as FreightStatusEnum } from "@/utils/enums/freightStatusE
 
 interface FreightStatusProps {
   freightStatus?: FreightStatusEnum;
+  style?: React.CSSProperties;
 }
 
 const translateStatus = (status: FreightStatusEnum) => {
@@ -59,12 +60,12 @@ const translateStatus = (status: FreightStatusEnum) => {
   }
 };
 
-const FreightStatus = ({ freightStatus = FreightStatusEnum.WAITING }: FreightStatusProps) => {
+const FreightStatus = ({ freightStatus = FreightStatusEnum.WAITING, style }: FreightStatusProps) => {
   const translatedStatus = translateStatus(freightStatus);
 
   return (
     <>
-      <p className={styles.freightStatusText}>{translatedStatus}</p>
+      <p style={style} className={styles.freightStatusText}>{translatedStatus}</p>
     </>
   );
 };
