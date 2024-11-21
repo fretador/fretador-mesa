@@ -68,6 +68,19 @@ const Canva: React.FC = () => {
     setIsOpenTicketModalOpen(!isOpenTicketModalOpen);
   };
 
+ 
+
+
+
+ 
+
+ 
+
+
+  const togglePaymentModal = () => {
+    setIsPaymentModalOpen(!isPaymentModalOpen);
+  };
+
   const handleAdvance = () => {
     console.log("Avançando para a próxima etapa do ticket.");
     toggleOpenTicketModal();
@@ -89,14 +102,6 @@ const Canva: React.FC = () => {
 
   const handleOnRequestClose = () => {
     setIsFirstTimeMalfunctionModalOpen(false);
-  };
-
-  const togglePaymentModal = () => {
-    setIsPaymentModalOpen(!isPaymentModalOpen);
-  };
-
-  const togglePaymentDetailsConfirmedModal = () => {
-    setIsPaymentDetailsConfirmedModalOpen(!isPaymentDetailsConfirmedModalOpen);
   };
 
   return (
@@ -173,9 +178,9 @@ const Canva: React.FC = () => {
             Informar Pagamento
           </button>
 
-          {/* Botão para abrir o novo modal PaymentDetailsConfirmedModal */}
-          <button onClick={togglePaymentDetailsConfirmedModal} className={styles.openModalButton}>
-            Dados de Pagamento Informados com Sucesso
+          {/* Botão para abrir o novo modal FirstTimeMalfunctionConfirmationModal */}
+          <button onClick={toggleFirstTimeMalfunctionModal} className={styles.openModalButton}>
+            Confirmar Mal Funcionamento
           </button>
 
           {/* Renderizando o modal DriverRegistrationApproval */}
@@ -253,11 +258,15 @@ const Canva: React.FC = () => {
             />
           )}
 
-          {/* Renderizando o novo modal PaymentDetailsConfirmedModal */}
-          <PaymentDetailsConfirmedModal
-            isOpen={isPaymentDetailsConfirmedModalOpen}
-            onRequestClose={togglePaymentDetailsConfirmedModal}
-          />
+          {/* Renderizando o novo modal FirstTimeMalfunctionConfirmationModal */}
+          {isFirstTimeMalfunctionModalOpen && (
+            <FirstTimeMalfunctionConfirmationModal
+              isOpen={isFirstTimeMalfunctionModalOpen}
+              onConfirm={handleConfirm}
+              onCancel={handleCancel}
+              onRequestClose={handleOnRequestClose}
+            />
+          )}
         </div>
       </div>
     </div>

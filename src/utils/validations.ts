@@ -29,7 +29,7 @@ export const FreightSchema = z.object({
     errorMap: () => ({ message: "Tipo de embarque é obrigatório" }),
   }),
 
-  freightValue: z.number().positive("Valor do frete deve ser positivo"),
+  value: z.number().positive("Valor do frete deve ser positivo"),
   tollIncluded: z.boolean(),
 
   observations: z.string().optional(),

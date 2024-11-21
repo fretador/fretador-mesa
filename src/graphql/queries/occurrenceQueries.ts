@@ -10,6 +10,7 @@ export const GET_OCCURRENCES = gql`
 			edges {
 				node {
 					...OccurrenceCommonFields
+<<<<<<< HEAD
 					driverName
 					driverPhotoUrl
 					freightCode
@@ -17,6 +18,8 @@ export const GET_OCCURRENCES = gql`
 					numCte
 					route
 					observations
+=======
+>>>>>>> a0ba014d515ab832f8c766500460121d07b5118c
 				}
 			}
 			pageInfo {
@@ -50,8 +53,44 @@ export const GET_OCCURRENCES_BY_USER_ID = gql`
 			statusFilter: $statusFilter
 			typeFilter: $typeFilter
 		) {
+<<<<<<< HEAD
 			...OccurrenceFullFields
 		}
 	${OCCURRENCE_FULL_FIELDS}
+=======
+			id
+			active
+			creationDate
+			updateDate
+			status
+			type
+			userId
+			updateAcknowledge
+			messages {
+				message
+				boardUser
+				admin
+				createdDate
+			}
+			files {
+				admin
+				name
+				url
+				type
+				sender
+				createdDate
+				boardUser
+			}
+			driverName
+			driverPhotoUrl
+			freightCode
+			freightDate
+			cte
+			route
+			attachments
+			observations
+			occurrenceStatus
+		}
+>>>>>>> a0ba014d515ab832f8c766500460121d07b5118c
 	}
 `;
