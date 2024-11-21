@@ -9,7 +9,6 @@ interface PaginationProps {
 }
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
-  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
   const [animationDirection, setAnimationDirection] = useState<string>("");
 
   const handleMoveButtonClick = (direction: "next" | "prev") => {
@@ -34,6 +33,34 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     onPageChange(page);
   };
 
+  const getPageNumbers = () => {
+    const maxVisiblePages = 10;
+    const pages: (number | string)[] = [];
+  
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      // Início
+      if (currentPage <= 6) {
+        for (let i = 1; i <= 9; i++) pages.push(i);
+        pages.push("...", totalPages);
+      } 
+      // Fim
+      else if (currentPage >= totalPages - 5) {
+        pages.push(1, "...");
+        for (let i = totalPages - 8; i <= totalPages; i++) pages.push(i);
+      }
+      // Meio
+      else {
+        pages.push(1, "...");
+        for (let i = currentPage - 4; i <= currentPage + 4; i++) pages.push(i);
+        pages.push("...", totalPages);
+      }
+    }
+  
+    return pages;
+  };
+
   return (
     <div className={styles.pagination}>
       <button
@@ -45,13 +72,14 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       </button>
 
       <div className={styles.btnsContainer}>
-        {pages.map((page) => (
+        {getPageNumbers().map((page, index) => (
           <button
-            key={page}
+            key={index}
             className={`${styles.btn} ${
               currentPage === page ? `${styles.activePage} ${styles[animationDirection]}` : ""
             }`}
-            onClick={() => handlePageNumberClick(page)}
+            onClick={() => typeof page === "number" && handlePageNumberClick(page)}
+            disabled={typeof page !== "number"}
           >
             {page}
           </button>

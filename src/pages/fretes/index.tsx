@@ -23,6 +23,7 @@ import { FreightNode } from "@/utils/Interfaces/FreightNode";
 import { useRouter } from "next/router";
 import { extractState } from "@/utils/utils";
 import { SESSION_STORAGE_KEYS } from "@/utils/helpers/storageHelper";
+import Pagination from "@/components/Pagination";
 
 
 const Freights: React.FC = () => {
@@ -98,7 +99,7 @@ const Freights: React.FC = () => {
     const height = window.innerHeight;
     if (height >= 950) setLimit(10);
     else if (height >= 800) setLimit(8);
-    else if (height >= 720) setLimit(7);
+    else if (height >= 720) setLimit(6);
     else setLimit(5);
   }, []);
 
@@ -127,10 +128,9 @@ const Freights: React.FC = () => {
   }, []);
 
   // Handlers for pagination
-  const handlePreviousPage = () => page > 1 && setPage(page - 1);
-  const handleNextPage = () => pageInfo.hasNextPage && setPage(page + 1);
-  const handleFirstPage = () => setPage(1);
-  const handleLastPage = () => pageInfo.totalPages && setPage(pageInfo.totalPages);
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
 
   // Função para renderizar as linhas dos fretes
   const renderFreightRows = () =>
@@ -144,7 +144,7 @@ const Freights: React.FC = () => {
         >
           <Row.FreightDate date={formatDateToBrazilian(freight.creationDate || new Date())} />
           <Row.FreightCode code={String(freight.freightCode) || "-"} />
-          <Row.Cte numCte={freight.numCte || "-"} />
+          <Row.Cte cte={freight.numCte || "-"} />
           <Row.Route
             originState={extractState(freight.origin)}
             destinyState={extractState(freight.destination)}
@@ -193,21 +193,11 @@ const Freights: React.FC = () => {
                 <>
                   {renderFreightRows()}
                   <div className={styles.pagination}>
-                    <button onClick={handleFirstPage} disabled={page === 1} className={styles.paginationButton}>
-                      Primeira Página
-                    </button>
-                    <button onClick={handlePreviousPage} disabled={!pageInfo.hasPreviousPage || page === 1} className={styles.paginationButton}>
-                      Página Anterior
-                    </button>
-                    <span className={styles.pageInfo}>
-                      Página {page} de {pageInfo.totalPages || 1}
-                    </span>
-                    <button onClick={handleNextPage} disabled={!pageInfo.hasNextPage} className={styles.paginationButton}>
-                      Próxima Página
-                    </button>
-                    <button onClick={handleLastPage} disabled={!pageInfo.totalPages || pageInfo.totalPages === page} className={styles.paginationButton}>
-                      Última Página
-                    </button>
+                    <Pagination
+                      currentPage={page}
+                      totalPages={pageInfo.totalPages || 1}
+                      onPageChange={handlePageChange}
+                    />
                   </div>
                 </>
               )}
