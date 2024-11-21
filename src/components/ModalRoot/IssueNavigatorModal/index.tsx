@@ -18,7 +18,8 @@ const IssueNavigatorModal: React.FC<IssueNavigatorModalProps> = ({
   onWriteIssue,
   onBack,
 }) => {
-    console.log(LupaIcon)
+
+    
   return (
     <ModalRoot isOpen={isOpen} onRequestClose={onRequestClose}>
       <div className={styles.content}>
