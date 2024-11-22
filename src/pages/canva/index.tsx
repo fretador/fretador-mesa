@@ -8,12 +8,14 @@ import RowTitle from "@/components/RowTitle";
 import OpenTicketModal from "@/components/ModalRoot/OpenTicketModal";
 import FirstTimeMalfunctionConfirmationModal from "@/components/ModalRoot/FirstTimeMalfunctionConfirmationModal";
 import IssueNavigatorModal from "@/components/ModalRoot/IssueNavigatorModal";
+import ReportIssueModal from "@/components/ModalRoot/ReportIssueModal";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const [isOpenTicketModalOpen, setIsOpenTicketModalOpen] = useState(false);
   const [isFirstTimeMalfunctionModalOpen, setIsFirstTimeMalfunctionModalOpen] = useState(false);
   const [isIssueNavigatorModalOpen, setIsIssueNavigatorModalOpen] = useState(false);
+  const [isReportIssueModalOpen, setIsReportIssueModalOpen] = useState(false);
 
   const toggleOpenTicketModal = () => {
     setIsOpenTicketModalOpen(!isOpenTicketModalOpen);
@@ -44,6 +46,15 @@ const Canva: React.FC = () => {
 
   const toggleIssueNavigatorModal = () => {
     setIsIssueNavigatorModalOpen(!isIssueNavigatorModalOpen);
+  };
+
+  const toggleReportIssueModal = () => {
+    setIsReportIssueModalOpen(!isReportIssueModalOpen);
+  };
+
+  const handleSend = () => {
+    console.log("Enviando o ticket...");
+    // Adicione qualquer lógica adicional que você precise aqui
   };
 
   return (
@@ -93,6 +104,11 @@ const Canva: React.FC = () => {
             Navegar Problema
           </button>
 
+          {/* Botão para abrir o novo modal ReportIssueModal */}
+          <button onClick={toggleReportIssueModal} className={styles.openModalButton}>
+            Reportar Problema
+          </button>
+
           {isOpenTicketModalOpen && (
             <OpenTicketModal
               isOpen={isOpenTicketModalOpen}
@@ -117,6 +133,15 @@ const Canva: React.FC = () => {
               onSearch={() => console.log("Pesquisar dúvida")}
               onWriteIssue={toggleIssueNavigatorModal}
               onBack={toggleIssueNavigatorModal}
+            />
+          )}
+
+          {isReportIssueModalOpen && (
+            <ReportIssueModal
+              isOpen={isReportIssueModalOpen}
+              onRequestClose={toggleReportIssueModal}
+              onSend={handleSend}
+              onBack={toggleReportIssueModal}
             />
           )}
         </div>
