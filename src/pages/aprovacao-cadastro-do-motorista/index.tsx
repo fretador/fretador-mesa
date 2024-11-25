@@ -21,6 +21,7 @@ import {
   generateRandomPlate,
   generateRandomVehicleData,
 } from "@/utils/mocks/vehicleDataGenerator";
+import SmallLoading from "@/components/SmallLoading";
 
 const DriverApproval: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -87,7 +88,7 @@ const DriverApproval: React.FC = () => {
 
   const renderContent = () => {
     if (loading) {
-      return <div className={styles.loadingContainer} ><Loading /> </div >;
+      return <div className={styles.loadingContainer} ><SmallLoading /> </div >;
     }
 
     if (error) {

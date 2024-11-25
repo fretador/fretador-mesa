@@ -2,7 +2,6 @@ import React from "react";
 import styles from './Login.module.css'
 import LoginForm from "@/components/LoginForm";
 import CustomImage from "@/components/CustomImage";
-import SmallLoading from "@/components/SmallLoading";
 
 const Login = () => {
   return (
@@ -12,7 +11,6 @@ const Login = () => {
 
         <div className={styles.titleContainer}>
           <p className={styles.title}>Bem-vindo a Fretador!</p>
-          <SmallLoading />
         </div>
 
         <LoginForm />
