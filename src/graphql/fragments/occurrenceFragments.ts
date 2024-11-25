@@ -6,11 +6,7 @@ export const OCCURRENCE_COMMON_FIELDS = gql`
 		active
 		creationDate
 		updateDate
-<<<<<<< HEAD
 		occurrenceStatus
-=======
-		status
->>>>>>> a0ba014d515ab832f8c766500460121d07b5118c
 		type
 		userId
 		updateAcknowledge
@@ -20,11 +16,7 @@ export const OCCURRENCE_COMMON_FIELDS = gql`
 			admin
 			createdDate
 		}
-<<<<<<< HEAD
 		attachments {
-=======
-		files {
->>>>>>> a0ba014d515ab832f8c766500460121d07b5118c
 			admin
 			name
 			url
@@ -44,17 +36,9 @@ export const OCCURRENCE_FULL_FIELDS = gql`
 		driverPhotoUrl
 		freightCode
 		freightDate
-<<<<<<< HEAD
 		numCte
 		route
 		observations
-=======
-		cte
-		route
-		attachments
-		observations
-		occurrenceStatus
->>>>>>> a0ba014d515ab832f8c766500460121d07b5118c
 	}
 	${OCCURRENCE_COMMON_FIELDS}
 `;
