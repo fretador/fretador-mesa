@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Loading from "../Loading";
 import RowTitle from "../RowTitle";
 import { Row } from "../Row";
+import SmallLoading from "../SmallLoading";
 
 interface RepliedMessagesListProps {
   loading: boolean;
@@ -215,7 +216,7 @@ const RepliedMessagesList = ({ loading, error }: RepliedMessagesListProps) => {
   if (loading)
     return (
       <div className={styles.loadingContainer}>
-        <Loading />
+        <SmallLoading />
       </div>
     );
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;

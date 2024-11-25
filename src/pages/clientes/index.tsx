@@ -15,6 +15,7 @@ import { Client } from "@/utils/Interfaces/Client";
 import { ClientNode } from "@/utils/Interfaces/ClientNode";
 import { ClientFilterInput } from "@/utils/Interfaces/ClientFilterInput";
 import Loading from "@/components/Loading";
+import SmallLoading from "@/components/SmallLoading";
 
 const Clients: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -75,7 +76,7 @@ const Clients: React.FC = () => {
 
                 {loading ?
                   <div className={styles.loadingContainer}>
-                    <Loading />
+                    <SmallLoading />
                   </div>
                   : error ? (
                     <p>Erro ao carregar clientes: {error.message}</p>

@@ -11,6 +11,7 @@ import { BackIcon, LogoWhatsAppIcon, PencilSolidIcon, TrashIcon } from '@/utils/
 import { useQuery } from '@apollo/client';
 import { GET_CLIENT } from '@/graphql/queries';
 import Loading from '@/components/Loading';
+import SmallLoading from '@/components/SmallLoading';
 
 interface Client {
   id: string;
@@ -93,7 +94,7 @@ const ClientDetails = () => {
 
                   {loading ?
                     <div className={styles.loadingContainer}>
-                      <Loading />
+                      <SmallLoading />
                     </div>
                     : error ? (
                       <p>Erro ao carregar cliente: {error.message}</p>

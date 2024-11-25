@@ -22,6 +22,7 @@ import {
   generateRandomVehicleData,
 } from "@/utils/mocks/vehicleDataGenerator";
 import DriverHistory from "@/components/DriverHistory";
+import SmallLoading from "@/components/SmallLoading";
 
 const RegisteredDriver: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -88,7 +89,7 @@ const RegisteredDriver: React.FC = () => {
 
   const renderContent = () => {
     if (loading) {
-      return <div className={styles.loadingContainer} ><Loading /> </div >;
+      return <div className={styles.loadingContainer} ><SmallLoading /> </div >;
     }
 
     if (error) {

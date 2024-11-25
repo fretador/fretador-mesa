@@ -4,6 +4,7 @@ import Loading from "../Loading";
 import { useRouter } from "next/router";
 import NewMessagesCard from "../NewMessagesCard";
 import { mockRepliedMessages } from "../RepliedMessagesList";
+import SmallLoading from "../SmallLoading";
 
 interface NewMessagesCardsProps {
   loading: boolean;
@@ -53,7 +54,7 @@ const NewMessagesCards = ({ loading, error }: NewMessagesCardsProps) => {
   if (loading)
     return (
       <div className={styles.loadingContainer}>
-        <Loading />
+        <SmallLoading />
       </div>
     );
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;

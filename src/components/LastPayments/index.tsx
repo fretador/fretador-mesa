@@ -7,6 +7,7 @@ import { paymentTypeLabels } from '@/utils/labels/paymentTypeLabels';
 import { formatDateTime } from "@/utils/dates";
 import { Freight } from '@/utils/Interfaces/Freight';
 import { useRouter } from "next/router";
+import SmallLoading from "../SmallLoading";
 
 interface LastPaymentsListProps {
   data: Freight[];
@@ -19,7 +20,7 @@ const LastPaymentsList: React.FC<LastPaymentsListProps> = ({ data, loading }) =>
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
-        <Loading />
+        <SmallLoading />
       </div>
     );
   }

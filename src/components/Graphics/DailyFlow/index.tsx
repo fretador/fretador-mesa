@@ -4,11 +4,12 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import styles from './DailyFlow.module.css';
 import { GetFreightDailyFlowData } from '@/utils/Interfaces/GraphTypes';
 import Loading from '@/components/Loading';
+import SmallLoading from '@/components/SmallLoading';
 
 const DailyFlow = () => {
   const { data, loading, error } = useQuery<GetFreightDailyFlowData>(GET_FREIGHT_DAILY_FLOW);
 
-  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
+  if (loading) return <div className={styles.loadingContainer}><SmallLoading /></div>;
   if (error) return <p>Error: {error.message}</p>;
 
   const newFreights = data?.getFreightDailyFlow.newFreights || 0;
