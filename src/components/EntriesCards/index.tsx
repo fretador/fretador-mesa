@@ -4,6 +4,7 @@ import Loading from "../Loading";
 import EntriesCard from "../EntriesCard";
 import { Freight } from '@/utils/Interfaces/Freight';
 import { useRouter } from "next/router";
+import SmallLoading from "../SmallLoading";
 
 interface EntriesCardsProps {
   data: Freight[];
@@ -21,7 +22,7 @@ const EntriesCards: React.FC<EntriesCardsProps> = ({ data, loading }) => {
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
-        <Loading />
+        <SmallLoading />
       </div>
     );
   }

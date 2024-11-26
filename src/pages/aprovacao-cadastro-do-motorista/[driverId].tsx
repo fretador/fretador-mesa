@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import FreightInProgress from "@/pages/frete-em-curso/index";
 import Loading from "@/components/Loading";
 import DriverApproval from ".";
+import SmallLoading from "@/components/SmallLoading";
 
 const DriverPage: React.FC = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const DriverPage: React.FC = () => {
           height: "100vh",
         }}
       >
-        <Loading />
+        <SmallLoading />
       </div>
     );
   }

@@ -16,6 +16,7 @@ import { Occurrence } from '@/utils/Interfaces/Occurrence';
 import Notification from '@/components/Notification';
 import { removeTypename } from '@/utils/utils';
 import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum";
+import SmallLoading from '@/components/SmallLoading';
 
 const OccurrenceDetails: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -142,7 +143,7 @@ const OccurrenceDetails: React.FC = () => {
             <div className={styles.content}>
               <Body>
                 <div className={styles.loadingContainer}>
-                  <Loading />
+                  <SmallLoading />
                 </div>
               </Body>
             </div>

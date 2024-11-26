@@ -7,6 +7,7 @@ import PendingOccurrencesCard from "../PendingOccurrencesCard";
 import { Occurrence } from "@/utils/Interfaces/Occurrence";
 import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum"
 import { occurrenceTypeLabels } from "@/utils/labels/occurrenceTypeLabels";
+import SmallLoading from "../SmallLoading";
 
 interface PendingOccurrencesCardsProps {
   loading: boolean;
@@ -52,7 +53,7 @@ const PendingOccurrencesCards: React.FC<PendingOccurrencesCardsProps> = ({ loadi
   if (loading)
     return (
       <div className={styles.loadingContainer}>
-        <Loading />
+        <SmallLoading />
       </div>
     );
   if (error) return <p>Erro ao carregar ocorrências: {error}</p>;

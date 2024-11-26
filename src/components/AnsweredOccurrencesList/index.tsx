@@ -10,6 +10,7 @@ import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum"
 import { occurrenceStatusLabels } from "@/utils/labels/occurrenceStatusLabels";
 import { occurrenceTypeLabels } from "@/utils/labels/occurrenceTypeLabels";
 import OccurrenceType from "../Row/OccurrenceType";
+import SmallLoading from "../SmallLoading";
 
 interface AnsweredOccurrencesListProps {
   loading: boolean;
@@ -23,7 +24,7 @@ const AnsweredOccurrencesList: React.FC<AnsweredOccurrencesListProps> = ({ loadi
   if (loading)
     return (
       <div className={styles.loadingContainer}>
-        <Loading />
+        <SmallLoading />
       </div>
     );
   if (error) return <p>Erro ao carregar ocorrências: {error}</p>;

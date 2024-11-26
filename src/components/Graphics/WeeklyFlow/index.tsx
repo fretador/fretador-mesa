@@ -4,11 +4,13 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import styles from './WeeklyFlow.module.css';
 import { GetFreightWeeklyFlowData } from '@/utils/Interfaces/GraphTypes';
 import Loading from '@/components/Loading';
+import { Skeleton } from '@mui/material';
+import SmallLoading from '@/components/SmallLoading';
 
 const WeeklyFlow = () => {
   const { data, loading, error } = useQuery<GetFreightWeeklyFlowData>(GET_FREIGHT_WEEKLY_FLOW);
 
-  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
+  if (loading) return <div className={styles.loadingContainer}><SmallLoading /></div>;
   if (error) return <p>Error: {error.message}</p>;
 
   const weeklyData = data?.getFreightWeeklyFlow.map((day) => ({

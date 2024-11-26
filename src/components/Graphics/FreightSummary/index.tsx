@@ -4,11 +4,12 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import styles from './FreightSummary.module.css';
 import { GetFreightStatisticsData } from '@/utils/Interfaces/GraphTypes';
 import Loading from '@/components/Loading';
+import SmallLoading from '@/components/SmallLoading';
 
 const FreightSummary = () => {
   const { data, loading, error } = useQuery<GetFreightStatisticsData>(GET_FREIGHT_STATISTICS);
 
-  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
+  if (loading) return <div className={styles.loadingContainer}><SmallLoading /></div>;
   if (error) return <p>Error: {error.message}</p>;
 
   const values = [

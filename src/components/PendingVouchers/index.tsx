@@ -5,11 +5,12 @@ import { ArrowRightIcon } from '@/utils/icons';
 import styles from './PendingVouchers.module.css';
 import { GetPendingApprovalFreightsData } from '@/utils/Interfaces/GraphTypes';
 import Loading from '../Loading';
+import SmallLoading from '../SmallLoading';
 
 const PendingVouchers = () => {
   const { data, loading, error } = useQuery<GetPendingApprovalFreightsData>(GET_PENDING_APPROVAL_FREIGHTS);
 
-  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
+  if (loading) return <div className={styles.loadingContainer}><SmallLoading /></div>;
   if (error) return <p>Error: {error.message}</p>;
 
   const pendingFreights = data?.getPendingApprovalFreights || [];

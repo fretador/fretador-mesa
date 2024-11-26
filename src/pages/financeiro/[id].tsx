@@ -17,6 +17,7 @@ import { FreightStatus } from '@/utils/enums/freightStatusEnum';
 import Loading from "@/components/Loading";
 import { dateNow, formatDateTime } from '@/utils/dates';
 import { UpdateDataTypeEnum } from '@/utils/enums/updateDataTypeEnum';
+import SmallLoading from '@/components/SmallLoading';
 
 interface Payment {
   id: string;
@@ -142,7 +143,7 @@ const PendingPayment: React.FC = () => {
               <div className={styles.pendingPaymentContainer}>
                 {loadingPaymentData || updatingPayment ?
                   <div className={styles.loadingContainer}>
-                    <Loading />
+                    <SmallLoading />
                   </div>
                   : error ? (
                     <p>Erro ao carregar frete: {error.message}</p>

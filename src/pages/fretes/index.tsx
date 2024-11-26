@@ -24,6 +24,7 @@ import { useRouter } from "next/router";
 import { extractState } from "@/utils/utils";
 import { SESSION_STORAGE_KEYS } from "@/utils/helpers/storageHelper";
 import Pagination from "@/components/Pagination";
+import SmallLoading from "@/components/SmallLoading";
 
 
 const Freights: React.FC = () => {
@@ -185,7 +186,7 @@ const Freights: React.FC = () => {
 
               {loading ? (
                 <div className={styles.loadingContainer}>
-                  <Loading />
+                  <SmallLoading />
                 </div>
               ) : error ? (
                 <p>Erro ao carregar os fretes: {error.message}</p>
