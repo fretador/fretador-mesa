@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row } from "../Row";
 import styles from "./LastPaymentsList.module.css";
 import RowTitle from "../RowTitle";
@@ -16,7 +16,8 @@ interface LastPaymentsListProps {
 
 const LastPaymentsList: React.FC<LastPaymentsListProps> = ({ data, loading }) => {
   const router = useRouter();
-  
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
@@ -30,12 +31,29 @@ const LastPaymentsList: React.FC<LastPaymentsListProps> = ({ data, loading }) =>
     router.push(`/financeiro/${id}`);
   };
 
+  const handleSortClick = () => {
+    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+  };
+
+  const sortedData = [...data].sort((a, b) => {
+    const nameA = a.targetedDrivers?.[0]?.name?.toLowerCase() ?? '';
+    const nameB = b.targetedDrivers?.[0]?.name?.toLowerCase() ?? '';
+
+    if (sortOrder === 'asc') {
+      return nameA.localeCompare(nameB);
+    } else {
+      return nameB.localeCompare(nameA);
+    }
+  });
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h2>Últimos Pagamentos</h2>
         <div className={styles.actionsButtons}>
-          <h4>Ordenar A-Z</h4>
+          <h4 onClick={handleSortClick} style={{ cursor: 'pointer' }}>
+            Ordenar {sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
+          </h4>
           <h4>Exportar CSV</h4>
         </div>
       </div>
@@ -51,7 +69,7 @@ const LastPaymentsList: React.FC<LastPaymentsListProps> = ({ data, loading }) =>
       />
 
       <div className={styles.content}>
-        {data.map((freight) => (
+        {sortedData.map((freight) => (
           <Row.Root
             key={freight.id ?? "no-id"}
             customBackgroundColor="#B2CEDA"

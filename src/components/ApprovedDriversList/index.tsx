@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row } from "../Row";
 import { Driver } from "@/utils/Interfaces/Driver";
 import styles from "./ApprovedDriversList.module.css";
@@ -18,6 +18,7 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
   error,
 }) => {
   const router = useRouter();
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   if (loading)
     return (
@@ -31,11 +32,31 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
     router.push(`/cadastro-do-motorista/${driverId}`);
   };
 
+  const handleSortClick = () => {
+    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+  };
+
+  // Ordenar os motoristas pelo nome
+  const sortedDrivers = [...drivers].sort((a, b) => {
+    const nameA = a.name?.toLowerCase() || '';
+    const nameB = b.name?.toLowerCase() || '';
+
+    if (sortOrder === 'asc') {
+      return nameA.localeCompare(nameB);
+    } else {
+      return nameB.localeCompare(nameA);
+    }
+  });
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h2>Aprovados</h2>
-        <h4>Ordenar A-Z</h4>
+        <div className={styles.actionsButtons}>
+          <h4 onClick={handleSortClick} style={{ cursor: 'pointer' }}>
+            Ordenar {sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
+          </h4>
+        </div>
       </div>
 
       <RowTitle
@@ -47,7 +68,7 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
         titleStyles={{ color: "#1B556D", fontWeight: "700", fontSize: "20px" }}
       />
       <div className={styles.content}>
-        {drivers.map((driver: Driver) => (
+        {sortedDrivers.map((driver: Driver) => (
           <Row.Root
             key={driver.id}
             customBackgroundColor="#B2CEDA"

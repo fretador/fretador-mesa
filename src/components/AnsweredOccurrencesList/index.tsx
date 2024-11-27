@@ -1,12 +1,12 @@
 // src/components/AnsweredOccurrencesList.tsx
-import React from "react";
+import React, { useState } from "react";
 import styles from "./AnsweredOccurrencesList.module.css";
 import { useRouter } from "next/router";
 import Loading from "../Loading";
 import RowTitle from "../RowTitle";
 import { Row } from "../Row";
 import { Occurrence } from "@/utils/Interfaces/Occurrence";
-import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum"
+import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum";
 import { occurrenceStatusLabels } from "@/utils/labels/occurrenceStatusLabels";
 import { occurrenceTypeLabels } from "@/utils/labels/occurrenceTypeLabels";
 import OccurrenceType from "../Row/OccurrenceType";
@@ -20,6 +20,7 @@ interface AnsweredOccurrencesListProps {
 
 const AnsweredOccurrencesList: React.FC<AnsweredOccurrencesListProps> = ({ loading, error, occurrences }) => {
   const router = useRouter();
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   if (loading)
     return (
@@ -33,16 +34,39 @@ const AnsweredOccurrencesList: React.FC<AnsweredOccurrencesListProps> = ({ loadi
     router.push(`/ocorrencias/${id}`);
   };
 
+  const handleSortClick = () => {
+    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+  };
+
   // Filtrar ocorrências respondidas ou outros status que não "pendente"
   const answeredOccurrences = occurrences.filter(
-    (occurrence) => occurrence.occurrenceStatus !== OccurrenceStatus.UNRESOLVED && occurrence.occurrenceStatus !== OccurrenceStatus.IN_PROGRESS
+    (occurrence) =>
+      occurrence.occurrenceStatus !== OccurrenceStatus.UNRESOLVED &&
+      occurrence.occurrenceStatus !== OccurrenceStatus.IN_PROGRESS
   );
+
+  // Ordenar as ocorrências pelo nome do motorista
+  const sortedOccurrences = [...answeredOccurrences].sort((a, b) => {
+    const nameA = a.driverName?.toLowerCase() || '';
+    const nameB = b.driverName?.toLowerCase() || '';
+
+    if (sortOrder === 'asc') {
+      return nameA.localeCompare(nameB);
+    } else {
+      return nameB.localeCompare(nameA);
+    }
+  });
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h2>Respondidos</h2>
-        <h4>Filtrar por data</h4>
+        <div className={styles.actionsButtons}>
+          <h4 onClick={handleSortClick} style={{ cursor: 'pointer' }}>
+            Ordenar {sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
+          </h4>
+          <h4>Filtrar por data</h4>
+        </div>
       </div>
 
       <RowTitle
@@ -55,7 +79,7 @@ const AnsweredOccurrencesList: React.FC<AnsweredOccurrencesListProps> = ({ loadi
       />
 
       <div className={styles.content}>
-        {answeredOccurrences.map((occurrence) => (
+        {sortedOccurrences.map((occurrence) => (
           <Row.Root
             key={occurrence.id}
             customBackgroundColor="#B2CEDA"
@@ -68,10 +92,22 @@ const AnsweredOccurrencesList: React.FC<AnsweredOccurrencesListProps> = ({ loadi
               textColor="#1B556D"
               textFontWeight="700"
             />
-            <Row.OccurrenceDate occurrenceDate={new Date(occurrence.creationDate).toLocaleDateString()} />
+            <Row.OccurrenceDate
+              occurrenceDate={new Date(occurrence.creationDate).toLocaleDateString()}
+            />
             <Row.FreightCode code={occurrence.freightCode || ""} />
-            <Row.OccurrenceType occurrenceType={occurrenceTypeLabels[occurrence.type as keyof typeof OccurrenceType]} />
-            <Row.OccurrenceStatus occurrenceStatus={occurrenceStatusLabels[occurrence.occurrenceStatus as keyof typeof OccurrenceStatus]} />
+            <Row.OccurrenceType
+              occurrenceType={
+                occurrenceTypeLabels[occurrence.type as keyof typeof occurrenceTypeLabels] || ""
+              }
+            />
+            <Row.OccurrenceStatus
+              occurrenceStatus={
+                occurrenceStatusLabels[
+                occurrence.occurrenceStatus as keyof typeof occurrenceStatusLabels
+                ] || ""
+              }
+            />
           </Row.Root>
         ))}
       </div>

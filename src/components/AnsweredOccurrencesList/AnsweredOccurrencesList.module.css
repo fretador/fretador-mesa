@@ -56,3 +56,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.actionsButtons {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
