@@ -29,8 +29,8 @@ const Clients: React.FC = () => {
     router.push(`/clientes/${id}`);
   };
 
-  const handleSearch = (searchText: string) => {
-    setFilter({ searchTerm: searchText });
+  const handleSearch = (searchTerm: string) => {
+    setFilter({ searchTerm: searchTerm });
   };
 
   const { loading, error, data } = useQuery(GET_CLIENTS, {

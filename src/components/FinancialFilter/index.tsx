@@ -11,7 +11,7 @@ interface FinancialFilterProps {
 const FinancialFilter: React.FC<FinancialFilterProps> = ({ onApplyFilters }) => {
   const [showFilter, setShowFilter] = useState(false);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [searchText, setSearchText] = useState<string>("");
+  const [searchTerm, setsearchTerm] = useState<string>("");
 
   const toggleFilter = () => {
     setShowFilter((prevState) => !prevState);
@@ -35,7 +35,7 @@ const FinancialFilter: React.FC<FinancialFilterProps> = ({ onApplyFilters }) => 
   const handleApplyFilters = () => {
     const filters: FinancialFilterInput = {
       type: selectedTypes.length > 0 ? selectedTypes : undefined,
-      searchText: searchText.trim() || undefined,
+      searchTerm: searchTerm.trim() || undefined,
     };
     onApplyFilters(filters);
     setShowFilter(false);
@@ -57,8 +57,8 @@ const FinancialFilter: React.FC<FinancialFilterProps> = ({ onApplyFilters }) => 
             type="text"
             placeholder="Buscar"
             className={styles.searchInputField}
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setsearchTerm(e.target.value)}
           />
         </div>
 

@@ -68,7 +68,7 @@ const Drivers: React.FC = () => {
       filter: {
         status: ["PENDING"],
         vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
-        allFilters: searchTerm || undefined,
+        searchTerm: searchTerm || undefined,
       },
     },
     fetchPolicy: 'cache-and-network',
@@ -87,7 +87,7 @@ const Drivers: React.FC = () => {
       filter: {
         status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
         vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
-        allFilters: searchTerm || undefined,
+        searchTerm: searchTerm || undefined,
       },
     },
     fetchPolicy: 'cache-and-network',

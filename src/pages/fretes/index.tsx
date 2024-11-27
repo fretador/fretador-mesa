@@ -86,7 +86,7 @@ const Freights: React.FC = () => {
       limit,
       filter: {
         status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
-        allFilters: searchTerm || undefined,
+        searchTerm: searchTerm || undefined,
       } as FreightFilters,
     },
     fetchPolicy: "cache-and-network",

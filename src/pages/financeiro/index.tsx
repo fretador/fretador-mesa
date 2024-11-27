@@ -53,7 +53,7 @@ const Financial: React.FC = () => {
   const handleSearch = (term: string) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
-      searchText: term,
+      searchTerm: term,
     }));
   };
 

@@ -4,5 +4,5 @@ export interface FreightFilters {
 	deliveryCity?: string;
 	gatheringCity?: string;
 	status?: FreightStatus[];
-	allFilters?: string;
+	searchTerm?: string;
 }
