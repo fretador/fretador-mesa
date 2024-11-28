@@ -22,6 +22,7 @@ export interface UpdateFreightInput {
 	type: Type;
 	pedagioIncluso: boolean;
 	paymentType: string;
+	paymentDate: string;
 	observations: string;
 	boardUser: BoardUser;
 }

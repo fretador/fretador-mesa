@@ -46,7 +46,17 @@ export const GET_FREIGHT_BY_ID = gql`
 			}
 			statusHistory {
 				status
-				updateData
+				updateData {
+					paymentDate
+					boardUser {
+						name
+						profile
+					}
+					type
+					name
+					mimetype
+					url
+				}
 				updateDataType
 				updateDate
 			}

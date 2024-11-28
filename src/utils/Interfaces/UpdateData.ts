@@ -1,10 +1,12 @@
 import { BoardUser } from "./BoardUser";
 
 export interface UpdateData {
-	paymentDate?: string;
+	documents?: [JSON];
+	paymentDate?: String;
 	boardUser?: BoardUser;
-	type?: String;
 	name?: String;
+	size: number;
+	type?: String;
 	mimetype?: String;
 	url?: String;
 }

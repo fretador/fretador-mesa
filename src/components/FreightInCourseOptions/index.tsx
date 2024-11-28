@@ -93,11 +93,11 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       await updateFreightStatusMutation({
         variables: {
           input: {
-          id: freightId,
-          status: newstatus,
-          updateData: updateData,
-          updateDataType: updateDataType,
-        }
+            id: freightId,
+            status: newstatus,
+            updateData: { documents: [...updateData] },
+            updateDataType: updateDataType,
+          }
         },
       });
 
