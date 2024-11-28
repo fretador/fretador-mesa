@@ -83,7 +83,7 @@ const getFreightStepProps = (
         hasAttachment: true as const,
         attachmentPath: freight?.pickupOrderPhoto ?? "",
         disabled: false,
-        updateData: item.updateData ?? {},
+        updateData: item.updateData,
       };
     case FreightStatus.LOADING_STARTED:
       content = "Início do carregamento";

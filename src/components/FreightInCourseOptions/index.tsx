@@ -92,10 +92,12 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       // Chamando a mutation diretamente
       await updateFreightStatusMutation({
         variables: {
+          input: {
           id: freightId,
           status: newstatus,
           updateData: updateData,
           updateDataType: updateDataType,
+        }
         },
       });
 

@@ -15,6 +15,7 @@ import Loading from "@/components/Loading";
 
 const EditFreight = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const boardUser = useAppSelector((state) => state.auth.boardUser);
   const router = useRouter();
   const { id } = router.query;
 
@@ -32,24 +33,7 @@ const EditFreight = () => {
     if (data?.freight) {
       const freight = data.freight;
       setInitialData({
-        pickupDeliveryData: freight.pickupDeliveryData,
-        origin: freight.origin,
-        destination: freight.destination,
-        cargoLoadType: freight.cargoLoadType,
-        needsTarp: freight.needsTarp,
-        needsTracker: freight.needsTracker,
-        product: freight.product,
-        cargoType: freight.cargoType,
-        totalWeight: freight.totalWeight,
-        volumes: freight.volumes,
-        cubage: freight.cubage,
-        moreDetails: freight.moreDetails,
-        eligibleVehicles: freight.eligibleVehicles,
-        eligibleBodyworks: freight.eligibleBodyworks,
-        type: freight.type,
-        pedagioIncluso: freight.pedagioIncluso,
-        paymentType: freight.paymentType,
-        observations: freight.observations,
+        ...freight
       });
     }
   }, [data]);
@@ -68,7 +52,7 @@ const EditFreight = () => {
       const response = await updateFreight({
         variables: {
           id,
-          input: updatedData,
+          input: { ...updatedData, boardUser },
         },
       });
 

@@ -42,6 +42,7 @@ interface Payment {
 
 const PendingPayment: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const boardUser = useAppSelector((state) => state.auth.boardUser);
   const router = useRouter();
   const { id } = router.query;
   const [pendingPayment, setPendingPayment] = useState<Payment | null>(null);
@@ -86,10 +87,12 @@ const PendingPayment: React.FC = () => {
     try {
       await updateFreightStatus({
         variables: {
-          id: pendingPayment.id,
-          status: FreightStatus.FINANCIAL_APPROVED,
-          updateData: { paymentDate: dateNow() },
-          updateDataType: UpdateDataTypeEnum.FINANCIAL,
+          input: {
+            id: pendingPayment.id,
+            status: FreightStatus.FINANCIAL_APPROVED,
+            updateData: { paymentDate: dateNow(), boardUser: { name: boardUser?.name, profile: boardUser?.profile } },
+            updateDataType: UpdateDataTypeEnum.FINANCIAL,
+          }
         },
       });
 
@@ -149,62 +152,62 @@ const PendingPayment: React.FC = () => {
                     <p>Erro ao carregar frete: {error.message}</p>
                   ) : !pendingPayment ? (
                     <p>Frete não encontrado</p>
-                    ) : (
-                        <>
-                          <div className={styles.informations}>
-                            <div className={styles.row}>
-                              <p>Tipo de pagamento: <span>{paymentTypeLabels[pendingPayment.type] || 'Não informado'}</span></p>
-                              <p>CTE: <span>{pendingPayment.numCte}</span></p>
-                              <p>Status: <span>{freightStatusLabels[pendingPayment.status] || 'Status Desconhecido'}</span></p>
-                              <p>Valor a ser pago: <span>{formatCurrency(pendingPayment.value)}</span></p>
-                            </div>
+                  ) : (
+                    <>
+                      <div className={styles.informations}>
+                        <div className={styles.row}>
+                          <p>Tipo de pagamento: <span>{paymentTypeLabels[pendingPayment.type] || 'Não informado'}</span></p>
+                          <p>CTE: <span>{pendingPayment.numCte}</span></p>
+                          <p>Status: <span>{freightStatusLabels[pendingPayment.status] || 'Status Desconhecido'}</span></p>
+                          <p>Valor a ser pago: <span>{formatCurrency(pendingPayment.value)}</span></p>
+                        </div>
 
-                            <div className={styles.row}>
-                              <p>Data: <span>{formatDateTime(pendingPayment.date)}</span></p>
-                              <p>Rota: <span>{pendingPayment.originState} X {pendingPayment.destinyState}</span></p>
-                              <p>Contrato do Frete: <span>{pendingPayment.contractNumber}</span></p>
-                            </div>
+                        <div className={styles.row}>
+                          <p>Data: <span>{formatDateTime(pendingPayment.date)}</span></p>
+                          <p>Rota: <span>{pendingPayment.originState} X {pendingPayment.destinyState}</span></p>
+                          <p>Contrato do Frete: <span>{pendingPayment.contractNumber}</span></p>
+                        </div>
 
-                            <p className={styles.subtitle}>Dados do Motorista</p>
+                        <p className={styles.subtitle}>Dados do Motorista</p>
 
-                            <div className={styles.row}>
-                              <p>Nome: <span>{pendingPayment.driverName}</span></p>
-                              <p>CPF: <span>{pendingPayment.cpf}</span></p>
-                            </div>
+                        <div className={styles.row}>
+                          <p>Nome: <span>{pendingPayment.driverName}</span></p>
+                          <p>CPF: <span>{pendingPayment.cpf}</span></p>
+                        </div>
 
-                            <div className={styles.row}>
-                              <p>CNH: <span>{pendingPayment.cnh}</span></p>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <LogoWhatsAppIcon />
-                                <p style={{ color: '#000' }}>{pendingPayment.contact}</p>
-                              </div>
-                              <p>E-mail: <span>{pendingPayment.email}</span></p>
-                            </div>
-
-                            <p className={styles.subtitle}>Forma de Pagamento</p>
-
-                            <div className={styles.row}>
-                              <p>Dados Bancários: <span>{pendingPayment.bankDetails}</span></p>
-                              <p>Pix: <span>{pendingPayment.pix}</span></p>
-                            </div>
+                        <div className={styles.row}>
+                          <p>CNH: <span>{pendingPayment.cnh}</span></p>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <LogoWhatsAppIcon />
+                            <p style={{ color: '#000' }}>{pendingPayment.contact}</p>
                           </div>
+                          <p>E-mail: <span>{pendingPayment.email}</span></p>
+                        </div>
 
-                          <div className={styles.actionButtonsContainer}>
-                            {pendingPayment.status === FreightStatus.FINANCIAL_APPROVED ? (
-                              <Botao
-                                text="Notificar Motorista"
-                                onClick={() => {
-                                  console.log('notificou o motorista');
-                                }}
-                                className={styles.btnDark}
-                              />
-                            ) : (
-                              <Botao
-                                text="Informar Pagamento"
-                                onClick={handleInformarPagamento}
-                                className={styles.btnDark}
-                              />
-                            )}
+                        <p className={styles.subtitle}>Forma de Pagamento</p>
+
+                        <div className={styles.row}>
+                          <p>Dados Bancários: <span>{pendingPayment.bankDetails}</span></p>
+                          <p>Pix: <span>{pendingPayment.pix}</span></p>
+                        </div>
+                      </div>
+
+                      <div className={styles.actionButtonsContainer}>
+                        {pendingPayment.status === FreightStatus.FINANCIAL_APPROVED ? (
+                          <Botao
+                            text="Notificar Motorista"
+                            onClick={() => {
+                              console.log('notificou o motorista');
+                            }}
+                            className={styles.btnDark}
+                          />
+                        ) : (
+                          <Botao
+                            text="Informar Pagamento"
+                            onClick={handleInformarPagamento}
+                            className={styles.btnDark}
+                          />
+                        )}
                       </div></>
                   )}
               </div>
