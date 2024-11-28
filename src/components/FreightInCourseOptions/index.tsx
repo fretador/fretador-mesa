@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useAppSelector } from "@/store/store";
 import styles from "./FreightInCourseOptions.module.css";
 import { useDocumentController } from "@/controllers/documentController";
 import {
@@ -29,6 +30,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   const [showModal, setShowModal] = useState(false);
   const [showTypeModal, setShowTypeModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const boardUser = useAppSelector((state) => state.auth.boardUser);
 
   // Utilizando a mutation diretamente
   const [updateFreightStatusMutation] = useMutation(UPDATE_FREIGHT_STATUS);
@@ -95,7 +97,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
           input: {
             id: freightId,
             status: newstatus,
-            updateData: { documents: [...updateData] },
+            updateData: { documents: [...updateData], boardUser: { name: boardUser?.name, profile: boardUser?.profile } },
             updateDataType: updateDataType,
           }
         },

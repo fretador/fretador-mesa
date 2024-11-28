@@ -52,7 +52,7 @@ const EditFreight = () => {
       const response = await updateFreight({
         variables: {
           id,
-          input: { ...updatedData, boardUser },
+          input: { ...updatedData, boardUser: { name: boardUser?.name, profile: boardUser?.profile } },
         },
       });
 
