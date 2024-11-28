@@ -1,4 +1,4 @@
-import { BoardUser } from "@/utils/Interfaces/BoardUsers";
+import { BoardUser } from "@/utils/Interfaces/BoardUser";
 
 const today = "2024-08-09T12:00:00Z";
 const defaultAvatarPath = "../../assets/src/images/avatar.png";
