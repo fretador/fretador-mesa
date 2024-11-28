@@ -1,53 +1,38 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { BoardUser } from "@/utils/Interfaces/BoardUser";
+import { storageHelper } from "@/utils/helpers/storageHelper";
 
 interface AuthState {
 	isAuthenticated: boolean;
-	token: string | null;
-	name: string | null;
-	email: string | null;
-	profile: string | null;
-	profilePicture: string | null;
+	boardUser: BoardUser | null;
 }
+
+const storedBoardUser = storageHelper.getBoardUser();
 
 const initialState: AuthState = {
-	isAuthenticated: false,
-	token: null,
-	name: null,
-	email: null,
-	profile: null,
-	profilePicture: null,
+	isAuthenticated: !!storedBoardUser?.token,
+	boardUser: storedBoardUser || null,
 };
-
-interface LoginPayload {
-	token: string;
-	name: string;
-	email: string;
-	profile: null;
-	profilePicture: null;
-}
 
 const authSlice = createSlice({
 	name: "auth",
 	initialState,
 	reducers: {
-		loginSuccess(state, action: PayloadAction<LoginPayload>) {
+		loginSuccess(state, action: PayloadAction<BoardUser>) {
 			state.isAuthenticated = true;
-			state.token = action.payload.token;
-			state.name = action.payload.name;
-			state.email = action.payload.email;
-			state.profile = action.payload.profile;
-			state.profilePicture = action.payload.profilePicture;
+			state.boardUser = action.payload;
 		},
 		logout(state) {
 			state.isAuthenticated = false;
-			state.token = null;
-			state.name = null;
-			state.email = null;
-			state.profile = null;
-			state.profilePicture = null;
+			state.boardUser = null;
+		},
+		initializeAuthState(state) {
+			const storedBoardUser = storageHelper.getBoardUser();
+			state.isAuthenticated = !!storedBoardUser?.token;
+			state.boardUser = storedBoardUser || null;
 		},
 	},
 });
 
-export const { loginSuccess, logout } = authSlice.actions;
+export const { loginSuccess, logout, initializeAuthState } = authSlice.actions;
 export default authSlice.reducer;

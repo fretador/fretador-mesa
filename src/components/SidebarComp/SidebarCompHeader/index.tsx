@@ -4,7 +4,7 @@ import styles from "./SidebarCompHeader.module.css";
 import { useAppSelector } from "@/store/store";
 import FretadorIcon from "@/assets/src/images/fretadorIcon.svg";
 import defaultAvatar from "../../../../public/assets/src/images/avatar.png";
-import { BoardUser } from "@/utils/Interfaces/BoardUsers";
+import { BoardUser } from "@/utils/Interfaces/BoardUser";
 import CustomImage from "@/components/CustomImage";
 
 interface SidebarCompHeaderProps {

@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { useCallback } from "react";
 import { loginSuccess, logout } from "@/store/slices/authSlice";
 import { AuthService } from "@/services/authService";
+import { BoardUser } from "@/utils/Interfaces/BoardUser";
 
 export const useAuthController = () => {
 	const dispatch = useDispatch();
@@ -9,11 +10,8 @@ export const useAuthController = () => {
 	const login = useCallback(
 		async (email: string, password: string) => {
 			try {
-				const { token, name, userEmail, profile, profilePicture } =
-					await AuthService.login(email, password);
-				dispatch(
-					loginSuccess({ token, name, email: userEmail, profile, profilePicture })
-				);
+				const boardUser: BoardUser = await AuthService.login(email, password);
+				dispatch(loginSuccess(boardUser));
 			} catch (error) {
 				console.error("Login failed:", error);
 				throw error;
