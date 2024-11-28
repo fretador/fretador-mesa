@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import Loading from '../../components/Loading';
 import styles from './Ocorrencias.module.css';
 import AuthenticatedLayout from '@/components/AuthenticatedLayout';
 import Sidebar from '@/components/Sidebar';
@@ -20,6 +19,7 @@ import SmallLoading from '@/components/SmallLoading';
 
 const OccurrenceDetails: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const boardUser = useAppSelector((state) => state.auth.boardUser);
   const router = useRouter();
   const { id } = router.query;
   const { data, loading, error, refetch } = useOccurrenceById(id as string);
@@ -65,7 +65,7 @@ const OccurrenceDetails: React.FC = () => {
         ...cleanedMessages,
         {
           message: responseMessage,
-          boardUser: "Admin User",
+          boardUser: { name: boardUser?.name, profile: boardUser?.profile },
           admin: true,
           createdDate: new Date().toISOString(),
         }
@@ -77,6 +77,7 @@ const OccurrenceDetails: React.FC = () => {
           input: {
             messages: updatedMessages,
             updateAcknowledge: true,
+            boardUser: { name: boardUser?.name, profile: boardUser?.profile },
           },
         },
       });

@@ -4,11 +4,11 @@ export interface BoardUser {
 	active?: Boolean;
 	creationDate?: String;
 	updateDate?: String;
-	name: String;
-	email: String;
-	profile: BoardUserProfile;
+	name?: String;
+	email?: String;
+	profile?: BoardUserProfile;
 	hashPassword?: String;
 	socketConnectionIds?: [String];
 	profilePicture?: string;
-	token: string;
+	token?: string;
 }

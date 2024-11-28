@@ -18,6 +18,7 @@ export const useOccurrenceById = (id: string) => {
 	>(GET_OCCURRENCE_BY_ID, {
 		variables: { id },
 		skip: !id, // Pula a query se não houver ID
+		fetchPolicy: "cache-and-network",
 	});
 
 	return {

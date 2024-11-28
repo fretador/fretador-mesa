@@ -18,7 +18,7 @@ export const useUpdateOccurrence = () => {
 		UpdateOccurrenceData,
 		UpdateOccurrenceVars
 	>(UPDATE_OCCURRENCE, {
-		refetchQueries: ["GetOccurrences", "GetOccurrenceById"], // Atualiza a lista e a ocorrência específica
+		refetchQueries: ["GetOccurrences"], // Atualiza a lista
 		awaitRefetchQueries: true,
 	});
 
