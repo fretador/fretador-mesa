@@ -4,6 +4,7 @@ import { useAuthController } from '@/controllers/authController';
 import styles from './LoginForm.module.css';
 import { CheckIcon, EyeIcon, HideEyeIcon } from '@/utils/icons';
 import Loading from '../Loading';
+import Link from 'next/link';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -37,7 +38,7 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      await login(email, password);
+      await login(email, password, rememberMe);
 
       // Redireciona para a página inicial ou uma página protegida
       router.push('/home');
@@ -56,7 +57,6 @@ const LoginForm = () => {
           id="email"
           placeholder="Digite seu e-mail"
           value={email}
-          // onChange={(e) => setEmail(e.target.value)}
           onChange={handleEmailChange}
           required
         />
@@ -92,7 +92,7 @@ const LoginForm = () => {
         </div>
 
         <div className={styles.forgotPasswordContainer}>
-          <a href="">Esqueci a senha</a>
+          <Link href="/senha">Esqueci a senha</Link>
         </div>
       </div>
 
