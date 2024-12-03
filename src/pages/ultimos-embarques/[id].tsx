@@ -13,7 +13,7 @@ import { BackIcon } from "@/utils/icons";
 import { Client } from "@/utils/Interfaces/Client";
 import { useQuery } from '@apollo/client';
 import { GET_CLIENT_SHIPMENTS } from '@/graphql/queries';
-import Loading from "@/components/Loading";
+import SmallLoading from "@/components/SmallLoading";
 import { formatDateToBrazilian } from "@/utils/dates";
 import { freightStatusLabels } from "@/utils/labels/freightStatusLabels";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum"
@@ -86,7 +86,7 @@ const ClientShipments: React.FC = () => {
 
                 {loading && (
                   <div className={styles.loadingContainer}>
-                    <Loading />
+                    <SmallLoading />
                   </div>
                 )}
 
