@@ -1,6 +1,6 @@
 import React, { useEffect, useState, KeyboardEvent } from "react";
 import ModalRoot from "../../ModalRoot";
-import Loading from "../../Loading";
+import SmallLoading from "../../SmallLoading";
 import styles from "./AssignFreight.module.css";
 import { Driver } from "@/utils/Interfaces/Driver";
 import { useLazyQuery } from "@apollo/client";
@@ -176,7 +176,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
           <h2 className={styles.modalTitle}>Direcionar Frete</h2>
         </header>
         <div className={styles.modalBody}>
-          {isLoading && <Loading />}
+          {isLoading && <SmallLoading />}
           {error && (
             <p className={styles.error}>
               Falha ao buscar motoristas. Por favor, tente novamente.
