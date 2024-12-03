@@ -11,7 +11,7 @@ import { UPDATE_FREIGHT } from '@/graphql/mutations/freightMutations';
 import { UpdateFreightInput } from "@/utils/Interfaces/UpdateFreightInput";
 import EditFreightForm from "@/components/EditFreightForm";
 import { useEffect, useState } from "react";
-import Loading from "@/components/Loading";
+import SmallLoading from "@/components/SmallLoading";
 
 const EditFreight = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -93,7 +93,7 @@ const EditFreight = () => {
               {mutationLoading && (
                 <div className={styles.loadingOverlay}>
                   <div className={styles.loadingOverlayItems}>
-                    <Loading />
+                    <SmallLoading />
                     <p>Atualizando Frete</p>
                   </div>
                 </div>
