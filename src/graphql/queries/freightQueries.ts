@@ -51,6 +51,12 @@ export const GET_FREIGHT_BY_ID = gql`
 						name
 						profile
 					}
+					documents {
+						name
+						type
+						size
+						path
+					}
 				}
 				updateDataType
 				updateDate

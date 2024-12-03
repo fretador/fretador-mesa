@@ -1,4 +1,3 @@
-// src/hooks/useUpdateOccurrence.ts
 import { useMutation } from "@apollo/client";
 import { UPDATE_OCCURRENCE } from "@/graphql/mutations/occurrenceMutations";
 import { UpdateOccurrenceInput } from "@/utils/Interfaces/UpdateOccurrenceInput";

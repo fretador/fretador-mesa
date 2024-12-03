@@ -3,13 +3,12 @@ import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CargoLoadType } from "@/utils/enums/cargoLoadTypeEnum";
 import { Type } from "@/utils/enums/typeEnum";
-import styles from "./EditFreightForm.module.css";
-import { UpdateFreightInput } from "@/utils/Interfaces/UpdateFreightInput";
 import { updateFreightSchema } from "@/utils/validations/updateFreightSchema";
 import FreightForm from "../FreightForm";
+import { Freight } from "@/utils/Interfaces/Freight";
 
 interface EditFreightFormProps {
-  initialData?: UpdateFreightInput;
+  initialData?: Freight;
   submit: any;
 }
 
@@ -17,7 +16,7 @@ const EditFreightForm: React.FC<EditFreightFormProps> = ({
   initialData,
   submit
 }) => {
-  const methods = useForm<UpdateFreightInput>({
+  const methods = useForm<Freight>({
     resolver: zodResolver(updateFreightSchema),
     defaultValues: {
       pickupDeliveryData: "",
@@ -47,7 +46,7 @@ const EditFreightForm: React.FC<EditFreightFormProps> = ({
   useEffect(() => {
     if (initialData) {
       Object.entries(initialData).forEach(([key, value]) => {
-        setValue(key as keyof UpdateFreightInput, value);
+        setValue(key as keyof Freight, value);
       });
     }
   }, [initialData, setValue]);

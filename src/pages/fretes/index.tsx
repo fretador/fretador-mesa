@@ -2,8 +2,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { GET_FREIGHTS } from "@/graphql/queries";
-import { useQuery } from "@apollo/client";
 import { Freight } from "@/utils/Interfaces/Freight";
 import { FreightFilters } from "@/utils/Interfaces/FreightFilters";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
@@ -17,7 +15,6 @@ import styles from "./Fretes.module.css";
 import SearchComponent from "@/components/SearchButton";
 import Body from "@/components/Body";
 import AddNewFreightButton from "@/components/AddNewFreightButton";
-import Loading from "@/components/Loading";
 import { formatDateToBrazilian } from "@/utils/dates";
 import { FreightNode } from "@/utils/Interfaces/FreightNode";
 import { useRouter } from "next/router";
@@ -25,7 +22,7 @@ import { extractState } from "@/utils/utils";
 import { SESSION_STORAGE_KEYS } from "@/utils/helpers/storageHelper";
 import Pagination from "@/components/Pagination";
 import SmallLoading from "@/components/SmallLoading";
-
+import { useFreights } from "@/hooks/freight/useFreights";
 
 const Freights: React.FC = () => {
   const router = useRouter();
@@ -79,21 +76,17 @@ const Freights: React.FC = () => {
     }
   }, [searchTerm]);
 
-  // Query to get freights
-  const { data, loading, error } = useQuery(GET_FREIGHTS, {
-    variables: {
-      page,
-      limit,
-      filter: {
-        status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
-        searchTerm: searchTerm || undefined,
-      } as FreightFilters,
-    },
-    fetchPolicy: "cache-and-network",
+  const { data, loading, error } = useFreights({
+    page,
+    limit,
+    filter: {
+      status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
+      searchTerm: searchTerm || undefined,
+    } as FreightFilters,
   });
 
-  const freights: Freight[] = data?.freights.edges.map((edge: FreightNode) => edge.node || []) || [];
-  const pageInfo = data?.freights.pageInfo || {};
+  const freights: Freight[] = data?.edges.map((edge: FreightNode) => edge.node || []) || [];
+  const pageInfo = data?.pageInfo;
 
   // Adjust limit based on window height
   const adjustLimit = useCallback(() => {
@@ -196,7 +189,7 @@ const Freights: React.FC = () => {
                   <div className={styles.pagination}>
                     <Pagination
                       currentPage={page}
-                      totalPages={pageInfo.totalPages || 1}
+                      totalPages={pageInfo?.totalPages ? pageInfo?.totalPages : 1}
                       onPageChange={handlePageChange}
                     />
                   </div>

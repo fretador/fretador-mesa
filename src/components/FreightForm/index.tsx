@@ -35,6 +35,8 @@ const FreightForm: React.FC<FreightFormProps> = ({
 
         {showFreightSubmissionButton && <FreightSubmissionButtons onDirectToDriver={function (driverId?: string): void {
           throw new Error("Function not implemented.");
+        } } onCreateOffer={function (): void {
+          throw new Error("Function not implemented.");
         } } />}
         {showEditFreightButton && <EditFreightButton />}
       </div>

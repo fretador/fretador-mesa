@@ -5,33 +5,26 @@ import Sidebar from "@/components/Sidebar";
 import { useAppSelector } from "@/store/store";
 import Header from "@/components/Header";
 import Body from "@/components/Body";
-import { useQuery, useMutation } from '@apollo/client';
-import { GET_FREIGHT_BY_ID } from '@/graphql/queries/freightQueries';
-import { UPDATE_FREIGHT } from '@/graphql/mutations/freightMutations';
 import { UpdateFreightInput } from "@/utils/Interfaces/UpdateFreightInput";
 import EditFreightForm from "@/components/EditFreightForm";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
+import { useFreightById } from "@/hooks/freight/useFreightById";
+import { useUpdateFreight } from "@/hooks/freight/useUpdateFreight";
+import { Freight } from "@/utils/Interfaces/Freight";
 
 const EditFreight = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const boardUser = useAppSelector((state) => state.auth.boardUser);
   const router = useRouter();
   const { id } = router.query;
-
-  const { data, loading, error } = useQuery(GET_FREIGHT_BY_ID, {
-    variables: { id },
-    skip: !id,
-    fetchPolicy: "cache-and-network",
-  });
-
-  const [updateFreight, { loading: mutationLoading, error: mutationError }] = useMutation(UPDATE_FREIGHT);
-
-  const [initialData, setInitialData] = useState<UpdateFreightInput | null>(null);
+  const { data, loading, error, refetch } = useFreightById(id as string);
+  const { updateFreight } = useUpdateFreight();
+  const [initialData, setInitialData] = useState<Freight | null>(null);
 
   useEffect(() => {
-    if (data?.freight) {
-      const freight = data.freight;
+    if (data) {
+      const freight = data;
       setInitialData({
         ...freight
       });
@@ -49,15 +42,12 @@ const EditFreight = () => {
   const handleUpdateFreight = async (updatedData: UpdateFreightInput) => {
     console.log("Updated Data:", updatedData);
     try {
-      const response = await updateFreight({
+      await updateFreight({
         variables: {
-          id,
+          id: id as string,
           input: { ...updatedData, boardUser: { name: boardUser?.name, profile: boardUser?.profile } },
         },
       });
-
-      const updatedFreight = response.data.updateFreight;
-      setInitialData(updatedFreight);
 
       alert("Frete atualizado com sucesso!");
 
@@ -90,7 +80,7 @@ const EditFreight = () => {
                   submit={handleUpdateFreight}
                 />
               )}
-              {mutationLoading && (
+              {loading && (
                 <div className={styles.loadingOverlay}>
                   <div className={styles.loadingOverlayItems}>
                     <Loading />
@@ -98,7 +88,7 @@ const EditFreight = () => {
                   </div>
                 </div>
               )}
-              {mutationError && (
+              {error && (
                 <div className={styles.messageContainer}>
                   <div className={`${styles.message} ${styles.error}`}>
                     Erro ao atualizar o frete.

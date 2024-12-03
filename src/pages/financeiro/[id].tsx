@@ -10,35 +10,14 @@ import { useAppSelector } from '@/store/store';
 import Botao from '@/components/Botao';
 import { BackIcon, LogoWhatsAppIcon } from '@/utils/icons';
 import { GET_FREIGHT_FINANCIAL_BY_ID } from '@/graphql/queries/financialQueries';
-import { UPDATE_FREIGHT_STATUS } from '@/graphql/mutations';
+import { UPDATE_STATUS_FREIGHT } from '@/graphql/mutations';
 import { paymentTypeLabels } from '@/utils/labels/paymentTypeLabels';
 import { freightStatusLabels } from '@/utils/labels/freightStatusLabels';
 import { FreightStatus } from '@/utils/enums/freightStatusEnum';
-import Loading from "@/components/Loading";
 import { dateNow, formatDateTime } from '@/utils/dates';
 import { UpdateDataTypeEnum } from '@/utils/enums/updateDataTypeEnum';
 import SmallLoading from '@/components/SmallLoading';
-
-interface Payment {
-  id: string;
-  driverName: string;
-  type: keyof typeof paymentTypeLabels;
-  paymentMethod: string;
-  contact: string;
-  numCte: string;
-  status: keyof typeof FreightStatus;
-  value: number;
-  date: string;
-  contractNumber: string;
-  cpf: string;
-  cnh: string;
-  email: string;
-  bankDetails: string;
-  pix: string;
-  originState: string;
-  destinyState: string;
-  driverPhotoUrl: string;
-}
+import { Payment } from '@/utils/Interfaces/Payment';
 
 const PendingPayment: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -80,7 +59,7 @@ const PendingPayment: React.FC = () => {
   });
 
   // Mutation para atualizar o status do frete
-  const [updateFreightStatus, { loading: updatingPayment }] = useMutation(UPDATE_FREIGHT_STATUS);
+  const [updateFreightStatus, { loading: updatingPayment }] = useMutation(UPDATE_STATUS_FREIGHT);
 
   const handleInformarPagamento = async () => {
     if (!pendingPayment) return;

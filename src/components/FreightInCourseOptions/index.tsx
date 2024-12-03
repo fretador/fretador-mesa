@@ -8,22 +8,19 @@ import {
   PaperClipIcon,
   WhatsAppIcon,
 } from "@/utils/icons";
-import { FreightStatus } from "@/utils/enums/freightStatusEnum";
+import { FreightStatus } from '@/utils/enums/freightStatusEnum';
 import { UpdateDataTypeEnum } from "@/utils/enums/updateDataTypeEnum";
 import DocumentSentModal from "@/components/ModalRoot/DocumentSentModal";
 import DocumentTypeModal from "@/components/ModalRoot/DocumentTypeModal";
-import { useMutation } from "@apollo/client";
-import { UPDATE_FREIGHT_STATUS } from "@/graphql/mutations";
+import { useUpdateStatusFreight } from "@/hooks/freight/useUpdateStatusFreight";
 
 interface FreightInCourseOptionsProps {
   freightId: string;
-  onDocumentsUploaded: () => void;
   actionButtonText: string
 }
 
 const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   freightId,
-  onDocumentsUploaded,
   actionButtonText
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -34,11 +31,20 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const boardUser = useAppSelector((state) => state.auth.boardUser);
 
-  // Utilizando a mutation diretamente
-  const [updateFreightStatusMutation] = useMutation(UPDATE_FREIGHT_STATUS);
+  const { updateStatusFreight } = useUpdateStatusFreight();
 
-  const handleSendOccurrence = () => {
-    console.log("Enviou ocorrência");
+  const handleAction = async (newStatus: FreightStatus) => {
+    console.log("handleAction newStatus: " + newStatus);
+    await updateStatusFreight({
+      variables: {
+        id: freightId as string,
+        input: {
+          status: newStatus,
+          updateData: { boardUser: { name: boardUser?.name, profile: boardUser?.profile } },
+          updateDataType: UpdateDataTypeEnum.ALERT,
+        }
+      },
+    });
   };
 
   const handleAttachDocuments = () => {
@@ -93,11 +99,10 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       }));
       const updateDataType = UpdateDataTypeEnum.DOCUMENT;
 
-      // Chamando a mutation diretamente
-      await updateFreightStatusMutation({
+      await updateStatusFreight({
         variables: {
+          id: freightId as string,
           input: {
-            id: freightId,
             status: newstatus,
             updateData: { documents: [...updateData], boardUser: { name: boardUser?.name, profile: boardUser?.profile } },
             updateDataType: updateDataType,
@@ -132,7 +137,6 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   };
 
   const closeModal = () => {
-    onDocumentsUploaded();
     setShowModal(false);
     setSelectedFiles([]);
   };
@@ -152,7 +156,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         <p>Anexar Documentos</p>
       </div>
 
-      <div className={styles.iconContainer} onClick={handleSendOccurrence}>
+      <div className={styles.iconContainer} onClick={() => { handleAction(FreightStatus.INVOICE_COUPON_SENT) }}>
         <CheckFillIcon />
         <p>{actionButtonText}</p>
       </div>

@@ -2,13 +2,7 @@ import React from "react";
 import styles from "./FreightStep.module.css";
 import Botao from "../Botao";
 import { AttachmentDarkIcon, AttachmentLightIcon } from "@/utils/icons";
-
-interface DocumentData {
-  name: string;
-  type: string;
-  size: number;
-  path?: string; // Caso queira usar links para os documentos
-}
+import { UpdateData } from "@/utils/Interfaces/UpdateData";
 
 interface BaseFreightStepProps {
   theme: "dark" | "light";
@@ -21,7 +15,7 @@ interface BaseFreightStepProps {
   onSecondaryButtonClick?: () => void;
   actionButtonText?: string;
   handleActionButton?: () => void;
-  updateData?: DocumentData[];
+  updateData?: UpdateData;
 }
 
 interface FreightStepWithAttachment extends BaseFreightStepProps {
@@ -93,9 +87,9 @@ const FreightStep: React.FC<FreightStepProps> = ({
         <p>{content}</p>
 
         {/* Renderizar documentos se updateData existir */}
-        {updateData && updateData.length > 0 && (
+        {updateData && updateData.documents && updateData.documents.length > 0 && (
           <div className={styles.documentsContainer}>
-            {updateData.map((doc, idx) => (
+            {updateData.documents.map((doc, idx) => (
               <div key={idx} className={styles.documentItem}>
                 <AttachmentIcon width={24} height={24} />
                 <span className={styles.documentName}>

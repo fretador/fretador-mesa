@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
 import FreightSubmissionButton from "@/components/FormContainer/FreightSubmissionButton";
@@ -16,13 +15,13 @@ import { Type } from "@/utils/enums/typeEnum";
 import { createFreightSchema } from "@/utils/validations/createFreightSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ConfirmationModal from "@/components/ModalRoot/ConfirmationModal";
-import { useMutation } from "@apollo/client";
-import { CREATE_FREIGHT } from "@/graphql/mutations";
+import { useCreateFreight } from "@/hooks/freight/useCreateFreight";
 import EditFreightButton from "../EditFreightButton";
 import FreightCreationConfirmationModal from "../ModalRoot/FreightCreationConfirmationModal";
+import { Freight } from "@/utils/Interfaces/Freight";
 
 interface FormContainerProps {
-  initialData?: Partial<CreateFreightInput>;
+  initialData?: Partial<Freight>;
   showFreightSubmissionButton?: boolean;
   showEditFreightButton?: boolean;
 }
@@ -35,19 +34,19 @@ const FormContainer: React.FC<FormContainerProps> = ({
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [isFreightModalOpen, setIsFreightModalOpen] = useState(false);
-const [freightCode, setFreightCode] = useState<string | undefined>(undefined);
-const [freightError, setFreightError] = useState<string | undefined>(undefined);
+  const [freightCode, setFreightCode] = useState<string | undefined>(undefined);
+  const [freightError, setFreightError] = useState<string | undefined>(undefined);
 
-  const [createFreightMutation] = useMutation(CREATE_FREIGHT);
+  const { createFreight } = useCreateFreight();
 
-  const methods = useForm<CreateFreightInput>({
+  const methods = useForm<Freight>({
     resolver: zodResolver(createFreightSchema),
     defaultValues: {
       pickupDeliveryData: "",
       origin: "",
       destination: "",
       cargoLoadType: CargoLoadType.FULL,
-      type: Type.OFFER, 
+      type: Type.OFFER,
       targetedDrivers: [],
       value: initialData?.value ?? 0,
       observations: "",
@@ -60,17 +59,17 @@ const [freightError, setFreightError] = useState<string | undefined>(undefined);
   useEffect(() => {
     if (initialData) {
       Object.entries(initialData).forEach(([key, value]) => {
-        setValue(key as keyof CreateFreightInput, value);
+        setValue(key as keyof Freight, value);
       });
     }
   }, [initialData, setValue]);
 
   const handleCreateOffer = async () => {
     const currentValues = getValues();
-  
+
     try {
-      const { data } = await createFreightMutation({ variables: { input: currentValues } });
-      setFreightCode(data.createFreight.freightCode);
+      const { data } = await createFreight({ variables: { input: currentValues } });
+      setFreightCode(data?.freightCode);
       setFreightError(undefined);
       setIsFreightModalOpen(true);
     } catch (error) {
@@ -79,7 +78,7 @@ const [freightError, setFreightError] = useState<string | undefined>(undefined);
       setIsFreightModalOpen(true);
     }
   };
-  
+
   const handleDirectToDriver = () => {
     // Atualiza o tipo do frete para TARGETED
     setValue("type", Type.TARGETED);
@@ -96,7 +95,7 @@ const [freightError, setFreightError] = useState<string | undefined>(undefined);
   const handleAssignFreight = async (driverIds: string[]) => {
     setValue("targetedDrivers", driverIds);
     const currentValues = getValues();
-  
+
     try {
       const { data } = await createFreightMutation({ variables: { input: currentValues } });
       setFreightCode(data.createFreight.freightCode);
@@ -140,11 +139,11 @@ const [freightError, setFreightError] = useState<string | undefined>(undefined);
         onConfirm={handleAssignFreight}
       />
       <FreightCreationConfirmationModal
-  isOpen={isFreightModalOpen}
-  onRequestClose={() => setIsFreightModalOpen(false)}
-  freightCode={freightCode}
-  error={freightError}
-/>
+        isOpen={isFreightModalOpen}
+        onRequestClose={() => setIsFreightModalOpen(false)}
+        freightCode={freightCode}
+        error={freightError}
+      />
 
 
     </FormProvider>

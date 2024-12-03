@@ -17,8 +17,7 @@ import { Freight } from "@/utils/Interfaces/Freight";
 import { Type } from "@/utils/enums/typeEnum";
 import FreightInCourseOptions from "@/components/FreightInCourseOptions";
 import LocationMap from "@/components/LocationMap";
-import { GET_FREIGHT_BY_ID } from "@/graphql/queries";
-import { useQuery } from "@apollo/client";
+import { useFreightById } from "@/hooks/freight/useFreightById";
 
 interface FreightInProgressProps {
   freightId: string;
@@ -31,12 +30,9 @@ interface StatusHistoryItem {
 }
 
 const useFreightData = (freightId: string) => {
-  const { data, loading, error, refetch } = useQuery(GET_FREIGHT_BY_ID, {
-    variables: { id: freightId },
-    fetchPolicy: 'cache-and-network',
-  });
+  const { data, loading, error, refetch } = useFreightById(freightId as string);
 
-  const freight: Freight | null = data?.freight || null;
+  const freight: Freight | null = data || null;
   const currentStage = freight ? getStageFromStatus(freight.status as FreightStatus) : 0;
 
   return { loading, freight, error, currentStage, refetch };
@@ -169,11 +165,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
     }
   }, [freight, router.pathname]);
 
-  const handleDocumentsUploaded = useCallback(() => {
-    console.log("Documents uploaded, refreshing freight data");
-    refetch();
-  }, [refetch]);
-
   useEffect(() => {
     if (freightStepContainerRef.current) {
       freightStepContainerRef.current.scrollTop = 0;
@@ -247,7 +238,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                     <h2>Dados do embarque:</h2>
                     <FreightInCourseOptions
                       freightId={freight.id ?? ""}
-                      onDocumentsUploaded={handleDocumentsUploaded}
                       actionButtonText={getStatusText(freight.status as FreightStatus)}
                     />
                   </div>
