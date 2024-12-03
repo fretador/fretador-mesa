@@ -10,7 +10,7 @@ import FreightInCurseHeader from "@/components/FreightInCurseHeader";
 import { SeparatorIcon } from "@/utils/icons";
 import ProgressBar from "@/components/ProgressBar";
 import FreightStep from "@/components/FreightStep";
-import Loading from "@/components/Loading";
+import SmallLoading from "@/components/SmallLoading";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { getStageFromStatus } from "@/utils/getStageFromStatusFreight";
 import { Freight } from "@/utils/Interfaces/Freight";
@@ -198,7 +198,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
             <Body>
               {loading ?
                 <div className={styles.loadingContainer}>
-                  <Loading />
+                  <SmallLoading />
                 </div>
                 : error ? (
                   <p>Erro ao carregar frete: {error.message}</p>

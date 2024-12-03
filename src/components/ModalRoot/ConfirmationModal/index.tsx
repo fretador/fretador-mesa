@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
 import styles from "./ConfirmationModal.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import Loading from "@/components/Loading";
+import SmallLoading from "@/components/SmallLoading";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -79,7 +79,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
       <div className={styles.modalContent}>
         {isLoading ? (
-          <Loading />
+          <SmallLoading />
         ) : (
           <>
             <p>

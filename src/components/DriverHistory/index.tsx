@@ -7,7 +7,7 @@ import { Driver } from "@/utils/Interfaces/Driver";
 import { GET_FREIGHTS_BY_USER_ID } from "@/graphql/queries";
 import { useQuery } from "@apollo/client";
 import RowRoot from "../Row/RowRoot";
-import Loading from "../Loading";
+import SmallLoading from "../SmallLoading";
 import Pagination from "../Pagination";
 
 interface DriverHistoryProps {
@@ -26,7 +26,7 @@ const DriverHistory = ({ driver }: DriverHistoryProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  if (loading) return <div className={styles.loadingContainer}><Loading /></div>;
+  if (loading) return <div className={styles.loadingContainer}><SmallLoading /></div>;
   if (error) return <p>Error</p>;
 
   const freights = data?.freightsByUserId || [];
