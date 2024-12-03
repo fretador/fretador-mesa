@@ -1,4 +1,3 @@
-// src/hooks/useOccurrences.ts
 import { useQuery } from "@apollo/client";
 import { GET_OCCURRENCES } from "@/graphql/queries/occurrenceQueries";
 import { Occurrence } from "@/utils/Interfaces/Occurrence";

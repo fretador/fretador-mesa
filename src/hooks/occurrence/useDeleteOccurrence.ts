@@ -1,4 +1,3 @@
-// src/hooks/useDeleteOccurrence.ts
 import { useMutation } from "@apollo/client";
 import { DELETE_OCCURRENCE } from "@/graphql/mutations/occurrenceMutations";
 
