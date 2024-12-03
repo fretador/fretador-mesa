@@ -116,4 +116,5 @@ export interface Freight {
 	toll?: boolean;
 	requestFinancialType?: RequestFinancialType;
 	contractNumber: string;
+	paymentType: string;
 }

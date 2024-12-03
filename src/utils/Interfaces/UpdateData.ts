@@ -1,11 +1,12 @@
 import { BoardUser } from "./BoardUser";
+import { DocumentData } from "./DocumentData";
 
 export interface UpdateData {
-	documents?: [JSON];
+	documents?: DocumentData[];
 	paymentDate?: String;
 	boardUser?: BoardUser;
 	name?: String;
-	size: number;
+	size?: number;
 	type?: String;
 	mimetype?: String;
 	url?: String;
