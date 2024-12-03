@@ -3,9 +3,9 @@ import { useAppSelector } from "@/store/store";
 import styles from "./FreightInCourseOptions.module.css";
 import { useDocumentController } from "@/controllers/documentController";
 import {
+  CheckFillIcon,
   DangerIcon,
   PaperClipIcon,
-  PencilIcon,
   WhatsAppIcon,
 } from "@/utils/icons";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
@@ -18,11 +18,13 @@ import { UPDATE_FREIGHT_STATUS } from "@/graphql/mutations";
 interface FreightInCourseOptionsProps {
   freightId: string;
   onDocumentsUploaded: () => void;
+  actionButtonText: string
 }
 
 const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   freightId,
   onDocumentsUploaded,
+  actionButtonText
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { uploadDocuments, processingStatus } = useDocumentController();
@@ -151,8 +153,8 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       </div>
 
       <div className={styles.iconContainer} onClick={handleSendOccurrence}>
-        <PencilIcon />
-        <p>Enviar Ocorrência</p>
+        <CheckFillIcon />
+        <p>{actionButtonText}</p>
       </div>
 
       <div className={styles.iconContainer} onClick={handleSendAlert}>
