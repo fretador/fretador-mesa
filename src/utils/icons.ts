@@ -46,6 +46,7 @@ import Play from "@/assets/icons/play.svg"
 import Trash from "@/assets/icons/trash.svg"
 import NextBtn from "@/assets/icons/nextBtn.svg"
 import PreviousBtn from "@/assets/icons/previousBtn.svg"
+import CheckFill from "@/assets/icons/checkFill.svg"
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -95,3 +96,4 @@ export const Playicon = Play;
 export const TrashIcon = Trash
 export const NextBtnIcon = NextBtn
 export const PreviousBtnIcon = PreviousBtn
+export const CheckFillIcon = CheckFill

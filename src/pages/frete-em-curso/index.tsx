@@ -180,6 +180,27 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
     }
   }, [freight]);
 
+  const getStatusText = (status: FreightStatus): string => {
+    switch (status) {
+      case FreightStatus.TARGETED || FreightStatus.REQUESTED:
+        return "Autorizar Embarque";
+      case FreightStatus.APPROVED || FreightStatus.ACCEPTED:
+        return "Carregar Carga";
+      case FreightStatus.PICKUP_ORDER_SENT:
+        return "Iniciar Viagem";
+      case FreightStatus.LOADING_STARTED || FreightStatus.LOADING_FINISHED || FreightStatus.DRIVER_ARRIVED:
+        return "Chegou no Destino";
+      case FreightStatus.UNLOADING_STARTED || FreightStatus.UNLOADING_FINISHED:
+        return "Solicitar Comprovante";
+      case FreightStatus.INVOICE_COUPON_SENT:
+        return "Solicitar Saldo";
+      default:
+        return "";
+    }
+  };
+
+  console.log(freight?.status)
+
   return (
     <AuthenticatedLayout>
       <div className={styles.container}>
@@ -227,6 +248,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                     <FreightInCourseOptions
                       freightId={freight.id ?? ""}
                       onDocumentsUploaded={handleDocumentsUploaded}
+                      actionButtonText={getStatusText(freight.status as FreightStatus)}
                     />
                   </div>
                 </div>
