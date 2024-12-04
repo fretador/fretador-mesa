@@ -9,6 +9,7 @@ import OpenTicketModal from "@/components/ModalRoot/OpenTicketModal";
 import FirstTimeMalfunctionConfirmationModal from "@/components/ModalRoot/FirstTimeMalfunctionConfirmationModal";
 import IssueNavigatorModal from "@/components/ModalRoot/IssueNavigatorModal";
 import ReportIssueModal from "@/components/ModalRoot/ReportIssueModal";
+import Modal from "@/components/Modal";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -16,6 +17,22 @@ const Canva: React.FC = () => {
   const [isFirstTimeMalfunctionModalOpen, setIsFirstTimeMalfunctionModalOpen] = useState(false);
   const [isIssueNavigatorModalOpen, setIsIssueNavigatorModalOpen] = useState(false);
   const [isReportIssueModalOpen, setIsReportIssueModalOpen] = useState(false);
+
+  const [isNewModalOpen, setIsNewModalOpen] = useState(false)
+  const [isNewModalOpen2, setIsNewModalOpen2] = useState(false)
+  const [isNewModalOpen3, setIsNewModalOpen3] = useState(false)
+
+  const toggleNewModal = () => {
+    setIsNewModalOpen(!isNewModalOpen)
+  }
+
+  const toggleNewModal2 = () => {
+    setIsNewModalOpen2(!isNewModalOpen2)
+  }
+
+  const toggleNewModal3 = () => {
+    setIsNewModalOpen3(!isNewModalOpen3)
+  }
 
   const toggleOpenTicketModal = () => {
     setIsOpenTicketModalOpen(!isOpenTicketModalOpen);
@@ -81,7 +98,7 @@ const Canva: React.FC = () => {
             <Row.Root>
               <Row.FreightDate date={new Date().toLocaleDateString()} />
               <Row.FreightCode code={"ABC123"} />
-              <Row.Cte numCte="000000" />
+              <Row.Cte cte="000000" />
               <Row.Route originState="SP" destinyState="RJ" />
               <Row.Customer customerName={"Joaquim José da Silva Xavier"} />
               <Row.Driver driverName="João Pedro do Nascimento" />
@@ -108,6 +125,21 @@ const Canva: React.FC = () => {
           <button onClick={toggleReportIssueModal} className={styles.openModalButton}>
             Reportar Problema
           </button>
+
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '48px', marginTop: '48px'}}>
+            <button onClick={toggleNewModal} className={styles.newModalButton}>
+              Abrir Novo Modal 1 Botão
+            </button>
+
+            <button onClick={toggleNewModal2} className={styles.newModalButton}>
+              Abrir Novo Modal 2 Botões
+            </button>
+
+            <button onClick={toggleNewModal3} className={styles.newModalButton}>
+              Abrir Novo Modal Personalizado
+            </button>
+          </div>
+
 
           {isOpenTicketModalOpen && (
             <OpenTicketModal
@@ -143,6 +175,53 @@ const Canva: React.FC = () => {
               onSend={handleSend}
               onBack={toggleReportIssueModal}
             />
+          )}
+
+          {isNewModalOpen && (
+            <Modal
+              isOpen={isNewModalOpen}
+              onRequestClose={toggleNewModal}
+              modalTitle="Confirmação de Frete"
+              modalDescription="Frete confirmado com sucesso"
+              buttonOneTitle="Ok"
+              buttonOneAction={() => console.log('Verificação ok')}
+            />
+          )}
+
+          {isNewModalOpen2 && (
+            <Modal
+              isOpen={isNewModalOpen2}
+              onRequestClose={toggleNewModal2}
+              modalTitle="Confirmação de Frete"
+              modalDescription="Você gostaria de confirmar o frete?"
+              hasTwoButtons={true}
+              buttonOneTitle="Sim"
+              buttonOneAction={() => console.log('Confirmou')}
+              buttonTwoTitle="Não"
+              buttonTwoAction={() => console.log('Não Confirmou')}
+            />
+          )}
+
+          {isNewModalOpen3 && (
+            <Modal
+              isOpen={isNewModalOpen3}
+              onRequestClose={toggleNewModal3}
+              modalTitle="Criação de Frete"
+              modalDescription="Crie o frete abaixo:"
+              buttonOneTitle="Criar"
+              buttonOneAction={() => console.log('Criou')}
+              childrenClassName={styles.children}
+            >
+              <div>
+                <label htmlFor="input">Código do Frete:</label>
+                <input id="input" type="text" />
+              </div>
+
+              <div>
+                <label htmlFor="input">Nome do Motorista:</label>
+                <input id="input" type="text" />
+              </div>
+            </Modal>
           )}
         </div>
       </div>

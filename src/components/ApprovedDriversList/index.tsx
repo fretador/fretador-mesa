@@ -3,7 +3,7 @@ import { Row } from "../Row";
 import { Driver } from "@/utils/Interfaces/Driver";
 import styles from "./ApprovedDriversList.module.css";
 import RowTitle from "../RowTitle";
-import Loading from "../Loading";
+import SmallLoading from "../SmallLoading";
 import { useRouter } from "next/router";
 
 interface ApprovedDriversListProps {
@@ -23,7 +23,7 @@ const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
   if (loading)
     return (
       <div className={styles.loadingContainer}>
-        <Loading />
+        <SmallLoading />
       </div>
     );
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;

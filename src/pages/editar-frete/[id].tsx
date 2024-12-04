@@ -8,10 +8,10 @@ import Body from "@/components/Body";
 import { UpdateFreightInput } from "@/utils/Interfaces/UpdateFreightInput";
 import EditFreightForm from "@/components/EditFreightForm";
 import { useEffect, useState } from "react";
-import Loading from "@/components/Loading";
 import { useFreightById } from "@/hooks/freight/useFreightById";
 import { useUpdateFreight } from "@/hooks/freight/useUpdateFreight";
 import { Freight } from "@/utils/Interfaces/Freight";
+import SmallLoading from "@/components/SmallLoading";
 
 const EditFreight = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -50,7 +50,7 @@ const EditFreight = () => {
       });
 
       alert("Frete atualizado com sucesso!");
-
+      refetch();
     } catch (error) {
       console.error("Erro ao atualizar o frete:", error);
       alert("Erro ao atualizar o frete. Tente novamente.");
@@ -83,7 +83,7 @@ const EditFreight = () => {
               {loading && (
                 <div className={styles.loadingOverlay}>
                   <div className={styles.loadingOverlayItems}>
-                    <Loading />
+                    <SmallLoading />
                     <p>Atualizando Frete</p>
                   </div>
                 </div>

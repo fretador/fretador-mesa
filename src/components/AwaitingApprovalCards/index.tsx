@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Driver } from "@/utils/Interfaces/Driver";
 import styles from "./AwaitingApprovalList.module.css";
 import AwaitingApprovalCard from "../AwaitingApprovalCard";
-import Loading from "../Loading";
+import SmallLoading from "../SmallLoading";
 import { useRouter } from "next/router";
 
 interface AwaitingApprovalListProps {
@@ -59,7 +59,7 @@ const AwaitingApprovalList: React.FC<AwaitingApprovalListProps> = ({
   if (loading)
     return (
       <div className={styles.loadingContainer}>
-        <Loading />
+        <SmallLoading />
       </div>
     );
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;

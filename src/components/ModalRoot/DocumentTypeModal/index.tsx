@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./DocumentTypeModal.module.css";
 import { CloseIcon } from "../../../utils/icons";
-import Loading from "@/components/Loading";
+import SmallLoading from "@/components/SmallLoading";
 
 interface DocumentTypeModalProps {
   isOpen: boolean;
@@ -92,7 +92,7 @@ const DocumentTypeModal: React.FC<DocumentTypeModalProps> = ({
         {isLoading ? (
           <div className={styles.content}>
             <div className={styles.loadingContainer}>
-              <Loading />
+              <SmallLoading />
             </div>
           </div>
         ) : (
