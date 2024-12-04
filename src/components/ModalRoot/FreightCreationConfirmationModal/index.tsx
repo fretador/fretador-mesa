@@ -5,7 +5,7 @@ import styles from "./FreightCreationConfirmationModal.module.css";
 
 interface FreightCreationConfirmationModalProps {
   isOpen: boolean;
-  freightCode?: string; // Código do frete, caso seja criado com sucesso
+  freightCode?: number; // Código do frete, caso seja criado com sucesso
   error?: string; // Mensagem de erro, caso algo dê errado
   onRequestClose: () => void;
 }

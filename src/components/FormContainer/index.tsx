@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
+import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
 import FreightSubmissionButton from "@/components/FormContainer/FreightSubmissionButton";
@@ -18,10 +19,9 @@ import ConfirmationModal from "@/components/ModalRoot/ConfirmationModal";
 import { useCreateFreight } from "@/hooks/freight/useCreateFreight";
 import EditFreightButton from "../EditFreightButton";
 import FreightCreationConfirmationModal from "../ModalRoot/FreightCreationConfirmationModal";
-import { Freight } from "@/utils/Interfaces/Freight";
 
 interface FormContainerProps {
-  initialData?: Partial<Freight>;
+  initialData?: Partial<CreateFreightInput>;
   showFreightSubmissionButton?: boolean;
   showEditFreightButton?: boolean;
 }
@@ -34,12 +34,12 @@ const FormContainer: React.FC<FormContainerProps> = ({
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [isFreightModalOpen, setIsFreightModalOpen] = useState(false);
-  const [freightCode, setFreightCode] = useState<string | undefined>(undefined);
+  const [freightCode, setFreightCode] = useState<number | undefined>(undefined);
   const [freightError, setFreightError] = useState<string | undefined>(undefined);
 
-  const { createFreight } = useCreateFreight();
+  const { data, createFreight } = useCreateFreight();
 
-  const methods = useForm<Freight>({
+  const methods = useForm<CreateFreightInput>({
     resolver: zodResolver(createFreightSchema),
     defaultValues: {
       pickupDeliveryData: "",
@@ -59,7 +59,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
   useEffect(() => {
     if (initialData) {
       Object.entries(initialData).forEach(([key, value]) => {
-        setValue(key as keyof Freight, value);
+        setValue(key as keyof CreateFreightInput, value);
       });
     }
   }, [initialData, setValue]);
@@ -68,8 +68,24 @@ const FormContainer: React.FC<FormContainerProps> = ({
     const currentValues = getValues();
 
     try {
-      const { data } = await createFreight({ variables: { input: currentValues } });
-      setFreightCode(data?.freightCode);
+      const result = await createFreight({ variables: { input: currentValues } });
+      setFreightCode(result.data?.createFreight?.freightCode);
+      setFreightError(undefined);
+      setIsFreightModalOpen(true);
+    } catch (error) {
+      console.error("Erro ao criar o frete:", error);
+      setFreightError("An error occurred while creating the freight.");
+      setIsFreightModalOpen(true);
+    }
+  };
+
+  const handleAssignFreight = async (driverIds: string[]) => {
+    setValue("targetedDrivers", driverIds);
+    const currentValues = getValues();
+
+    try {
+      const result = await createFreight({ variables: { input: currentValues } });
+      setFreightCode(result.data?.createFreight?.freightCode);
       setFreightError(undefined);
       setIsFreightModalOpen(true);
     } catch (error) {
@@ -90,22 +106,6 @@ const FormContainer: React.FC<FormContainerProps> = ({
     // Após a confirmação, abre o AssignFreightModal
     setIsAssignFreightModalOpen(true);
     setIsConfirmationModalOpen(false);
-  };
-
-  const handleAssignFreight = async (driverIds: string[]) => {
-    setValue("targetedDrivers", driverIds);
-    const currentValues = getValues();
-
-    try {
-      const { data } = await createFreightMutation({ variables: { input: currentValues } });
-      setFreightCode(data.createFreight.freightCode);
-      setFreightError(undefined);
-      setIsFreightModalOpen(true);
-    } catch (error) {
-      console.error("Erro ao criar o frete:", error);
-      setFreightError("An error occurred while creating the freight.");
-      setIsFreightModalOpen(true);
-    }
   };
 
   return (
@@ -144,8 +144,6 @@ const FormContainer: React.FC<FormContainerProps> = ({
         freightCode={freightCode}
         error={freightError}
       />
-
-
     </FormProvider>
   );
 };

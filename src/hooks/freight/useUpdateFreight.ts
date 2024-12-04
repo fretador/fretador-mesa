@@ -18,7 +18,7 @@ export const useUpdateFreight = () => {
 		UpdateFreightVars
 	>(UPDATE_FREIGHT, {
 		refetchQueries: ["GetFreights", "GetFreightById"],
-		awaitRefetchQueries: true,
+		awaitRefetchQueries: false,
 	});
 
 	return {

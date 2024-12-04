@@ -17,7 +17,7 @@ export const useCreateFreight = () => {
 		CreateFreightVars
 	>(CREATE_FREIGHT, {
 		refetchQueries: ["GetFreights"],
-		awaitRefetchQueries: true,
+		awaitRefetchQueries: false,
 	});
 
 	return {

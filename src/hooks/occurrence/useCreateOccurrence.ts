@@ -17,7 +17,7 @@ export const useCreateOccurrence = () => {
 		CreateOccurrenceVars
 	>(CREATE_OCCURRENCE, {
 		refetchQueries: ["GetOccurrences"], // Atualiza a lista após a criação
-		awaitRefetchQueries: true,
+		awaitRefetchQueries: false,
 	});
 
 	return {

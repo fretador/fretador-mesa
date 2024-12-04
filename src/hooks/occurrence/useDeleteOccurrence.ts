@@ -15,7 +15,7 @@ export const useDeleteOccurrence = () => {
 		DeleteOccurrenceVars
 	>(DELETE_OCCURRENCE, {
 		refetchQueries: ["GetOccurrences"], // Atualiza a lista após a deleção
-		awaitRefetchQueries: true,
+		awaitRefetchQueries: false,
 	});
 
 	return {
