@@ -1,0 +1,39 @@
+.children {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputContainer label {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.inputContainer .inputWrapper {
+  width: 466px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #1B556D;
+  border-radius: 12px;
+  padding: 0 20px;
+}
+
+.inputContainer .prefix {
+  color: #000;
+  /* margin-right: -4px; */
+}
+
+.inputContainer input {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 16px 8px;
+  font-size: 16px;
+}
