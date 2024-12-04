@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import FreightInProgress from "@/pages/frete-em-curso/index";
-import Loading from "@/components/Loading";
+import SmallLoading from "@/components/SmallLoading";
 import RegisteredDriver from ".";
 
 const DriverPage: React.FC = () => {
@@ -18,7 +18,7 @@ const DriverPage: React.FC = () => {
           height: "100vh",
         }}
       >
-        <Loading />
+        <SmallLoading />
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './RecoverPasswordForm.module.css';
 import { CheckIcon } from '@/utils/icons';
-import Loading from '../Loading';
+import SmallLoading from '../SmallLoading';
 
 const RecoverPasswordForm = () => {
 
@@ -54,7 +54,7 @@ const RecoverPasswordForm = () => {
         </button>
         {loading && (
           <div className={styles.loadingOverlay}>
-            <Loading />
+            <SmallLoading />
           </div>
         )}
       </div>
