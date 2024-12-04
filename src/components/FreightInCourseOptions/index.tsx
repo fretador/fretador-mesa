@@ -8,7 +8,7 @@ import {
   PaperClipIcon,
   WhatsAppIcon,
 } from "@/utils/icons";
-import { FreightStatus } from '@/utils/enums/freightStatusEnum';
+import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { UpdateDataTypeEnum } from "@/utils/enums/updateDataTypeEnum";
 import DocumentSentModal from "@/components/ModalRoot/DocumentSentModal";
 import DocumentTypeModal from "@/components/ModalRoot/DocumentTypeModal";
@@ -16,15 +16,17 @@ import { useUpdateStatusFreight } from "@/hooks/freight/useUpdateStatusFreight";
 
 interface FreightInCourseOptionsProps {
   freightId: string;
-  actionButtonText: string
+  actionButtonText: string;
+  actionButtonStatus: FreightStatus | null;
 }
 
 const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   freightId,
-  actionButtonText
+  actionButtonText,
+  actionButtonStatus,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { uploadDocuments, processingStatus } = useDocumentController();
+  const { uploadDocuments } = useDocumentController();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [showTypeModal, setShowTypeModal] = useState(false);
@@ -40,9 +42,11 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         id: freightId as string,
         input: {
           status: newStatus,
-          updateData: { boardUser: { name: boardUser?.name, profile: boardUser?.profile } },
-          updateDataType: UpdateDataTypeEnum.ALERT,
-        }
+          updateData: {
+            boardUser: { name: boardUser?.name, profile: boardUser?.profile },
+          },
+          updateDataType: UpdateDataTypeEnum.STATUS,
+        },
       },
     });
   };
@@ -104,9 +108,12 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
           id: freightId as string,
           input: {
             status: newstatus,
-            updateData: { documents: [...updateData], boardUser: { name: boardUser?.name, profile: boardUser?.profile } },
+            updateData: {
+              documents: [...updateData],
+              boardUser: { name: boardUser?.name, profile: boardUser?.profile },
+            },
             updateDataType: updateDataType,
-          }
+          },
         },
       });
 
@@ -156,10 +163,22 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         <p>Anexar Documentos</p>
       </div>
 
-      <div className={styles.iconContainer} onClick={() => { handleAction(FreightStatus.INVOICE_COUPON_SENT) }}>
-        <CheckFillIcon />
-        <p>{actionButtonText}</p>
-      </div>
+      {actionButtonStatus ? (
+        <div
+          className={styles.iconContainer}
+          onClick={() => {
+            handleAction(actionButtonStatus);
+          }}
+        >
+          <CheckFillIcon />
+          <p>{actionButtonText}</p>
+        </div>
+      ) : (
+        <div className={styles.iconContainer}>
+          <CheckFillIcon />
+          <p>{actionButtonText}</p>
+        </div>
+      )}
 
       <div className={styles.iconContainer} onClick={handleSendAlert}>
         <DangerIcon />

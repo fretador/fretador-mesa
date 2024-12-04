@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -33,7 +33,9 @@ const useFreightData = (freightId: string) => {
   const { data, loading, error, refetch } = useFreightById(freightId as string);
 
   const freight: Freight | null = data || null;
-  const currentStage = freight ? getStageFromStatus(freight.status as FreightStatus) : 0;
+  const currentStage = freight && freight.status
+    ? getStageFromStatus(freight.status as FreightStatus)
+    : 0;
 
   return { loading, freight, error, currentStage, refetch };
 };
@@ -61,14 +63,18 @@ const getFreightStepProps = (
     case FreightStatus.APPROVED:
       content = freightType === Type.TARGETED
         ? "Frete aceito pelo motorista - Enviar Ordem de Coleta"
-        : "Autorizar embarque";
-      primaryButtonLabel = freightType !== Type.TARGETED ? "Sim" : undefined;
-      onPrimaryButtonClick = () => console.log("Botão de ação clicado");
+        : "Embarque autorizado";
       break;
     case FreightStatus.DRIVER_ARRIVED:
       content = "Motorista chegou ao local de coleta";
       actionButtonText = "Rastrear";
       handleActionButton = () => console.log("Botão de rastreamento clicado");
+      break;
+    case FreightStatus.WAITING:
+      content = "Aguardando motorista";
+      break;
+    case FreightStatus.REQUESTED:
+      content = "Frete solicitado pelo motorista";
       break;
     case FreightStatus.PICKUP_ORDER_SENT:
       content = "Ordem de Coleta enviada para o motorista";
@@ -148,6 +154,98 @@ const getFreightStepProps = (
   };
 };
 
+const getStatusText = (status: FreightStatus | null | undefined): string => {
+  if (!status) {
+    return "Ação Desconhecida";
+  }
+  switch (status) {
+    case FreightStatus.WAITING:
+      return "Autorizar Embarque";
+    case FreightStatus.TARGETED:
+    case FreightStatus.REQUESTED:
+      return "Aprovar Frete";
+    case FreightStatus.APPROVED:
+    case FreightStatus.ACCEPTED:
+      return "Enviar Ordem de Coleta";
+    case FreightStatus.DRIVER_SELECTED:
+      return "Iniciar viagem";
+    case FreightStatus.INVOICE_SENT:
+      return "Iniciar Carregamento";
+    case FreightStatus.PICKUP_ORDER_SENT:
+      return "Iniciar Carregamento";
+    case FreightStatus.LOADING_STARTED:
+      return "Finalizar Carregamento";
+    case FreightStatus.LOADING_FINISHED:
+      return "Iniciar Deslocamento";
+    case FreightStatus.DRIVER_ARRIVED:
+      return "Confirmar Chegada ao Destino";
+    case FreightStatus.UNLOADING_STARTED:
+      return "Iniciar Descarregamento";
+    case FreightStatus.UNLOADING_FINISHED:
+      return "Finalizar Descarregamento";
+    case FreightStatus.INVOICE_COUPON_SENT:
+      return "Informar adminitrativo";
+    case FreightStatus.ADMIN_REQUIRED:
+      return "Administrativo aprovado";
+    case FreightStatus.ADMIN_APPROVED:
+      return "Informar financeiro";
+    case FreightStatus.FINANCIAL_REQUIRED:
+      return "Financeiro aprovado";
+    case FreightStatus.FINANCIAL_APPROVED:
+      return "Finalizar Frete";
+    case FreightStatus.FINISHED:
+      return "Frete Concluído";
+    case FreightStatus.CANCELED:
+      return "Frete Cancelado";
+    default:
+      return "Ação Desconhecida";
+  }
+};
+
+const getNextStatus = (
+  status: FreightStatus | null | undefined
+): FreightStatus | null => {
+  if (!status) {
+    return null;
+  }
+  switch (status) {
+    case FreightStatus.WAITING:
+    case FreightStatus.TARGETED:
+    case FreightStatus.REQUESTED:
+      return FreightStatus.APPROVED;
+    case FreightStatus.APPROVED:
+    case FreightStatus.ACCEPTED:
+      return FreightStatus.DRIVER_SELECTED;
+    case FreightStatus.DRIVER_SELECTED:
+      return FreightStatus.INVOICE_SENT;
+    case FreightStatus.PICKUP_ORDER_SENT:
+    case FreightStatus.INVOICE_SENT:
+      return FreightStatus.LOADING_STARTED;
+    case FreightStatus.LOADING_STARTED:
+      return FreightStatus.LOADING_FINISHED;
+    case FreightStatus.LOADING_FINISHED:
+      return FreightStatus.DRIVER_ARRIVED;
+    case FreightStatus.DRIVER_ARRIVED:
+      return FreightStatus.UNLOADING_STARTED;
+    case FreightStatus.UNLOADING_STARTED:
+      return FreightStatus.UNLOADING_FINISHED;
+    case FreightStatus.UNLOADING_FINISHED:
+      return FreightStatus.INVOICE_COUPON_SENT;
+    case FreightStatus.INVOICE_COUPON_SENT:
+      return FreightStatus.ADMIN_REQUIRED;
+    case FreightStatus.ADMIN_REQUIRED:
+      return FreightStatus.ADMIN_APPROVED;
+    case FreightStatus.ADMIN_APPROVED:
+      return FreightStatus.FINANCIAL_REQUIRED;
+    case FreightStatus.FINANCIAL_REQUIRED:
+      return FreightStatus.FINANCIAL_APPROVED;
+    case FreightStatus.FINANCIAL_APPROVED:
+      return FreightStatus.FINISHED;
+    default:
+      return null;
+  }
+};
+
 const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
@@ -171,27 +269,6 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
     }
   }, [freight]);
 
-  const getStatusText = (status: FreightStatus): string => {
-    switch (status) {
-      case FreightStatus.TARGETED || FreightStatus.REQUESTED:
-        return "Autorizar Embarque";
-      case FreightStatus.APPROVED || FreightStatus.ACCEPTED:
-        return "Carregar Carga";
-      case FreightStatus.PICKUP_ORDER_SENT:
-        return "Iniciar Viagem";
-      case FreightStatus.LOADING_STARTED || FreightStatus.LOADING_FINISHED || FreightStatus.DRIVER_ARRIVED:
-        return "Chegou no Destino";
-      case FreightStatus.UNLOADING_STARTED || FreightStatus.UNLOADING_FINISHED:
-        return "Solicitar Comprovante";
-      case FreightStatus.INVOICE_COUPON_SENT:
-        return "Solicitar Saldo";
-      default:
-        return "";
-    }
-  };
-
-  console.log(freight?.status)
-
   return (
     <AuthenticatedLayout>
       <div className={styles.container}>
@@ -208,15 +285,15 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
           </div>
           <div className={styles.content}>
             <Body>
-              {loading ?
+              {loading ? (
                 <div className={styles.loadingContainer}>
                   <SmallLoading />
                 </div>
-                : error ? (
-                  <p>Erro ao carregar frete: {error.message}</p>
-                ) : !freight ? (
-                  <p>Frete não encontrado</p>
-                ) : (
+              ) : error ? (
+                <p>Erro ao carregar frete: {error.message}</p>
+              ) : !freight ? (
+                <p>Frete não encontrado</p>
+              ) : (
                 <div className={styles.freightInCurseContainer}>
                   <FreightInCurseHeader
                     freightCode={freight.freightCode?.toString() ?? ""}
@@ -238,7 +315,8 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                     <h2>Dados do embarque:</h2>
                     <FreightInCourseOptions
                       freightId={freight.id ?? ""}
-                      actionButtonText={getStatusText(freight.status as FreightStatus)}
+                      actionButtonText={getStatusText(freight.status)}
+                      actionButtonStatus={getNextStatus(freight.status)}
                     />
                   </div>
                 </div>
