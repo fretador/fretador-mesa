@@ -10,6 +10,7 @@ import FirstTimeMalfunctionConfirmationModal from "@/components/ModalRoot/FirstT
 import IssueNavigatorModal from "@/components/ModalRoot/IssueNavigatorModal";
 import ReportIssueModal from "@/components/ModalRoot/ReportIssueModal";
 import Modal from "@/components/Modal";
+import StartingBoardModal from "@/components/Modal/FreteEmCurso/StartingBoardModal";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -21,6 +22,12 @@ const Canva: React.FC = () => {
   const [isNewModalOpen, setIsNewModalOpen] = useState(false)
   const [isNewModalOpen2, setIsNewModalOpen2] = useState(false)
   const [isNewModalOpen3, setIsNewModalOpen3] = useState(false)
+
+  const[isStartingBoardOpen, setIsStartingBoardOpen] = useState(false)
+
+  const toggleStartingBoard = () => {
+    setIsStartingBoardOpen(!isStartingBoardOpen)
+  }
 
   const toggleNewModal = () => {
     setIsNewModalOpen(!isNewModalOpen)
@@ -138,6 +145,10 @@ const Canva: React.FC = () => {
             <button onClick={toggleNewModal3} className={styles.newModalButton}>
               Abrir Novo Modal Personalizado
             </button>
+
+            <button onClick={toggleStartingBoard} className={styles.newModalButton}>
+              Modal Iniciar Embarque
+            </button>
           </div>
 
 
@@ -223,6 +234,17 @@ const Canva: React.FC = () => {
               </div>
             </Modal>
           )}
+
+          {
+            isStartingBoardOpen && (
+              <StartingBoardModal
+                isOpen={isStartingBoardOpen}
+                onRequestClose={toggleStartingBoard}
+                handleConfirm={() => console.log("Confirmou")}
+                handleCancel={() => console.log("Cancelou")}
+              />
+            )
+          }
         </div>
       </div>
     </div>
