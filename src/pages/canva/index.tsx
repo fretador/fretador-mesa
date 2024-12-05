@@ -10,8 +10,9 @@ import FirstTimeMalfunctionConfirmationModal from "@/components/ModalRoot/FirstT
 import IssueNavigatorModal from "@/components/ModalRoot/IssueNavigatorModal";
 import ReportIssueModal from "@/components/ModalRoot/ReportIssueModal";
 import Modal from "@/components/Modal";
-import StartingBoardModal from "@/components/Modal/FreteEmCurso/StartingBoardModal";
 import TravelWithoutPayment from "@/components/Modal/FreteEmCurso/TravelWithoutPayment";
+import ProvideFreightValue from "@/components/Modal/FreteEmCurso/ProvideFreightValue";
+import ProvidePaymentDetails from "@/components/Modal/FreteEmCurso/ProvidePaymentDetails";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -24,10 +25,10 @@ const Canva: React.FC = () => {
   const [isNewModalOpen2, setIsNewModalOpen2] = useState(false)
   const [isNewModalOpen3, setIsNewModalOpen3] = useState(false)
 
-  const[isStartingBoardOpen, setIsStartingBoardOpen] = useState(false)
+  const[isModalOpen, setIsModalOpen] = useState(false)
 
-  const toggleStartingBoard = () => {
-    setIsStartingBoardOpen(!isStartingBoardOpen)
+  const toggle = () => {
+    setIsModalOpen(!isModalOpen)
   }
 
   const toggleNewModal = () => {
@@ -147,8 +148,8 @@ const Canva: React.FC = () => {
               Abrir Novo Modal Personalizado
             </button>
 
-            <button onClick={toggleStartingBoard} className={styles.newModalButton}>
-              Modal Viagem sem Pagamento
+            <button onClick={toggle} className={styles.newModalButton}>
+              Modal Informar Valor do Frete
             </button>
           </div>
 
@@ -237,10 +238,10 @@ const Canva: React.FC = () => {
           )}
 
           {
-            isStartingBoardOpen && (
-              <TravelWithoutPayment
-                isOpen={isStartingBoardOpen}
-                onRequestClose={toggleStartingBoard}
+            isModalOpen && (
+              <ProvideFreightValue
+                isOpen={isModalOpen}
+                onRequestClose={toggle}
                 handleConfirm={() => console.log("Confirmou")}
                 handleCancel={() => console.log("Cancelou")}
               />
