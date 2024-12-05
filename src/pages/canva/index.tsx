@@ -11,6 +11,7 @@ import IssueNavigatorModal from "@/components/ModalRoot/IssueNavigatorModal";
 import ReportIssueModal from "@/components/ModalRoot/ReportIssueModal";
 import Modal from "@/components/Modal";
 import StartingBoardModal from "@/components/Modal/FreteEmCurso/StartingBoardModal";
+import TravelWithoutPayment from "@/components/Modal/FreteEmCurso/TravelWithoutPayment";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -147,7 +148,7 @@ const Canva: React.FC = () => {
             </button>
 
             <button onClick={toggleStartingBoard} className={styles.newModalButton}>
-              Modal Iniciar Embarque
+              Modal Viagem sem Pagamento
             </button>
           </div>
 
@@ -237,7 +238,7 @@ const Canva: React.FC = () => {
 
           {
             isStartingBoardOpen && (
-              <StartingBoardModal
+              <TravelWithoutPayment
                 isOpen={isStartingBoardOpen}
                 onRequestClose={toggleStartingBoard}
                 handleConfirm={() => console.log("Confirmou")}
