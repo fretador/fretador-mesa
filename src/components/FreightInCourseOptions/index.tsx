@@ -264,6 +264,11 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
     }
   };
 
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+  const handleMouseEnter = () => setDropdownVisible(true);
+  const handleMouseLeave = () => setDropdownVisible(false);
+
   return (
     <div className={styles.container}>
       <input
@@ -277,12 +282,26 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       <div
         className={styles.iconContainer}
         onClick={handleAttachDocuments}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         style={{
           cursor: isLoading || isActionLoading ? "not-allowed" : "pointer",
         }}
       >
         <PaperClipIcon />
         <p>Anexar Documentos</p>
+        {isDropdownVisible && (
+        <div className={styles.dropdown}>
+          <ul>
+            <li>Ordem de Coleta</li>
+            <li>CTE</li>
+            <li>MDF</li>
+            <li>Agendamento de carga</li>
+            <li>Agendamento de descarga</li>
+            <li>Outros documentos</li>
+          </ul>
+        </div>
+      )}
       </div>
 
       {actionButtonStatus ? (
