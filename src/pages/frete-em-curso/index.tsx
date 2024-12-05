@@ -211,9 +211,11 @@ const getNextStatus = (
   switch (status) {
     case FreightStatus.WAITING:
     case FreightStatus.TARGETED:
-    case FreightStatus.REQUESTED:
       return FreightStatus.APPROVED;
+    case FreightStatus.REQUESTED:
+      return FreightStatus.ACCEPTED;
     case FreightStatus.APPROVED:
+      return FreightStatus.DRIVER_SELECTED;
     case FreightStatus.ACCEPTED:
       return FreightStatus.DRIVER_SELECTED;
     case FreightStatus.DRIVER_SELECTED:
