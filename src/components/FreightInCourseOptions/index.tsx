@@ -14,6 +14,7 @@ import DocumentSentModal from "@/components/ModalRoot/DocumentSentModal";
 import DocumentTypeModal from "@/components/ModalRoot/DocumentTypeModal";
 import { useUpdateStatusFreight } from "@/hooks/freight/useUpdateStatusFreight";
 import SmallLoading from "@/components/SmallLoading";
+import Modal from "@/components/Modal";
 
 interface FreightInCourseOptionsProps {
   freightId: string;
@@ -33,12 +34,20 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   const [showTypeModal, setShowTypeModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isActionLoading, setIsActionLoading] = useState(false);
+  const [modalConfig, setModalConfig] = useState<{
+    isVisible: boolean;
+    title: string;
+    description: string;
+    confirmText: string;
+    cancelText?: string;
+    onConfirm: () => void;
+  } | null>(null);
   const boardUser = useAppSelector((state) => state.auth.boardUser);
 
   const { updateStatusFreight } = useUpdateStatusFreight();
 
   const handleAction = async (newStatus: FreightStatus) => {
-    setIsActionLoading(true); 
+    setIsActionLoading(true);
     console.log("handleAction newStatus: " + newStatus);
     try {
       await updateStatusFreight({
@@ -63,7 +72,6 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
 
   const handleAttachDocuments = () => {
     if (!isLoading && !isActionLoading) {
-    // Previne abertura do seletor de arquivos durante o loading
       fileInputRef.current?.click();
     }
   };
@@ -87,13 +95,11 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   ) => {
     try {
       setIsLoading(true);
-      // Criar novos arquivos com nomes modificados
       const modifiedFiles = filesWithTypes.map(({ file, type }) => {
         const newName = `${type}_${file.name}`;
         return new File([file], newName, { type: file.type });
       });
 
-      // Criar um novo FileList com os arquivos modificados
       const dataTransfer = new DataTransfer();
       modifiedFiles.forEach((file) => dataTransfer.items.add(file));
       const newFileList = dataTransfer.files;
@@ -161,6 +167,103 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
     setSelectedFiles([]);
   };
 
+  const modalMapping: { [key in FreightStatus]?: () => void } = {
+    [FreightStatus.APPROVED]: () => {
+      setModalConfig({
+        isVisible: true,
+        title: "Autorizar Embarque",
+        description:
+          "Confirma a autorização do motorista para dar início ao frete?",
+        confirmText: "Sim",
+        cancelText: "Não",
+        onConfirm: () => {
+          handleAction(actionButtonStatus!);
+          setModalConfig(null);
+        },
+      });
+    },
+    [FreightStatus.ACCEPTED]: () => {
+      setModalConfig({
+        isVisible: true,
+        title: "Aceitar Frete",
+        description:
+          "Você confirma a aceitação deste frete?",
+        confirmText: "Sim",
+        cancelText: "Não",
+        onConfirm: () => {
+          handleAction(actionButtonStatus!);
+          setModalConfig(null);
+        },
+      });
+    },
+    [FreightStatus.INVOICE_SENT]: () => {
+      setModalConfig({
+        isVisible: true,
+        title: "Enviar Ordem de Coleta",
+        description:
+          "Você precisa enviar a ordem de coleta para continuar.",
+        confirmText: "Enviar",
+        cancelText: "Cancelar",
+        onConfirm: () => {
+          handleAttachDocuments();
+          setModalConfig(null);
+        },
+      });
+    },
+    [FreightStatus.PICKUP_ORDER_SENT]: () => {
+      setModalConfig({
+        isVisible: true,
+        title: "Enviar Ordem de Coleta",
+        description:
+          "Você precisa enviar a ordem de coleta para continuar.",
+        confirmText: "Enviar",
+        cancelText: "Cancelar",
+        onConfirm: () => {
+          handleAttachDocuments();
+          setModalConfig(null);
+        },
+      });
+    },
+    [FreightStatus.LOADING_STARTED]: () => {
+      setModalConfig({
+        isVisible: true,
+        title: "Carregar carga",
+        description:
+          "Confirma o início do carregamento do veículo?",
+        confirmText: "Sim",
+        cancelText: "Não",
+        onConfirm: () => {
+          handleAction(actionButtonStatus!);
+          setModalConfig(null);
+        },
+      });
+    },
+    [FreightStatus.LOADING_FINISHED]: () => {
+      setModalConfig({
+        isVisible: true,
+        title: "Carregar carga",
+        description:
+          "Ao completar o carregamento envie o CTE e o Manifesto no Anexar documentos.",
+        confirmText: "OK",
+        onConfirm: () => {
+          handleAction(actionButtonStatus!);
+          setModalConfig(null);
+        },
+      });
+    },
+    // Adicione mais mapeamentos conforme necessário
+  };
+
+  const handleActionClick = () => {
+    if (isActionLoading) return;
+
+    if (actionButtonStatus && modalMapping[actionButtonStatus]) {
+      modalMapping[actionButtonStatus]!();
+    } else if (actionButtonStatus) {
+      handleAction(actionButtonStatus);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <input
@@ -185,11 +288,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       {actionButtonStatus ? (
         <div
           className={styles.iconContainer}
-          onClick={() => {
-            if (!isActionLoading) {
-              handleAction(actionButtonStatus);
-            }
-          }}
+          onClick={handleActionClick}
           style={{ cursor: isActionLoading ? "not-allowed" : "pointer" }}
         >
           {isActionLoading ? (
@@ -218,8 +317,6 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         <p>Falar Com Motorista</p>
       </div>
 
-      {/* {processingStatus && <p>{processingStatus}</p>} */}
-
       <DocumentSentModal isOpen={showModal} onClose={closeModal} />
 
       {showTypeModal && (
@@ -229,6 +326,20 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
           onClose={handleCloseTypeModal}
           onSubmit={handleTypeModalSubmit}
           isLoading={isLoading}
+        />
+      )}
+
+      {modalConfig && (
+        <Modal
+          isOpen={modalConfig.isVisible}
+          onRequestClose={() => setModalConfig(null)}
+          modalTitle={modalConfig.title}
+          modalDescription={modalConfig.description}
+          hasTwoButtons={true}
+          buttonOneTitle={modalConfig.confirmText}
+          buttonOneAction={modalConfig.onConfirm}
+          buttonTwoTitle={modalConfig.cancelText}
+          buttonTwoAction={() => setModalConfig(null)}
         />
       )}
     </div>
