@@ -13,6 +13,7 @@ import { UpdateDataTypeEnum } from "@/utils/enums/updateDataTypeEnum";
 import DocumentSentModal from "@/components/ModalRoot/DocumentSentModal";
 import DocumentTypeModal from "@/components/ModalRoot/DocumentTypeModal";
 import { useUpdateStatusFreight } from "@/hooks/freight/useUpdateStatusFreight";
+import SmallLoading from "@/components/SmallLoading";
 
 interface FreightInCourseOptionsProps {
   freightId: string;
@@ -31,28 +32,40 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   const [showModal, setShowModal] = useState(false);
   const [showTypeModal, setShowTypeModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isActionLoading, setIsActionLoading] = useState(false);
   const boardUser = useAppSelector((state) => state.auth.boardUser);
 
   const { updateStatusFreight } = useUpdateStatusFreight();
 
   const handleAction = async (newStatus: FreightStatus) => {
+    setIsActionLoading(true); 
     console.log("handleAction newStatus: " + newStatus);
-    await updateStatusFreight({
-      variables: {
-        id: freightId as string,
-        input: {
-          status: newStatus,
-          updateData: {
-            boardUser: { name: boardUser?.name, profile: boardUser?.profile },
+    try {
+      await updateStatusFreight({
+        variables: {
+          id: freightId as string,
+          input: {
+            status: newStatus,
+            updateData: {
+              boardUser: { name: boardUser?.name, profile: boardUser?.profile },
+            },
+            updateDataType: UpdateDataTypeEnum.STATUS,
           },
-          updateDataType: UpdateDataTypeEnum.STATUS,
         },
-      },
-    });
+      });
+    } catch (error) {
+      console.error("Erro ao atualizar o status do frete:", error);
+      alert("Erro ao atualizar o status do frete.");
+    } finally {
+      setIsActionLoading(false);
+    }
   };
 
   const handleAttachDocuments = () => {
-    fileInputRef.current?.click();
+    if (!isLoading && !isActionLoading) {
+    // Previne abertura do seletor de arquivos durante o loading
+      fileInputRef.current?.click();
+    }
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,7 +171,13 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         multiple
         accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
       />
-      <div className={styles.iconContainer} onClick={handleAttachDocuments}>
+      <div
+        className={styles.iconContainer}
+        onClick={handleAttachDocuments}
+        style={{
+          cursor: isLoading || isActionLoading ? "not-allowed" : "pointer",
+        }}
+      >
         <PaperClipIcon />
         <p>Anexar Documentos</p>
       </div>
@@ -167,11 +186,20 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         <div
           className={styles.iconContainer}
           onClick={() => {
-            handleAction(actionButtonStatus);
+            if (!isActionLoading) {
+              handleAction(actionButtonStatus);
+            }
           }}
+          style={{ cursor: isActionLoading ? "not-allowed" : "pointer" }}
         >
-          <CheckFillIcon />
-          <p>{actionButtonText}</p>
+          {isActionLoading ? (
+            <SmallLoading />
+          ) : (
+            <>
+                <CheckFillIcon />
+                <p>{actionButtonText}</p>
+            </>
+          )}
         </div>
       ) : (
         <div className={styles.iconContainer}>
