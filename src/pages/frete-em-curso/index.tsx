@@ -18,6 +18,7 @@ import { Type } from "@/utils/enums/typeEnum";
 import FreightInCourseOptions from "@/components/FreightInCourseOptions";
 import LocationMap from "@/components/LocationMap";
 import { useFreightById } from "@/hooks/freight/useFreightById";
+import { getNextStatus, getStatusText } from "@/utils/freightStatusHelpers";
 
 interface FreightInProgressProps {
   freightId: string;
@@ -65,10 +66,13 @@ const getFreightStepProps = (
         ? "Frete aceito pelo motorista - Enviar Ordem de Coleta"
         : "Embarque autorizado";
       break;
-    case FreightStatus.DRIVER_ARRIVED:
-      content = "Motorista chegou ao local de coleta";
+    case FreightStatus.ROUTE_IN_PROGRESS:
+      content = "Entrega em andamento";
       actionButtonText = "Rastrear";
       handleActionButton = () => console.log("Botão de rastreamento clicado");
+      break;
+    case FreightStatus.DRIVER_ARRIVED:
+      content = "Motorista chegou ao local de coleta";
       break;
     case FreightStatus.WAITING:
       content = "Aguardando motorista";
@@ -154,100 +158,6 @@ const getFreightStepProps = (
   };
 };
 
-const getStatusText = (status: FreightStatus | null | undefined): string => {
-  if (!status) {
-    return "Ação Desconhecida";
-  }
-  switch (status) {
-    case FreightStatus.WAITING:
-      return "Autorizar Embarque";
-    case FreightStatus.TARGETED:
-      return "Aprovar Frete";
-    case FreightStatus.REQUESTED:
-      return "Aceitar Frete";
-    case FreightStatus.APPROVED:
-    case FreightStatus.ACCEPTED:
-      return "Selecionar Motorista";
-    case FreightStatus.DRIVER_SELECTED:
-      return "Enviar Nota Fiscal";
-    case FreightStatus.PICKUP_ORDER_SENT:
-    case FreightStatus.INVOICE_SENT:
-      return "Iniciar Carregamento";
-    case FreightStatus.LOADING_STARTED:
-      return "Finalizar Carregamento";
-    case FreightStatus.LOADING_FINISHED:
-      return "Iniciar Deslocamento";
-    case FreightStatus.DRIVER_ARRIVED:
-      return "Confirmar Chegada ao Destino";
-    case FreightStatus.UNLOADING_STARTED:
-      return "Iniciar Descarregamento";
-    case FreightStatus.UNLOADING_FINISHED:
-      return "Finalizar Descarregamento";
-    case FreightStatus.INVOICE_COUPON_SENT:
-      return "Informar Administrativo";
-    case FreightStatus.ADMIN_REQUIRED:
-      return "Administrativo aprovado";
-    case FreightStatus.ADMIN_APPROVED:
-      return "Informar Financeiro";
-    case FreightStatus.FINANCIAL_REQUIRED:
-      return "Financeiro aprovado";
-    case FreightStatus.FINANCIAL_APPROVED:
-      return "Finalizar Frete";
-    case FreightStatus.FINISHED:
-      return "Frete Concluído";
-    case FreightStatus.CANCELED:
-      return "Frete Cancelado";
-    default:
-      return "Ação Desconhecida";
-  }
-};
-
-const getNextStatus = (
-  status: FreightStatus | null | undefined
-): FreightStatus | null => {
-  if (!status) {
-    return null;
-  }
-  switch (status) {
-    case FreightStatus.WAITING:
-    case FreightStatus.TARGETED:
-      return FreightStatus.APPROVED;
-    case FreightStatus.REQUESTED:
-      return FreightStatus.ACCEPTED;
-    case FreightStatus.APPROVED:
-      return FreightStatus.DRIVER_SELECTED;
-    case FreightStatus.ACCEPTED:
-      return FreightStatus.DRIVER_SELECTED;
-    case FreightStatus.DRIVER_SELECTED:
-      return FreightStatus.INVOICE_SENT;
-    case FreightStatus.PICKUP_ORDER_SENT:
-    case FreightStatus.INVOICE_SENT:
-      return FreightStatus.LOADING_STARTED;
-    case FreightStatus.LOADING_STARTED:
-      return FreightStatus.LOADING_FINISHED;
-    case FreightStatus.LOADING_FINISHED:
-      return FreightStatus.DRIVER_ARRIVED;
-    case FreightStatus.DRIVER_ARRIVED:
-      return FreightStatus.UNLOADING_STARTED;
-    case FreightStatus.UNLOADING_STARTED:
-      return FreightStatus.UNLOADING_FINISHED;
-    case FreightStatus.UNLOADING_FINISHED:
-      return FreightStatus.INVOICE_COUPON_SENT;
-    case FreightStatus.INVOICE_COUPON_SENT:
-      return FreightStatus.ADMIN_REQUIRED;
-    case FreightStatus.ADMIN_REQUIRED:
-      return FreightStatus.ADMIN_APPROVED;
-    case FreightStatus.ADMIN_APPROVED:
-      return FreightStatus.FINANCIAL_REQUIRED;
-    case FreightStatus.FINANCIAL_REQUIRED:
-      return FreightStatus.FINANCIAL_APPROVED;
-    case FreightStatus.FINANCIAL_APPROVED:
-      return FreightStatus.FINISHED;
-    default:
-      return null;
-  }
-};
-
 const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
@@ -317,6 +227,7 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                     <h2>Dados do embarque:</h2>
                     <FreightInCourseOptions
                       freightId={freight.id ?? ""}
+                      currentStatus={freight.status as FreightStatus}
                       actionButtonText={getStatusText(freight.status)}
                       actionButtonStatus={getNextStatus(freight.status)}
                     />
