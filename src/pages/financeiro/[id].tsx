@@ -66,8 +66,8 @@ const PendingPayment: React.FC = () => {
     try {
       await updateFreightStatus({
         variables: {
+          id: pendingPayment.id,
           input: {
-            id: pendingPayment.id,
             status: FreightStatus.FINANCIAL_APPROVED,
             updateData: { paymentDate: dateNow(), boardUser: { name: boardUser?.name, profile: boardUser?.profile } },
             updateDataType: UpdateDataTypeEnum.FINANCIAL,
