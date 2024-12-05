@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import styles from './StartingBoardModal.module.css'
+import styles from './ProvidePaymentDetails.module.css'
 import Modal from "../..";
 
-interface StartingBoardModalProps {
+interface ProvidePaymentDetailsProps {
   isOpen: boolean,
   onRequestClose: () => void,
   handleConfirm: () => void,
   handleCancel: () => void
 }
 
-const StartingBoardModal = ({isOpen, onRequestClose, handleConfirm, handleCancel}: StartingBoardModalProps) => {
+const ProvidePaymentDetails = ({isOpen, onRequestClose, handleConfirm, handleCancel}: ProvidePaymentDetailsProps) => {
 
   const [freightValue, setFreightValue] = useState("");
   const [freightAdvance, setFreightAdvance] = useState("");
@@ -39,8 +39,8 @@ const StartingBoardModal = ({isOpen, onRequestClose, handleConfirm, handleCancel
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      modalTitle="Iniciando o embarque"
-      modalDescription="Por favor, insira o valor do frete do motorista, valor de adiantamento e saldo"
+      modalTitle="Informar dados de pagamento"
+      modalDescription="Por favor, insira o valor do frete do motorista, valor de adiantamento e saldo:"
       hasTwoButtons={true}
       buttonOneTitle="Confirmar"
       buttonOneAction={handleConfirm}
@@ -90,4 +90,4 @@ const StartingBoardModal = ({isOpen, onRequestClose, handleConfirm, handleCancel
   )
 }
 
-export default StartingBoardModal
+export default ProvidePaymentDetails
