@@ -162,16 +162,16 @@ const getStatusText = (status: FreightStatus | null | undefined): string => {
     case FreightStatus.WAITING:
       return "Autorizar Embarque";
     case FreightStatus.TARGETED:
-    case FreightStatus.REQUESTED:
       return "Aprovar Frete";
+    case FreightStatus.REQUESTED:
+      return "Aceitar Frete";
     case FreightStatus.APPROVED:
     case FreightStatus.ACCEPTED:
-      return "Enviar Ordem de Coleta";
+      return "Selecionar Motorista";
     case FreightStatus.DRIVER_SELECTED:
-      return "Iniciar viagem";
-    case FreightStatus.INVOICE_SENT:
-      return "Iniciar Carregamento";
+      return "Enviar Nota Fiscal";
     case FreightStatus.PICKUP_ORDER_SENT:
+    case FreightStatus.INVOICE_SENT:
       return "Iniciar Carregamento";
     case FreightStatus.LOADING_STARTED:
       return "Finalizar Carregamento";
@@ -184,11 +184,11 @@ const getStatusText = (status: FreightStatus | null | undefined): string => {
     case FreightStatus.UNLOADING_FINISHED:
       return "Finalizar Descarregamento";
     case FreightStatus.INVOICE_COUPON_SENT:
-      return "Informar adminitrativo";
+      return "Informar Administrativo";
     case FreightStatus.ADMIN_REQUIRED:
       return "Administrativo aprovado";
     case FreightStatus.ADMIN_APPROVED:
-      return "Informar financeiro";
+      return "Informar Financeiro";
     case FreightStatus.FINANCIAL_REQUIRED:
       return "Financeiro aprovado";
     case FreightStatus.FINANCIAL_APPROVED:
