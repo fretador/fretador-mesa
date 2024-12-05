@@ -12,6 +12,7 @@ export const getStageFromStatus = (status: FreightStatus): number => {
 		[FreightStatus.INVOICE_SENT]: 0,
 		[FreightStatus.LOADING_STARTED]: 1,
 		[FreightStatus.LOADING_FINISHED]: 2,
+		[FreightStatus.ROUTE_IN_PROGRESS]: 2,
 		[FreightStatus.UNLOADING_STARTED]: 3,
 		[FreightStatus.UNLOADING_FINISHED]: 3,
 		[FreightStatus.DRIVER_ARRIVED]: 3,
