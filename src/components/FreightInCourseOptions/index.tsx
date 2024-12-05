@@ -286,6 +286,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         onMouseLeave={handleMouseLeave}
         style={{
           cursor: isLoading || isActionLoading ? "not-allowed" : "pointer",
+          zIndex: isDropdownVisible ? 1 : "auto"
         }}
       >
         <PaperClipIcon />
