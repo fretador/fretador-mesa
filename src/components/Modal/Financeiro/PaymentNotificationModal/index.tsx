@@ -1,34 +1,22 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './PaymentNotificationModal.module.css';
-import Modal from "../index";
+import Modal from "../../index";
 
 interface PaymentNotificationModalProps {
+  isOpen: boolean,
+  onRequestClose: () => void,
+  handleConfirm: () => void,
   motorista: string;
   contrato: string;
   numCte: string;
   banco: string;
-  onClose: () => void;
 }
 
-const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ motorista, contrato, numCte, banco, onClose }) => {
+const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ isOpen, onRequestClose, handleConfirm, motorista, contrato, numCte, banco }) => {
   const [valorPago, setValorPago] = useState('');
   const [dataPagamento, setDataPagamento] = useState('');
   const [error, setError] = useState<string | null>(null);
-
-  const handleClose = () => {
-    onClose();
-  };
-
-  const handleConfirm = () => {
-    if (!valorPago || !dataPagamento) {
-      setError('Por favor, preencha todos os campos.');
-      return;
-    }
-
-    // Simulação de envio de dados para o backend
-    onClose();
-  };
 
   const formatCurrency = (value: string) => {
     const numericValue = value.replace(/\D/g, '');
@@ -53,8 +41,8 @@ const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ mot
 
   return (
     <Modal
-      isOpen={true}
-      onRequestClose={handleClose}
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
       modalTitle="Informar Pagamento"
       modalDescription=""
       buttonOneTitle="Confirmar"
@@ -75,18 +63,18 @@ const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ mot
         <p className={styles.label}>
           Banco: <span className={styles.value}>{banco}</span>
         </p>
-        <div className={styles.inputGroup}>
-          <div className={styles.inputLabels}>
+        <div className={styles.inputsContainer}>
+          <div className={styles.inputContainer}>
             <label className={styles.inputLabel}>Valor Pago</label>
-            <label className={styles.inputLabel}>Data do Pagamento</label>
-          </div>
-          <div className={styles.inputFields}>
             <input
               type="text"
               value={valorPago}
               onChange={(e) => setValorPago(formatCurrency(e.target.value))}
               className={styles.inputField}
             />
+          </div>
+          <div className={styles.inputContainer}>
+            <label className={styles.inputLabel}>Data do Pagamento</label>
             <input
               type="text"
               value={dataPagamento}
@@ -99,14 +87,6 @@ const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ mot
       </div>
     </Modal>
   );
-};
-
-PaymentNotificationModal.propTypes = {
-  motorista: PropTypes.string.isRequired,
-  contrato: PropTypes.string.isRequired,
-  numCte: PropTypes.string.isRequired,
-  banco: PropTypes.string.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default PaymentNotificationModal;

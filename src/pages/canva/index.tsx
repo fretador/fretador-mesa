@@ -13,7 +13,7 @@ import Modal from "@/components/Modal";
 import TravelWithoutPayment from "@/components/Modal/FreteEmCurso/TravelWithoutPayment";
 import ProvideFreightValue from "@/components/Modal/FreteEmCurso/ProvideFreightValue";
 import ProvidePaymentDetails from "@/components/Modal/FreteEmCurso/ProvidePaymentDetails";
-import PaymentNotificationModal from "@/components/Modal/Financeiro";
+import PaymentNotificationModal from "@/components/Modal/Financeiro/PaymentNotificationModal";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -77,6 +77,10 @@ const Canva: React.FC = () => {
 
   const toggleNewModal3 = () => {
     setIsNewModalOpen3(!isNewModalOpen3);
+  };
+
+  const toggleNewModal4 = () => {
+    setIsPaymentNotificationModalOpen(!isPaymentNotificationModalOpen);
   };
 
   const toggleModal = () => {
@@ -255,11 +259,13 @@ const Canva: React.FC = () => {
 
           {isPaymentNotificationModalOpen && (
             <PaymentNotificationModal
+              isOpen={isPaymentNotificationModalOpen}
+              onRequestClose={toggleNewModal4}
+              handleConfirm={() => console.log("Confirmou")}
               motorista="João Pedro do Nascimento"
               contrato="123456"
               numCte="000000"
               banco="Banco do Brasil"
-              onClose={togglePaymentNotificationModal}
             />
           )}
         </div>
