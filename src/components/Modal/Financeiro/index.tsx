@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './PaymentNotificationModal.module.css';
-import { CloseModalBtnIcon } from "@/utils/icons";
+import Modal from "../index";
 
 interface PaymentNotificationModalProps {
   motorista: string;
@@ -52,15 +52,17 @@ const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ mot
   };
 
   return (
-    <div className={styles.modal}>
-      <div className={styles.modalHeader}>
-        <h2 className={styles.modalTitle}>Informar Pagamento</h2>
-        <div className={styles.closeModalBtn} onClick={handleClose}>
-          <CloseModalBtnIcon />
-        </div>
-      </div>
+    <Modal
+      isOpen={true}
+      onRequestClose={handleClose}
+      modalTitle="Informar Pagamento"
+      modalDescription=""
+      buttonOneTitle="Confirmar"
+      buttonOneAction={handleConfirm}
+      childrenClassName={styles.children}
+    >
       <div className={styles.modalContent}>
-        <p className={styles.confirmText}>Confirmar pagamento para:</p>
+        <p className={styles.modalTitle}>Confirmar pagamento para:</p>
         <p className={styles.label}>Motorista: <span className={styles.value}>{motorista}</span></p>
         <div className={styles.contractGroup}>
           <p className={styles.label}>
@@ -94,11 +96,8 @@ const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({ mot
           </div>
         </div>
         {error && <p className={styles.error}>{error}</p>}
-        <button className={styles.confirmButton} onClick={handleConfirm}>
-          Confirmar
-        </button>
       </div>
-    </div>
+    </Modal>
   );
 };
 
