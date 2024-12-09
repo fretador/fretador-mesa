@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./DocumentTypeModal.module.css";
-import { CloseIcon } from "../../../utils/icons";
 import SmallLoading from "@/components/SmallLoading";
+import Modal from "@/components/Modal";
 
 interface DocumentTypeModalProps {
   isOpen: boolean;
@@ -81,63 +81,53 @@ const DocumentTypeModal: React.FC<DocumentTypeModalProps> = ({
     onSubmit(filesWithTypes);
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modal}>
-        <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>Selecione o tipo de documento</h2>
-          <button className={styles.closeButton} onClick={onClose}>
-            <CloseIcon />
-          </button>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      modalTitle="Selecione o tipo de documento"
+      modalDescription=""
+      hasTwoButtons
+      buttonOneTitle="Enviar"
+      buttonOneAction={handleSubmit}
+      buttonTwoTitle="Cancelar"
+      buttonTwoAction={onClose}
+      childrenClassName={styles.content}
+    >
+      {isLoading ? (
+        <div className={styles.loadingContainer}>
+          <SmallLoading />
         </div>
-        {isLoading ? (
-          <div className={styles.content}>
-            <div className={styles.loadingContainer}>
-              <SmallLoading />
-            </div>
+      ) : (
+        fileTypes.map((fileType, index) => (
+          <div key={index} className={styles.fileItem}>
+            <p>{fileType.file.name}</p>
+            <select
+              value={fileType.type}
+              onChange={(e) => handleTypeChange(index, e.target.value)}
+            >
+              <option value="">Selecione o tipo</option>
+              {documentTypes.map((docType, idx) => (
+                <option key={idx} value={docType}>
+                  {docType}
+                </option>
+              ))}
+            </select>
+            {fileType.type === "Outros" && (
+              <input
+                type="text"
+                placeholder="Especifique o tipo"
+                value={fileType.customType}
+                onChange={(e) =>
+                  handleCustomTypeChange(index, e.target.value)
+                }
+                className={styles.othersInput}
+              />
+            )}
           </div>
-        ) : (
-          <div className={styles.content}>
-            {fileTypes.map((fileType, index) => (
-              <div key={index} className={styles.fileItem}>
-                <p>{fileType.file.name}</p>
-                <select
-                  value={fileType.type}
-                  onChange={(e) => handleTypeChange(index, e.target.value)}
-                >
-                  <option value="">Selecione o tipo</option>
-                  {documentTypes.map((docType, idx) => (
-                    <option key={idx} value={docType}>
-                      {docType}
-                    </option>
-                  ))}
-                </select>
-                {fileType.type === "Outros" && (
-                  <input
-                    type="text"
-                    placeholder="Especifique o tipo"
-                    value={fileType.customType}
-                    onChange={(e) =>
-                      handleCustomTypeChange(index, e.target.value)
-                    }
-                  />
-                )}
-              </div>
-            ))}
-            <div className={styles.buttonsContainer}>
-              <button className={styles.button} onClick={onClose}>
-                Cancelar
-              </button>
-              <button className={styles.button} onClick={handleSubmit}>
-                Enviar
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+        ))
+      )}
+    </Modal>
   );
 };
 

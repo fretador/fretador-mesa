@@ -248,7 +248,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
    */
   const handleCloseTypeModal = () => {
     setShowTypeModal(false);
-    setShowModal(true);
+    // setShowModal(true);
     setIsLoading(false);
   };
 
