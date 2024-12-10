@@ -43,7 +43,8 @@ export interface Freight {
 	packageWeight?: number;
 	observations?: string;
 	value?: number;
-	freightValue?: string;
+	advanceValue?: number;
+	balanceValue?: number;
 	shippingType?: ShippingType;
 	pedagioIncluso?: boolean;
 	formaPagamento?: string;

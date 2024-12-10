@@ -26,7 +26,6 @@ export interface CreateFreightInput {
 	moreDetails?: string;
 	shippingType: ShippingType;
 	freightType: Type;
-	// freightValue?: string;
 	pedagioIncluso: boolean;
 	paymentType?: string;
 	observations?: string;
@@ -35,4 +34,6 @@ export interface CreateFreightInput {
 	type: Type;
 	targetedDrivers: string[];
 	value?: number;
+	advanceValue?: number;
+	balanceValue?: number;
 }

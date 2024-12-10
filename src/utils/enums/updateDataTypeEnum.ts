@@ -5,4 +5,5 @@ export enum UpdateDataTypeEnum {
 	LOCATION = "LOCATION",
 	FINANCIAL = "FINANCIAL",
 	STATUS = "STATUS",
+	UPDATE = "UPDATE",
 }

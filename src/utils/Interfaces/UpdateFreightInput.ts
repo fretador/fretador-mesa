@@ -26,6 +26,10 @@ export interface UpdateFreightInput {
 	paymentDate?: string;
 	observations?: string;
 	boardUser?: BoardUser;
+	value?: number;
+	advanceValue?: number;
+	balanceValue?: number;
+	noPaymentReason?: string;
 }
 export interface EligibleVehicle {
 	category: VehicleCategory;
