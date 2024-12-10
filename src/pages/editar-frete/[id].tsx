@@ -12,6 +12,7 @@ import { useFreightById } from "@/hooks/freight/useFreightById";
 import { useUpdateFreight } from "@/hooks/freight/useUpdateFreight";
 import { Freight } from "@/utils/Interfaces/Freight";
 import SmallLoading from "@/components/SmallLoading";
+import { UpdateDataTypeEnum } from '@/utils/enums/updateDataTypeEnum';
 
 const EditFreight = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -19,7 +20,7 @@ const EditFreight = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data, loading, error, refetch } = useFreightById(id as string);
-  const { updateFreight } = useUpdateFreight();
+  const { updateFreight } = useUpdateFreight(id as string);
   const [initialData, setInitialData] = useState<Freight | null>(null);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const EditFreight = () => {
       await updateFreight({
         variables: {
           id: id as string,
-          input: { ...updatedData, boardUser: { name: boardUser?.name, profile: boardUser?.profile } },
+          input: { ...updatedData, boardUser: { name: boardUser?.name, profile: boardUser?.profile }},
         },
       });
 

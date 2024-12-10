@@ -23,7 +23,7 @@ const OccurrenceDetails: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data, loading, error, refetch } = useOccurrenceById(id as string);
-  const { updateOccurrence } = useUpdateOccurrence();
+  const { updateOccurrence } = useUpdateOccurrence(id as string);
   const routeName = `Ocorrência ${id}`;
 
   // Estados de UI
