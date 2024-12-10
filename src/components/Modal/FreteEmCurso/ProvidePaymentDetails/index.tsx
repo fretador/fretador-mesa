@@ -3,14 +3,13 @@ import styles from './ProvidePaymentDetails.module.css'
 import Modal from "../..";
 
 interface ProvidePaymentDetailsProps {
-  isOpen: boolean,
-  onRequestClose: () => void,
-  handleConfirm: () => void,
-  handleCancel: () => void
+  isOpen: boolean;
+  onRequestClose: () => void;
+  handleConfirm: (newTotal: number, newAdvance: number, newBalance: number) => void; // Ajustado para receber os 3 valores
+  handleCancel: () => void;
 }
 
-const ProvidePaymentDetails = ({isOpen, onRequestClose, handleConfirm, handleCancel}: ProvidePaymentDetailsProps) => {
-
+const ProvidePaymentDetails = ({ isOpen, onRequestClose, handleConfirm, handleCancel }: ProvidePaymentDetailsProps) => {
   const [freightValue, setFreightValue] = useState("");
   const [freightAdvance, setFreightAdvance] = useState("");
   const [freightBalance, setFreightBalance] = useState("");
@@ -35,6 +34,14 @@ const ProvidePaymentDetails = ({isOpen, onRequestClose, handleConfirm, handleCan
     setFreightBalance(formatCurrency(event.target.value));
   };
 
+  const handleConfirmClick = () => {
+    const total = parseFloat(freightValue.replace(/\./g, '').replace(',', '.'));
+    const advance = parseFloat(freightAdvance.replace(/\./g, '').replace(',', '.'));
+    const balance = parseFloat(freightBalance.replace(/\./g, '').replace(',', '.'));
+
+    handleConfirm(total, advance, balance);
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -43,7 +50,7 @@ const ProvidePaymentDetails = ({isOpen, onRequestClose, handleConfirm, handleCan
       modalDescription="Por favor, insira o valor do frete do motorista, valor de adiantamento e saldo:"
       hasTwoButtons={true}
       buttonOneTitle="Confirmar"
-      buttonOneAction={handleConfirm}
+      buttonOneAction={handleConfirmClick}
       buttonTwoTitle="Agora não"
       buttonTwoAction={handleCancel}
       childrenClassName={styles.children}
@@ -87,7 +94,7 @@ const ProvidePaymentDetails = ({isOpen, onRequestClose, handleConfirm, handleCan
         </div>
       </div>
     </Modal>
-  )
-}
+  );
+};
 
-export default ProvidePaymentDetails
+export default ProvidePaymentDetails;

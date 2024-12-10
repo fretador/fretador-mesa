@@ -3,20 +3,24 @@ import styles from './TravelWithoutPayment.module.css'
 import Modal from "../..";
 
 interface TravelWithoutPaymentProps {
-  isOpen: boolean,
-  onRequestClose: () => void,
-  handleConfirm: () => void,
-  handleCancel: () => void
+  isOpen: boolean;
+  onRequestClose: () => void;
+  handleConfirm: (reason: string) => void;
+  handleCancel: () => void;
 }
 
-const TravelWithoutPayment = ({isOpen, onRequestClose, handleConfirm, handleCancel}: TravelWithoutPaymentProps) => {
-
+const TravelWithoutPayment = ({
+  isOpen,
+  onRequestClose,
+  handleConfirm,
+  handleCancel
+}: TravelWithoutPaymentProps) => {
   const [reason, setReason] = useState("");
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReason(event.target.value);
   };
-  
+
   return (
     <Modal
       isOpen={isOpen}
@@ -25,7 +29,8 @@ const TravelWithoutPayment = ({isOpen, onRequestClose, handleConfirm, handleCanc
       modalDescription="Você confirma esse embarque sem valor de frete? Por favor, insira o motivo:"
       hasTwoButtons={true}
       buttonOneTitle="Confirmar"
-      buttonOneAction={handleConfirm}
+      // Ao clicar em confirmar, chamamos handleConfirm passando o motivo
+      buttonOneAction={() => handleConfirm(reason)}
       buttonTwoTitle="Cancelar"
       buttonTwoAction={handleCancel}
       childrenClassName={styles.children}
@@ -41,7 +46,7 @@ const TravelWithoutPayment = ({isOpen, onRequestClose, handleConfirm, handleCanc
         </textarea>
       </div>
     </Modal>
-  )
-}
+  );
+};
 
-export default TravelWithoutPayment
+export default TravelWithoutPayment;
