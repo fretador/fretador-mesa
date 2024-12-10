@@ -45,3 +45,21 @@ export const formatDateTime = (dateString: string) => {
 
 	return `${formattedDate} - ${formattedTime}`;
 };
+
+export const formatDate = (dateString: string) => {
+	// Remove o 'Z' para que a data não seja interpretada como UTC
+	const localDateString = dateString.endsWith("Z")
+		? dateString.slice(0, -1)
+		: dateString;
+
+	const dateObject = new Date(localDateString);
+
+	// Agora a data será tratada como local sem conversão de fuso
+	const formattedDate = dateObject.toLocaleDateString("pt-BR");
+	const formattedTime = dateObject.toLocaleTimeString("pt-BR", {
+		hour: "2-digit",
+		minute: "2-digit",
+	});
+
+	return { formattedDate, formattedTime };
+};

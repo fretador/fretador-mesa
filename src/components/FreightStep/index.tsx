@@ -3,6 +3,7 @@ import styles from "./FreightStep.module.css";
 import Botao from "../Botao";
 import { AttachmentDarkIcon, AttachmentLightIcon } from "@/utils/icons";
 import { UpdateData } from "@/utils/Interfaces/UpdateData";
+import { formatDate } from "@/utils/dates";
 
 interface BaseFreightStepProps {
   theme: "dark" | "light";
@@ -48,16 +49,6 @@ const FreightStep: React.FC<FreightStepProps> = ({
   updateData,
 }) => {
   const backgroundColor = theme === "dark" ? "#D3DFE4" : "#FAFDFD";
-
-  const formatDate = (dateString: string) => {
-    const dateObject = new Date(dateString);
-    const formattedDate = dateObject.toLocaleDateString("pt-BR");
-    const formattedTime = dateObject.toLocaleTimeString("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    return { formattedDate, formattedTime };
-  };
 
   const { formattedDate, formattedTime } = formatDate(date);
 
