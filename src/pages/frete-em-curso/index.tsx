@@ -230,6 +230,9 @@ const FreightInProgress: React.FC<FreightInProgressProps> = ({ freightId }) => {
                       currentStatus={freight.status as FreightStatus}
                       actionButtonText={getStatusText(freight.status)}
                       actionButtonStatus={getNextStatus(freight.status)}
+                      value={freight.value}
+                      advanceValue={freight.advanceValue}
+                      balanceValue={freight.balanceValue}
                     />
                   </div>
                 </div>

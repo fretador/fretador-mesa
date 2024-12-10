@@ -7,7 +7,6 @@ export const FREIGHT_FIELDS = gql`
 		status
 		freightCode
 		freightType
-		freightValue
 		creationDate
 		updateDate
 		pickupDeliveryData
@@ -49,6 +48,8 @@ export const FREIGHT_FIELDS = gql`
 		requestFinancialType
 		contractNumber
 		paymentDate
+		advanceValue
+		balanceValue
 	}
 `;
 

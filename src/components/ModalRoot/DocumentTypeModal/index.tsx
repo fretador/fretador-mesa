@@ -12,11 +12,14 @@ interface DocumentTypeModalProps {
 }
 
 const documentTypes = [
+  "Ordem de Coleta",
   "CTE",
   "MDFe",
   "Nota Fiscal",
   "Comp. de Pagamento",
   "Recibo",
+  "Contrato de frete",
+  "Guia de ICMS (GNRE)",
   "Outros",
 ];
 
