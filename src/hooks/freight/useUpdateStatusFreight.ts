@@ -19,8 +19,8 @@ export const useUpdateStatusFreight = (freightId: string) => {
 		UpdateStatusFreightVars
 	>(UPDATE_STATUS_FREIGHT, {
 		refetchQueries: [
-			"GetFreights", // mantém a refetch da lista de fretes
-			{ query: GET_FREIGHT_BY_ID, variables: { id: freightId } }, // refetch apenas do frete específico
+			"GetFreights",
+			{ query: GET_FREIGHT_BY_ID, variables: { id: freightId } },
 		],
 		awaitRefetchQueries: false,
 	});
