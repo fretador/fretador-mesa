@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useQuery } from "@apollo/client";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -11,10 +10,9 @@ import SearchComponent from "@/components/SearchButton";
 import EntriesCards from "@/components/EntriesCards";
 import LastPaymentsList from "@/components/LastPayments";
 import FinancialFilter from "@/components/FinancialFilter";
-import { GET_FREIGHTS_FOR_FINANCIAL } from "@/graphql/queries/financialQueries";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { FinancialFilterInput } from "@/utils/Interfaces/FinancialFilterInput";
-import { FreightNode } from "@/utils/Interfaces/FreightNode";
+import { useFinancialFreights } from "@/hooks/financial/useFinancialFreights";
 
 const Financial: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -22,29 +20,17 @@ const Financial: React.FC = () => {
   const routeName = router.pathname.replace("/", "").toUpperCase();
   const [filters, setFilters] = useState<FinancialFilterInput>({});
 
-  const { data: entriesData, loading: loadingEntries, error: errorEntries } = useQuery(
-    GET_FREIGHTS_FOR_FINANCIAL,
-    {
-      variables: {
-        page: 1,
-        limit: 20,
-        filter: { ...filters, status: [FreightStatus.FINANCIAL_REQUIRED] },
-      },
-      fetchPolicy: 'cache-and-network',
-    }
-  );
+  const { data: entriesData, loading: loadingEntries, error: errorEntries } = useFinancialFreights({
+    page: 1,
+    limit: 20,
+    filter: { ...filters, status: [FreightStatus.FINANCIAL_REQUIRED] },
+  });
 
-  const { data: lastPaymentsData, loading: loadingPayments, error: errorPayments } = useQuery(
-    GET_FREIGHTS_FOR_FINANCIAL,
-    {
-      variables: {
-        page: 1,
-        limit: 20,
-        filter: { ...filters, status: [FreightStatus.FINANCIAL_APPROVED] },
-      },
-      fetchPolicy: 'cache-and-network',
-    }
-  );
+  const { data: lastPaymentsData, loading: loadingPayments, error: errorPayments } = useFinancialFreights({
+    page: 1,
+    limit: 20,
+    filter: { ...filters, status: [FreightStatus.FINANCIAL_APPROVED] },
+  });
 
   const handleApplyFilters = (newFilters: FinancialFilterInput) => {
     setFilters(newFilters);
@@ -77,7 +63,7 @@ const Financial: React.FC = () => {
               <div className={styles.entriesContainer}>
                 <h2>Entradas</h2>
                 <EntriesCards
-                  data={entriesData?.freightsForFinancial.edges.map((edge: FreightNode) => edge.node) || []}
+                  data={entriesData?.edges.map((edge) => edge.node) || []}
                   loading={loadingEntries}
                 />
                 {errorEntries && <p className={styles.error}>Erro ao carregar fretes de entrada</p>}
@@ -85,7 +71,7 @@ const Financial: React.FC = () => {
 
               <div className={styles.lastPaymentsContainer}>
                 <LastPaymentsList
-                  data={lastPaymentsData?.freightsForFinancial.edges.map((edge: FreightNode) => edge.node) || []}
+                  data={lastPaymentsData?.edges.map((edge) => edge.node) || []}
                   loading={loadingPayments}
                 />
                 {errorPayments && <p className={styles.error}>Erro ao carregar últimos pagamentos</p>}
