@@ -1,13 +1,14 @@
+import { Freight } from "./Freight";
 import { BoardUser } from "./BoardUser";
 import { DocumentData } from "./DocumentData";
 
 export interface UpdateData {
+	freight?: Partial<Freight>;
 	documents?: DocumentData[];
-	paymentDate?: String;
 	boardUser?: BoardUser;
-	name?: String;
+	name?: string;
 	size?: number;
-	type?: String;
-	mimetype?: String;
-	url?: String;
+	type?: string;
+	mimetype?: string;
+	url?: string;
 }

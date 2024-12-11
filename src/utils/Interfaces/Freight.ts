@@ -42,9 +42,6 @@ export interface Freight {
 	packageDescription?: string;
 	packageWeight?: number;
 	observations?: string;
-	value?: number;
-	advanceValue?: number;
-	balanceValue?: number;
 	shippingType?: ShippingType;
 	pedagioIncluso?: boolean;
 	formaPagamento?: string;
@@ -102,9 +99,7 @@ export interface Freight {
 	children?: string[];
 	batchItemCode?: string;
 	paymentAdvance?: number;
-	paymentDate?: string;
 	paymentDeadline?: number;
-	advanceRequestedDate?: string;
 	advancedRequestedPaymentDate?: string;
 	paymentSuccessfulBalance?: string;
 	OSCode?: string;
@@ -117,5 +112,13 @@ export interface Freight {
 	toll?: boolean;
 	requestFinancialType?: RequestFinancialType;
 	contractNumber: string;
-	paymentType: string;
+	advanceValue?: number;
+	advanceRequestedDate?: string;
+	advancePaymentDate?: string;
+	balanceValue?: number;
+	balanceRequestedDate?: string;
+	balancePaymentDate?: string;
+	value?: number;
+	paymentRequestedDate?: string;
+	paymentDate?: string;
 }

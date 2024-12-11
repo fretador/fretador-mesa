@@ -17,6 +17,7 @@ export const freightStatusLabels: {
 	FINANCIAL_APPROVED: "Financeiro Aprovado",
 	LOADING_STARTED: "Carregamento Iniciado",
 	LOADING_FINISHED: "Carregamento Finalizado",
+	ROUTE_IN_PROGRESS: "Rota em progresso",
 	UNLOADING_STARTED: "Descarregamento Iniciado",
 	UNLOADING_FINISHED: "Descarregamento Finalizado",
 	INVOICE_SENT: "Nota Fiscal Enviada",
