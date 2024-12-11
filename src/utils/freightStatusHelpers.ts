@@ -83,16 +83,16 @@ export const getStatusText = (
 
 		case FreightStatus.PICKUP_ORDER_SENT:
 		case FreightStatus.INVOICE_SENT:
-			return "Iniciar Carregamento";
+			return "Carregar Carga";
 
 		case FreightStatus.LOADING_STARTED:
 			return "Finalizar Carregamento";
 
 		case FreightStatus.LOADING_FINISHED:
-			return "Iniciar Deslocamento";
+			return "Iniciar Viagem";
 
 		case FreightStatus.ROUTE_IN_PROGRESS:
-			return "Confirmar Chegada ao Destino";
+			return "Chegou no Destino";
 
 		case FreightStatus.DRIVER_ARRIVED:
 			return "Iniciar Descarregamento";
