@@ -2,4 +2,4 @@ export * from "./authMutations";
 export * from "./clientMutations";
 export * from "./documentMutations";
 export * from "./freightMutations";
-export * from "./statusFreightMutations";
+export * from "./financialMutations";
