@@ -87,6 +87,12 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   // Modal para informar pagamento após liberar viagem
   const [showProvidePaymentDetails, setShowProvidePaymentDetails] = useState(false);
 
+  // Modal para confirmar envio de dados de pagamento ao financeiro
+  const [showPaymentDetailsConfirmed, setShowPaymentDetailsConfirmed] = useState(false);
+
+  // Modal para confirmar envio de solicitação de comprovantes ao motorista
+  const [requestProofsConfirmed, setRequestProofsConfirmed] = useState(false);
+
   // Modal para perguntar se continua sem informar valores ou não
   const [showNoPaymentNowModal, setShowNoPaymentNowModal] = useState(false);
 
@@ -248,7 +254,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
    */
   const handleCloseTypeModal = () => {
     setShowTypeModal(false);
-    setShowModal(true);
+    // setShowModal(true);
     setIsLoading(false);
   };
 
@@ -289,8 +295,17 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         confirmText: "Sim",
         cancelText: "Não",
         onConfirm: () => {
-          handleAction(actionButtonStatus!);
           setModalConfig(null);
+          setModalConfig({
+            isVisible: true,
+            title: "Autorizar Embarque",
+            description: "Por favor envie a ordem de coleta no: Anexar Documentos.",
+            confirmText: "Ok",
+            onConfirm: () => {
+              setModalConfig(null);
+            },
+          });
+          handleAction(actionButtonStatus!);
         },
       });
     },
@@ -302,6 +317,15 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         confirmText: "Sim",
         cancelText: "Não",
         onConfirm: () => {
+          setModalConfig({
+            isVisible: true,
+            title: "Autorizar Embarque",
+            description: "Por favor envie a ordem de coleta no: Anexar Documentos.",
+            confirmText: "Ok",
+            onConfirm: () => {
+              setModalConfig(null);
+            },
+          });
           handleAction(actionButtonStatus!);
           setModalConfig(null);
         },
@@ -312,10 +336,9 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         isVisible: true,
         title: "Autorizar Embarque",
         description: "Por favor envie a ordem de coleta no: Anexar Documentos.",
-        confirmText: "Enviar",
-        cancelText: "Cancelar",
+        confirmText: "Ok",
         onConfirm: () => {
-          handleAttachDocuments();
+          // handleAttachDocuments();
           setModalConfig(null);
         },
       });
@@ -325,10 +348,9 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         isVisible: true,
         title: "Autorizar Embarque",
         description: "Por favor envie a ordem de coleta no: Anexar Documentos.",
-        confirmText: "Enviar",
-        cancelText: "Cancelar",
+        confirmText: "Ok",
         onConfirm: () => {
-          handleAttachDocuments();
+          // handleAttachDocuments();
           setModalConfig(null);
         },
       });
@@ -341,8 +363,17 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         confirmText: "Sim",
         cancelText: "Não",
         onConfirm: () => {
-          handleAction(actionButtonStatus!);
           setModalConfig(null);
+          setModalConfig({
+            isVisible: true,
+            title: "Carregar carga",
+            description: "Ao completar o carregamento envie o CTE e o Manifesto no Anexar documentos.",
+            confirmText: "Ok",
+            onConfirm: () => {
+              setModalConfig(null);
+            },
+          });
+          handleAction(actionButtonStatus!);
         },
       });
     },
@@ -351,10 +382,9 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         isVisible: true,
         title: "Carregar carga",
         description: "Ao completar o carregamento envie o CTE e o Manifesto no Anexar documentos.",
-        confirmText: "Enviar",
-        cancelText: "Cancelar",
+        confirmText: "Ok",
         onConfirm: () => {
-          handleAttachDocuments();
+          // handleAttachDocuments();
           setModalConfig(null);
         },
       });
@@ -372,7 +402,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
           // Verifica se já temos todos os valores: value, advanceValue e balanceValue
           if (value !== undefined && advanceValue !== undefined && balanceValue !== undefined) {
             // Todos os valores já informados, avança diretamente
-            handleAction(actionButtonStatus!);
+            // handleAction(actionButtonStatus!);
           } else {
           // Exibe o modal para informar valores
             setShowProvidePaymentDetails(true);
@@ -388,8 +418,19 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         confirmText: "Sim",
         cancelText: "Não",
         onConfirm: () => {
-          handleAction(actionButtonStatus!);
           setModalConfig(null);
+          setModalConfig({
+            isVisible: true,
+            title: "Solicitar comprovantes",
+            description: "Gostaria de solicitar os comprovantes de entrega ao motorista?",
+            confirmText: "Sim",
+            cancelText: "Não",
+            onConfirm: () => {
+              setModalConfig(null);
+              setRequestProofsConfirmed(true)
+            },
+          });
+          handleAction(actionButtonStatus!);
         },
       });
     },
@@ -504,7 +545,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       </div>
 
       {/* Modal que confirma envio de documentos */}
-      <DocumentSentModal isOpen={showModal} onClose={closeModal} />
+      <DocumentSentModal isOpen={showModal} onRequestClose={closeModal} />
 
       {/* Modal para seleção do tipo de documentos anexados */}
       {showTypeModal && (
@@ -546,6 +587,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
 
           if (success) {
             setShowProvidePaymentDetails(false);
+            setShowPaymentDetailsConfirmed(true);
             handleAction(actionButtonStatus!);
           } else {
             // Caso de erro: não avança o status.
@@ -559,6 +601,30 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
           setShowNoPaymentNowModal(true);
         }}
       />
+
+      {/* Modal de confirmação de valores enviados ao financeiro */}
+      {showPaymentDetailsConfirmed && (
+        <Modal
+          modalTitle="Dados de pagamento"
+          modalDescription="Dados de pagamento enviados ao financeiro!"
+          buttonOneTitle="Ok"
+          buttonOneAction={() => setShowPaymentDetailsConfirmed(false)}
+          isOpen={showPaymentDetailsConfirmed}
+          onRequestClose={() => setShowPaymentDetailsConfirmed(false)}
+        />
+      )}
+
+      {/* Modal de confirmação de solicitação de comprovantes enviados pro motorista */}
+      {requestProofsConfirmed && (
+        <Modal
+          modalTitle="Solicitar comprovantes"
+          modalDescription="Comprovantes solicitados!"
+          buttonOneTitle="Ok"
+          buttonOneAction={() => setRequestProofsConfirmed(false)}
+          isOpen={requestProofsConfirmed}
+          onRequestClose={() => setRequestProofsConfirmed(false)}
+        />
+      )}
 
       {/* Modal para escolher entre continuar sem informar valores ou voltar a informar */}
       {showNoPaymentNowModal && (

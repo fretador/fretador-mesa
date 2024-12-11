@@ -14,61 +14,26 @@
   align-items: center;
   gap: 16px;
   cursor: pointer;
-  transition: transform 0.3s ease-in-out;
   position: relative;
-}
-
-.iconContainer:hover {
-  transform: translateY(-5px);
 }
 
 .iconContainer p {
   color: #1B556D;
   font-size: 16px;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+.iconContainer svg path {
+  transition: fill 0.3s ease;
 }
 
-.modal {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+.iconContainer:hover p {
+  color: #3797BD;
 }
 
-.modal h2 {
-  margin-top: 0;
-  color: #333;
-}
-
-.modal p {
-  margin-bottom: 20px;
-}
-
-.modal button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.modal button:hover {
-  background-color: #0056b3;
+.iconContainer:hover svg path {
+  fill: #3797BD;
 }
 
 .dropdown {
