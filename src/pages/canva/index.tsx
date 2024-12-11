@@ -13,6 +13,7 @@ import Modal from "@/components/Modal";
 import TravelWithoutPayment from "@/components/Modal/FreteEmCurso/TravelWithoutPayment";
 import ProvideFreightValue from "@/components/Modal/FreteEmCurso/ProvideFreightValue";
 import ProvidePaymentDetails from "@/components/Modal/FreteEmCurso/ProvidePaymentDetails";
+import PaymentNotificationModal from "@/components/Modal/Financeiro/PaymentNotificationModal";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -20,28 +21,11 @@ const Canva: React.FC = () => {
   const [isFirstTimeMalfunctionModalOpen, setIsFirstTimeMalfunctionModalOpen] = useState(false);
   const [isIssueNavigatorModalOpen, setIsIssueNavigatorModalOpen] = useState(false);
   const [isReportIssueModalOpen, setIsReportIssueModalOpen] = useState(false);
-
-  const [isNewModalOpen, setIsNewModalOpen] = useState(false)
-  const [isNewModalOpen2, setIsNewModalOpen2] = useState(false)
-  const [isNewModalOpen3, setIsNewModalOpen3] = useState(false)
-
-  const[isModalOpen, setIsModalOpen] = useState(false)
-
-  const toggle = () => {
-    setIsModalOpen(!isModalOpen)
-  }
-
-  const toggleNewModal = () => {
-    setIsNewModalOpen(!isNewModalOpen)
-  }
-
-  const toggleNewModal2 = () => {
-    setIsNewModalOpen2(!isNewModalOpen2)
-  }
-
-  const toggleNewModal3 = () => {
-    setIsNewModalOpen3(!isNewModalOpen3)
-  }
+  const [isNewModalOpen, setIsNewModalOpen] = useState(false);
+  const [isNewModalOpen2, setIsNewModalOpen2] = useState(false);
+  const [isNewModalOpen3, setIsNewModalOpen3] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPaymentNotificationModalOpen, setIsPaymentNotificationModalOpen] = useState(false);
 
   const toggleOpenTicketModal = () => {
     setIsOpenTicketModalOpen(!isOpenTicketModalOpen);
@@ -81,6 +65,30 @@ const Canva: React.FC = () => {
   const handleSend = () => {
     console.log("Enviando o ticket...");
     // Adicione qualquer lógica adicional que você precise aqui
+  };
+
+  const toggleNewModal = () => {
+    setIsNewModalOpen(!isNewModalOpen);
+  };
+
+  const toggleNewModal2 = () => {
+    setIsNewModalOpen2(!isNewModalOpen2);
+  };
+
+  const toggleNewModal3 = () => {
+    setIsNewModalOpen3(!isNewModalOpen3);
+  };
+
+  const toggleNewModal4 = () => {
+    setIsPaymentNotificationModalOpen(!isPaymentNotificationModalOpen);
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const togglePaymentNotificationModal = () => {
+    setIsPaymentNotificationModalOpen(!isPaymentNotificationModalOpen);
   };
 
   return (
@@ -148,11 +156,14 @@ const Canva: React.FC = () => {
               Abrir Novo Modal Personalizado
             </button>
 
-            <button onClick={toggle} className={styles.newModalButton}>
+            <button onClick={toggleModal} className={styles.newModalButton}>
               Modal Informar Valor do Frete
             </button>
-          </div>
 
+            <button onClick={togglePaymentNotificationModal} className={styles.newModalButton}>
+              Abrir Modal Notificação de Pagamento
+            </button>
+          </div>
 
           {isOpenTicketModalOpen && (
             <OpenTicketModal
@@ -237,16 +248,26 @@ const Canva: React.FC = () => {
             </Modal>
           )}
 
-          {
-            isModalOpen && (
-              <ProvideFreightValue
-                isOpen={isModalOpen}
-                onRequestClose={toggle}
-                handleConfirm={() => console.log("Confirmou")}
-                handleCancel={() => console.log("Cancelou")}
-              />
-            )
-          }
+          {isModalOpen && (
+            <ProvideFreightValue
+              isOpen={isModalOpen}
+              onRequestClose={toggleModal}
+              handleConfirm={() => console.log("Confirmou")}
+              handleCancel={() => console.log("Cancelou")}
+            />
+          )}
+
+          {isPaymentNotificationModalOpen && (
+            <PaymentNotificationModal
+              isOpen={isPaymentNotificationModalOpen}
+              onRequestClose={toggleNewModal4}
+              handleConfirm={() => console.log("Confirmou")}
+              motorista="João Pedro do Nascimento"
+              contrato="123456"
+              numCte="000000"
+              banco="Banco do Brasil"
+            />
+          )}
         </div>
       </div>
     </div>
