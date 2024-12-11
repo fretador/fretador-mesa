@@ -103,6 +103,7 @@ export interface Freight {
 	advancedRequestedPaymentDate?: string;
 	paymentSuccessfulBalance?: string;
 	OSCode?: string;
+	boardUser?: BoardUser;
 	boardUserCreating?: BoardUser;
 	boardUserDeleted?: string;
 	freightType?: string;
