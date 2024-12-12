@@ -5,6 +5,7 @@ import { useDocumentController } from "@/controllers/documentController";
 import {
   CheckFillIcon,
   DangerIcon,
+  DocIcon,
   PaperClipIcon,
   WhatsAppIcon,
 } from "@/utils/icons";
@@ -21,6 +22,7 @@ import { useUpdateFreight } from "@/hooks/freight/useUpdateFreight";
 import ProvidePaymentDetails from "@/components/Modal/FreteEmCurso/ProvidePaymentDetails";
 import TravelWithoutPayment from "@/components/Modal/FreteEmCurso/TravelWithoutPayment";
 import ProvideFreightValue from "@/components/Modal/FreteEmCurso/ProvideFreightValue";
+import DriverDocuments from "../Modal/FreteEmCurso/DriverDocuments";
 
 interface FreightInCourseOptionsProps {
   freightId: string;
@@ -104,6 +106,9 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
 
   // Modal "ProvideFreightValue" após "Solicitar saldo"
   const [showProvideFreightValue, setShowProvideFreightValue] = useState(false);
+
+  // Modal "DriverDocuments" para abrir o action button "Documentos"
+  const [showDriverDocumentsModal, setShowDriverDocumentsModal] = useState(false);
 
   /**
    * Atualiza o status do frete chamando a mutation GraphQL.
@@ -270,6 +275,13 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
    */
   const handleTalkToDriver = () => {
     console.log("Falou com o motorista");
+  };
+
+  /**
+   * Interage com o motorista (log de exemplo).
+   */
+  const handleOpenDocsModal = () => {
+    setShowDriverDocumentsModal(!showDriverDocumentsModal)
   };
 
   /**
@@ -544,6 +556,12 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         <p>Falar Com Motorista</p>
       </div>
 
+      {/* Botão para ver documentos enviados pelo motorista */}
+      <div className={styles.iconContainer} onClick={handleOpenDocsModal}>
+        <DocIcon />
+        <p>Documentos</p>
+      </div>
+
       {/* Modal que confirma envio de documentos */}
       <DocumentSentModal isOpen={showModal} onRequestClose={closeModal} />
 
@@ -611,6 +629,14 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
           buttonOneAction={() => setShowPaymentDetailsConfirmed(false)}
           isOpen={showPaymentDetailsConfirmed}
           onRequestClose={() => setShowPaymentDetailsConfirmed(false)}
+        />
+      )}
+
+      {/* Modal de Documentos Enviados pelo Motorista */}
+      {showDriverDocumentsModal && (
+        <DriverDocuments
+          isOpen={showDriverDocumentsModal}
+          onRequestClose={() => setShowDriverDocumentsModal(!showDriverDocumentsModal)}
         />
       )}
 
@@ -720,6 +746,8 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         }}
       />
     </div>
+
+    
   );
 };
 

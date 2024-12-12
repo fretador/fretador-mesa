@@ -14,6 +14,7 @@ import TravelWithoutPayment from "@/components/Modal/FreteEmCurso/TravelWithoutP
 import ProvideFreightValue from "@/components/Modal/FreteEmCurso/ProvideFreightValue";
 import ProvidePaymentDetails from "@/components/Modal/FreteEmCurso/ProvidePaymentDetails";
 import PaymentNotificationModal from "@/components/Modal/Financeiro/PaymentNotificationModal";
+import DriverDocuments from "@/components/Modal/FreteEmCurso/DriverDocuments";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -26,6 +27,7 @@ const Canva: React.FC = () => {
   const [isNewModalOpen3, setIsNewModalOpen3] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaymentNotificationModalOpen, setIsPaymentNotificationModalOpen] = useState(false);
+  const [isDriverDocuments, setIsDriverDocuments] = useState(false)
 
   const toggleOpenTicketModal = () => {
     setIsOpenTicketModalOpen(!isOpenTicketModalOpen);
@@ -81,6 +83,10 @@ const Canva: React.FC = () => {
 
   const toggleNewModal4 = () => {
     setIsPaymentNotificationModalOpen(!isPaymentNotificationModalOpen);
+  };
+
+  const toggleNewModal5 = () => {
+    setIsDriverDocuments(!isDriverDocuments);
   };
 
   const toggleModal = () => {
@@ -162,6 +168,10 @@ const Canva: React.FC = () => {
 
             <button onClick={togglePaymentNotificationModal} className={styles.newModalButton}>
               Abrir Modal Notificação de Pagamento
+            </button>
+
+            <button onClick={toggleNewModal5} className={styles.newModalButton}>
+              Abrir Modal Documentos Motorista
             </button>
           </div>
 
@@ -267,6 +277,14 @@ const Canva: React.FC = () => {
               numCte="000000"
               banco="Banco do Brasil"
             />
+          )}
+
+          {isDriverDocuments && (
+            <DriverDocuments
+              isOpen={isDriverDocuments}
+              onRequestClose={toggleNewModal5}
+            />
+          
           )}
         </div>
       </div>
