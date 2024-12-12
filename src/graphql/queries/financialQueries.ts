@@ -51,6 +51,13 @@ export const GET_FREIGHT_FINANCIAL_BY_ID = gql`
 			paymentDate
 			numCte
 			status
+			advanceValue
+			advancePaymentDate
+			advanceRequestedDate
+			balanceValue
+			balancePaymentDate
+			balanceRequestedDate
+			paymentRequestedDate
 			targetedDrivers {
 				id
 				name
