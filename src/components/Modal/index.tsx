@@ -14,7 +14,8 @@ interface ModalProps {
   buttonTwoTitle?: string;
   buttonTwoAction?: () => void;
   children?: ReactNode;
-  childrenClassName?: string
+  childrenClassName?: string;
+  showButtonOne?: boolean;
 }
 
 const Modal = ({
@@ -28,7 +29,8 @@ const Modal = ({
   buttonTwoTitle,
   buttonTwoAction,
   children,
-  childrenClassName
+  childrenClassName,
+  showButtonOne = true
 }: ModalProps) => {
 
   return (
@@ -57,14 +59,16 @@ const Modal = ({
         </div>
 
         <div className={styles.buttonGroup}>
-          <button
-            className={styles.confirmButton}
-            onClick={() => {
-              buttonOneAction();
-            }}
-          >
-            {buttonOneTitle}
-          </button>
+          {showButtonOne && (
+            <button
+              className={styles.confirmButton}
+              onClick={() => {
+                buttonOneAction();
+              }}
+            >
+              {buttonOneTitle}
+            </button>
+          )}
 
           {hasTwoButtons && buttonTwoTitle && buttonTwoAction && (
             <button

@@ -1,0 +1,173 @@
+.cardsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.cardContainer {
+  background-color: #efefef;
+  width: 148px;
+  height: 148px;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.cardContainer:nth-child(n+4) {
+  margin-top: 32px;
+}
+
+.imageContainer {
+  display: flex;
+  /* gap: 30px; */
+  position: relative;
+}
+
+.menuContainer {
+  position: relative;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #1b556d;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: color .2s ease;
+  position: absolute;
+  top: -8px;
+  right: -48px;
+}
+
+.menuButton:hover {
+  color: #3280a0;
+}
+
+.dot {
+  margin-bottom: -25px;
+}
+
+.menu {
+  position: absolute;
+  top: -8px;
+  left: 54px;
+  background-color: #B2CEDA;
+  z-index: 10;
+  min-width: 120px;
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.menuItem {
+  display: block;
+  width: 100%;
+  padding: 2px;
+  background: none;
+  border: none;
+  text-align: left;
+  color: #1A556D;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s ease background-color;
+}
+
+.menuItem:hover {
+  background-color: #3280a0;
+  color: #fff;
+}
+
+.imageDescription {
+  margin-top: 24px;
+  color: #1A556D;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #1A556D;
+  border-radius: 8px;
+  cursor: pointer;
+  position: absolute;
+  right: -48px;
+  top: -8px;
+}
+
+.checkbox:checked {
+  position: relative;
+  background-color: #3280a0;
+  position: absolute;
+  right: -48px;
+  top: -8px;
+}
+
+.checkbox:checked::after {
+  content: '✓';
+  font-weight: 700;
+  color: #fff;
+  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 42px;
+  margin-bottom: -20px;
+}
+
+.downloadButton {
+  width: 146px;
+  height: 43px;
+  border-radius: 10px;
+  background-color: #1A556D;
+  color: #FFF;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  font-size: 16px;
+  font-weight: 700;
+  transition: .3s ease all;
+}
+
+.downloadButton:hover {
+  background-color: #3280a0;
+}
+
+.rejectButton {
+  width: 146px;
+  height: 43px;
+  border-radius: 10px;
+  background-color: #FFF;
+  color: #1A556D;
+  border: 3px solid var(--Blue-Main, #1B556D);
+  cursor: pointer;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  font-size: 16px;
+  font-weight: 700;
+  transition: .3s ease all;
+}
+
+.rejectButton:hover {
+  background-color: #1A556D;
+  color: #FFF;
+}
