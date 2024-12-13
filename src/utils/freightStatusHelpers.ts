@@ -34,25 +34,28 @@ export const getNextStatus = (
 			return FreightStatus.DRIVER_ARRIVED;
 
 		case FreightStatus.DRIVER_ARRIVED:
-			return FreightStatus.UNLOADING_STARTED;
+			return FreightStatus.OPERATION_APPROVED;
 
-		case FreightStatus.UNLOADING_STARTED:
-			return FreightStatus.UNLOADING_FINISHED;
-
-		case FreightStatus.UNLOADING_FINISHED:
+		case FreightStatus.OPERATION_APPROVED:
 			return FreightStatus.INVOICE_COUPON_SENT;
 
+		// case FreightStatus.UNLOADING_STARTED:
+		// 	return FreightStatus.UNLOADING_FINISHED;
+
+		// case FreightStatus.UNLOADING_FINISHED:
+		// 	return FreightStatus.INVOICE_COUPON_SENT;
+
 		case FreightStatus.INVOICE_COUPON_SENT:
-			return FreightStatus.ADMIN_REQUIRED;
-
-		case FreightStatus.ADMIN_REQUIRED:
-			return FreightStatus.ADMIN_APPROVED;
-
-		case FreightStatus.ADMIN_APPROVED:
 			return FreightStatus.FINANCIAL_REQUIRED;
 
-		// case FreightStatus.FINANCIAL_REQUIRED:
-		// 	return FreightStatus.FINANCIAL_APPROVED;
+		// case FreightStatus.ADMIN_REQUIRED:
+		// 	return FreightStatus.ADMIN_APPROVED;
+
+		// case FreightStatus.ADMIN_APPROVED:
+		// 	return FreightStatus.FINANCIAL_REQUIRED;
+
+		case FreightStatus.FINANCIAL_REQUIRED:
+			return FreightStatus.FINANCIAL_APPROVED;
 
 		case FreightStatus.FINANCIAL_APPROVED:
 			return FreightStatus.FINISHED;
@@ -95,28 +98,31 @@ export const getStatusText = (
 			return "Chegou no Destino";
 
 		case FreightStatus.DRIVER_ARRIVED:
-			return "Iniciar Descarregamento";
-
-		case FreightStatus.UNLOADING_STARTED:
-			return "Finalizar Descarregamento";
-
-		case FreightStatus.UNLOADING_FINISHED:
 			return "Solicitar Comprovantes";
 
+		case FreightStatus.OPERATION_APPROVED:
+			return "Comprovantes Aprovados";
+
+		// case FreightStatus.UNLOADING_STARTED:
+		// 	return "Finalizar Descarregamento";
+
+		// case FreightStatus.UNLOADING_FINISHED:
+		// 	return "Solicitar Comprovantes";
+
+		// case FreightStatus.INVOICE_COUPON_SENT:
+		// 	return "Analisar Comprovantes";
+
+		// case FreightStatus.ADMIN_REQUIRED:
+		// 	return "Administrativo aprovado";
+
 		case FreightStatus.INVOICE_COUPON_SENT:
-			return "Analisar Comprovantes";
-
-		case FreightStatus.ADMIN_REQUIRED:
-			return "Administrativo aprovado";
-
-		case FreightStatus.ADMIN_APPROVED:
 			return "Solicitar Saldo";
 
 		case FreightStatus.FINANCIAL_REQUIRED:
-			return "Financeiro Necessário";
+			return "Solicitar Saldo";
 
 		case FreightStatus.FINANCIAL_APPROVED:
-			return "Finalizar Frete";
+			return "Frete Concluído";
 
 		case FreightStatus.FINISHED:
 			return "Frete Concluído";
