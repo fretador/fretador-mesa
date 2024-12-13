@@ -40,7 +40,7 @@ const PendingPayment: React.FC = () => {
         id: fetchedData.id ?? '',
         driverName: driver?.name || 'Não informado',
         driverPhotoUrl: driver?.userPhoto?.imageUrl || '/driver-mock.png',
-        type: fetchedData.requestFinancialType || 'NOT_INFORMED',
+        type: fetchedData.requestFinancialType || fetchedData.paymentType || 'Não informado',
         paymentMethod: fetchedData.formaPagamento || 'Não informado',
         contact: driver?.phoneNumber || 'Não informado',
         numCte: fetchedData.numCte || 'Não informado',

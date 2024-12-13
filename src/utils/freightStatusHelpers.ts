@@ -51,8 +51,8 @@ export const getNextStatus = (
 		case FreightStatus.ADMIN_APPROVED:
 			return FreightStatus.FINANCIAL_REQUIRED;
 
-		case FreightStatus.FINANCIAL_REQUIRED:
-			return FreightStatus.FINANCIAL_APPROVED;
+		// case FreightStatus.FINANCIAL_REQUIRED:
+		// 	return FreightStatus.FINANCIAL_APPROVED;
 
 		case FreightStatus.FINANCIAL_APPROVED:
 			return FreightStatus.FINISHED;
@@ -113,7 +113,7 @@ export const getStatusText = (
 			return "Solicitar Saldo";
 
 		case FreightStatus.FINANCIAL_REQUIRED:
-			return "Financeiro aprovado";
+			return "Financeiro Necessário";
 
 		case FreightStatus.FINANCIAL_APPROVED:
 			return "Finalizar Frete";

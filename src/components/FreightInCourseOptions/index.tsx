@@ -18,11 +18,12 @@ import { getNextStatus } from "@/utils/freightStatusHelpers";
 import { UpdateDataTypeEnum } from "@/utils/enums/updateDataTypeEnum";
 import { useUpdateStatusFreight } from "@/hooks/freight/useUpdateStatusFreight";
 import { useUpdateFreight } from "@/hooks/freight/useUpdateFreight";
-
+import { dateNow } from "@/utils/dates";
 import ProvidePaymentDetails from "@/components/Modal/FreteEmCurso/ProvidePaymentDetails";
 import TravelWithoutPayment from "@/components/Modal/FreteEmCurso/TravelWithoutPayment";
 import ProvideFreightValue from "@/components/Modal/FreteEmCurso/ProvideFreightValue";
 import DriverDocuments from "../Modal/FreteEmCurso/DriverDocuments";
+import { RequestFinancialType } from "@/utils/enums/requestFinancialTypeEnum";
 
 interface FreightInCourseOptionsProps {
   freightId: string;
@@ -143,23 +144,58 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   const handleUpdateFreightValues = async (newValues: {
     value?: number;
     advanceValue?: number;
-    balanceValue?: number
+    balanceValue?: number;
   }) => {
     try {
+      const currentDate = dateNow();
+
+      // Define o tipo de pagamento com base nos valores informados
+      let requestFinancialType: RequestFinancialType | undefined;
+
+      const hasAdvance = newValues.advanceValue !== undefined && newValues.advanceValue > 0;
+      const hasBalance = newValues.balanceValue !== undefined && newValues.balanceValue > 0;
+      const hasOnlyTotal = newValues.value !== undefined && newValues.value > 0 && !hasAdvance && !hasBalance;
+
+      if (hasAdvance && hasBalance) {
+        // Pagamento em duas etapas: primeiro ADVANCE, depois PARTIAL_BALANCE
+        requestFinancialType = RequestFinancialType.ADVANCE;
+      } else if (hasOnlyTotal) {
+        // Pagamento único do total do frete
+        requestFinancialType = RequestFinancialType.BALANCE;
+      }
+
+      const freightUpdateInput: Record<string, any> = {
+        ...newValues,
+        boardUser: { name: boardUser?.name, profile: boardUser?.profile },
+      };
+
+      // Define datas de solicitação
+      if (hasAdvance) {
+        freightUpdateInput.advanceRequestedDate = currentDate;
+      }
+      if (hasBalance) {
+        freightUpdateInput.balanceRequestedDate = currentDate;
+      }
+      if (newValues.value && newValues.value > 0) {
+        freightUpdateInput.paymentRequestedDate = currentDate;
+      }
+
+      // Se definimos um tipo de pagamento, incluímos no input
+      if (requestFinancialType) {
+        freightUpdateInput.requestFinancialType = requestFinancialType;
+      }
+
       await updateFreight({
         variables: {
           id: freightId,
-          input: {
-            ...newValues,
-            boardUser: { name: boardUser?.name, profile: boardUser?.profile },
-          },
+          input: freightUpdateInput,
         },
       });
-      return true; // Atualização foi bem sucedida
+      return true;
     } catch (error) {
       console.error("Erro ao atualizar valores do frete:", error);
       alert("Ocorreu um erro ao atualizar os valores do frete. Por favor, tente novamente.");
-      return false; // Falha na atualização
+      return false;
     }
   };
 

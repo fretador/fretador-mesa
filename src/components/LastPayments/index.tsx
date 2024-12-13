@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Row } from "../Row";
 import styles from "./LastPaymentsList.module.css";
 import RowTitle from "../RowTitle";
-import Loading from "../Loading";
 import { paymentTypeLabels } from '@/utils/labels/paymentTypeLabels';
 import { formatDateTime } from "@/utils/dates";
 import { Freight } from '@/utils/Interfaces/Freight';
@@ -69,29 +68,48 @@ const LastPaymentsList: React.FC<LastPaymentsListProps> = ({ data, loading }) =>
       />
 
       <div className={styles.content}>
-        {sortedData.map((freight) => (
-          <Row.Root
-            key={freight.id ?? "no-id"}
-            customBackgroundColor="#B2CEDA"
-            onClick={() => handlePaymentCard(freight.id)}
-          >
-            <Row.Driver
-              driverPhotoUrl={freight.targetedDrivers?.[0]?.userPhoto?.imageUrl ?? "/driver-mock.png"}
-              driverName={freight.targetedDrivers?.[0]?.name ?? "Não informado"}
-              showImage={true}
-              textColor="#1B556D"
-              textFontWeight="700"
-            />
-            <Row.Contract contract={freight.contractNumber ?? "Não informado"} />
-            <Row.Route
-              originState={freight.origin ?? "Não informado"}
-              destinyState={freight.destination ?? "Não informado"}
-            />
-            <Row.Value value={freight.value ?? 0} />
-            <Row.PaymentDate date={formatDateTime(freight.paymentDate ?? "")} />
-            <Row.PaymentType paymentType={paymentTypeLabels[freight.requestFinancialType ?? ''] ?? 'Não informado'} />
-          </Row.Root>
-        ))}
+        {sortedData.map((freight) => {
+          let displayedPaymentDate = "";
+
+          switch (freight.requestFinancialType) {
+            case "ADVANCE":
+              displayedPaymentDate = freight.advancePaymentDate ?? "";
+              break;
+            case "PARTIAL_BALANCE":
+              displayedPaymentDate = freight.balancePaymentDate ?? "";
+              break;
+            // Caso seja pagamento único (BALANCE) ou outro tipo não definido, utiliza paymentDate
+            case "BALANCE":
+            default:
+              displayedPaymentDate = freight.paymentDate ?? "";
+              break;
+          }
+
+          return (
+            <Row.Root
+              key={freight.id ?? "no-id"}
+              customBackgroundColor="#B2CEDA"
+              onClick={() => handlePaymentCard(freight.id)}
+            >
+              <Row.Driver
+                driverPhotoUrl={freight.targetedDrivers?.[0]?.userPhoto?.imageUrl ?? "/driver-mock.png"}
+                driverName={freight.targetedDrivers?.[0]?.name ?? "Não informado"}
+                showImage={true}
+                textColor="#1B556D"
+                textFontWeight="700"
+              />
+              <Row.Contract contract={freight.contractNumber ?? "Não informado"} />
+              <Row.Route
+                originState={freight.origin ?? "Não informado"}
+                destinyState={freight.destination ?? "Não informado"}
+              />
+              <Row.Value value={freight.value ?? 0} />
+              <Row.PaymentDate date={formatDateTime(displayedPaymentDate)} />
+              <Row.PaymentType paymentType={paymentTypeLabels[freight.requestFinancialType ?? ''] ?? 'Não informado'} />
+            </Row.Root>
+          );
+        })}
+
       </div>
     </div>
   );

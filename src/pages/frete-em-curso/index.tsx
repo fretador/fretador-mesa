@@ -19,6 +19,7 @@ import FreightInCourseOptions from "@/components/FreightInCourseOptions";
 import LocationMap from "@/components/LocationMap";
 import { useFreightById } from "@/hooks/freight/useFreightById";
 import { getNextStatus, getStatusText } from "@/utils/freightStatusHelpers";
+import { UpdateData } from "@/utils/Interfaces/UpdateData";
 
 interface FreightInProgressProps {
   freightId: string;
@@ -26,7 +27,7 @@ interface FreightInProgressProps {
 
 interface StatusHistoryItem {
   updateDate: string | null;
-  updateData: any;
+  updateData: UpdateData;
   status: FreightStatus | string;
 }
 
