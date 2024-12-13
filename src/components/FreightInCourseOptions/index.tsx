@@ -110,6 +110,14 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   // Modal "DriverDocuments" para abrir o action button "Documentos"
   const [showDriverDocumentsModal, setShowDriverDocumentsModal] = useState(false);
 
+  // Variável para controlar o círculo vermelho indicativo da próxima ação
+  const [activeBubble, setActiveBubble] = useState("actionButton");
+
+  // Função para definir em qual div a bolinha vai aparecer
+  const showBubble = (divName: string) => {
+    setActiveBubble(divName);
+  };
+
   /**
    * Atualiza o status do frete chamando a mutation GraphQL.
    * Caso ocorra erro, exibe um alerta.
@@ -247,6 +255,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       setIsLoading(false);
       setShowTypeModal(false);
       setShowModal(true);
+      showBubble("actionButton"); 
     } catch (error) {
       console.error("Erro ao processar os documentos:", error);
       alert("Ocorreu um erro ao processar os documentos. Por favor, tente novamente.");
@@ -317,6 +326,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
               setModalConfig(null);
             },
           });
+          showBubble("attachDocuments");
           handleAction(actionButtonStatus!);
         },
       });
@@ -350,10 +360,10 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         description: "Por favor envie a ordem de coleta no: Anexar Documentos.",
         confirmText: "Ok",
         onConfirm: () => {
-          // handleAttachDocuments();
           setModalConfig(null);
         },
       });
+      showBubble("attachDocuments");
     },
     [FreightStatus.PICKUP_ORDER_SENT]: () => {
       setModalConfig({
@@ -362,10 +372,10 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         description: "Por favor envie a ordem de coleta no: Anexar Documentos.",
         confirmText: "Ok",
         onConfirm: () => {
-          // handleAttachDocuments();
           setModalConfig(null);
         },
       });
+      showBubble("attachDocuments");
     },
     [FreightStatus.LOADING_STARTED]: () => {
       setModalConfig({
@@ -386,6 +396,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
             },
           });
           handleAction(actionButtonStatus!);
+          showBubble("attachDocuments"); 
         },
       });
     },
@@ -396,7 +407,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         description: "Ao completar o carregamento envie o CTE e o Manifesto no Anexar documentos.",
         confirmText: "Ok",
         onConfirm: () => {
-          // handleAttachDocuments();
+          showBubble("attachDocuments"); 
           setModalConfig(null);
         },
       });
@@ -430,23 +441,13 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         confirmText: "Sim",
         cancelText: "Não",
         onConfirm: () => {
-          setModalConfig(null);
-          setModalConfig({
-            isVisible: true,
-            title: "Solicitar comprovantes",
-            description: "Gostaria de solicitar os comprovantes de entrega ao motorista?",
-            confirmText: "Sim",
-            cancelText: "Não",
-            onConfirm: () => {
-              setModalConfig(null);
-              setRequestProofsConfirmed(true)
-            },
-          });
+          showBubble("actionButton"); 
           handleAction(actionButtonStatus!);
+          setModalConfig(null);
         },
       });
     },
-    [FreightStatus.INVOICE_COUPON_SENT]: () => {
+    [FreightStatus.OPERATION_APPROVED]: () => {
       setModalConfig({
         isVisible: true,
         title: "Solicitar comprovantes",
@@ -454,10 +455,34 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         confirmText: "Sim",
         cancelText: "Não",
         onConfirm: () => {
-          // Ao clicar em "Sim", abrimos o modal de solicitar pagamento
+          showBubble("viewDocuments");
+          handleAction(actionButtonStatus!);
           setModalConfig(null);
-          setShowRequestPaymentModal(true);
-        },
+          setRequestProofsConfirmed(true)
+        }
+      });
+    },
+    [FreightStatus.INVOICE_COUPON_SENT]: () => {
+      setModalConfig({
+        isVisible: true,
+        title: "Aprovar comprovantes",
+        description: "Confirma a aprovação dos comprovantes enviados pelo motorista?",
+        confirmText: "Sim",
+        cancelText: "Não",
+        onConfirm: () => {
+          showBubble("actionButton");
+          handleAction(actionButtonStatus!);
+          setModalConfig(null);
+          setModalConfig({
+            isVisible: true,
+            title: "Aprovar comprovantes",
+            description: "Comprovantes aprovados",
+            confirmText: "Ok",
+            onConfirm: () => {
+              setModalConfig(null);
+            }
+          });
+        }
       });
     },
     [FreightStatus.FINANCIAL_REQUIRED]: () => {
@@ -465,19 +490,41 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         isVisible: true,
         title: "Solicitar saldo",
         description:
-          "Gostaria de solicitar ao financeiro saldo de frete?",
+          "Gostaria de solicitar ao financeiro saldo de frete? (os comprovantes devem estar dentro das especificações do financeiro)",
         confirmText: "Sim",
         cancelText: "Não",
         onConfirm: () => {
           setModalConfig(null);
+          showBubble(""); 
           // Verifica apenas se já existe o valor total (value)
           if (value !== undefined) {
             // Já existe valor total do frete, avança diretamente
+            setModalConfig({
+              isVisible: true,
+              title: "Solicitar saldo",
+              description: "Saldo solicitado ao financeiro com sucesso!",
+              confirmText: "Ok",
+              onConfirm: () => {
+                setModalConfig(null);
+              }
+            });
             handleAction(actionButtonStatus!);
           } else {
           // Exibe modal para informar valor total do frete
             setShowProvideFreightValue(true);
           }
+        },
+      });
+    },
+    [FreightStatus.FINANCIAL_APPROVED]: () => {
+      setModalConfig({
+        isVisible: true,
+        title: "Solicitar saldo",
+        description:
+          "Saldo já solicitado. Aguardando financeiro.",
+        confirmText: "Ok",
+        onConfirm: () => {
+          setModalConfig(null);
         },
       });
     },
@@ -498,6 +545,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   };
 
   return (
+    
     <div className={styles.container}>
       {/* Input escondido para anexar documentos */}
       <input
@@ -519,6 +567,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       >
         <PaperClipIcon />
         <p>Anexar Documentos</p>
+        {activeBubble === "attachDocuments" && <div className={styles.bubble}></div>}
       </div>
 
       {/* Botão de ação principal (depende do status) */}
@@ -536,11 +585,13 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
                 <p>{actionButtonText}</p>
             </>
           )}
+          {activeBubble === "actionButton" && <div className={styles.bubble}></div>}
         </div>
       ) : (
         <div className={styles.iconContainer}>
           <CheckFillIcon />
           <p>{actionButtonText}</p>
+          {activeBubble === "actionButton" && <div className={styles.bubble}></div>}
         </div>
       )}
 
@@ -548,6 +599,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       <div className={styles.iconContainer} onClick={handleSendAlert}>
         <DangerIcon />
         <p>Enviar Alertas</p>
+        {activeBubble === "sendAlert" && <div className={styles.bubble}></div>}
       </div>
 
       {/* Botão para falar com o motorista */}
@@ -560,6 +612,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       <div className={styles.iconContainer} onClick={handleOpenDocsModal}>
         <DocIcon />
         <p>Documentos</p>
+        {activeBubble === "viewDocuments" && <div className={styles.bubble}></div>}
       </div>
 
       {/* Modal que confirma envio de documentos */}
@@ -637,6 +690,18 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         <DriverDocuments
           isOpen={showDriverDocumentsModal}
           onRequestClose={() => setShowDriverDocumentsModal(!showDriverDocumentsModal)}
+          handleDownloadPdf={() => {
+            setModalConfig({
+              isVisible: true,
+              title: "Download PDF",
+              description:
+                "Download realizado com sucesso!",
+              confirmText: "Ok",
+              onConfirm: () => {
+                setModalConfig(null);
+              },
+            });
+          }}
         />
       )}
 

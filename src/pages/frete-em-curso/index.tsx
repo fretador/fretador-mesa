@@ -97,39 +97,42 @@ const getFreightStepProps = (
     case FreightStatus.LOADING_FINISHED:
       content = "Carregamento finalizado";
       break;
-    case FreightStatus.UNLOADING_STARTED:
-      content = "Início do descarregamento";
-      break;
-    case FreightStatus.UNLOADING_FINISHED:
-      content = "Descarregamento finalizado";
-      break;
+    // case FreightStatus.UNLOADING_STARTED:
+    //   content = "Início do descarregamento";
+    //   break;
+    // case FreightStatus.UNLOADING_FINISHED:
+    //   content = "Descarregamento finalizado";
+    //   break;
     case FreightStatus.INVOICE_SENT:
       content = "Envio da Nota Fiscal";
       break;
-    case FreightStatus.INVOICE_COUPON_SENT:
-      content = "Envio da Documentação do Frete";
+    case FreightStatus.OPERATION_APPROVED:
+      content = "Comprovantes ABC.jpg, 2736464.jpg, BCD.jpg enviados - Ver em meus documentos";
       break;
     case FreightStatus.INVOICE_COUPON_REFUSED:
       content = "Documentação do Frete recusada";
+      break;
+    case FreightStatus.INVOICE_COUPON_SENT:
+      content = "Comprovantes Aprovados";
       break;
     case FreightStatus.FINANCIAL_APPROVED:
       content = "Pagamento Realizado";
       break;
     case FreightStatus.FINANCIAL_REQUIRED:
-      content = "Pagamento pendente";
+      content = "Saldo solicitado";
       break;
-    case FreightStatus.ADMIN_REQUIRED:
-      content = "Aguardando aprovação do administrador";
-      break;
-    case FreightStatus.ADMIN_APPROVED:
-      content = "Aprovado pelo administrador";
-      break;
-    case FreightStatus.OPERATION_REQUIRED:
-      content = "Aguardando aprovação da operação";
-      break;
-    case FreightStatus.OPERATION_APPROVED:
-      content = "Aprovado pela operação";
-      break;
+    // case FreightStatus.ADMIN_REQUIRED:
+    //   content = "Aguardando aprovação do administrador";
+    //   break;
+    // case FreightStatus.ADMIN_APPROVED:
+    //   content = "Aprovado pelo administrador";
+    //   break;
+    // case FreightStatus.OPERATION_REQUIRED:
+    //   content = "Aguardando aprovação da operação";
+    //   break;
+    // case FreightStatus.OPERATION_APPROVED:
+    //   content = "Aprovado pela operação";
+    //   break;
     case FreightStatus.DRIVER_SELECTED:
       content = "Motorista selecionado";
       break;

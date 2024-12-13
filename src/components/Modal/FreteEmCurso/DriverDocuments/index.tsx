@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from './DriverDocuments.module.css';
 import Modal from "../..";
 import Image from "next/image";
+import ImageModal from "../ImageModal";
 
 interface DriverDocumentsProps {
   isOpen: boolean;
   onRequestClose: () => void;
+  handleDownloadPdf: () => void
 }
 
 const mockData = [
@@ -17,10 +19,12 @@ const mockData = [
   { id: 6, imageSrc: "../../assets/images/doc.jpg", fileName: "documento3.jpg" },
 ];
 
-const DriverDocuments = ({ isOpen, onRequestClose }: DriverDocumentsProps) => {
+const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDocumentsProps) => {
   const [openMenus, setOpenMenus] = useState<number | null>(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [imageToDisplay, setImageToDisplay] = useState('');
 
   const handleMenuToggle = (id: number) => {
     setOpenMenus((prev) => (prev === id ? null : id));
@@ -40,6 +44,16 @@ const DriverDocuments = ({ isOpen, onRequestClose }: DriverDocumentsProps) => {
 
   const handleSelectDocuments = () => {
     setIsSelectionMode(!isSelectionMode);
+  };
+
+  const handleOpenImage = (imageSrc: string) => {
+    setImageToDisplay(imageSrc);
+    setImageModalOpen(true);
+  };
+
+  const handleCloseImageModal = () => {
+    setImageModalOpen(false);
+    setImageToDisplay('');
   };
 
   useEffect(() => {
@@ -85,7 +99,9 @@ const DriverDocuments = ({ isOpen, onRequestClose }: DriverDocumentsProps) => {
                 )}
                 {openMenus === item.id && !isSelectionMode && (
                   <div className={styles.menu}>
-                    <button className={styles.menuItem}>Abrir</button>
+                    <button className={styles.menuItem} onClick={() => handleOpenImage(item.imageSrc)}>
+                      Abrir
+                    </button>
                     <button className={styles.menuItem}>Download</button>
                     <button className={styles.menuItem}>Rejeitar</button>
                     <button className={styles.menuItem}>Solicitar novo</button>
@@ -98,7 +114,7 @@ const DriverDocuments = ({ isOpen, onRequestClose }: DriverDocumentsProps) => {
         ))}
       </div>
 
-      {isSelectionMode &&
+      {isSelectionMode && (
         <div className={styles.buttons}>
           <button
             className={styles.rejectButton}
@@ -109,12 +125,19 @@ const DriverDocuments = ({ isOpen, onRequestClose }: DriverDocumentsProps) => {
 
           <button
             className={styles.downloadButton}
-            onClick={() => console.log('Baixou PDF')}
+            onClick={handleDownloadPdf}
           >
             Download PDF
           </button>
         </div>
-      }
+      )}
+
+      <ImageModal
+        isOpen={imageModalOpen}
+        onRequestClose={handleCloseImageModal}
+        imageSrc={imageToDisplay}
+        onDownload={() => console.log("Baixou a imagem")}
+      />
     </Modal>
   );
 };
