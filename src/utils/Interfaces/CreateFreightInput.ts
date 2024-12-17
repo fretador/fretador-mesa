@@ -4,6 +4,7 @@ import { ShippingType } from "../enums/shippingTypeEnum";
 import { Type } from "../enums/typeEnum";
 import { EligibleVehicle } from "./EligibleVehicle";
 import { EligibleBodywork } from "./EligibleBodywork";
+import { BoardUser } from "./BoardUser";
 
 export interface CreateFreightInput {
 	pickupDeliveryData: string;
@@ -36,4 +37,5 @@ export interface CreateFreightInput {
 	value?: number;
 	advanceValue?: number;
 	balanceValue?: number;
+	boardUser: BoardUser;
 }

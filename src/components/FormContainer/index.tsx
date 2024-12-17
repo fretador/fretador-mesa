@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
+import { useAppSelector } from "@/store/store";
 import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
@@ -36,6 +37,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
   const [isFreightModalOpen, setIsFreightModalOpen] = useState(false);
   const [freightCode, setFreightCode] = useState<number | undefined>(undefined);
   const [freightError, setFreightError] = useState<string | undefined>(undefined);
+  const boardUser = useAppSelector((state) => state.auth.boardUser);
 
   const { data, createFreight } = useCreateFreight();
 
@@ -68,7 +70,14 @@ const FormContainer: React.FC<FormContainerProps> = ({
     const currentValues = getValues();
 
     try {
-      const result = await createFreight({ variables: { input: currentValues } });
+      const result = await createFreight({
+        variables: {
+          input: {
+            ...currentValues,
+            boardUser: { name: boardUser?.name, profile: boardUser?.profile }
+          }
+        }
+      });
       setFreightCode(result.data?.createFreight?.freightCode);
       setFreightError(undefined);
       setIsFreightModalOpen(true);

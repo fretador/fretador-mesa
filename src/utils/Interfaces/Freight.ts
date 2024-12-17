@@ -12,6 +12,7 @@ import { FreightStatus } from "../enums/freightStatusEnum";
 import { VehicleType } from "../enums/vehicleEnums";
 import { BodyworkType } from "../enums/bodyworkEnums";
 import { RequestFinancialType } from "../enums/requestFinancialTypeEnum";
+import { OwnershipHistory } from "./OwnershipHistory";
 
 export interface Freight {
 	_id?: string;
@@ -111,11 +112,10 @@ export interface Freight {
 	invoiceCouponPhotosHistory?: PhotoHistory[];
 	travelDistance?: number;
 	toll?: boolean;
-	// TODO: ajustar tipo de pagamento
+	contractNumber: string;
+	// TODO: ajustar tipo de pagamento, se necessário criar objeto para melhor controle dos pagamentos
 	requestFinancialType?: RequestFinancialType;
 	paymentType?: RequestFinancialType | "";
-	//
-	contractNumber: string;
 	advanceValue?: number;
 	advanceRequestedDate?: string;
 	advancePaymentDate?: string;
@@ -125,4 +125,8 @@ export interface Freight {
 	value?: number;
 	paymentRequestedDate?: string;
 	paymentDate?: string;
+
+	// Novos campos
+	currentOwner?: BoardUser;
+	ownershipHistory?: OwnershipHistory[];
 }
