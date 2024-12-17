@@ -1,5 +1,8 @@
 import { gql } from "@apollo/client";
-import { FREIGHT_COMMON_FIELDS, FREIGHT_FULL_FIELDS } from "@/graphql/fragments/freightFragments";
+import {
+	FREIGHT_COMMON_FIELDS,
+	FREIGHT_FULL_FIELDS,
+} from "@/graphql/fragments/freightFragments";
 
 export const GET_FREIGHTS = gql`
 	query GetFreights($page: Int, $limit: Int, $filter: FreightFilterInput) {
@@ -59,6 +62,18 @@ export const GET_FREIGHT_BY_ID = gql`
 					}
 				}
 				updateDataType
+				updateDate
+			}
+			currentOwner {
+				name
+				profile
+			}
+			ownershipHistory {
+				user {
+					name
+					profile
+				}
+				action
 				updateDate
 			}
 		}
