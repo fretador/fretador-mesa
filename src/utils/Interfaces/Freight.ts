@@ -103,6 +103,7 @@ export interface Freight {
 	advancedRequestedPaymentDate?: string;
 	paymentSuccessfulBalance?: string;
 	OSCode?: string;
+	boardUser?: BoardUser;
 	boardUserCreating?: BoardUser;
 	boardUserDeleted?: string;
 	freightType?: string;
@@ -110,7 +111,10 @@ export interface Freight {
 	invoiceCouponPhotosHistory?: PhotoHistory[];
 	travelDistance?: number;
 	toll?: boolean;
+	// TODO: ajustar tipo de pagamento
 	requestFinancialType?: RequestFinancialType;
+	paymentType?: RequestFinancialType | "";
+	//
 	contractNumber: string;
 	advanceValue?: number;
 	advanceRequestedDate?: string;
