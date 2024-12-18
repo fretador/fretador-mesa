@@ -76,6 +76,15 @@ export const GET_FREIGHT_BY_ID = gql`
 				action
 				updateDate
 			}
+			updateHistory{
+				user{
+					name
+          profile
+				}
+				action
+				updateDate
+				changedFields
+			}
 		}
 	}
 	${FREIGHT_FULL_FIELDS}

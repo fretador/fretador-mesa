@@ -10,15 +10,23 @@ const CustomImage: React.FC<CustomImageProps> = ({ src, ...props }) => {
   const [imageSrc, setImageSrc] = useState<string | StaticImageData>(src);
 
   useEffect(() => {
-    if (typeof src === "string" && src.startsWith("@")) {
-      // Se começa com '@', assume que é um import e usa diretamente
+    if (typeof src !== "string") {
+      // src é um objeto StaticImageData importado (imagens locais via import)
       setImageSrc(src);
-    } else if (typeof src === "string" && !src.startsWith("/")) {
-      // Se não começa com '/', assume que é um caminho relativo e adiciona '/'
-      setImageSrc(`/${src}`);
     } else {
-      // Caso contrário, usa o src como está
-      setImageSrc(src);
+      // src é string
+      // Se já é uma URL absoluta (http/https), caminho absoluto (/), ou data URL, usa como está
+      if (
+        src.startsWith("http://") ||
+        src.startsWith("https://") ||
+        src.startsWith("/") ||
+        src.startsWith("data:image")
+      ) {
+        setImageSrc(src);
+      } else {
+        // Caso seja um caminho relativo sem barra inicial, adicionamos '/'
+        setImageSrc(`/${src}`);
+      }
     }
   }, [src]);
 
