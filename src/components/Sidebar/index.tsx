@@ -1,3 +1,4 @@
+import React from "react";
 import { mockBoardUsers } from "@/utils/mocks/mockBoardUsers";
 import { SidebarComp } from "../SidebarComp";
 import {
@@ -9,9 +10,7 @@ import {
   SettingsIcon,
   SupportIcon,
   TruckIcon,
-  WarningIcon,
   ClientsBook,
-  CalculatorIcon,
 } from "@/utils/icons";
 import { useAppSelector, useAppDispatch } from "@/store/store";
 import { resetNotification, NotificationKey } from "@/store/slices/notificationsSlice";
@@ -20,24 +19,35 @@ import { useRouter } from "next/router";
 
 const Sidebar: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const boardUser = useAppSelector((state) => state.auth.boardUser);
   const notifications = useAppSelector((state) => state.notifications);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  // Extrai o nome da rota atual e converte para caixa alta
+  // Neste momento, routeName será sempre o mesmo no SSR e cliente inicial
   const routeName = router.pathname.replace("/", "").toUpperCase();
 
   const handleItemClick = (context: NotificationKey) => {
     dispatch(resetNotification(context));
   };
 
+  // Estado local para gerenciar o usuário exibido no Sidebar
+  const [currentUser, setCurrentUser] = React.useState(mockBoardUsers[0]);
+
+  // Após a montagem no cliente, caso boardUser exista, atualize o usuário exibido
+  React.useEffect(() => {
+    if (boardUser) {
+      setCurrentUser(boardUser);
+    }
+  }, [boardUser]);
+
   return (
     <div>
       <SidebarComp.Root
-        user={mockBoardUsers[0]}
+        user={currentUser}
         className={isRetracted ? styles.retracted : styles.sidebar}
       >
-        <SidebarComp.Header user={mockBoardUsers[0]} />
+        <SidebarComp.Header user={currentUser} />
         <SidebarComp.List>
           <SidebarComp.Item
             icon={<HomeIcon />}
@@ -77,15 +87,6 @@ const Sidebar: React.FC = () => {
             onClick={() => handleItemClick("ocorrencias")}
             badge={notifications.counters.ocorrencias}
           />
-          {/* TODO: Cotações */}
-          {/* <SidebarComp.Item
-          icon={<CalculatorIcon />}
-          text="COTAÇÕES"
-          isRetracted={isRetracted}
-          isFocused={routeName === "COTACAO"}
-          onClick={() => handleItemClick("cotacao")}
-          badge={notifications.counters.cotacao}
-        /> */}
           <SidebarComp.Item
             icon={<FinanceIcon />}
             text="FINANCEIRO"
