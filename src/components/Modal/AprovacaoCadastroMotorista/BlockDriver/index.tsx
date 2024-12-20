@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from './BlockDriver.module.css'
+import styles from './BlockDriver.module.css';
 import Modal from "../..";
 
 interface BlockDriverProps {
@@ -9,13 +9,22 @@ interface BlockDriverProps {
   handleCancel: () => void;
 }
 
-const BlockDriver = ({isOpen, onRequestClose, handleConfirm, handleCancel}: BlockDriverProps) => {
-
+const BlockDriver = ({ isOpen, onRequestClose, handleConfirm, handleCancel }: BlockDriverProps) => {
   const [reason, setReason] = useState("");
-  
-    const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setReason(event.target.value);
-    };
+  const [error, setError] = useState("");
+
+  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setReason(event.target.value);
+    setError("");
+  };
+
+  const handleConfirmClick = () => {
+    if (!reason.trim()) {
+      setError("O motivo não pode estar vazio.");
+    } else {
+      handleConfirm(reason);
+    }
+  };
 
   return (
     <Modal
@@ -25,7 +34,7 @@ const BlockDriver = ({isOpen, onRequestClose, handleConfirm, handleCancel}: Bloc
       modalDescription="Gostaria de bloquear esse motorista? Escreva em poucas palavras o motivo:"
       hasTwoButtons={true}
       buttonOneTitle="Confirmar"
-      buttonOneAction={() => handleConfirm(reason)}
+      buttonOneAction={handleConfirmClick}
       buttonTwoTitle="Cancelar"
       buttonTwoAction={handleCancel}
       childrenClassName={styles.children}
@@ -34,14 +43,16 @@ const BlockDriver = ({isOpen, onRequestClose, handleConfirm, handleCancel}: Bloc
         <textarea
           name="blockDriver"
           id="blockDriver"
-          placeholder="escreva aqui..."
+          placeholder="Escreva aqui..."
           value={reason}
           onChange={handleTextareaChange}
-        >
-        </textarea>
+        />
+      </div>
+      <div className={styles.errorContainer}>
+        {error && <p className={styles.errorMessage}>{error}</p>}
       </div>
     </Modal>
-  )
-}
+  );
+};
 
-export default BlockDriver
+export default BlockDriver;

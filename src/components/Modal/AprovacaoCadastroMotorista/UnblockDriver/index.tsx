@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from './UnblockDriver.module.css'
+import styles from './UnblockDriver.module.css';
 import Modal from "../..";
 
 interface UnblockDriverProps {
@@ -9,23 +9,32 @@ interface UnblockDriverProps {
   handleCancel: () => void;
 }
 
-const UnblockDriver = ({isOpen, onRequestClose, handleConfirm, handleCancel}: UnblockDriverProps) => {
-
+const UnblockDriver = ({ isOpen, onRequestClose, handleConfirm, handleCancel }: UnblockDriverProps) => {
   const [reason, setReason] = useState("");
-  
-    const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setReason(event.target.value);
-    };
+  const [error, setError] = useState("");
+
+  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setReason(event.target.value);
+    setError("");
+  };
+
+  const handleConfirmClick = () => {
+    if (!reason.trim()) {
+      setError("O motivo não pode estar vazio.");
+    } else {
+      handleConfirm(reason);
+    }
+  };
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       modalTitle="Desbloquear motorista"
-      modalDescription="Dscreva em poucas palavras o motivo para desbloquear o motorista:"
+      modalDescription="Descreva em poucas palavras o motivo para desbloquear o motorista:"
       hasTwoButtons={true}
       buttonOneTitle="Confirmar"
-      buttonOneAction={() => handleConfirm(reason)}
+      buttonOneAction={handleConfirmClick}
       buttonTwoTitle="Cancelar"
       buttonTwoAction={handleCancel}
       childrenClassName={styles.children}
@@ -34,14 +43,16 @@ const UnblockDriver = ({isOpen, onRequestClose, handleConfirm, handleCancel}: Un
         <textarea
           name="unblockDriver"
           id="unblockDriver"
-          placeholder="escreva aqui..."
+          placeholder="Escreva aqui..."
           value={reason}
           onChange={handleTextareaChange}
-        >
-        </textarea>
+        />
+      </div>
+      <div className={styles.errorContainer}>
+        {error && <p className={styles.errorMessage}>{error}</p>}
       </div>
     </Modal>
-  )
-}
+  );
+};
 
-export default UnblockDriver
+export default UnblockDriver;
