@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from './ActionButtons.module.css';
 import Botao from "@/components/Botao";
 import { DownloadIcon } from "@/utils/icons";
+import Modal from "@/components/Modal";
+import RequestDocuments from "@/components/Modal/AprovacaoCadastroMotorista/RequestDocuments";
+import BlockDriver from "@/components/Modal/AprovacaoCadastroMotorista/BlockDriver";
+import UnblockDriver from "@/components/Modal/AprovacaoCadastroMotorista/UnblockDriver";
 
 interface ActionButtonsProps {
   showApprove?: boolean;
@@ -12,24 +16,69 @@ interface ActionButtonsProps {
 }
 
 const ActionButtons = ({ showApprove, showRequest, showDownload, showBlock, showUnblock }: ActionButtonsProps) => {
+
+  const [modalConfig, setModalConfig] = useState<{
+    isVisible: boolean;
+    title: string;
+    description: string;
+    confirmText: string;
+    cancelText?: string;
+    onConfirm: () => void;
+  } | null>(null);
+
+  // Modal para informar tipo de documento solicitado
+  const [showRequestDocumentsModal, setShowRequestDocumentsModal] = useState(false);
+
+  // Modal para informar motivo do bloqueio do motorista
+  const [showBlockDriverModal, setShowBlockDriverModal] = useState(false);
+
+  // Modal para informar motivo do desbloqueio do motorista
+  const [showUnblockDriverModal, setShowUnblockDriverModal] = useState(false);
+
   const handleApprove = () => {
-    console.log('Aprovou motorista');
+    setModalConfig({
+      isVisible: true,
+      title: "Aprovar cadastro",
+      description: "Confirma a aprovação desse cadastro?",
+      confirmText: "Confirmar",
+      cancelText: "Cancelar",
+      onConfirm: () => {
+        setModalConfig(null);
+        setModalConfig({
+          isVisible: true,
+          title: "Aprovar cadastro",
+          description: "Cadastro aprovado com sucesso!",
+          confirmText: "Ok",
+          onConfirm: () => {
+            setModalConfig(null);
+          },
+        });
+      },
+    });
   };
 
-  const handleRequest = () => {
-    console.log('Solicitou novos documentos');
+  const handleRequestDocument = () => {
+    setShowRequestDocumentsModal(true)
   };
 
   const handleDownload = () => {
-    console.log('Baixou os documentos');
+    setModalConfig({
+      isVisible: true,
+      title: "Download",
+      description: "Download realizado com sucesso!",
+      confirmText: "Ok",
+      onConfirm: () => {
+        setModalConfig(null);
+      },
+    });
   };
 
   const handleBlock = () => {
-    console.log('Bloqueou o motorista');
+    setShowBlockDriverModal(true)
   };
 
   const handleUnblock = () => {
-    console.log('Desbloqueou o motorista');
+    setShowUnblockDriverModal(true)
   };
 
   return (
@@ -38,7 +87,7 @@ const ActionButtons = ({ showApprove, showRequest, showDownload, showBlock, show
         <Botao text="Aprovar Cadastro" className={`${styles.button} ${styles.approve}`} onClick={handleApprove} />
       )}
       {showRequest && (
-        <Botao text="Solicitar Documento" className={`${styles.button} ${styles.request}`} onClick={handleRequest} />
+        <Botao text="Solicitar Documento" className={`${styles.button} ${styles.request}`} onClick={handleRequestDocument} />
       )}
       {showDownload && (
         <Botao
@@ -57,7 +106,83 @@ const ActionButtons = ({ showApprove, showRequest, showDownload, showBlock, show
       {showUnblock && (
         <Botao text="Desbloquear Motorista" className={`${styles.button} ${styles.unblock}`} onClick={handleUnblock} />
       )}
+
+      {modalConfig && (
+        <Modal
+          isOpen={modalConfig.isVisible}
+          onRequestClose={() => setModalConfig(null)}
+          modalTitle={modalConfig.title}
+          modalDescription={modalConfig.description}
+          hasTwoButtons={true}
+          buttonOneTitle={modalConfig.confirmText}
+          buttonOneAction={modalConfig.onConfirm}
+          buttonTwoTitle={modalConfig.cancelText}
+          buttonTwoAction={() => setModalConfig(null)}
+        />
+      )}
+
+      {showRequestDocumentsModal && (
+        <RequestDocuments
+          isOpen={showRequestDocumentsModal}
+          onRequestClose={() => setShowRequestDocumentsModal(!showRequestDocumentsModal)}
+          handleConfirm={() => {
+            setShowRequestDocumentsModal(!showRequestDocumentsModal)
+            setModalConfig({
+              isVisible: true,
+              title: "Solicitar documentos",
+              description: "Documento solicitado com sucesso!",
+              confirmText: "Ok",
+              onConfirm: () => {
+                setModalConfig(null);
+              },
+            });
+          }}
+          handleCancel={() => setShowRequestDocumentsModal(!showRequestDocumentsModal)}
+        />
+      )}
+
+      {showBlockDriverModal && (
+        <BlockDriver
+          isOpen={showBlockDriverModal}
+          onRequestClose={() => setShowBlockDriverModal(!showBlockDriverModal)}
+          handleConfirm={() => {
+            setShowBlockDriverModal(!showBlockDriverModal)
+            setModalConfig({
+              isVisible: true,
+              title: "Bloquear motorista",
+              description: "Motorista bloqueado com sucesso!",
+              confirmText: "Ok",
+              onConfirm: () => {
+                setModalConfig(null);
+              },
+            });
+          }}
+          handleCancel={() => setShowBlockDriverModal(!showBlockDriverModal)}
+        />
+      )}
+
+      {showUnblockDriverModal && (
+        <UnblockDriver
+          isOpen={showUnblockDriverModal}
+          onRequestClose={() => setShowUnblockDriverModal(!showUnblockDriverModal)}
+          handleConfirm={() => {
+            setShowUnblockDriverModal(!showUnblockDriverModal)
+            setModalConfig({
+              isVisible: true,
+              title: "Desbloquear motorista",
+              description: "Motorista desbloqueado com sucesso!",
+              confirmText: "Ok",
+              onConfirm: () => {
+                setModalConfig(null);
+              },
+            });
+          }}
+          handleCancel={() => setShowUnblockDriverModal(!showUnblockDriverModal)}
+        />
+      )}
     </div>
+
+    
   );
 };
 
