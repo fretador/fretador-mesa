@@ -1,12 +1,13 @@
 import { FreightStatus } from "@/utils/enums/freightStatusEnum"; // Importando o enum correto
 import styles from "./RowRoot.module.css";
-import React, { ReactNode, cloneElement, Children, ReactElement } from "react";
+import React, { ReactNode, cloneElement, Children, ReactElement, CSSProperties } from "react";
 
 interface RowRootProps {
   children: ReactNode;
   freightStatus?: FreightStatus; // Usar o enum FreightStatus
   customBackgroundColor?: string;
   onClick?: () => void;
+  style?: CSSProperties;
 }
 
 interface FreightStatusProps {
@@ -18,6 +19,7 @@ const RowRoot = ({
   freightStatus = FreightStatus.WAITING,
   customBackgroundColor,
   onClick,
+  style = {},
 }: RowRootProps) => {
   const getBackgroundColor = (status: FreightStatus) => {
     switch (status) {
@@ -54,7 +56,7 @@ const RowRoot = ({
   return (
     <div
       className={styles.container}
-      style={{ backgroundColor, cursor: onClick ? "pointer" : "default" }}
+      style={{ backgroundColor, cursor: onClick ? "pointer" : "default", ...style }}
       onClick={onClick}
     >
       <div className={styles.content}>

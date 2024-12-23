@@ -1,0 +1,41 @@
+.cards {
+  max-height: 70vh;
+  /* overflow-y: auto; */
+  overflow-x: inherit;
+}
+
+.cards::-webkit-scrollbar {
+  width: 12px;
+}
+
+.cards::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #fdfdfd;
+}
+
+.cards::-webkit-scrollbar-thumb {
+  background-color: #1B556D;
+  border-radius: 12px;
+}
+
+.loadingContainer {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noResultsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 1247px;
+  height: 60px;
+  border-radius: 5px;
+  background-color: #B2CEDA;
+}
+
+.noResultsContainer p {
+  font-size: 18px;
+}
