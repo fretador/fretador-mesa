@@ -3,6 +3,9 @@ import styles from "./Attachments.module.css";
 import Image from "next/image";
 import { DriverAttachments } from '@/utils/Interfaces/DriverAttachments';
 import ImageModal from "@/components/Modal/FreteEmCurso/ImageModal";
+import Modal from "@/components/Modal";
+import RejectPhoto from "@/components/Modal/AprovacaoCadastroMotorista/RejectPhoto";
+import RequestDocuments from "@/components/Modal/AprovacaoCadastroMotorista/RequestDocuments";
 
 interface PhotoUrl {
   imageUrl: string;
@@ -127,6 +130,11 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageToDisplay, setImageToDisplay] = useState('');
+  const [downloadImageModalOpen, setDownloadImageModalOpen] = useState(false);
+  const [rejectImageModalOpen, setRejectImageModalOpen] = useState(false);
+  const [rejectImageConfirmationModal, setRejectImageConfirmationModal] = useState(false);
+  const [requestDocumentModal, setRequestDocumentModal] = useState(false);
+  const [requestDocumentConfirmationModal, setRequestDocumentConfirmationModal] = useState(false)
 
   const handleMenuToggle = (id: number) => {
     setOpenMenus((prev) => (prev === id ? null : id));
@@ -157,6 +165,21 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
     setImageModalOpen(false);
     setImageToDisplay('');
   };
+
+  const handleDownloadImage = () => {
+    setOpenMenus(null);
+    setDownloadImageModalOpen(!downloadImageModalOpen)
+  }
+
+  const handleRejectImage = () => {
+    setOpenMenus(null);
+    setRejectImageModalOpen(!rejectImageModalOpen)
+  }
+
+  const handleRequestDocument = () => {
+    setOpenMenus(null);
+    setRequestDocumentModal(!requestDocumentModal)
+  }
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -200,9 +223,15 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
                     <button className={styles.menuItem} onClick={() => handleOpenImage(item.src)}>
                       Abrir
                     </button>
-                    <button className={styles.menuItem}>Download</button>
-                    <button className={styles.menuItem}>Rejeitar</button>
-                    <button className={styles.menuItem}>Solicitar novo</button>
+                    <button className={styles.menuItem} onClick={() => handleDownloadImage()}>
+                      Download
+                    </button>
+                    <button className={styles.menuItem} onClick={() => handleRejectImage()}>
+                      Rejeitar
+                    </button>
+                    <button className={styles.menuItem} onClick={() => handleRequestDocument()}>
+                      Solicitar novo
+                    </button>
                   </div>
                 )}
               </div>
@@ -236,6 +265,54 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
         imageSrc={imageToDisplay}
         onDownload={() => console.log("Baixou a imagem")}
       />
+
+      <Modal
+        isOpen={downloadImageModalOpen}
+        onRequestClose={() => setDownloadImageModalOpen(!downloadImageModalOpen)}
+        modalTitle="Download"
+        modalDescription="Download realizado com sucesso!"
+        buttonOneTitle="Ok"
+        buttonOneAction={() => setDownloadImageModalOpen(!downloadImageModalOpen)}
+      />
+
+      <RejectPhoto
+        isOpen={rejectImageModalOpen}
+        onRequestClose={() => setRejectImageModalOpen(!rejectImageModalOpen)}
+        handleConfirm={() => {
+          setRejectImageModalOpen(!rejectImageModalOpen)
+          setRejectImageConfirmationModal(!rejectImageConfirmationModal)
+        }}
+        handleCancel={() => setRejectImageModalOpen(!rejectImageModalOpen)}
+      />
+
+      <Modal
+        isOpen={rejectImageConfirmationModal}
+        onRequestClose={() => setRejectImageConfirmationModal(!rejectImageConfirmationModal)}
+        modalTitle="Rejeitar foto"
+        modalDescription="Foto rejeitada com sucesso!"
+        buttonOneTitle="Ok"
+        buttonOneAction={() => setRejectImageConfirmationModal(!rejectImageConfirmationModal)}
+      />
+
+      <RequestDocuments
+        isOpen={requestDocumentModal}
+        onRequestClose={() => setRequestDocumentModal(!requestDocumentModal)}
+        handleConfirm={() => {
+          setRequestDocumentModal(!requestDocumentModal)
+          setRequestDocumentConfirmationModal(!requestDocumentConfirmationModal)
+        }}
+        handleCancel={() => setRequestDocumentModal(!requestDocumentModal)}
+      />
+
+      <Modal
+        isOpen={requestDocumentConfirmationModal}
+        onRequestClose={() => setRequestDocumentConfirmationModal(!requestDocumentConfirmationModal)}
+        modalTitle="Documento solicitado"
+        modalDescription="Seu documento foi solicitado ao motorista."
+        buttonOneTitle="Ok"
+        buttonOneAction={() => setRequestDocumentConfirmationModal(!requestDocumentConfirmationModal)}
+      />
+
       </div>
     </div>
   );

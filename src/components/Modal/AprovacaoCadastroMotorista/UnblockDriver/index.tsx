@@ -12,6 +12,10 @@ interface UnblockDriverProps {
 const UnblockDriver = ({ isOpen, onRequestClose, handleConfirm, handleCancel }: UnblockDriverProps) => {
   const [reason, setReason] = useState("");
   const [error, setError] = useState("");
+  const resetForm = () => {
+    setReason("");
+    setError("");
+  };
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReason(event.target.value);
@@ -23,7 +27,13 @@ const UnblockDriver = ({ isOpen, onRequestClose, handleConfirm, handleCancel }: 
       setError("O motivo não pode estar vazio.");
     } else {
       handleConfirm(reason);
+      resetForm();
     }
+  };
+
+  const handleCancelClick = () => {
+    handleCancel();
+    resetForm();
   };
 
   return (
@@ -36,7 +46,7 @@ const UnblockDriver = ({ isOpen, onRequestClose, handleConfirm, handleCancel }: 
       buttonOneTitle="Confirmar"
       buttonOneAction={handleConfirmClick}
       buttonTwoTitle="Cancelar"
-      buttonTwoAction={handleCancel}
+      buttonTwoAction={handleCancelClick}
       childrenClassName={styles.children}
     >
       <div className={styles.inputContainer}>

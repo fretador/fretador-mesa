@@ -121,65 +121,59 @@ const ActionButtons = ({ showApprove, showRequest, showDownload, showBlock, show
         />
       )}
 
-      {showRequestDocumentsModal && (
-        <RequestDocuments
-          isOpen={showRequestDocumentsModal}
-          onRequestClose={() => setShowRequestDocumentsModal(!showRequestDocumentsModal)}
-          handleConfirm={() => {
-            setShowRequestDocumentsModal(!showRequestDocumentsModal)
-            setModalConfig({
-              isVisible: true,
-              title: "Solicitar documentos",
-              description: "Documento solicitado com sucesso!",
-              confirmText: "Ok",
-              onConfirm: () => {
-                setModalConfig(null);
-              },
-            });
-          }}
-          handleCancel={() => setShowRequestDocumentsModal(!showRequestDocumentsModal)}
-        />
-      )}
+      <RequestDocuments
+        isOpen={showRequestDocumentsModal}
+        onRequestClose={() => setShowRequestDocumentsModal(!showRequestDocumentsModal)}
+        handleConfirm={() => {
+          setShowRequestDocumentsModal(!showRequestDocumentsModal)
+          setModalConfig({
+            isVisible: true,
+            title: "Solicitar documentos",
+            description: "Documento solicitado com sucesso!",
+            confirmText: "Ok",
+            onConfirm: () => {
+              setModalConfig(null);
+            },
+          });
+        }}
+        handleCancel={() => setShowRequestDocumentsModal(!showRequestDocumentsModal)}
+      />
 
-      {showBlockDriverModal && (
-        <BlockDriver
-          isOpen={showBlockDriverModal}
-          onRequestClose={() => setShowBlockDriverModal(!showBlockDriverModal)}
-          handleConfirm={() => {
-            setShowBlockDriverModal(!showBlockDriverModal)
-            setModalConfig({
-              isVisible: true,
-              title: "Bloquear motorista",
-              description: "Motorista bloqueado com sucesso!",
-              confirmText: "Ok",
-              onConfirm: () => {
-                setModalConfig(null);
-              },
-            });
-          }}
-          handleCancel={() => setShowBlockDriverModal(!showBlockDriverModal)}
-        />
-      )}
+      <BlockDriver
+        isOpen={showBlockDriverModal}
+        onRequestClose={() => setShowBlockDriverModal(!showBlockDriverModal)}
+        handleConfirm={() => {
+          setShowBlockDriverModal(!showBlockDriverModal)
+          setModalConfig({
+            isVisible: true,
+            title: "Bloquear motorista",
+            description: "Motorista bloqueado com sucesso!",
+            confirmText: "Ok",
+            onConfirm: () => {
+              setModalConfig(null);
+            },
+          });
+        }}
+        handleCancel={() => setShowBlockDriverModal(!showBlockDriverModal)}
+      />
 
-      {showUnblockDriverModal && (
-        <UnblockDriver
-          isOpen={showUnblockDriverModal}
-          onRequestClose={() => setShowUnblockDriverModal(!showUnblockDriverModal)}
-          handleConfirm={() => {
-            setShowUnblockDriverModal(!showUnblockDriverModal)
-            setModalConfig({
-              isVisible: true,
-              title: "Desbloquear motorista",
-              description: "Motorista desbloqueado com sucesso!",
-              confirmText: "Ok",
-              onConfirm: () => {
-                setModalConfig(null);
-              },
-            });
-          }}
-          handleCancel={() => setShowUnblockDriverModal(!showUnblockDriverModal)}
-        />
-      )}
+      <UnblockDriver
+        isOpen={showUnblockDriverModal}
+        onRequestClose={() => setShowUnblockDriverModal(!showUnblockDriverModal)}
+        handleConfirm={() => {
+          setShowUnblockDriverModal(!showUnblockDriverModal)
+          setModalConfig({
+            isVisible: true,
+            title: "Desbloquear motorista",
+            description: "Motorista desbloqueado com sucesso!",
+            confirmText: "Ok",
+            onConfirm: () => {
+              setModalConfig(null);
+            },
+          });
+        }}
+        handleCancel={() => setShowUnblockDriverModal(!showUnblockDriverModal)}
+      />
     </div>
 
     

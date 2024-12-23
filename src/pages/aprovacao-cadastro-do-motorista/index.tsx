@@ -136,16 +136,30 @@ const DriverApproval: React.FC = () => {
             />
           </div>
         );
-      case "preferencias":
+      case "historico":
         return (
           <div
             style={{
               display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "center",
-              height: "708px",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "space-around",
+              height: "300px",
             }}
           >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "1247px",
+                height: "60px",
+                borderRadius: "5px",
+                backgroundColor: "#B2CEDA"
+              }}  
+            >
+              <p style={{fontSize: "20px"}}>Sem dados para mostrar</p>
+            </div>
             <ActionButtons
               showApprove={true}
               showRequest={true}
@@ -217,14 +231,14 @@ const DriverApproval: React.FC = () => {
                     Anexos
                   </button>
                   <button
-                    onClick={() => setActiveTab("preferencias")}
+                    onClick={() => setActiveTab("historico")}
                     className={
-                      activeTab === "preferencias"
+                      activeTab === "historico"
                         ? styles.activeTabButton
                         : styles.tabButton
                     }
                   >
-                    Preferências
+                    Histórico
                   </button>
                 </div>
                 <div className={styles.content}>{renderContent()}</div>

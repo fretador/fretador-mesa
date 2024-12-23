@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import styles from './RequestDocuments.module.css';
+import styles from './RejectPhoto.module.css';
 import Modal from "../..";
 
-interface RequestDocumentsProps {
+interface RejectPhotoProps {
   isOpen: boolean;
   onRequestClose: () => void;
   handleConfirm: (reason: string) => void;
   handleCancel: () => void;
 }
 
-const RequestDocuments = ({ isOpen, onRequestClose, handleConfirm, handleCancel }: RequestDocumentsProps) => {
+const RejectPhoto = ({ isOpen, onRequestClose, handleConfirm, handleCancel }: RejectPhotoProps) => {
   const [reason, setReason] = useState("");
   const [error, setError] = useState("");
   const resetForm = () => {
@@ -40,8 +40,8 @@ const RequestDocuments = ({ isOpen, onRequestClose, handleConfirm, handleCancel 
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      modalTitle="Solicitar documentos"
-      modalDescription="Qual documento gostaria de solicitar ao motorista?"
+      modalTitle="Rejeitar foto"
+      modalDescription="Por favor, descreva o motivo da rejeição:"
       hasTwoButtons={true}
       buttonOneTitle="Confirmar"
       buttonOneAction={handleConfirmClick}
@@ -51,8 +51,8 @@ const RequestDocuments = ({ isOpen, onRequestClose, handleConfirm, handleCancel 
     >
       <div className={styles.inputContainer}>
         <textarea
-          name="requestDocuments"
-          id="requestDocuments"
+          name="rejectPhoto"
+          id="rejectPhoto"
           placeholder="Escreva aqui..."
           value={reason}
           onChange={handleTextareaChange}
@@ -65,4 +65,4 @@ const RequestDocuments = ({ isOpen, onRequestClose, handleConfirm, handleCancel 
   );
 };
 
-export default RequestDocuments;
+export default RejectPhoto;
