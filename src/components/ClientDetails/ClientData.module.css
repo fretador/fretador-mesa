@@ -1,0 +1,121 @@
+.informations {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 32px;
+}
+
+.informations p {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1B556D;
+}
+
+.informations span {
+  margin-left: 3px;
+  color: #0D0D0D;
+}
+
+.title {
+  margin: 0px 32px;
+  display: flex;
+  gap: 14px;
+  text-decoration: underline 1px solid #1B556D;
+}
+
+.title p {
+  font-size: 24px;
+}
+
+.row {
+  margin: 0px 32px;
+  display: flex;
+  align-items: center;
+  gap: 88px;
+}
+
+@media screen and (max-width: 1280px) {
+  .row {
+    gap: 44px;
+  }
+}
+
+.longRow {
+  margin: 0px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.textContainer,
+.textAreaContainer {
+  margin: -10px 32px 32px 32px;
+  flex: 1;
+  padding: 13px 18px;
+  background-color: #1a556d4d;
+  border-radius: 10px;
+}
+
+.textAreaContainer {
+  background-color: #3280a0cc;
+}
+
+.textContainer p {
+  font-size: 16px;
+}
+
+.whatsappContainer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.actionButtonsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.actionButtonsContainer .btnDark {
+  width: 328px;
+  padding: 16px 24px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.footer {
+  margin: 8px 32px 27px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer .dateAndTimeChangeText {
+  font-size: 12px;
+  color: #0D0D0D;
+  font-weight: 400;
+}
+
+.deleteContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.deleteContainer p {
+  color: #BF1231;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.loadingContainer {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
