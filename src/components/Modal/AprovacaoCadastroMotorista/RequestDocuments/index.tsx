@@ -5,28 +5,36 @@ import Modal from "../..";
 interface RequestDocumentsProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  handleConfirm: (reason: string) => void;
+  handleConfirm: (document: string, reason: string) => void;
   handleCancel: () => void;
 }
 
 const RequestDocuments = ({ isOpen, onRequestClose, handleConfirm, handleCancel }: RequestDocumentsProps) => {
+  const [document, setDocument] = useState("");
   const [reason, setReason] = useState("");
   const [error, setError] = useState("");
+
   const resetForm = () => {
+    setDocument("");
     setReason("");
     setError("");
   };
 
-  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleDocumentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDocument(event.target.value);
+    setError("");
+  };
+
+  const handleReasonChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReason(event.target.value);
     setError("");
   };
 
   const handleConfirmClick = () => {
-    if (!reason.trim()) {
-      setError("O motivo não pode estar vazio.");
+    if (!document.trim() || !reason.trim()) {
+      setError("Ambos os campos devem ser preenchidos.");
     } else {
-      handleConfirm(reason);
+      handleConfirm(document, reason);
       resetForm();
     }
   };
@@ -40,8 +48,8 @@ const RequestDocuments = ({ isOpen, onRequestClose, handleConfirm, handleCancel 
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      modalTitle="Solicitar documentos"
-      modalDescription="Qual documento gostaria de solicitar ao motorista?"
+      modalTitle="Solicitar documento"
+      modalDescription="Qual documento você quer solicitar?"
       hasTwoButtons={true}
       buttonOneTitle="Confirmar"
       buttonOneAction={handleConfirmClick}
@@ -50,12 +58,23 @@ const RequestDocuments = ({ isOpen, onRequestClose, handleConfirm, handleCancel 
       childrenClassName={styles.children}
     >
       <div className={styles.inputContainer}>
+        <input
+          type="text"
+          name="document"
+          id="document"
+          placeholder="Documento"
+          value={document}
+          onChange={handleDocumentChange}
+          className={styles.input}
+        />
+        <p>Motivo</p>
         <textarea
-          name="requestDocuments"
-          id="requestDocuments"
-          placeholder="Escreva aqui..."
+          name="reason"
+          id="reason"
+          placeholder="Escreva o motivo..."
           value={reason}
-          onChange={handleTextareaChange}
+          onChange={handleReasonChange}
+          className={styles.textarea}
         />
       </div>
       <div className={styles.errorContainer}>

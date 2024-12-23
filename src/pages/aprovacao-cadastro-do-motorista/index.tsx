@@ -106,7 +106,6 @@ const DriverApproval: React.FC = () => {
             <DriverAndOwnerDetails driver={transformedDriver} />
             <ActionButtons
               showApprove={true}
-              showRequest={true}
               showDownload={true}
               showBlock={true}
             />
@@ -118,7 +117,6 @@ const DriverApproval: React.FC = () => {
             <VehicleDetails vehicle={transformedDriver.vehicle} />
             <ActionButtons
               showApprove={true}
-              showRequest={true}
               showDownload={true}
               showBlock={true}
             />
@@ -162,7 +160,6 @@ const DriverApproval: React.FC = () => {
             </div>
             <ActionButtons
               showApprove={true}
-              showRequest={true}
               showDownload={true}
               showBlock={true}
             />
