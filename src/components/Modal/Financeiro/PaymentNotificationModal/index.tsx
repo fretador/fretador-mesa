@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from './PaymentNotificationModal.module.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import ReactDatePicker, { registerLocale } from "react-datepicker";
+import { ptBR } from 'date-fns/locale';
 import Modal from "../../index";
+
+registerLocale('pt-BR', ptBR);
 
 interface PaymentNotificationModalProps {
   isOpen: boolean;
@@ -26,49 +31,26 @@ const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({
   initialDataPagamento
 }) => {
   const [valorPago, setValorPago] = useState('');
-  const [dataPagamento, setDataPagamento] = useState('');
+  const [dataPagamento, setDataPagamento] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (initialValorPago) {
-      // Converte o número inicial para o formato monetário do input
       const formattedValue = formatCurrency(initialValorPago.toFixed(2).replace('.', ''));
       setValorPago(formattedValue);
     }
 
     if (initialDataPagamento) {
-      // Formata a data caso já exista
-      // Supondo que a data esteja em formato ISO "YYYY-MM-DD"
-      // Precisamos converter para dd/MM/yyyy
       const dateObj = new Date(initialDataPagamento);
       if (!isNaN(dateObj.getTime())) {
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const year = dateObj.getFullYear();
-        setDataPagamento(`${day}/${month}/${year}`);
+        setDataPagamento(dateObj);
       }
     }
-
   }, [initialValorPago, initialDataPagamento]);
 
   const formatCurrency = (value: string) => {
     const numericValue = value.replace(/\D/g, '');
     const formattedValue = `R$ ${numericValue.replace(/(\d{2})$/, ',$1')}`;
-    return formattedValue;
-  };
-
-  const formatDate = (value: string) => {
-    const numericValue = value.replace(/\D/g, '');
-    let formattedValue = '';
-    if (numericValue.length > 0) {
-      formattedValue += numericValue.slice(0, 2);
-    }
-    if (numericValue.length > 2) {
-      formattedValue += '/' + numericValue.slice(2, 4);
-    }
-    if (numericValue.length > 4) {
-      formattedValue += '/' + numericValue.slice(4, 8);
-    }
     return formattedValue;
   };
 
@@ -78,7 +60,7 @@ const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({
       return;
     }
     setError(null);
-    handleConfirm(valorPago, dataPagamento);
+    handleConfirm(valorPago, dataPagamento.toISOString().split('T')[0]);
   };
 
   return (
@@ -117,11 +99,14 @@ const PaymentNotificationModal: React.FC<PaymentNotificationModalProps> = ({
           </div>
           <div className={styles.inputContainer}>
             <label className={styles.inputLabel}>Data do Pagamento</label>
-            <input
-              type="text"
-              value={dataPagamento}
-              onChange={(e) => setDataPagamento(formatDate(e.target.value))}
+            <ReactDatePicker
+              selected={dataPagamento}
+              onChange={(date: Date | null) => setDataPagamento(date)}
+              dateFormat="dd/MM/yyyy"
+              locale="pt-BR"
               className={styles.inputField}
+              // maxDate={new Date()}
+              placeholderText="Selecione uma data"
             />
           </div>
         </div>
