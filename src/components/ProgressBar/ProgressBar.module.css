@@ -1,77 +1,83 @@
 .progressBarContainer {
-    position: relative;
-    width: 1100px;
-    margin: 0 auto; 
-    padding: 24px 0;
-  }
+  position: relative;
+  width: 1100px;
+  margin: 0 auto;
+  padding: 24px 0;
+}
 
-  .iconsContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0px -16px;
-  }
+.iconsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 -16px;
+}
 
-  .iconContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 82px;
-  }
+.iconContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 82px;
+}
 
-  .iconsContainer p {
-    text-align: center;
-    font-size: 16px;
-    font-weight: 400;
-    margin-top: 10px;
-    margin-bottom: 22px;
-  }
+.iconsContainer p {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 10px;
+  margin-bottom: 22px;
+}
 
-  .icon {
-    color: red;
-  }
-  
-  .progressBar {
-    height: 4px;
-    background-color: #12938D; 
-    border-radius: 5px; 
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.progressBar {
+  height: 4px;
+  background-color: #a8a5a5;
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
 
-  }
-  
-  .stageDot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background-color: #A8A5A5;
-    margin: 0px 16px;
-  }
-  
-  .activeDot {
-    background-color: #ED9C03; 
-    animation: radarPulse 2.5s infinite; 
-  }
+.progressFill {
+  height: 100%;
+  background-color: #12938D;
+  border-radius: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width 0.3s ease;
+}
 
-  .prevDot {
-    background-color: #ED9C03; 
-  }
+.stageDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #a8a5a5;
+  position: relative;
+  margin: 0px 16px;
+}
 
-  .activeText {
-    color: #1C952C;
-  }
+.activeDot {
+  background-color: #ed9c03;
+  animation: radarPulse 2.5s infinite;
+}
 
-  @keyframes radarPulse {
-    0% {
-      box-shadow: 0 0 0 0 rgba(237, 156, 3, 0.4);
-    }
-    70% {
-      box-shadow: 0 0 0 20px rgba(237, 156, 3, 0.2);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgba(237, 156, 3, 0);
-    }
+.prevDot {
+  background-color: #ed9c03;
+}
+
+.activeText {
+  color: #1c952c;
+}
+
+@keyframes radarPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(237, 156, 3, 0.4);
   }
-  
+  70% {
+    box-shadow: 0 0 0 20px rgba(237, 156, 3, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(237, 156, 3, 0);
+  }
+}
