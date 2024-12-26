@@ -24,6 +24,7 @@ import TravelWithoutPayment from "@/components/Modal/FreteEmCurso/TravelWithoutP
 import ProvideFreightValue from "@/components/Modal/FreteEmCurso/ProvideFreightValue";
 import DriverDocuments from "../Modal/FreteEmCurso/DriverDocuments";
 import { RequestFinancialType } from "@/utils/enums/requestFinancialTypeEnum";
+import SendAlert from "../Modal/FreteEmCurso/SendAlert";
 
 interface FreightInCourseOptionsProps {
   freightId: string;
@@ -110,6 +111,9 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
 
   // Modal "DriverDocuments" para abrir o action button "Documentos"
   const [showDriverDocumentsModal, setShowDriverDocumentsModal] = useState(false);
+
+  // Modal para exibir a mensagem de alerta
+  const [sendAlertModal, setSendAlertModal] = useState(false);
 
   // Variável para controlar o círculo vermelho indicativo da próxima ação
   const [activeBubble, setActiveBubble] = useState("actionButton");
@@ -312,7 +316,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
    * Dispara alerta (log de exemplo).
    */
   const handleSendAlert = () => {
-    console.log("Enviou alerta");
+    setSendAlertModal(!sendAlertModal)
   };
 
   /**
@@ -846,6 +850,25 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
           handleAction(actionButtonStatus!);
         }}
       />
+
+      {/* Modal para envio de mensagem de alerta para o motorista */}
+      <SendAlert
+        isOpen={sendAlertModal}
+        onRequestClose={() => setSendAlertModal(!sendAlertModal)}
+        handleConfirm={() => {
+          setSendAlertModal(!sendAlertModal)
+          setModalConfig({
+            isVisible: true,
+            title: "Enviar alerta",
+            description: "Alerta enviado com sucesso!",
+            confirmText: "Ok",
+            onConfirm: () => {
+              setModalConfig(null);
+            },
+          });
+        }}
+        handleCancel={() => setSendAlertModal(!sendAlertModal)}
+     />
     </div>
 
     

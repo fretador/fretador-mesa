@@ -32,12 +32,19 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStage }) => {
         ))}
       </div>
       <div className={styles.progressBar}>
-        {stages.map((stage, index) => (
+        <div
+          className={styles.progressFill}
+          style={{
+            width: `${(currentStage / (stages.length - 1)) * 100}%`,
+          }}
+        ></div>
+        {stages.map((_, index) => (
           <div
             key={index}
-            className={`${styles.stageDot} ${index < currentStage ? styles.prevDot : ''} ${index === currentStage ? styles.activeDot : ''}`}
-          >
-          </div>
+            className={`${styles.stageDot} ${
+              index < currentStage ? styles.prevDot : ''
+            } ${index === currentStage ? styles.activeDot : ''}`}
+          ></div>
         ))}
       </div>
     </div>
