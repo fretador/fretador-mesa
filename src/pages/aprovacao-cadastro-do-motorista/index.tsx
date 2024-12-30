@@ -86,6 +86,8 @@ const DriverApproval: React.FC = () => {
   );
   const routeName = "APROVAÇÃO CADASTRO DO MOTORISTA";
 
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
+
   const renderContent = () => {
     if (loading) {
       return <div className={styles.loadingContainer} ><SmallLoading /> </div >;
@@ -125,12 +127,13 @@ const DriverApproval: React.FC = () => {
       case "anexos":
         return (
           <div>
-            <Attachments driver={transformedDriver} />
+            <Attachments driver={transformedDriver} isSelectionMode={isSelectionMode} />
             <ActionButtons
-              showApprove={true}
+              showSelectPhotos={true}
               showRequest={true}
-              showDownload={true}
               showBlock={true}
+              isSelectionMode={isSelectionMode}
+              setIsSelectionMode={setIsSelectionMode}
             />
           </div>
         );

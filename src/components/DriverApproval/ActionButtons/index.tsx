@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from './ActionButtons.module.css';
 import Botao from "@/components/Botao";
-import { DownloadIcon } from "@/utils/icons";
+import { BackIcon, DownloadIcon } from "@/utils/icons";
 import Modal from "@/components/Modal";
 import RequestDocuments from "@/components/Modal/AprovacaoCadastroMotorista/RequestDocuments";
 import BlockDriver from "@/components/Modal/AprovacaoCadastroMotorista/BlockDriver";
@@ -13,9 +13,21 @@ interface ActionButtonsProps {
   showDownload?: boolean;
   showBlock?: boolean;
   showUnblock?: boolean;
+  showSelectPhotos?: boolean;
+  isSelectionMode?: boolean;
+  setIsSelectionMode?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ActionButtons = ({ showApprove, showRequest, showDownload, showBlock, showUnblock }: ActionButtonsProps) => {
+const ActionButtons = ({
+  showApprove,
+  showRequest,
+  showDownload,
+  showBlock,
+  showUnblock,
+  showSelectPhotos,
+  isSelectionMode = false,
+  setIsSelectionMode = () => {}
+}: ActionButtonsProps) => {
 
   const [modalConfig, setModalConfig] = useState<{
     isVisible: boolean;
@@ -81,8 +93,33 @@ const ActionButtons = ({ showApprove, showRequest, showDownload, showBlock, show
     setShowUnblockDriverModal(true)
   };
 
+  const handleSelectPhotos = () => {
+    setIsSelectionMode(!isSelectionMode);
+  };
+
   return (
     <div className={styles.buttonsContainer}>
+      {isSelectionMode && (
+        <Botao
+          text={
+            <div className={styles.downloadButton}>
+              <BackIcon />
+            </div>
+          }
+          className={`${styles.button} ${styles.download}`}
+          onClick={() => setIsSelectionMode(!isSelectionMode)}
+        />
+      )}
+      {isSelectionMode ? (
+        <>
+          <Botao text="Aprovar Fotos Selecionadas" className={`${styles.button} ${styles.approve}`} onClick={() => console.log('Aprovou fotos selecionadas')} />
+          <Botao text="Download Selecionadas" className={`${styles.button} ${styles.download}`} onClick={() => console.log('Baixou fotos selecionadas')} />
+        </>
+      ) : (
+        showSelectPhotos && (
+          <Botao text="Selecionar Fotos" className={`${styles.button}`} onClick={handleSelectPhotos} />
+        )
+      )}
       {showApprove && (
         <Botao text="Aprovar Cadastro" className={`${styles.button} ${styles.approve}`} onClick={handleApprove} />
       )}
@@ -175,8 +212,6 @@ const ActionButtons = ({ showApprove, showRequest, showDownload, showBlock, show
         handleCancel={() => setShowUnblockDriverModal(!showUnblockDriverModal)}
       />
     </div>
-
-    
   );
 };
 

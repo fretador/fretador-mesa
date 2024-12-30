@@ -3,6 +3,8 @@ import styles from './DriverDocuments.module.css';
 import Modal from "../..";
 import Image from "next/image";
 import ImageModal from "../ImageModal";
+import RejectPhoto from "../../AprovacaoCadastroMotorista/RejectPhoto";
+import RequestDocuments from "../../AprovacaoCadastroMotorista/RequestDocuments";
 
 interface DriverDocumentsProps {
   isOpen: boolean;
@@ -23,8 +25,32 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
   const [openMenus, setOpenMenus] = useState<number | null>(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [rejectedImages, setRejectedImages] = useState<number[]>([]);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageToDisplay, setImageToDisplay] = useState('');
+  const [currentRejectedImageId, setCurrentRejectedImageId] = useState<number | null>(null);
+
+  const [downloadImageModalOpen, setDownloadImageModalOpen] = useState(false);
+  const [rejectImageModalOpen, setRejectImageModalOpen] = useState(false);
+  const [rejectImageConfirmationModal, setRejectImageConfirmationModal] = useState(false);
+  const [requestDocumentModal, setRequestDocumentModal] = useState(false);
+  const [requestDocumentConfirmationModal, setRequestDocumentConfirmationModal] = useState(false);
+
+  const handleDownloadImage = () => {
+    setOpenMenus(null);
+    setDownloadImageModalOpen(!downloadImageModalOpen);
+  };
+
+  const handleRejectImage = (id: number) => {
+    setOpenMenus(null);
+    setCurrentRejectedImageId(id);
+    setRejectImageModalOpen(!rejectImageModalOpen);
+  };
+
+  const handleRequestDocument = () => {
+    setOpenMenus(null);
+    setRequestDocumentModal(!requestDocumentModal);
+  };
 
   const handleMenuToggle = (id: number) => {
     setOpenMenus((prev) => (prev === id ? null : id));
@@ -76,7 +102,9 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
     >
       <div className={styles.cardsContainer}>
         {mockData.map((item) => (
-          <div key={item.id} className={styles.cardContainer}>
+          <div key={item.id} className={`${styles.cardContainer} ${
+            rejectedImages.includes(item.id) ? styles.rejected : ""
+          }`}>
             <div className={styles.imageContainer}>
               <Image src={item.imageSrc} alt="image" width={74} height={74} />
               <div className={styles.menuContainer}>
@@ -102,9 +130,16 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
                     <button className={styles.menuItem} onClick={() => handleOpenImage(item.imageSrc)}>
                       Abrir
                     </button>
-                    <button className={styles.menuItem}>Download</button>
-                    <button className={styles.menuItem}>Rejeitar</button>
-                    <button className={styles.menuItem}>Solicitar novo</button>
+                    <button className={styles.menuItem} onClick={handleDownloadImage}>Download</button>
+                    {!rejectedImages.includes(item.id) && (
+                      <button
+                        className={styles.menuItem}
+                        onClick={() => handleRejectImage(item.id)}
+                      >
+                        Rejeitar
+                      </button>
+                    )}
+                    <button className={styles.menuItem} onClick={handleRequestDocument}>Solicitar novo</button>
                   </div>
                 )}
               </div>
@@ -131,6 +166,56 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
           </button>
         </div>
       )}
+
+      <Modal
+        isOpen={downloadImageModalOpen}
+        onRequestClose={() => setDownloadImageModalOpen(!downloadImageModalOpen)}
+        modalTitle="Download"
+        modalDescription="Download realizado com sucesso!"
+        buttonOneTitle="Ok"
+        buttonOneAction={() => setDownloadImageModalOpen(!downloadImageModalOpen)}
+      />
+
+      <RejectPhoto
+        isOpen={rejectImageModalOpen}
+        onRequestClose={() => setRejectImageModalOpen(!rejectImageModalOpen)}
+        handleConfirm={() => {
+          if (currentRejectedImageId !== null) {
+            setRejectedImages((prev) => [...prev, currentRejectedImageId]);
+          }
+          setRejectImageModalOpen(!rejectImageModalOpen);
+          setRejectImageConfirmationModal(!rejectImageConfirmationModal);
+        }}
+        handleCancel={() => setRejectImageModalOpen(!rejectImageModalOpen)}
+      />
+
+      <Modal
+        isOpen={rejectImageConfirmationModal}
+        onRequestClose={() => setRejectImageConfirmationModal(!rejectImageConfirmationModal)}
+        modalTitle="Rejeitar foto"
+        modalDescription="Foto rejeitada com sucesso!"
+        buttonOneTitle="Ok"
+        buttonOneAction={() => setRejectImageConfirmationModal(!rejectImageConfirmationModal)}
+      />
+
+      <RequestDocuments
+        isOpen={requestDocumentModal}
+        onRequestClose={() => setRequestDocumentModal(!requestDocumentModal)}
+        handleConfirm={() => {
+          setRequestDocumentModal(!requestDocumentModal);
+          setRequestDocumentConfirmationModal(!requestDocumentConfirmationModal);
+        }}
+        handleCancel={() => setRequestDocumentModal(!requestDocumentModal)}
+      />
+
+      <Modal
+        isOpen={requestDocumentConfirmationModal}
+        onRequestClose={() => setRequestDocumentConfirmationModal(!requestDocumentConfirmationModal)}
+        modalTitle="Documento solicitado"
+        modalDescription="Seu documento foi solicitado ao motorista."
+        buttonOneTitle="Ok"
+        buttonOneAction={() => setRequestDocumentConfirmationModal(!requestDocumentConfirmationModal)}
+      />
 
       <ImageModal
         isOpen={imageModalOpen}

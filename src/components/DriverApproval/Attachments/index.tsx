@@ -27,6 +27,7 @@ interface Driver {
 
 interface AttachmentsProps {
   driver: Driver;
+  isSelectionMode: boolean;
 }
 
 interface ImageData {
@@ -35,10 +36,10 @@ interface ImageData {
   alt: string;
 }
 
-const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
+const Attachments: React.FC<AttachmentsProps> = ({ driver, isSelectionMode }) => {
   const imageData = useMemo((): ImageData[] => {
     const attachments = driver.attachments || {};
-    
+
     const images: ImageData[] = [
       {
         id: "1",
@@ -113,10 +114,12 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
     ];
 
     return images.filter(
-      (image): image is ImageData & { src: string } => 
+      (image): image is ImageData & { src: string } =>
         typeof image.src === "string" && image.src.trim() !== ""
     );
   }, [driver]);
+
+  const [rejectedImages, setRejectedImages] = useState<number[]>([]);
 
   const placeholderImage = "/placeholder.png";
 
@@ -126,10 +129,10 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
   }, [driver, imageData]);
 
   const [openMenus, setOpenMenus] = useState<number | null>(null);
-  const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageToDisplay, setImageToDisplay] = useState('');
+  const [currentRejectedImageId, setCurrentRejectedImageId] = useState<number | null>(null);
   const [downloadImageModalOpen, setDownloadImageModalOpen] = useState(false);
   const [rejectImageModalOpen, setRejectImageModalOpen] = useState(false);
   const [rejectImageConfirmationModal, setRejectImageConfirmationModal] = useState(false);
@@ -152,10 +155,6 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
     }
   };
 
-  const handleSelectDocuments = () => {
-    setIsSelectionMode(!isSelectionMode);
-  };
-
   const handleOpenImage = (src: string) => {
     setImageToDisplay(src);
     setImageModalOpen(true);
@@ -171,10 +170,11 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
     setDownloadImageModalOpen(!downloadImageModalOpen)
   }
 
-  const handleRejectImage = () => {
+  const handleRejectImage = (id: number) => {
     setOpenMenus(null);
-    setRejectImageModalOpen(!rejectImageModalOpen)
-  }
+    setCurrentRejectedImageId(id);
+    setRejectImageModalOpen(!rejectImageModalOpen);
+  };
 
   const handleRequestDocument = () => {
     setOpenMenus(null);
@@ -197,7 +197,9 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
       <div style={{marginBottom: '100px'}}>
       <div className={styles.cardsContainer}>
         {imageData.map((item: any) => (
-          <div key={item.id} className={styles.cardContainer}>
+          <div key={item.id} className={`${styles.cardContainer} ${
+            rejectedImages.includes(item.id) ? styles.rejected : ""
+          }`}>
             <div className={styles.imageContainer}>
               <Image src={item.src} alt="image" width={74} height={74} />
               <div className={styles.menuContainer}>
@@ -226,9 +228,14 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
                     <button className={styles.menuItem} onClick={() => handleDownloadImage()}>
                       Download
                     </button>
-                    <button className={styles.menuItem} onClick={() => handleRejectImage()}>
-                      Rejeitar
-                    </button>
+                    {!rejectedImages.includes(item.id) && (
+                      <button
+                        className={styles.menuItem}
+                        onClick={() => handleRejectImage(item.id)}
+                      >
+                        Rejeitar
+                      </button>
+                    )}
                     <button className={styles.menuItem} onClick={() => handleRequestDocument()}>
                       Solicitar novo
                     </button>
@@ -240,24 +247,6 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
           </div>
         ))}
       </div>
-
-      {isSelectionMode && (
-        <div className={styles.buttons}>
-          <button
-            className={styles.rejectButton}
-            onClick={() => console.log('Rejeitou')}
-          >
-            Rejeitar
-          </button>
-
-          <button
-            className={styles.downloadButton}
-            onClick={() => console.log("Baixou")}
-          >
-            Download PDF
-          </button>
-        </div>
-      )}
 
       <ImageModal
         isOpen={imageModalOpen}
@@ -279,8 +268,11 @@ const Attachments: React.FC<AttachmentsProps> = ({ driver }) => {
         isOpen={rejectImageModalOpen}
         onRequestClose={() => setRejectImageModalOpen(!rejectImageModalOpen)}
         handleConfirm={() => {
-          setRejectImageModalOpen(!rejectImageModalOpen)
-          setRejectImageConfirmationModal(!rejectImageConfirmationModal)
+          if (currentRejectedImageId !== null) {
+            setRejectedImages((prev) => [...prev, currentRejectedImageId]);
+          }
+          setRejectImageModalOpen(!rejectImageModalOpen);
+          setRejectImageConfirmationModal(!rejectImageConfirmationModal);
         }}
         handleCancel={() => setRejectImageModalOpen(!rejectImageModalOpen)}
       />
