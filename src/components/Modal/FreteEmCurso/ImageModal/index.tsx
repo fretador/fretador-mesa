@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './ImageModal.module.css';
+import ReactImageMagnify from 'react-image-magnify';
 import { CloseModalBtnIcon, DownloadIcon } from '@/utils/icons';
 
 interface ImageModalProps {
@@ -18,7 +19,26 @@ const ImageModal = ({ isOpen, onRequestClose, imageSrc, onDownload }: ImageModal
         <button className={styles.closeButton} onClick={onRequestClose}>
           <CloseModalBtnIcon />
         </button>
-        <img src={imageSrc} alt="Document" className={styles.modalImage} />
+        <div className={styles.imageWrapper}>
+          <ReactImageMagnify
+            {...{
+              smallImage: {
+                alt: 'Document',
+                isFluidWidth: true,
+                src: imageSrc,
+              },
+              largeImage: {
+                src: imageSrc,
+                width: 1200,
+                height: 800,
+              },
+              enlargedImageContainerStyle: {
+                background: '#fff',
+                zIndex: 1000,
+              },
+            }}
+          />
+        </div>
         <button className={styles.downloadButton} onClick={onDownload}>
           <DownloadIcon />
         </button>

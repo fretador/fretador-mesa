@@ -27,6 +27,7 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
+    z-index: 1;
   }
   
   .modalImage {
@@ -44,3 +45,10 @@
     cursor: pointer;
   }
   
+  .imageWrapper {
+    cursor: zoom-in;
+  }
+  
+  .imageWrapper:active {
+    cursor: zoom-out;
+  }
