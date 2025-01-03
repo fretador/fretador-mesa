@@ -4,6 +4,48 @@ import { GET_BOARDUSER_NOTIFICATIONS } from "@/graphql/queries/notificationQueri
 import { ACKNOWLEDGE_NOTIFICATION } from "@/graphql/mutations/notificationMutations";
 import styles from "./NotificationsList.module.css";
 
+function translateNotificationType(type: string): string {
+  switch (type) {
+    case "statusChange":
+      return "Mudança de Status";
+    case "fieldUpdate":
+      return "Atualização de Campo";
+    case "newMessage":
+      return "Nova Mensagem";
+    case "newFinancialEvent":
+      return "Novo Evento Financeiro";
+    case "newClientEvent":
+      return "Novo Evento de Cliente";
+    case "invoicePending":
+      return "Fatura Pendente";
+    default:
+      return type;
+  }
+}
+
+function translateEntity(entityType: string) {
+  switch (entityType) {
+    case "freight":
+      return { label: "Frete", route: "frete-em-curso" };
+    case "driver":
+      return { label: "Motorista", route: "cadastro-do-motorista" };
+    case "occurrence":
+      return { label: "Ocorrência", route: "ocorrencias" };
+    case "financial":
+      return { label: "Financeiro", route: "financeiro" };
+    case "client":
+      return { label: "Cliente", route: "clientes" };
+    default:
+      return { label: entityType, route: entityType };
+  }
+}
+
+function isValidDate(date: any) {
+  if (!date) return false;
+  const d = new Date(date);
+  return d instanceof Date && !isNaN(d.getTime());
+}
+
 interface NotificationsListProps {
   userId?: string;
   groupKey?: string;
@@ -69,12 +111,20 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
           const isAcknowledged = notif.recipients.some(
             (r: any) => r.userId === userId && r.acknowledged
           );
+
+          // Obtem tradução para o tipo
+          const translatedType = translateNotificationType(notif.type);
+
+          // Obtem label/rota do entityType
+          const { label, route } = translateEntity(notif.entityType);
+
           return (
             <li
               key={notif._id}
-              className={`${styles.notificationItem} ${isAcknowledged ? styles.acknowledged : ""}`}
+              className={`${styles.notificationItem} ${isAcknowledged ? styles.acknowledged : ""
+                }`}
             >
-              <strong>{notif.type}</strong> - {notif.entityType}/{notif.entityId}
+              <strong>{translatedType}</strong> - {label}/{notif.entityId}
               <br />
               <button
                 disabled={isAcknowledged}
@@ -83,10 +133,13 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
                 {isAcknowledged ? "Reconhecida" : "Reconhecer"}
               </button>
               {" | "}
-              <a href={`/${notif.entityType}s/${notif.entityId}`}>Ver detalhes</a>
+              <a href={`/${route}/${notif.entityId}`}>Ver detalhes</a>
               <br />
               <small>
-                Criada em: {new Date(notif.createdAt).toLocaleString()}
+                Criada em:{" "}
+                {isValidDate(notif.createdAt)
+                  ? new Date(notif.createdAt).toLocaleString()
+                  : "Data indisponível"}
               </small>
             </li>
           );
