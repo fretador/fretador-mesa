@@ -1,0 +1,30 @@
+.notificationsListContainer {
+  padding: 8px;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.notificationsFilter {
+  margin-bottom: 8px;
+  display: flex;
+  gap: 12px;
+}
+
+.notificationsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notificationItem {
+  border-bottom: 1px solid #f1f1f1;
+  padding: 6px 0;
+}
+
+.notificationItem.acknowledged {
+  opacity: 0.6;
+}
