@@ -5,54 +5,71 @@ import { AuthService } from "@/services/authService";
 import { storageHelper } from "@/utils/helpers/storageHelper";
 
 export const useAuthController = () => {
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const login = useCallback(
-    async (email: string, password: string, rememberMe: boolean) => {
-      try {
-        const { token, name, userEmail, profile, profilePicture } =
-          await AuthService.login(email, password, rememberMe);
+	const login = useCallback(
+		async (email: string, password: string, rememberMe: boolean) => {
+			try {
+				const { id, token, name, userEmail, profile, profilePicture } =
+					await AuthService.login(email, password, rememberMe);
 
-        const boardUser = { token, name, email: userEmail, profile, profilePicture };
-        storageHelper.saveBoardUser(boardUser, rememberMe);
+				const boardUser = {
+					id,
+					token,
+					name,
+					email: userEmail,
+					profile,
+					profilePicture,
+				};
+				storageHelper.saveBoardUser(boardUser, rememberMe);
 
-        dispatch(
-          loginSuccess({ token, name, email: userEmail, profile, profilePicture })
-        );
-      } catch (error) {
-        console.error("Login failed:", error);
-        throw error;
-      }
-    },
-    [dispatch]
-  );
+				dispatch(
+					loginSuccess({
+						id,
+						token,
+						name,
+						email: userEmail,
+						profile,
+						profilePicture,
+					})
+				);
+			} catch (error) {
+				console.error("Login failed:", error);
+				throw error;
+			}
+		},
+		[dispatch]
+	);
 
-  const checkAuthStatus = useCallback(() => {
-    const token = storageHelper.getBoardUserToken();
-    const boardUser = storageHelper.getBoardUser();
+	const checkAuthStatus = useCallback(() => {
+		const token = storageHelper.getBoardUserToken();
+		const boardUser = storageHelper.getBoardUser();
 
-    if (token && boardUser) {
-      dispatch(loginSuccess({
-        token,
-        name: boardUser.name,
-        email: boardUser.email,
-        profile: boardUser.profile,
-        profilePicture: boardUser.profilePicture
-      }));
-      return true;
-    } else {
-      return false;
-    }
-  }, [dispatch]);
+		if (token && boardUser) {
+			dispatch(
+				loginSuccess({
+					id: boardUser.id,
+					token,
+					name: boardUser.name,
+					email: boardUser.email,
+					profile: boardUser.profile,
+					profilePicture: boardUser.profilePicture,
+				})
+			);
+			return true;
+		} else {
+			return false;
+		}
+	}, [dispatch]);
 
-  const logoutUser = useCallback(() => {
-    AuthService.logout();
-    dispatch(logout());
-  }, [dispatch]);
+	const logoutUser = useCallback(() => {
+		AuthService.logout();
+		dispatch(logout());
+	}, [dispatch]);
 
-  return {
-    login,
-    checkAuthStatus,
-    logoutUser,
-  };
+	return {
+		login,
+		checkAuthStatus,
+		logoutUser,
+	};
 };

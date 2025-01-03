@@ -1,6 +1,6 @@
 import { BoardUserProfile } from "@/utils/enums/boardUserProfileEnums";
 export interface BoardUser {
-	id?: String;
+	id: String;
 	active?: Boolean;
 	creationDate?: String;
 	updateDate?: String;
