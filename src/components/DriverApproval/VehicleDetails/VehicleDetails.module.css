@@ -48,3 +48,15 @@
 .lineThree {
   margin-bottom: 48px;
 }
+
+.editInput {
+  outline: none;
+  background: #1b556d4d;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 8px 8px 11px;
+  width: 100%;
+  font-size: 22px;
+  font-weight: 600;
+  color: #0D0D0D;
+}
