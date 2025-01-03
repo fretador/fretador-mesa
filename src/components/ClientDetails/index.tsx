@@ -43,11 +43,57 @@ const ClientData = ({handleLatestShipmentsButton}: ClientDataProps) => {
     }
   }, [data]);
 
+  // States para edição de dados do Motorista
+  const [isClientEditing, setIsClientEditing] = useState(false);
+  const [editableClient, setEditableClient] = useState({
+    corporateName: '',
+    tradeName: '',
+    whatsapp: '',
+    email: '',
+    stateRegistration: '',
+    address: '',
+    number: '',
+    neighborhood: '',
+    city: '',
+    state: ''
+
+  });
+
+  useEffect(() => {
+    if (client) {
+      setEditableClient({
+        corporateName: client.corporateName,
+        tradeName: client.tradeName,
+        whatsapp: client.whatsapp,
+        email: client.email,
+        stateRegistration: client.stateRegistration,
+        address: client.address,
+        number: client.numberAddress,
+        neighborhood: client.neighborhood,
+        city: client.city,
+        state: client.state
+      });
+    }
+  }, [client]);
+
+  const handleClientEditToggle = () => {
+    setIsClientEditing(!isClientEditing);
+  };
+
+  const handleClientInputChange = (field: string, value: string) => {
+    setEditableClient((prev) => ({ ...prev, [field]: value }));
+  };
+
   return (
     <div className={styles.informations}>
       <div className={styles.title}>
         <p>Dados do Cliente</p>
-        <PencilSolidIcon />
+        <div
+          className={styles.pencilIcon}
+          onClick={handleClientEditToggle}
+        >
+          <PencilSolidIcon fill={isClientEditing ? "#A33830" : '#1A556D'} />
+        </div>
       </div>
 
       {loading ?
@@ -62,7 +108,19 @@ const ClientData = ({handleLatestShipmentsButton}: ClientDataProps) => {
           <>
             <div className={styles.longRow}>
               <p>
-                Nome: <span>{client.corporateName}</span>
+                Nome:{" "}
+                {isClientEditing ? (
+                  <input
+                    type="text"
+                    value={editableClient.corporateName}
+                    onChange={(e) => handleClientInputChange("corporateName", e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && setIsClientEditing(false)}
+                    onBlur={() => setIsClientEditing(false)}
+                    className={styles.editInput}
+                  />
+                ) : (
+                  <span>{editableClient.corporateName}</span>
+                )}
               </p>
               <p>
                 CNPJ: <span>{client.cnpj}</span>
@@ -71,40 +129,149 @@ const ClientData = ({handleLatestShipmentsButton}: ClientDataProps) => {
 
             <div className={styles.row}>
               <p>
-                Fantasia: <span>{client.tradeName}</span>
+                Fantasia:{" "}
+                {isClientEditing ? (
+                  <input
+                    type="text"
+                    value={editableClient.tradeName}
+                    onChange={(e) => handleClientInputChange("tradeName", e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && setIsClientEditing(false)}
+                    onBlur={() => setIsClientEditing(false)}
+                    className={styles.editInput}
+                  />
+                ) : (
+                  <span>{editableClient.tradeName}</span>
+                )}
               </p>
               <div className={styles.whatsappContainer}>
-                <LogoWhatsAppIcon />
+                <div>
+                  <LogoWhatsAppIcon />
+                </div>
                 <p>
-                  <span>{client.whatsapp}</span>
+                  {isClientEditing ? (
+                    <input
+                      type="text"
+                      value={editableClient.whatsapp}
+                      onChange={(e) => handleClientInputChange("whatsapp", e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && setIsClientEditing(false)}
+                      onBlur={() => setIsClientEditing(false)}
+                      className={styles.editInput}
+                    />
+                  ) : (
+                    <span>{editableClient.whatsapp}</span>
+                  )}
                 </p>
               </div>
               <p>
-                E-mail: <span>{client.email}</span>
+                Email:{" "}
+                {isClientEditing ? (
+                  <input
+                    type="text"
+                    value={editableClient.email}
+                    onChange={(e) => handleClientInputChange("email", e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && setIsClientEditing(false)}
+                    onBlur={() => setIsClientEditing(false)}
+                    className={styles.editInput}
+                  />
+                ) : (
+                  <span>{editableClient.email}</span>
+                )}
               </p>
             </div>
 
             <div className={styles.row}>
               <p>
-                Inscrição Estadual: <span>{client.stateRegistration}</span>
+                Inscrição Estadual:{" "}
+                {isClientEditing ? (
+                  <input
+                    type="text"
+                    value={editableClient.stateRegistration}
+                    onChange={(e) => handleClientInputChange("stateRegistration", e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && setIsClientEditing(false)}
+                    onBlur={() => setIsClientEditing(false)}
+                    className={styles.editInput}
+                  />
+                ) : (
+                  <span>{editableClient.stateRegistration}</span>
+                )}
               </p>
               <p>
-                Endereço: <span>{client.address}</span>
+                Endereço:{" "}
+                {isClientEditing ? (
+                  <input
+                    type="text"
+                    value={editableClient.address}
+                    onChange={(e) => handleClientInputChange("address", e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && setIsClientEditing(false)}
+                    onBlur={() => setIsClientEditing(false)}
+                    className={styles.editInput}
+                  />
+                ) : (
+                  <span>{editableClient.address}</span>
+                )}
               </p>
               <p>
-                Número: <span>{client.numberAddress}</span>
+                Número:{" "}
+                {isClientEditing ? (
+                  <input
+                    type="text"
+                    value={editableClient.number}
+                    onChange={(e) => handleClientInputChange("number", e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && setIsClientEditing(false)}
+                    onBlur={() => setIsClientEditing(false)}
+                    className={styles.editInput}
+                  />
+                ) : (
+                  <span>{editableClient.number}</span>
+                )}
               </p>
               <p>
-                Bairro: <span>{client.neighborhood}</span>
+                Bairro:{" "}
+                {isClientEditing ? (
+                  <input
+                    type="text"
+                    value={editableClient.neighborhood}
+                    onChange={(e) => handleClientInputChange("neighborhood", e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && setIsClientEditing(false)}
+                    onBlur={() => setIsClientEditing(false)}
+                    className={styles.editInput}
+                  />
+                ) : (
+                  <span>{editableClient.neighborhood}</span>
+                )}
               </p>
             </div>
 
             <div className={styles.row}>
               <p>
-                Cidade: <span>{client.city}</span>
+                Cidade:{" "}
+                {isClientEditing ? (
+                  <input
+                    type="text"
+                    value={editableClient.city}
+                    onChange={(e) => handleClientInputChange("city", e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && setIsClientEditing(false)}
+                    onBlur={() => setIsClientEditing(false)}
+                    className={styles.editInput}
+                  />
+                ) : (
+                  <span>{editableClient.city}</span>
+                )}
               </p>
               <p>
-                Estado: <span>{client.state}</span>
+                Estado:{" "}
+                {isClientEditing ? (
+                  <input
+                    type="text"
+                    value={editableClient.state}
+                    onChange={(e) => handleClientInputChange("state", e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && setIsClientEditing(false)}
+                    onBlur={() => setIsClientEditing(false)}
+                    className={styles.editInput}
+                  />
+                ) : (
+                  <span>{editableClient.state}</span>
+                )}
               </p>
             </div>
             <div className={styles.title} style={{ marginTop: '32px' }}>
