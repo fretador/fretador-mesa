@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_NOTIFICATION_COUNTERS = gql`
-	query GetNotificationCounters($userId: String, $groupKey: String) {
+	query GetNotificationCounters($userId: ID, $groupKey: String) {
 		notificationCounters(userId: $userId, groupKey: $groupKey) {
 			freights
 			drivers

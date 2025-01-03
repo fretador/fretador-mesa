@@ -12,34 +12,34 @@ import {
   TruckIcon,
   ClientsBook,
 } from "@/utils/icons";
-import { useAppSelector, useAppDispatch } from "@/store/store";
-import { resetNotification, NotificationKey } from "@/store/slices/notificationsSlice";
+
+import { useAppSelector } from "@/store/store";
 import styles from "./Sidebar.module.css";
 import { useRouter } from "next/router";
+import { useNotificationCounters } from "@/hooks/notification/useNotificationCounters";
 
 const Sidebar: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const boardUser = useAppSelector((state) => state.auth.boardUser);
-  const notifications = useAppSelector((state) => state.notifications);
-  const dispatch = useAppDispatch();
-  const router = useRouter();
 
-  // Neste momento, routeName será sempre o mesmo no SSR e cliente inicial
+  const router = useRouter();
   const routeName = router.pathname.replace("/", "").toUpperCase();
 
-  const handleItemClick = (context: NotificationKey) => {
-    dispatch(resetNotification(context));
-  };
-
-  // Estado local para gerenciar o usuário exibido no Sidebar
+  const MOCK_USER_ID = mockBoardUsers[0].id;
   const [currentUser, setCurrentUser] = React.useState(mockBoardUsers[0]);
 
-  // Após a montagem no cliente, caso boardUser exista, atualize o usuário exibido
   React.useEffect(() => {
     if (boardUser) {
       setCurrentUser(boardUser);
     }
   }, [boardUser]);
+
+  const isMockUser = currentUser?.id === MOCK_USER_ID;
+
+  const { counters } = useNotificationCounters({
+    userId: currentUser?.id?.toString(),
+    skip: isMockUser, // se mock, skip = true
+  });
 
   return (
     <div>
@@ -60,40 +60,35 @@ const Sidebar: React.FC = () => {
             text="FRETES"
             isRetracted={isRetracted}
             isFocused={routeName === "FRETES"}
-            onClick={() => handleItemClick("fretes")}
-            badge={notifications.counters.fretes}
+            badge={isMockUser ? 0 : (counters?.freights || 0)}
           />
           <SidebarComp.Item
             icon={<PersonAddIcon />}
             text="MOTORISTAS"
             isRetracted={isRetracted}
             isFocused={routeName === "MOTORISTAS"}
-            onClick={() => handleItemClick("motoristas")}
-            badge={notifications.counters.motoristas}
+            badge={isMockUser ? 0 : (counters?.drivers || 0)}
           />
           <SidebarComp.Item
             icon={<ClientsBook />}
             text="CLIENTES"
             isRetracted={isRetracted}
             isFocused={routeName === "CLIENTES"}
-            onClick={() => handleItemClick("clientes")}
-            badge={notifications.counters.clientes}
+            badge={isMockUser ? 0 : (counters?.clients || 0)}
           />
           <SidebarComp.Item
             icon={<HelpIcon />}
             text="OCORRÊNCIAS"
             isRetracted={isRetracted}
             isFocused={routeName === "OCORRENCIAS"}
-            onClick={() => handleItemClick("ocorrencias")}
-            badge={notifications.counters.ocorrencias}
+            badge={isMockUser ? 0 : (counters?.occurrences || 0)}
           />
           <SidebarComp.Item
             icon={<FinanceIcon />}
             text="FINANCEIRO"
             isRetracted={isRetracted}
             isFocused={routeName === "FINANCEIRO"}
-            onClick={() => handleItemClick("financeiro")}
-            badge={notifications.counters.financeiro}
+            badge={isMockUser ? 0 : (counters?.financial || 0)}
           />
           <SidebarComp.Separator isRetracted={isRetracted} />
           <SidebarComp.Item
