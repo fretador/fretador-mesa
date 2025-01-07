@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_BOARDUSER_NOTIFICATIONS } from "@/graphql/queries/notificationQueries";
 import { ACKNOWLEDGE_NOTIFICATION } from "@/graphql/mutations/notificationMutations";
 import styles from "./NotificationsList.module.css";
+import { formatDateTime } from "@/utils/dates"
 
 function translateNotificationType(type: string): string {
   switch (type) {
@@ -138,7 +139,7 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
               <small>
                 Criada em:{" "}
                 {isValidDate(notif.createdAt)
-                  ? new Date(notif.createdAt).toLocaleString()
+                  ? formatDateTime(notif.createdAt)
                   : "Data indisponível"}
               </small>
             </li>
