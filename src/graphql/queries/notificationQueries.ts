@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_NOTIFICATION_COUNTERS = gql`
-	query GetNotificationCounters($userId: ID, $groupKey: String) {
+	query GetNotificationCounters($userId: ID, $groupKey: BoardUserProfile) {
 		notificationCounters(userId: $userId, groupKey: $groupKey) {
 			freights
 			drivers
@@ -13,36 +13,31 @@ export const GET_NOTIFICATION_COUNTERS = gql`
 `;
 
 export const GET_BOARDUSER_NOTIFICATIONS = gql`
-	query GetBoardUserNotifications(
-		$userId: String
-		$groupKey: String
-		$includeAcknowledged: Boolean
-		$entityType: String
-	) {
-		notifications(
-			userId: $userId
-			groupKey: $groupKey
-			includeAcknowledged: $includeAcknowledged
-			entityType: $entityType
-		) {
+	query GetBoardUserNotifications($filter: NotificationsFilterInput) {
+		notifications(filter: $filter) {
 			_id
 			entityType
 			entityId
 			type
 			createdBy
+			createdAt
 			recipients {
 				userId
 				acknowledged
 				acknowledgedAt
 			}
-			createdAt
+			ackHistory {
+				userId
+				groupKey
+				acknowledgedAt
+			}
 		}
 	}
 `;
 
 export const GET_TOTAL_NOTIFICATIONS = gql`
-	query GetTotalNotifications($userId: String) {
-		notifications(userId: $userId) {
+	query GetTotalNotifications($filter: NotificationsFilterInput) {
+		notifications(filter: $filter) {
 			_id
 		}
 	}

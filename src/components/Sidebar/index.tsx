@@ -38,8 +38,15 @@ const Sidebar: React.FC = () => {
 
   const { counters } = useNotificationCounters({
     userId: currentUser?.id?.toString(),
-    skip: isMockUser, // se mock, skip = true
+    groupKey: currentUser?.profile?.toString(),
+    skip: isMockUser,
   });
+
+  const freightsCount = counters?.freights || 0;
+  const driversCount = counters?.drivers || 0;
+  const clientsCount = counters?.clients || 0;
+  const occurrencesCount = counters?.occurrences || 0;
+  const financialCount = counters?.financial || 0;
 
   return (
     <div>
@@ -60,35 +67,35 @@ const Sidebar: React.FC = () => {
             text="FRETES"
             isRetracted={isRetracted}
             isFocused={routeName === "FRETES"}
-            badge={isMockUser ? 0 : (counters?.freights || 0)}
+            badge={isMockUser ? 0 : freightsCount}
           />
           <SidebarComp.Item
             icon={<PersonAddIcon />}
             text="MOTORISTAS"
             isRetracted={isRetracted}
             isFocused={routeName === "MOTORISTAS"}
-            badge={isMockUser ? 0 : (counters?.drivers || 0)}
+            badge={isMockUser ? 0 : driversCount}
           />
           <SidebarComp.Item
             icon={<ClientsBook />}
             text="CLIENTES"
             isRetracted={isRetracted}
             isFocused={routeName === "CLIENTES"}
-            badge={isMockUser ? 0 : (counters?.clients || 0)}
+            badge={isMockUser ? 0 : clientsCount}
           />
           <SidebarComp.Item
             icon={<HelpIcon />}
             text="OCORRÊNCIAS"
             isRetracted={isRetracted}
             isFocused={routeName === "OCORRENCIAS"}
-            badge={isMockUser ? 0 : (counters?.occurrences || 0)}
+            badge={isMockUser ? 0 : occurrencesCount}
           />
           <SidebarComp.Item
             icon={<FinanceIcon />}
             text="FINANCEIRO"
             isRetracted={isRetracted}
             isFocused={routeName === "FINANCEIRO"}
-            badge={isMockUser ? 0 : (counters?.financial || 0)}
+            badge={isMockUser ? 0 : financialCount}
           />
           <SidebarComp.Separator isRetracted={isRetracted} />
           <SidebarComp.Item

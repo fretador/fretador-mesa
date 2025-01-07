@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_BOARDUSER_NOTIFICATIONS } from "@/graphql/queries/notificationQueries";
 import { ACKNOWLEDGE_NOTIFICATION } from "@/graphql/mutations/notificationMutations";
 import styles from "./NotificationsList.module.css";
-import { formatDateTime } from "@/utils/dates"
+import { formatDateTime } from "@/utils/dates";
 
 function translateNotificationType(type: string): string {
   switch (type) {
@@ -58,10 +58,12 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
 
   const { data, loading, error, refetch } = useQuery(GET_BOARDUSER_NOTIFICATIONS, {
     variables: {
-      userId,
-      groupKey,
-      includeAcknowledged,
-      entityType: entityTypeFilter || undefined,
+      filter: {
+        userId,
+        groupKey,
+        includeAcknowledged,
+        entityType: entityTypeFilter || undefined,
+      },
     },
     fetchPolicy: "cache-and-network",
   });
@@ -75,7 +77,12 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
 
   const handleAcknowledge = async (notifId: string) => {
     try {
-      await ackMutation({ variables: { notificationId: notifId } });
+      await ackMutation({
+        variables: {
+          notificationId: notifId,
+          userId: userId,
+        },
+      });
       refetch();
     } catch (err) {
       console.error("Erro ao reconhecer notificação:", err);
@@ -113,10 +120,7 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
             (r: any) => r.userId === userId && r.acknowledged
           );
 
-          // Obtem tradução para o tipo
           const translatedType = translateNotificationType(notif.type);
-
-          // Obtem label/rota do entityType
           const { label, route } = translateEntity(notif.entityType);
 
           return (

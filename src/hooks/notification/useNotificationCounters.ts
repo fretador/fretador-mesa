@@ -4,7 +4,7 @@ import { GET_NOTIFICATION_COUNTERS } from "@/graphql/queries/notificationQueries
 interface UseNotificationCountersProps {
 	userId?: string;
 	groupKey?: string;
-	skip?: boolean; // para “pular” a query
+	skip?: boolean;
 }
 
 export function useNotificationCounters({
@@ -15,7 +15,7 @@ export function useNotificationCounters({
 	const { data, loading, error, refetch } = useQuery(GET_NOTIFICATION_COUNTERS, {
 		variables: { userId, groupKey },
 		fetchPolicy: "cache-and-network",
-		skip, // se true, não faz a query
+		skip,
 	});
 
 	return {

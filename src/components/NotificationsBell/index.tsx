@@ -12,13 +12,13 @@ interface NotificationsBellProps {
 export function NotificationsBell({ userId, groupKey }: NotificationsBellProps) {
   const [open, setOpen] = React.useState(false);
 
-  // Query para buscar notificações não reconhecidas do user
   const { data, loading, error } = useQuery(GET_TOTAL_NOTIFICATIONS, {
-    variables: { userId },
+    variables: {
+      filter: { userId },
+    },
     fetchPolicy: "cache-and-network",
   });
 
-  // total = tamanho do array
   const total = data?.notifications?.length || 0;
 
   const handleToggle = () => {
