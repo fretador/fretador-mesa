@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_BOARDUSER_NOTIFICATIONS } from "@/graphql/queries/notificationQueries";
+import { GET_BOARDUSER_NOTIFICATIONS, GET_NOTIFICATION_COUNTERS, GET_TOTAL_NOTIFICATIONS } from "@/graphql/queries/notificationQueries";
 import { ACKNOWLEDGE_NOTIFICATION } from "@/graphql/mutations/notificationMutations";
 import styles from "./NotificationsList.module.css";
 import { formatDateTime } from "@/utils/dates";
@@ -82,6 +82,9 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
           notificationId: notifId,
           userId: userId,
         },
+        refetchQueries: [
+          { query: GET_NOTIFICATION_COUNTERS, variables: { userId, groupKey } },
+          { query: GET_TOTAL_NOTIFICATIONS, variables: { filter: { userId }, } }]
       });
       refetch();
     } catch (err) {
