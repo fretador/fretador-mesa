@@ -1,9 +1,9 @@
 import React from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import { GET_BOARDUSER_NOTIFICATIONS, GET_NOTIFICATION_COUNTERS, GET_TOTAL_NOTIFICATIONS } from "@/graphql/queries/notificationQueries";
-import { ACKNOWLEDGE_NOTIFICATION } from "@/graphql/mutations/notificationMutations";
+import { useNotificationsList } from "@/hooks/notification/useNotificationsList";
+import { useAcknowledgeNotification } from "@/hooks/notification/useAcknowledgeNotification";
 import styles from "./NotificationsList.module.css";
 import { formatDateTime } from "@/utils/dates";
+import { BoardUserProfile } from "@/utils/enums/boardUserProfileEnums";
 
 function translateNotificationType(type: string): string {
   switch (type) {
@@ -19,6 +19,10 @@ function translateNotificationType(type: string): string {
       return "Novo Evento de Cliente";
     case "invoicePending":
       return "Fatura Pendente";
+    case "alert":
+      return "Alerta";
+    case "clientEvent":
+      return "Evento Cliente";
     default:
       return type;
   }
@@ -49,44 +53,36 @@ function isValidDate(date: any) {
 
 interface NotificationsListProps {
   userId?: string;
-  groupKey?: string;
+  groupKey?: BoardUserProfile;
 }
 
 export function NotificationsList({ userId, groupKey }: NotificationsListProps) {
   const [includeAcknowledged, setIncludeAcknowledged] = React.useState(false);
   const [entityTypeFilter, setEntityTypeFilter] = React.useState("");
 
-  const { data, loading, error, refetch } = useQuery(GET_BOARDUSER_NOTIFICATIONS, {
-    variables: {
-      filter: {
-        userId,
-        groupKey,
-        includeAcknowledged,
-        entityType: entityTypeFilter || undefined,
-      },
+  const { notifications, loading, error, refetch } = useNotificationsList({
+    filter: {
+      userId,
+      groupKey,
+      includeAcknowledged,
+      entityType: entityTypeFilter || undefined,
     },
-    fetchPolicy: "cache-and-network",
   });
 
-  const [ackMutation] = useMutation(ACKNOWLEDGE_NOTIFICATION);
+  const { acknowledgeNotification, loading: ackLoading, error: ackError } = useAcknowledgeNotification(
+    userId || "",
+    groupKey
+  );
 
   if (loading) return <p>Carregando notificações...</p>;
   if (error) return <p>Erro ao buscar notificações.</p>;
 
-  const notifications = data?.notifications || [];
-
   const handleAcknowledge = async (notifId: string) => {
     try {
-      await ackMutation({
-        variables: {
-          notificationId: notifId,
-          userId: userId,
-        },
-        refetchQueries: [
-          { query: GET_NOTIFICATION_COUNTERS, variables: { userId, groupKey } },
-          { query: GET_TOTAL_NOTIFICATIONS, variables: { filter: { userId }, } }]
+      await acknowledgeNotification({
+        notificationId: notifId,
+        userId: userId!,
       });
-      refetch();
     } catch (err) {
       console.error("Erro ao reconhecer notificação:", err);
     }
@@ -118,9 +114,9 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
       </div>
 
       <ul className={styles.notificationsList}>
-        {notifications.map((notif: any) => {
+        {notifications.map((notif) => {
           const isAcknowledged = notif.recipients.some(
-            (r: any) => r.userId === userId && r.acknowledged
+            (r) => r.userId === userId && r.acknowledged
           );
 
           const translatedType = translateNotificationType(notif.type);
@@ -135,7 +131,7 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
               <strong>{translatedType}</strong> - {label}/{notif.entityId}
               <br />
               <button
-                disabled={isAcknowledged}
+                disabled={isAcknowledged || ackLoading}
                 onClick={() => handleAcknowledge(notif._id)}
               >
                 {isAcknowledged ? "Reconhecida" : "Reconhecer"}

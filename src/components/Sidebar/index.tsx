@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { mockBoardUsers } from "@/utils/mocks/mockBoardUsers";
 import { SidebarComp } from "../SidebarComp";
 import {
@@ -12,7 +12,6 @@ import {
   TruckIcon,
   ClientsBook,
 } from "@/utils/icons";
-
 import { useAppSelector } from "@/store/store";
 import styles from "./Sidebar.module.css";
 import { useRouter } from "next/router";
@@ -36,17 +35,37 @@ const Sidebar: React.FC = () => {
 
   const isMockUser = currentUser?.id === MOCK_USER_ID;
 
-  const { counters } = useNotificationCounters({
-    userId: currentUser?.id?.toString(),
-    groupKey: currentUser?.profile?.toString(),
-    skip: isMockUser,
-  });
+  const { counters, loading: countersLoading, error: countersError, refetch } =
+    useNotificationCounters({
+      userId: currentUser?.id?.toString(),
+      groupKey: currentUser?.profile,
+      skip: isMockUser,
+    });
+
+  useEffect(() => {
+    const handleCountersUpdate = () => {
+      refetch();
+    };
+
+    window.addEventListener("notificationCountersUpdated", handleCountersUpdate);
+    return () => {
+      window.removeEventListener("notificationCountersUpdated", handleCountersUpdate);
+    };
+  }, [refetch]);
 
   const freightsCount = counters?.freights || 0;
   const driversCount = counters?.drivers || 0;
   const clientsCount = counters?.clients || 0;
   const occurrencesCount = counters?.occurrences || 0;
   const financialCount = counters?.financial || 0;
+
+  if (countersLoading) {
+    console.log("Carregando contadores de notificações:", countersLoading);
+  }
+
+  if (countersError) {
+    console.error("Erro ao buscar contadores de notificações:", countersError);
+  }
 
   return (
     <div>

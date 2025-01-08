@@ -1,25 +1,20 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { GET_TOTAL_NOTIFICATIONS } from "@/graphql/queries/notificationQueries";
+import { useTotalNotifications } from "@/hooks/notification/useTotalNotifications";
 import { NotificationsList } from "../NotificationsList";
 import styles from "./NotificationsBell.module.css";
+import { BoardUserProfile } from "@/utils/enums/boardUserProfileEnums";
 
 interface NotificationsBellProps {
   userId?: string;
-  groupKey?: string;
+  groupKey?: BoardUserProfile;
 }
 
 export function NotificationsBell({ userId, groupKey }: NotificationsBellProps) {
   const [open, setOpen] = React.useState(false);
 
-  const { data, loading, error } = useQuery(GET_TOTAL_NOTIFICATIONS, {
-    variables: {
-      filter: { userId },
-    },
-    fetchPolicy: "cache-and-network",
+  const { total, loading, error } = useTotalNotifications({
+    filter: { userId },
   });
-
-  const total = data?.notifications?.length || 0;
 
   const handleToggle = () => {
     setOpen(!open);
