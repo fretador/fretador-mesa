@@ -11,6 +11,7 @@ import {
   SupportIcon,
   TruckIcon,
   ClientsBook,
+  AlertIcon,
 } from "@/utils/icons";
 import { useAppSelector } from "@/store/store";
 import styles from "./Sidebar.module.css";
@@ -103,7 +104,7 @@ const Sidebar: React.FC = () => {
             badge={isMockUser ? 0 : clientsCount}
           />
           <SidebarComp.Item
-            icon={<HelpIcon />}
+            icon={<AlertIcon />}
             text="OCORRÊNCIAS"
             isRetracted={isRetracted}
             isFocused={routeName === "OCORRENCIAS"}

@@ -49,6 +49,7 @@ import PreviousBtn from "@/assets/icons/previousBtn.svg"
 import CheckFill from "@/assets/icons/checkFill.svg"
 import CloseModalBtn from "@/assets/icons/closeModalBtn.svg"
 import Doc from "@/assets/icons/Doc.svg"
+import Alert from "@/assets/icons/alert.svg"
 
 export const HomeIcon = Home;
 export const TruckIcon = Truck;
@@ -101,3 +102,4 @@ export const PreviousBtnIcon = PreviousBtn
 export const CheckFillIcon = CheckFill
 export const CloseModalBtnIcon = CloseModalBtn
 export const DocIcon = Doc
+export const AlertIcon = Alert

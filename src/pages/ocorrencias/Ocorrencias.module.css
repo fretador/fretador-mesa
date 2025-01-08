@@ -60,148 +60,54 @@
   border-radius: 10px;
 }
 
-.occurrenceDetailsContainer {
+.mainContentContainer {
   width: 100%;
-  background-color: #B2CEDA;
+  padding: 0px 0px 20px 0px;
   border-radius: 16px;
-}
-
-.informations {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding-top: 42px;
-  /* align-items: flex-start; */
-}
-
-.informations p {
-  font-size: 22px;
-  font-weight: 600;
-  color: #1B556D;
-}
-
-.informations span {
-  margin-left: 3px;
-  color: #0D0D0D;
-}
-
-.row {
-  margin: 0px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.rowPictures {
-  margin: 0px 32px;
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
+  background-color: #97bce5;
   margin-bottom: 24px;
 }
 
-.audioContainer {
-  margin: 0px 32px 32px 32px;
-  display: flex;
-  gap: 18px;
+.menu {
+display: flex;
+justify-content: space-between;
+margin-bottom: 20px;
+background-color: #B2CEDA;
+border-radius: 16px 16px 0 0;
 }
 
-.audioBar {
-  flex: 1;
-  height: 42px;
-  padding: 13px 18px;
-  border: 1px solid #1A556D;
-  background-color: #1a556d4d;
-  border-radius: 10px;
+.tabButton {
+font-family: Kanit;
+flex: 1;
+padding: 10px;
+border: none;
+border-bottom: 2px solid transparent;
+background-color: #B2CEDA;
+cursor: pointer;
+font-size: 20px;
+color: rgba(27, 85, 109, 0.70);
+font-weight: 400;
 }
 
-.playIcon {
-  width: 45px;
-  height: 42px;
-  border: 1px solid #1A556D;
-  background-color: #1a556d4d;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.textContainer,
-.textAreaContainer {
-  margin: 0px 32px 32px 32px;
-  flex: 1;
-  padding: 13px 18px;
-  background-color: #1a556d4d;
-  border-radius: 10px;
-}
-
-.textAreaContainer {
-  background-color: #3280a0cc;
-}
-
-.textContainer p {
-  font-size: 16px;
-}
-
-.actionButtonsContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-  padding-bottom: 14px;
-}
-
-.actionButtonsContainer .btnDark {
-  width: 328px;
-  padding: 16px 24px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-  color: #FFF;
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.actionButtonsContainer .btnLight {
-  width: 328px;
-  padding: 16px 24px;
-  border-radius: 10px;
-  border: 3px solid #1B556D;
-  background-color: transparent;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-  color: #1B556D;
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.responseTextArea {
-  width: 100%;
-  background-color: transparent;
-  border: none;
-  font-family: 'Roboto';
-  outline: none;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  height: 100px;
-  resize: none;
-}
-
-.responseTextArea::placeholder {
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.responseContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.activeTabButton {
+font-family: Kanit;
+flex: 1;
+padding: 10px;
+border: none;
+border-bottom: 2px solid transparent;
+border-radius: 16px 16px 0 0;
+background-color: #97bce5;
+cursor: pointer;
+font-size: 20px;
+color: #1B556D;
+font-weight: 700;
+text-transform: uppercase;
+transition: background-color .3s ease;
 }
 
 .loadingContainer {
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+height: 400px;
+display: flex;
+align-items: center;
+justify-content: center;
 }
