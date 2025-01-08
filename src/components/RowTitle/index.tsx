@@ -18,6 +18,7 @@ interface RowTitleProps {
   FreightStatus?: string;
   NF?: string;
   OccurrenceDate?: string;
+  OccurrenceNumber?: string;
   OccurrenceStatus?: string;
   OccurrenceType?: string;
   PaymentDate?: string;

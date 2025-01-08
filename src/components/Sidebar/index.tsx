@@ -11,6 +11,7 @@ import {
   SupportIcon,
   TruckIcon,
   ClientsBook,
+  AlertIcon,
 } from "@/utils/icons";
 import { useAppSelector, useAppDispatch } from "@/store/store";
 import { resetNotification, NotificationKey } from "@/store/slices/notificationsSlice";
@@ -80,7 +81,7 @@ const Sidebar: React.FC = () => {
             badge={notifications.counters.clientes}
           />
           <SidebarComp.Item
-            icon={<HelpIcon />}
+            icon={<AlertIcon />}
             text="OCORRÊNCIAS"
             isRetracted={isRetracted}
             isFocused={routeName === "OCORRENCIAS"}
