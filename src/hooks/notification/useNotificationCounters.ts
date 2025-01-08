@@ -1,10 +1,19 @@
 import { useQuery } from "@apollo/client";
 import { GET_NOTIFICATION_COUNTERS } from "@/graphql/queries/notificationQueries";
+import { BoardUserProfile } from "@/utils/enums/boardUserProfileEnums";
 
 interface UseNotificationCountersProps {
 	userId?: string;
-	groupKey?: string;
+	groupKey?: BoardUserProfile;
 	skip?: boolean;
+}
+
+interface NotificationCounters {
+	freights: number;
+	drivers: number;
+	occurrences: number;
+	financial: number;
+	clients: number;
 }
 
 export function useNotificationCounters({
@@ -19,7 +28,7 @@ export function useNotificationCounters({
 	});
 
 	return {
-		counters: data?.notificationCounters,
+		counters: data?.notificationCounters as NotificationCounters,
 		loading,
 		error,
 		refetch,
