@@ -126,7 +126,7 @@ const RegisteredDriver: React.FC = () => {
       case "anexos":
         return (
           <div>
-            <Attachments driver={transformedDriver} />
+            <Attachments driver={transformedDriver} isSelectionMode={false} />
             <ActionButtons
               showRequest={true}
               showDownload={true}

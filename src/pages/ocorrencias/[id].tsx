@@ -77,7 +77,7 @@ const OccurrenceDetails: React.FC = () => {
           input: {
             messages: updatedMessages,
             updateAcknowledge: true,
-            boardUser: { name: boardUser?.name, profile: boardUser?.profile },
+            boardUser: { id: boardUser?.id ?? "indisponível", name: boardUser?.name, profile: boardUser?.profile },
           },
         },
       });

@@ -108,7 +108,7 @@ const PendingPayment: React.FC = () => {
             status: FreightStatus.FINANCIAL_APPROVED,
             updateData: {
               freight: updateFields,
-              boardUser: { name: boardUser?.name, profile: boardUser?.profile }
+              boardUser: { id: boardUser?.id ?? "indisponível", name: boardUser?.name, profile: boardUser?.profile }
             },
             updateDataType: UpdateDataTypeEnum.FINANCIAL,
           }

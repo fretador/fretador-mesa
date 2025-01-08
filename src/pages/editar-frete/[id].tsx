@@ -46,7 +46,7 @@ const EditFreight = () => {
       await updateFreight({
         variables: {
           id: id as string,
-          input: { ...updatedData, boardUser: { name: boardUser?.name, profile: boardUser?.profile }},
+          input: { ...updatedData, boardUser: { id: boardUser?.id ?? "indisponível", name: boardUser?.name, profile: boardUser?.profile }},
         },
       });
 
