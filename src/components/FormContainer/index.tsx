@@ -11,15 +11,17 @@ import BodyworkSelectionSection from "./BodyworkSelectionSection";
 import ShippingTypeSection from "./ShippingTypeSection";
 import ObservationsSection from "./ObservationsSection";
 import FreightValueSection from "./FreightValuesSection";
-import AssignFreightModal from "@/components/ModalRoot/AssignFreightModal";
 import { CargoLoadType } from "@/utils/enums/cargoLoadTypeEnum";
 import { Type } from "@/utils/enums/typeEnum";
 import { createFreightSchema } from "@/utils/validations/createFreightSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ConfirmationModal from "@/components/ModalRoot/ConfirmationModal";
 import { useCreateFreight } from "@/hooks/freight/useCreateFreight";
 import EditFreightButton from "../EditFreightButton";
-import FreightCreationConfirmationModal from "../ModalRoot/FreightCreationConfirmationModal";
+import { useRouter } from "next/router";
+import Modal from "../Modal";
+import DirectToDriver from "../Modal/CriarFretes/DirectToDriver";
+import AssignFreight from "../Modal/CriarFretes/AssignFreight";
+import OriginAndDestiny from "../Modal/CriarFretes/OriginAndDestiny";
 
 interface FormContainerProps {
   initialData?: Partial<CreateFreightInput>;
@@ -33,13 +35,15 @@ const FormContainer: React.FC<FormContainerProps> = ({
   initialData,
 }) => {
   const [isAssignFreightModalOpen, setIsAssignFreightModalOpen] = useState(false);
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const [isFreightModalOpen, setIsFreightModalOpen] = useState(false);
+  const [isDirectToDriverModalOpen, setIsDirectToDriverModalOpen] = useState(false);
+  const [isConfirmationFreightModalOpen, setIsConfirmationFreightModalOpen] = useState(false);
   const [freightCode, setFreightCode] = useState<number | undefined>(undefined);
   const [freightError, setFreightError] = useState<string | undefined>(undefined);
   const boardUser = useAppSelector((state) => state.auth.boardUser);
 
   const { data, createFreight } = useCreateFreight();
+
+  const router = useRouter();
 
   const methods = useForm<CreateFreightInput>({
     resolver: zodResolver(createFreightSchema),
@@ -80,11 +84,21 @@ const FormContainer: React.FC<FormContainerProps> = ({
       });
       setFreightCode(result.data?.createFreight?.freightCode);
       setFreightError(undefined);
-      setIsFreightModalOpen(true);
+      setIsConfirmationFreightModalOpen(true);
     } catch (error) {
       console.error("Erro ao criar o frete:", error);
-      setFreightError("An error occurred while creating the freight.");
-      setIsFreightModalOpen(true);
+      {
+        <Modal
+          isOpen={true}
+          onRequestClose={() => false}
+          modalTitle="Cadastrar frete"
+          modalDescription="Ocorreu um erro ao cadastrar o frete. Por favor, tente novamente"
+          buttonOneTitle="Ok"
+          buttonOneAction={() => false}
+        />
+      }
+      // setFreightError("An error occurred while creating the freight.");
+      // setIsConfirmationFreightModalOpen(true);
     }
   };
 
@@ -96,11 +110,21 @@ const FormContainer: React.FC<FormContainerProps> = ({
       const result = await createFreight({ variables: { input: currentValues } });
       setFreightCode(result.data?.createFreight?.freightCode);
       setFreightError(undefined);
-      setIsFreightModalOpen(true);
+      setIsConfirmationFreightModalOpen(true);
     } catch (error) {
       console.error("Erro ao criar o frete:", error);
-      setFreightError("An error occurred while creating the freight.");
-      setIsFreightModalOpen(true);
+      {
+        <Modal
+          isOpen={true}
+          onRequestClose={() => false}
+          modalTitle="Cadastrar frete"
+          modalDescription="Ocorreu um erro ao cadastrar o frete. Por favor, tente novamente"
+          buttonOneTitle="Ok"
+          buttonOneAction={() => false}
+        />
+      }
+      // setFreightError("An error occurred while creating the freight.");
+      // setIsConfirmationFreightModalOpen(true);
     }
   };
 
@@ -108,13 +132,13 @@ const FormContainer: React.FC<FormContainerProps> = ({
     // Atualiza o tipo do frete para TARGETED
     setValue("type", Type.TARGETED);
     // Abre o modal de confirmação
-    setIsConfirmationModalOpen(true);
+    setIsDirectToDriverModalOpen(true);
   };
 
   const handleConfirmFreight = () => {
     // Após a confirmação, abre o AssignFreightModal
     setIsAssignFreightModalOpen(true);
-    setIsConfirmationModalOpen(false);
+    setIsDirectToDriverModalOpen(false);
   };
 
   return (
@@ -137,22 +161,31 @@ const FormContainer: React.FC<FormContainerProps> = ({
           {showEditFreightButton && <EditFreightButton />}
         </div>
       </form>
-      <ConfirmationModal
-        isOpen={isConfirmationModalOpen}
-        onRequestClose={() => setIsConfirmationModalOpen(false)}
+
+      <DirectToDriver
+        isOpen={isDirectToDriverModalOpen}
+        onRequestClose={() => setIsDirectToDriverModalOpen(false)}
         onConfirm={handleConfirmFreight}
       />
-      <AssignFreightModal
+      <AssignFreight
         isOpen={isAssignFreightModalOpen}
         onRequestClose={() => setIsAssignFreightModalOpen(false)}
         onConfirm={handleAssignFreight}
       />
-      <FreightCreationConfirmationModal
-        isOpen={isFreightModalOpen}
-        onRequestClose={() => setIsFreightModalOpen(false)}
-        freightCode={freightCode}
-        error={freightError}
-      />
+
+      {isConfirmationFreightModalOpen && (
+        <Modal
+          isOpen={isConfirmationFreightModalOpen}
+          onRequestClose={() => setIsConfirmationFreightModalOpen(!isConfirmationFreightModalOpen)}
+          modalTitle="Cadastrar frete"
+          modalDescription={`Frete ${freightCode} cadastrado com sucesso`}
+          buttonOneTitle="Ok"
+          buttonOneAction={() => {
+            setIsConfirmationFreightModalOpen(!isConfirmationFreightModalOpen)
+            router.push("/fretes");
+          }}
+        />
+      )}
     </FormProvider>
   );
 };
