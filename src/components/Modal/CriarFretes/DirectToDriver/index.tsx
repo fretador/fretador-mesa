@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import Modal from "react-modal";
+import Modal from "../..";
 import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
-import styles from "./ConfirmationModal.module.css";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import styles from "./DirectToDriver.module.css";
 import SmallLoading from "@/components/SmallLoading";
 
-interface ConfirmationModalProps {
+interface DirectToDriverProps {
   isOpen: boolean;
   onRequestClose: () => void;
   onConfirm: () => void;
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+const DirectToDriver: React.FC<DirectToDriverProps> = ({
   isOpen,
   onRequestClose,
   onConfirm,
@@ -67,16 +66,15 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className={styles.content}
-      overlayClassName={styles.overlay}
-    >
-      <div className={styles.modalHeader}>
-        <h2 className={styles.modalTitle}>Confirmar dados do frete</h2>
-        <button className={styles.closeButton} onClick={onRequestClose}>
-          <AiOutlineCloseCircle size={32} />
-        </button>
-      </div>
+      modalTitle="Confirmar dados do frete"
+      modalDescription=""
+      hasTwoButtons={true}
+      buttonOneTitle="Confirmar"
+      buttonOneAction={onConfirm}
+      buttonTwoTitle="Cancelar"
+      buttonTwoAction={onRequestClose}
 
+    >
       <div className={styles.modalContent}>
         {isLoading ? (
           <SmallLoading />
@@ -128,17 +126,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           </>
         )}
       </div>
-
-      <div className={styles.buttonGroup}>
-        <button className={styles.confirmButton} onClick={onConfirm}>
-          Confirmar
-        </button>
-        <button className={styles.cancelButton} onClick={onRequestClose}>
-          Cancelar
-        </button>
-      </div>
     </Modal>
   );
 };
 
-export default ConfirmationModal;
+export default DirectToDriver;

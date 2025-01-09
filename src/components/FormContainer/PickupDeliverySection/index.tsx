@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
-import OriginCollectionModal from "@/components/ModalRoot/OriginCollectionModal";
 import styles from "./PickupDeliverySection.module.css";
+import OriginAndDestiny from "@/components/Modal/CriarFretes/OriginAndDestiny";
 
 interface PickupDeliveryData {
   pickupDeliveryDate: string;
@@ -275,19 +275,21 @@ const PickupDeliverySection: React.FC = () => {
       </div>
 
       {/* Modal para Origem */}
-      <OriginCollectionModal
+      <OriginAndDestiny
         isOpen={isOriginModalOpen}
         onRequestClose={handleCloseOriginModal}
         onConfirm={handleOriginConfirm}
-        type="Origem"
+        modalTitle="Origem - Local de coleta"
+        type="origem"
       />
 
       {/* Modal para Destino */}
-      <OriginCollectionModal
+      <OriginAndDestiny
         isOpen={isDestinationModalOpen}
         onRequestClose={handleCloseDestinationModal}
         onConfirm={handleDestinationConfirm}
-        type="Destino"
+        modalTitle="Destino - Local de descarga"
+        type="destino"
       />
 
       {/* Campos ocultos para armazenar os dados adicionais */}
