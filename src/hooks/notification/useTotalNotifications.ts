@@ -28,7 +28,7 @@ export function useTotalNotifications({ filter }: UseTotalNotificationsProps) {
 		GET_TOTAL_NOTIFICATIONS,
 		{
 			variables: { filter },
-			fetchPolicy: "cache-and-network",
+			fetchPolicy: "cache-first",
 		}
 	);
 

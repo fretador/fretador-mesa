@@ -29,7 +29,7 @@ export const useOccurrences = (vars: GetOccurrencesVars) => {
 		GetOccurrencesVars
 	>(GET_OCCURRENCES, {
 		variables: vars,
-		fetchPolicy: "cache-and-network", // Ajuste conforme necessário
+		fetchPolicy: "cache-first",
 	});
 
 	return {

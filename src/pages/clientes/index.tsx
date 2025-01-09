@@ -39,7 +39,7 @@ const Clients: React.FC = () => {
       limit: 10,
       filter: filter,
     },
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "cache-first",
   });
 
   const clients: Client[] = data?.clients?.edges?.map((edge: ClientNode) => edge.node) || [];

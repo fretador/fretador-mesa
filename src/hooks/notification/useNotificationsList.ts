@@ -47,7 +47,7 @@ export function useNotificationsList({ filter }: UseNotificationsListProps) {
 		GET_BOARDUSER_NOTIFICATIONS,
 		{
 			variables: { filter },
-			fetchPolicy: "cache-and-network",
+			fetchPolicy: "cache-first",
 		}
 	);
 

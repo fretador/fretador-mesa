@@ -89,7 +89,7 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
           limit: 5000,
           filter: {},
         },
-        fetchPolicy: 'cache-and-network',
+        fetchPolicy: "cache-first",
       });
     }
   }, [isOpen, fetchDrivers]);

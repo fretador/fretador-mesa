@@ -23,7 +23,7 @@ export function useNotificationCounters({
 }: UseNotificationCountersProps) {
 	const { data, loading, error, refetch } = useQuery(GET_NOTIFICATION_COUNTERS, {
 		variables: { userId, groupKey },
-		fetchPolicy: "cache-and-network",
+		fetchPolicy: "cache-first",
 		skip,
 	});
 

@@ -34,7 +34,7 @@ const ClientData = ({handleLatestShipmentsButton}: ClientDataProps) => {
   const { loading, error, data } = useQuery(GET_CLIENT, {
     variables: { id },
     skip: !id,
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: "cache-first",
   });
 
   useEffect(() => {

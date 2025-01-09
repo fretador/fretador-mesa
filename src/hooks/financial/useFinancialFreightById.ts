@@ -17,7 +17,7 @@ export const useFinancialFreightById = (id: string) => {
 	>(GET_FREIGHT_FINANCIAL_BY_ID, {
 		variables: { id },
 		skip: !id,
-		fetchPolicy: "cache-and-network",
+		fetchPolicy: "cache-first",
 	});
 
 	return {
