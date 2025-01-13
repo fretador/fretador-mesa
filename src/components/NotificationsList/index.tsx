@@ -4,6 +4,7 @@ import { useAcknowledgeNotification } from "@/hooks/notification/useAcknowledgeN
 import styles from "./NotificationsList.module.css";
 import { formatDateTime } from "@/utils/dates";
 import { BoardUserProfile } from "@/utils/enums/boardUserProfileEnums";
+import Botao from "../Botao";
 
 function translateNotificationType(type: string): string {
   switch (type) {
@@ -59,6 +60,7 @@ interface NotificationsListProps {
 export function NotificationsList({ userId, groupKey }: NotificationsListProps) {
   const [includeAcknowledged, setIncludeAcknowledged] = React.useState(false);
   const [entityTypeFilter, setEntityTypeFilter] = React.useState("");
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
 
   const { notifications, loading, error, refetch } = useNotificationsList({
     filter: {
@@ -74,8 +76,9 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
     groupKey
   );
 
-  if (loading) return <p>Carregando notificações...</p>;
-  if (error) return <p>Erro ao buscar notificações.</p>;
+  // Mensagens de carregamento e erro para a lista de notificações
+  if (loading) return <p className={styles.loading}>Carregando notificações...</p>;
+  if (error) return <p className={styles.error}>Erro ao buscar notificações.</p>;
 
   const handleAcknowledge = async (notifId: string) => {
     try {
@@ -83,6 +86,9 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
         notificationId: notifId,
         userId: userId!,
       });
+      setSuccessMessage("Notificação reconhecida com sucesso!");
+      refetch();
+      setTimeout(() => setSuccessMessage(null), 3000); // Remove a mensagem após 3 segundos
     } catch (err) {
       console.error("Erro ao reconhecer notificação:", err);
     }
@@ -90,6 +96,10 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
 
   return (
     <div className={styles.notificationsListContainer}>
+      {successMessage && <p className={styles.success}>{successMessage}</p>}
+      {ackLoading && <p className={styles.ackLoading}>Reconhecendo notificação...</p>}
+      {ackError && <p className={styles.ackError}>Erro ao reconhecer notificação.</p>}
+
       <div className={styles.notificationsFilter}>
         <label>
           <input
@@ -128,23 +138,38 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
               className={`${styles.notificationItem} ${isAcknowledged ? styles.acknowledged : ""
                 }`}
             >
-              <strong>{translatedType}</strong> - {label}/{notif.entityId}
-              <br />
-              <button
-                disabled={isAcknowledged || ackLoading}
-                onClick={() => handleAcknowledge(notif._id)}
-              >
-                {isAcknowledged ? "Reconhecida" : "Reconhecer"}
-              </button>
-              {" | "}
-              <a href={`/${route}/${notif.entityId}`}>Ver detalhes</a>
-              <br />
-              <small>
-                Criada em:{" "}
-                {isValidDate(notif.createdAt)
-                  ? formatDateTime(notif.createdAt)
-                  : "Data indisponível"}
-              </small>
+              {/* Header da Notificação */}
+              <div className={styles.notificationHeader}>
+                <strong>{translatedType}</strong> - {label}
+              </div>
+
+              {/* Corpo da Notificação */}
+              <div className={styles.notificationBody}>
+                {"Você tem uma nova notificação."}
+              </div>
+
+              {/* Ações da Notificação */}
+              <div className={styles.notificationActions}>
+                <Botao
+                  disabled={isAcknowledged || ackLoading}
+                  onClick={() => handleAcknowledge(notif._id)}
+                  text={isAcknowledged ? "Reconhecida" : "Reconhecer"}
+                />
+                {" | "}
+                <a href={`/${route}/${notif.entityId}`} className={styles.detailsLink}>
+                  Ver detalhes
+                </a>
+              </div>
+
+              {/* Legenda da Notificação */}
+              <div className={styles.notificationFooter}>
+                <small>
+                  Criada em:{" "}
+                  {isValidDate(notif.createdAt)
+                    ? formatDateTime(notif.createdAt)
+                    : "Data indisponível"}
+                </small>
+              </div>
             </li>
           );
         })}
