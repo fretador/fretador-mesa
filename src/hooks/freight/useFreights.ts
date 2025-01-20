@@ -29,7 +29,7 @@ export const useFreights = (vars: GetFreightsVars) => {
 		GetFreightsVars
 	>(GET_FREIGHTS, {
 		variables: vars,
-		fetchPolicy: "cache-and-network",
+		fetchPolicy: "cache-first",
 	});
 
 	return {

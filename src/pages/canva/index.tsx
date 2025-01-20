@@ -282,8 +282,9 @@ const Canva: React.FC = () => {
           {isDriverDocuments && (
             <DriverDocuments
               isOpen={isDriverDocuments}
-              onRequestClose={toggleNewModal5}
-            />
+              onRequestClose={toggleNewModal5} handleDownloadPdf={function (): void {
+                throw new Error("Function not implemented.");
+              } }            />
           
           )}
         </div>

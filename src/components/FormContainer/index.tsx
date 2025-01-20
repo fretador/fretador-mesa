@@ -113,7 +113,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
         variables: {
           input: {
             ...currentValues,
-            boardUser: { name: boardUser?.name, profile: boardUser?.profile }
+            boardUser: { id: boardUser?.id ?? "indisponível", name: boardUser?.name, profile: boardUser?.profile }
           }
         }
       });

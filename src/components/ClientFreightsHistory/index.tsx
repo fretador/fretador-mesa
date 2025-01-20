@@ -21,7 +21,7 @@ const ClientFreightsHistory: React.FC = () => {
   const { data, loading, error } = useQuery(GET_CLIENT_SHIPMENTS, {
     variables: { id },
     skip: !id,
-    fetchPolicy: "cache-and-network"
+    fetchPolicy: "cache-first",
   });
 
   useEffect(() => {

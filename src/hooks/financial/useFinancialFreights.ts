@@ -29,7 +29,7 @@ export const useFinancialFreights = (vars: GetFinancialFreightsVars) => {
 		GetFinancialFreightsVars
 	>(GET_FREIGHTS_FOR_FINANCIAL, {
 		variables: vars,
-		fetchPolicy: "cache-and-network",
+		fetchPolicy: "cache-first",
 	});
 
 	return {

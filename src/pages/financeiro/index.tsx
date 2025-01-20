@@ -13,9 +13,11 @@ import FinancialFilter from "@/components/FinancialFilter";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { FinancialFilterInput } from "@/utils/Interfaces/FinancialFilterInput";
 import { useFinancialFreights } from "@/hooks/financial/useFinancialFreights";
+import { BoardUserProfile } from "@/utils/enums/boardUserProfileEnums";
 
 const Financial: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const boardUser = useAppSelector((state) => state.auth.boardUser);
   const router = useRouter();
   const routeName = router.pathname.replace("/", "").toUpperCase();
   const [filters, setFilters] = useState<FinancialFilterInput>({});
@@ -60,14 +62,15 @@ const Financial: React.FC = () => {
                 <FinancialFilter onApplyFilters={handleApplyFilters} />
               </div>
 
-              <div className={styles.entriesContainer}>
-                <h2>Entradas</h2>
-                <EntriesCards
-                  data={entriesData?.edges.map((edge) => edge.node) || []}
-                  loading={loadingEntries}
-                />
-                {errorEntries && <p className={styles.error}>Erro ao carregar fretes de entrada</p>}
-              </div>
+              {boardUser?.profile === BoardUserProfile.FINANCEIRO &&
+                <div className={styles.entriesContainer}>
+                  <h2>Entradas</h2>
+                  <EntriesCards
+                    data={entriesData?.edges.map((edge) => edge.node) || []}
+                    loading={loadingEntries}
+                  />
+                  {errorEntries && <p className={styles.error}>Erro ao carregar fretes de entrada</p>}
+                </div>}
 
               <div className={styles.lastPaymentsContainer}>
                 <LastPaymentsList

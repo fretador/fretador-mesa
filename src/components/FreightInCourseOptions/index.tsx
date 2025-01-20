@@ -136,7 +136,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
           input: {
             status: newStatus,
             updateData: {
-              boardUser: { name: boardUser?.name, profile: boardUser?.profile },
+              boardUser: { id: boardUser?.id ?? "indisponível", name: boardUser?.name, profile: boardUser?.profile },
             },
             updateDataType: UpdateDataTypeEnum.STATUS,
           },
@@ -285,7 +285,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
             status: newstatus,
             updateData: {
               documents: [...updateData],
-              boardUser: { name: boardUser?.name, profile: boardUser?.profile },
+              boardUser: { id: boardUser?.id ?? "indisponível", name: boardUser?.name, profile: boardUser?.profile },
             },
             updateDataType: updateDataType,
           },
@@ -791,7 +791,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
                 id: freightId,
                 input: {
                   noPaymentReason: reason,
-                  boardUser: { name: boardUser?.name, profile: boardUser?.profile },
+                  boardUser: { id: boardUser?.id ?? "indisponível", name: boardUser?.name, profile: boardUser?.profile },
                 },
               },
             });

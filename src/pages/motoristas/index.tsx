@@ -71,7 +71,7 @@ const Drivers: React.FC = () => {
         searchTerm: searchTerm || undefined,
       },
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: "cache-first",
   });
 
   // Utilizando useQuery para buscar motoristas aprovados
@@ -90,7 +90,7 @@ const Drivers: React.FC = () => {
         searchTerm: searchTerm || undefined,
       },
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: "cache-first",
   });
 
   // useEffect para refetch quando filtros mudarem
