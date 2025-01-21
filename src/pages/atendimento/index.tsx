@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import SearchComponent from "@/components/SearchButton";
 import NewMessagesCards from "@/components/NewMessagesCards";
 import RepliedMessagesList from "@/components/RepliedMessagesList";
+import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 
 const Service: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -19,39 +20,41 @@ const Service: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   return (
-    <div className={styles.container}>
-      <div>
-        <Sidebar />
-      </div>
-
-      <div
-        className={
-          isRetracted ? styles.retractedContentWrapper : styles.contentWrapper
-        }
-      >
-        <div className={styles.header}>
-          <Header title={routeName} />
+    <AuthenticatedLayout>
+      <div className={styles.container}>
+        <div>
+          <Sidebar />
         </div>
-        <div className={styles.content}>
-          <Body>
-            <div className={styles.searchComponents}>
-              <SearchComponent onSearch={() => {}} />
-            </div>
-            
-            <div className={styles.newMessagesContainer}>
-              <h2>Novos</h2>
-              <NewMessagesCards
-                loading={loading}
-                error={error}
-              />
-            </div>
 
-            <RepliedMessagesList loading={loading} error={error} />
+        <div
+          className={
+            isRetracted ? styles.retractedContentWrapper : styles.contentWrapper
+          }
+        >
+          <div className={styles.header}>
+            <Header title={routeName} />
+          </div>
+          <div className={styles.content}>
+            <Body>
+              <div className={styles.searchComponents}>
+                <SearchComponent onSearch={() => {}} />
+              </div>
+              
+              <div className={styles.newMessagesContainer}>
+                <h2>Novos</h2>
+                <NewMessagesCards
+                  loading={loading}
+                  error={error}
+                />
+              </div>
 
-          </Body>
+              <RepliedMessagesList loading={loading} error={error} />
+
+            </Body>
+          </div>
         </div>
       </div>
-    </div>
+    </AuthenticatedLayout>
   );
 };
 
