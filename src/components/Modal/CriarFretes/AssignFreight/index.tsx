@@ -1,6 +1,4 @@
 import React, { useEffect, useState, KeyboardEvent } from "react";
-import ModalRoot from "../../ModalRoot";
-import SmallLoading from "../../SmallLoading";
 import styles from "./AssignFreight.module.css";
 import { Driver } from "@/utils/Interfaces/Driver";
 import { useLazyQuery } from "@apollo/client";
@@ -11,8 +9,10 @@ import {
   generateRandomVehicleData,
 } from "@/utils/mocks/vehicleDataGenerator";
 import { DriverNode } from "@/utils/Interfaces/DriverNode";
+import SmallLoading from "@/components/SmallLoading";
+import Modal from "../..";
 
-interface AssignFreightModalProps {
+interface AssignFreightProps {
   isOpen: boolean;
   onRequestClose: () => void;
   onConfirm: (driverIds: string[]) => void;
@@ -27,7 +27,7 @@ const formatCPF = (cpf: string): string => {
   return cleaned.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4");
 };
 
-const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
+const AssignFreight: React.FC<AssignFreightProps> = ({
   isOpen,
   onRequestClose,
   onConfirm,
@@ -169,21 +169,30 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
   
 
   return (
-    <ModalRoot isOpen={isOpen} onRequestClose={onRequestClose}>
-      <div className={styles.modalContent}>
-          
-        <header className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>Direcionar Frete</h2>
-        </header>
-        <div className={styles.modalBody}>
-          {isLoading && <SmallLoading />}
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      modalTitle="Direcionar frete"
+      modalDescription=""
+      hasTwoButtons={true}
+      buttonOneTitle="Confirmar"
+      buttonOneAction={handleConfirm}
+      buttonTwoTitle="Cancelar"
+      buttonTwoAction={onRequestClose}
+    >
+      {isLoading ? (
+        <div className={styles.loadingContainer}>
+          <SmallLoading />
+        </div>
+      ) : (
+        <div>
           {error && (
             <p className={styles.error}>
               Falha ao buscar motoristas. Por favor, tente novamente.
             </p>
           )}
-          <label className={styles.label} htmlFor="searchInput">
-            CPF ou nome do motorista
+          <label className={styles.labelDescription} htmlFor="searchInput">
+            Digite o CPF ou o nome do motorista
           </label>
           <div className={styles.inputWrapper}>
             <input
@@ -219,16 +228,9 @@ const AssignFreightModal: React.FC<AssignFreightModalProps> = ({
             </div>
           )}
         </div>
-        <button
-          className={styles.confirmButton}
-          onClick={handleConfirm}
-          disabled={isLoading || !selectedDriver} 
-        >
-          Confirmar
-        </button>
-      </div>
-    </ModalRoot>
+      )}
+    </Modal>
   );
 };
 
-export default AssignFreightModal;
+export default AssignFreight;

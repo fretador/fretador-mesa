@@ -1,0 +1,54 @@
+.main {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contentContainer {
+  width: 55vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  height: 100%;
+}
+
+.backgroundContainer {
+  width: 45vw;
+  background: url('/assets/images/background-login-page.jpeg');
+  background-size: cover;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+.title {
+  color: #1A556D;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10%;
+}
+
+.footerText {
+  color: #1A556D;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.footerText a {
+  color: #1A556D;
+  text-decoration-line: underline;
+}

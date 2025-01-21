@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Botao from "@/components/Botao";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
@@ -7,13 +7,37 @@ import styles from "./Configuracoes.module.css";
 import { useAppSelector } from "@/store/store";
 import { useRouter } from "next/router";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
-import PaymentDetails from "@/components/PaymentDetails";
+import { BackIcon, PhotoOutlineIcon, RadioFalseIcon, RadioTrueIcon } from "@/utils/icons";
+import Image from "next/image";
+import { mockBoardUsers } from "@/utils/mocks/mockBoardUsers";
 
-const Config: React.FC = () => {
+
+const Configuracoes: React.FC = () => {
+  const [currentUser, setCurrentUser] = React.useState(mockBoardUsers[0]);
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
+  const defaultAvatarPath = "../../assets/src/images/avatar.png";
+  const imageSrc = currentUser.profilePicture && currentUser.profilePicture.trim() !== ""
+    ? currentUser.profilePicture
+    : defaultAvatarPath;
 
-  const routeName = router.pathname.replace("/", "").toUpperCase();
+  const backButtonContent = (
+    <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+      <BackIcon /> <p style={{ fontWeight: "700" }}>Voltar</p>
+    </div>
+  );
+
+  const handleGoBack = () => {
+    router.back();
+  };
+
+  const handleGoToPage = () => {
+    router.push("/alterar-senha");
+  };
+
+  const [value, setValue] = useState<string>("");
+
+  const routeName = 'CONFIGURAÇÕES'
 
   return (
     <AuthenticatedLayout>
@@ -32,7 +56,80 @@ const Config: React.FC = () => {
           </div>
           <div className={styles.content}>
             <Body>
-              <PaymentDetails buttonTitle="Informar Pagamento" onButtonClick={() => console.log('Informou pagamento')} />
+              <div className={styles.backButtonContainer}>
+                <Botao text={backButtonContent} className={styles.backButton} onClick={handleGoBack} />
+              </div>
+
+              <div className={styles.profileContainer}>
+                <div className={styles.nameAndImageContainer}>
+                  <div className={styles.imageContainer}>
+                    <Image src={imageSrc} width={154} height={154} alt="user-profile" className={styles.imageProfile} />
+                    <div className={styles.changePhotoIcon}>
+                      <PhotoOutlineIcon />
+                    </div>
+                  </div>
+                  <p>Nome do usuário:<span>Zé do Frete</span></p>
+                </div>
+
+                <div className={styles.detailsContainer}>
+                  <p>Empresa: <span>Fretador Transportes</span></p>
+                  <p>Função: <span>Operacional</span></p>
+                  <p>E-mail: <span>zedofrete@fretador.com.br</span></p>
+                  <p>Contato: <span>11-99999-9999</span></p>
+                </div>
+
+                <div className={styles.roleContainer}>
+                  <h3>Administrador</h3>
+                  <div className={styles.iconGroup}>
+                    <div
+                      className={styles.iconOption}
+                      onClick={() => setValue("Sim")}
+                    >
+                      {value === "Sim" ? (
+                        <RadioTrueIcon className={styles.icon} width={24} height={24} />
+                      ) : (
+                        <RadioFalseIcon className={styles.icon} width={24} height={24} />
+                      )}
+                      <input
+                        type="radio"
+                        name="adminOption"
+                        value="Sim"
+                        checked={value === "Sim"}
+                        className={styles.hiddenRadio}
+                        onChange={() => {}}
+                      />
+                      <span className={styles.iconText}>Sim</span>
+                    </div>
+                    <div
+                      className={styles.iconOption}
+                      onClick={() => setValue("Não")}
+                    >
+                      {value === "Não" ? (
+                        <RadioTrueIcon className={styles.icon} width={24} height={24} />
+                      ) : (
+                        <RadioFalseIcon className={styles.icon} width={24} height={24} />
+                      )}
+                      <input
+                        type="radio"
+                        name="adminOption"
+                        value="Não"
+                        checked={value === "Não"}
+                        className={styles.hiddenRadio}
+                        onChange={() => {}}
+                      />
+                      <span className={styles.iconText}>Não</span>
+                    </div>
+                  </div>
+                </div>
+
+                <Botao text="Alterar senha" onClick={handleGoToPage} className={styles.changePasswordButton} />
+
+                <div className={styles.editButtonContainer}>
+                  <Botao text="Editar dados" onClick={() => console.log('Editar dados')} className={styles.editButton} />
+                </div>
+
+              </div>
+
             </Body>
           </div>
         </div>
@@ -41,4 +138,4 @@ const Config: React.FC = () => {
   );
 };
 
-export default Config;
+export default Configuracoes;
