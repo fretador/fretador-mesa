@@ -14,6 +14,11 @@ import { mockBoardUsers } from "@/utils/mocks/mockBoardUsers";
 
 const Configuracoes: React.FC = () => {
   const [currentUser, setCurrentUser] = React.useState(mockBoardUsers[0]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState({
+    name: "Zé do Frete",
+    contact: "11-99999-9999",
+  });
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
   const defaultAvatarPath = "../../assets/src/images/avatar.png";
@@ -33,6 +38,44 @@ const Configuracoes: React.FC = () => {
 
   const handleGoToPage = () => {
     router.push("/alterar-senha");
+  };
+
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setEditedData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleSave = () => {
+    setCurrentUser((prev) => ({
+      ...prev,
+      name: editedData.name,
+      contact: editedData.contact,
+    }));
+    setIsEditing(false);
+  };
+
+  const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.result) {
+          setCurrentUser((prev) => ({
+            ...prev,
+            profilePicture: reader.result as string,
+          }));
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
   };
 
   const [value, setValue] = useState<string>("");
@@ -65,17 +108,50 @@ const Configuracoes: React.FC = () => {
                   <div className={styles.imageContainer}>
                     <Image src={imageSrc} width={154} height={154} alt="user-profile" className={styles.imageProfile} />
                     <div className={styles.changePhotoIcon}>
-                      <PhotoOutlineIcon />
+                      <label htmlFor="photo-upload">
+                        <PhotoOutlineIcon />
+                        <input
+                          id="photo-upload"
+                          type="file"
+                          accept="image/*"
+                          className={styles.hiddenInput}
+                          onChange={handlePhotoUpload}
+                        />
+                      </label>
                     </div>
                   </div>
-                  <p>Nome do usuário:<span>Zé do Frete</span></p>
+                  <p>
+                    Nome do usuário:{" "}
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={editedData.name}
+                        onChange={(e) => handleInputChange("name", e.target.value)}
+                        className={styles.editInput}
+                      />
+                    ) : (
+                      <span>{editedData.name}</span>
+                    )}
+                  </p>
                 </div>
 
                 <div className={styles.detailsContainer}>
                   <p>Empresa: <span>Fretador Transportes</span></p>
                   <p>Função: <span>Operacional</span></p>
                   <p>E-mail: <span>zedofrete@fretador.com.br</span></p>
-                  <p>Contato: <span>11-99999-9999</span></p>
+                  <p>
+                    Contato:{" "}
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={editedData.contact}
+                        onChange={(e) => handleInputChange("contact", e.target.value)}
+                        className={styles.editInput}
+                      />
+                    ) : (
+                      <span>{editedData.contact}</span>
+                    )}
+                  </p>
                 </div>
 
                 <div className={styles.roleContainer}>
@@ -125,7 +201,14 @@ const Configuracoes: React.FC = () => {
                 <Botao text="Alterar senha" onClick={handleGoToPage} className={styles.changePasswordButton} />
 
                 <div className={styles.editButtonContainer}>
-                  <Botao text="Editar dados" onClick={() => console.log('Editar dados')} className={styles.editButton} />
+                  {isEditing ? (
+                    <div className={styles.saveButtonContainer}>
+                      <Botao text="Salvar edição" onClick={handleSave} className={styles.saveButton} />
+                      <Botao text="Cancelar" onClick={handleEditToggle} className={styles.cancelButton} />
+                    </div>
+                  ) : (
+                    <Botao text="Editar dados" onClick={handleEditToggle} className={styles.editButton} />
+                  )}
                 </div>
 
               </div>
