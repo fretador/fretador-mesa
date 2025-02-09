@@ -15,7 +15,7 @@ export const GET_NOTIFICATION_COUNTERS = gql`
 export const GET_BOARDUSER_NOTIFICATIONS = gql`
 	query GetBoardUserNotifications($filter: NotificationsFilterInput) {
 		notifications(filter: $filter) {
-			_id
+			id
 			entityType
 			entityId
 			type
@@ -38,7 +38,7 @@ export const GET_BOARDUSER_NOTIFICATIONS = gql`
 export const GET_TOTAL_NOTIFICATIONS = gql`
 	query GetTotalNotifications($filter: NotificationsFilterInput) {
 		notifications(filter: $filter) {
-			_id
+			id
 		}
 	}
 `;

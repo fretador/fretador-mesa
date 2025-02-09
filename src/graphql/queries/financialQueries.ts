@@ -65,8 +65,6 @@ export const GET_FREIGHT_FINANCIAL_BY_ID = gql`
 				cpf
 				cnh
 				email
-				bankDetails
-				pix
 				userPhoto {
 					imageUrl
 				}

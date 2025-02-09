@@ -24,7 +24,7 @@ interface AckHistoryItem {
 }
 
 interface Notification {
-	_id: string;
+	id: string;
 	entityType: string;
 	entityId: string;
 	type: string;

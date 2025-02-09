@@ -134,7 +134,7 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
 
           return (
             <li
-              key={notif._id}
+              key={notif.id}
               className={`${styles.notificationItem} ${isAcknowledged ? styles.acknowledged : ""
                 }`}
             >
@@ -152,7 +152,7 @@ export function NotificationsList({ userId, groupKey }: NotificationsListProps) 
               <div className={styles.notificationActions}>
                 <Botao
                   disabled={isAcknowledged || ackLoading}
-                  onClick={() => handleAcknowledge(notif._id)}
+                  onClick={() => handleAcknowledge(notif.id)}
                   text={isAcknowledged ? "Reconhecida" : "Reconhecer"}
                 />
                 {" | "}
