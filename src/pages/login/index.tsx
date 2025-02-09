@@ -25,7 +25,7 @@ const Login = () => {
           />
 
           <div className={styles.footerTextContainer}>
-            <p className={styles.footerText}>Quer saber mais sobre a plataforma? <a href="">Fale conosco.</a></p>
+            <p className={styles.footerText}>Quer saber mais sobre a plataforma? <a href="https://www.fretador.com.br/contato" target="_blank" rel="noopener">Fale conosco.</a></p>
           </div>
         </div>
 

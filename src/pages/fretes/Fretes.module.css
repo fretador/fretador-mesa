@@ -66,3 +66,17 @@
 .pageInfo {
   font-weight: bold;
 }
+
+.addFreightButton {
+  position: fixed;
+  bottom: 3%;
+  right: 3%;
+  z-index: 1;
+}
+
+.loadingContainer {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

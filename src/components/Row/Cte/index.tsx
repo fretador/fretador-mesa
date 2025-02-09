@@ -3,12 +3,13 @@ import React from 'react'
 
 interface CteProps {
   cte: string;
+  style?: React.CSSProperties;
 }
 
-const Cte = ({ cte }: CteProps) => {
+const Cte = ({ cte, style }: CteProps) => {
 
   return (
-    <p>{cte}</p>
+    <p style={style}>{cte}</p>
   )
 }
 

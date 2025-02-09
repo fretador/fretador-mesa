@@ -29,8 +29,8 @@
 
 .addFreightButton {
   background-color: #1B556D;
-  width: 313px;
-  height: 81px;
+  width: 0px;
+  height: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,7 +38,8 @@
   border: 1px solid #3FACD5;
   clip-path: polygon(0% 0%, 97% 0%, 100% 50%, 97% 100%, 0% 100%, 0% 50%);
   opacity: 0;
-  transition: opacity 0.5s ease;
+  overflow: hidden;
+  transition: opacity 0.5s, height 0s, width 0s;
 }
 
 .addFreightButton a {
@@ -50,4 +51,6 @@
 
 .show {
   opacity: 1;
+  height: 81px;
+  width: 313px;
 }

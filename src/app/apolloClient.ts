@@ -3,7 +3,7 @@ import { setContext } from "@apollo/client/link/context";
 import { AuthService } from "@/services/authService";
 
 const httpLink = new HttpLink({
-	uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
+	uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {

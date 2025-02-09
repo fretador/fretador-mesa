@@ -2,18 +2,22 @@ import { useQuery } from '@apollo/client';
 import { GET_FREIGHT_DAILY_FLOW } from '@/graphql/queries/graphQueries';
 import { PieChart } from '@mui/x-charts/PieChart';
 import styles from './DailyFlow.module.css';
-import { GetFreightDailyFlowData } from '@/utils/types/GraphTypes'; 
+import { GetFreightDailyFlowData } from '@/utils/Interfaces/GraphTypes';
+import Loading from '@/components/Loading';
+import SmallLoading from '@/components/SmallLoading';
 
 const DailyFlow = () => {
   const { data, loading, error } = useQuery<GetFreightDailyFlowData>(GET_FREIGHT_DAILY_FLOW);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className={styles.loadingContainer}><SmallLoading /></div>;
   if (error) return <p>Error: {error.message}</p>;
 
   const newFreights = data?.getFreightDailyFlow.newFreights || 0;
   const cancelledFreightsPercentage = data?.getFreightDailyFlow.canceledFreightsPercentage || 0;
   const remainingValue = 100 - newFreights;
   const remainingPercentage = 100 - cancelledFreightsPercentage;
+
+  const getPaddingAngle = (value: number) => value > 0 ? 3 : 0;
 
   return (
     <div className={styles.container}>
@@ -31,7 +35,7 @@ const DailyFlow = () => {
                 ],
                 innerRadius: 48,
                 outerRadius: 70,
-                paddingAngle: 3,
+                paddingAngle: getPaddingAngle(cancelledFreightsPercentage),
                 cornerRadius: 5,
                 startAngle: 0,
                 cx: 100,
@@ -55,7 +59,7 @@ const DailyFlow = () => {
                 ],
                 innerRadius: 48,
                 outerRadius: 70,
-                paddingAngle: 3,
+                paddingAngle: getPaddingAngle(newFreights),
                 cornerRadius: 5,
                 startAngle: 0,
                 cx: 100,

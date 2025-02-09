@@ -1,0 +1,54 @@
+.section {
+  padding: 20px;
+  background-color: #B2CEDA;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 36px;
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.radioGroup label {
+  margin-bottom: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.radioGroup input[type="radio"] {
+  margin-right: 10px;
+}
+
+.inlineRadioGroup {
+  display: flex;
+  gap: 20px;
+}
+
+.iconGroup {
+  display: flex;
+  gap: 32px;
+}
+
+.iconOption {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.iconText {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.hiddenRadio {
+  display: none;
+}

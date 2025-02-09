@@ -2,9 +2,14 @@ import React, { useRef, useState } from 'react';
 import styles from './SearchButton.module.css';
 import { MagniFyingGlassIcon } from '@/utils/icons';
 
-const SearchComponent: React.FC = () => {
+interface SearchComponentProps {
+  onSearch: (term: string) => void;
+}
+
+const SearchComponent: React.FC<SearchComponentProps> = ({ onSearch }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const handleMouseEnter = () => {
     if (inputRef.current) {
@@ -18,9 +23,19 @@ const SearchComponent: React.FC = () => {
     }
   };
 
-  // Aqui implementei uma função para manter o max-width do input quando o usuário decidir utilizá-lo. Pra evitar que ele não visualize o que digitou posteriormente.
   const handleInputClick = () => {
     setIsExpanded(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+    console.log("searchValue: ", searchValue);
+  };
+
+  const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onSearch(searchValue);
+    }
   };
 
   return (
@@ -35,6 +50,9 @@ const SearchComponent: React.FC = () => {
         className={styles.searchInput}
         placeholder="Buscar"
         onClick={handleInputClick}
+        onChange={handleInputChange}
+        value={searchValue}
+        onKeyDown={handleSearchSubmit}
       />
       <MagniFyingGlassIcon className={styles.searchIcon} />
     </div>

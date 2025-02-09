@@ -35,3 +35,18 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+@media screen and (max-width: 1280px) {
+  .container {
+    width: 1050px;
+  }
+
+  .content p {
+    min-width: 100px;
+  }
+
+  .content div {
+    min-width: 100px;
+  }
+
+}

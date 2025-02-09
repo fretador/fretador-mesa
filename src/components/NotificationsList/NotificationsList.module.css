@@ -1,0 +1,123 @@
+/* NotificationsList.module.css */
+
+.notificationsListContainer {
+  padding: 16px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 600px; /* Aumentado para acomodar mais notificações */
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.notificationsFilter {
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.notificationsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notificationItem {
+  border-bottom: 1px solid #f1f1f1;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notificationItem.acknowledged {
+  opacity: 0.6;
+}
+
+.notificationHeader {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.notificationBody {
+  font-size: 14px;
+  color: #555;
+}
+
+.notificationActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detailsLink {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.detailsLink:hover {
+  text-decoration: underline;
+}
+
+.notificationFooter {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Estilos para as mensagens de carregamento e erro da lista de notificações */
+.loading {
+  font-size: 16px;
+  color: #1A556D;
+  text-align: center;
+  padding: 20px;
+  background-color: #f1f1f1;
+  border: 1px solid #1A556D;
+  border-radius: 4px;
+}
+
+.error {
+  font-size: 16px;
+  color: #dc3545;
+  text-align: center;
+  padding: 20px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+}
+
+.ackLoading {
+  font-size: 14px;
+  color: #856404;
+  text-align: center;
+  padding: 10px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.ackError {
+  font-size: 14px;
+  color: #721c24;
+  text-align: center;
+  padding: 10px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.success {
+  font-size: 14px;
+  color: #155724;
+  text-align: center;
+  padding: 10px;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}

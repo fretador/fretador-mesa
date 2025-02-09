@@ -1,11 +1,17 @@
 import React from 'react';
 import styles from './Loading.module.css';
+import { FretadorIcon } from '@/utils/icons';
 
 const Loading = () => {
   return (
-    <div className={styles.spinner}>
-      <div className={styles.doubleBounce1}></div>
-      <div className={styles.doubleBounce2}></div>
+    <div className={styles.spinnerContainer}>
+      <div className={styles.circle}>
+        <div className={styles.innerCircle}></div>
+      </div>
+      
+      <div>
+        <FretadorIcon />
+      </div>
     </div>
   );
 };

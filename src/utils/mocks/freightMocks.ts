@@ -1,6 +1,4 @@
-import { Freight } from "../Interfaces/FreightInterfaces";
-
-export const mockFreights: Freight[] = [
+export const mockFreights: any[] = [
 	{
 		_id: "1",
 		id: "1",

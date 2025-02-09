@@ -1,0 +1,26 @@
+export enum VehicleCategory {
+  LEVE = "LEVE",
+  MEDIO = "MEDIO",
+  PESADO = "PESADO",
+}
+
+export enum VehicleType {
+  UTILITARIO = "UTILITARIO",
+  TOCO = "TOCO",
+  HR = "HR",
+  TRES_QUARTOS = "TRES_QUARTOS",
+  TRUCK = "TRUCK",
+  BITRUCK = "BITRUCK",
+  CARRETA = "CARRETA",
+  CARRETA_LS = "CARRETA_LS",
+  CARRETA_TRUCADA = "CARRETA_TRUCADA",
+  CARRETA_VANDERLEIA = "CARRETA_VANDERLEIA",
+  BITREM = "BITREM",
+  RODOTREM = "RODOTREM",
+}
+
+export enum VehicleStatus {
+  ATIVO = "ATIVO",
+  INATIVO = "INATIVO",
+  INATIVO_PENDENTE = "INATIVO_PENDENTE",
+}

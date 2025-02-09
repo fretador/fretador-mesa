@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { BoardUser } from "@/utils/Interfaces/BoardUsers";
+import { BoardUser } from "@/utils/Interfaces/BoardUser";
 import { ReactNode } from "react";
 import styles from "./SidebarCompRoot.module.css";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";

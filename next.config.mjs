@@ -2,7 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['dev-uploadphotos.s3.amazonaws.com'],
+    domains: ["dev-uploadphotos.s3.us-east-1.amazonaws.com"],
+    // Adicione esta linha
+    unoptimized: true,
   },
   webpack(config) {
     config.module.rules.push({

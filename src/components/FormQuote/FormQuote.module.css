@@ -1,0 +1,26 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.content {
+  max-height: 86vh;
+  overflow-y: auto;
+  overflow-x: inherit;
+}
+
+.content::-webkit-scrollbar {
+  width: 12px;
+  height: 36px;
+}
+
+.content::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #fdfdfd;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: #1B556D;
+  border-radius: 12px;
+}

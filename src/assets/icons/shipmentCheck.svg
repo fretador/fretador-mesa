@@ -1,0 +1,8 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="streamline:shipment-check">
+<g id="Group">
+<path id="Vector" d="M8.5 1V5.2449M2 5.2449H15V13.7347C15 14.0161 14.8946 14.2861 14.7071 14.4851C14.5196 14.6841 14.2652 14.7959 14 14.7959H3C2.73478 14.7959 2.48043 14.6841 2.29289 14.4851C2.10536 14.2861 2 14.0161 2 13.7347V5.2449Z" stroke="#1A556D" stroke-width="1.14286" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M2 5.2449L3.5 2.17796C3.66171 1.83229 3.90917 1.53995 4.21576 1.33239C4.52235 1.12483 4.87646 1.00992 5.24 1H11.76C12.1321 1.00021 12.4967 1.11057 12.813 1.31866C13.1292 1.52676 13.3844 1.82435 13.55 2.17796L15 5.2449M10.998 7.89796L8.002 12.1429L6.002 10.5531" stroke="#1A556D" stroke-width="1.14286" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</svg>

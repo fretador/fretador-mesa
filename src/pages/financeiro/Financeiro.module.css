@@ -3,7 +3,6 @@
   flex-direction: row;
   justify-content: space-between;
   height: 100vh;
-  overflow: hidden;
   box-sizing: border-box;
   background: linear-gradient(180deg, #BCBCBC 0%, #FFF 100%);
 }
@@ -14,7 +13,6 @@
   width: calc(100% - 16vw);
   margin-left: 10vw;
   transition: width 0.3s, margin-left 0.3s;
-  box-sizing: border-box;
 }
 
 .retractedContentWrapper {
@@ -22,20 +20,113 @@
   flex-direction: column;
   width: calc(100% - 6vw);
   transition: width 0.3s, margin-left 0.3s;
-  box-sizing: border-box;
 }
 
 .header {
-  height: 60px;
   width: 100%;
-  flex-shrink: 0;
-  margin-left: auto;
-  justify-content: center;
-  box-sizing: border-box;
+}
+
+.searchComponents {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.filterComponents {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .content {
   flex: 1;
   padding: 0.5rem;
   box-sizing: border-box;
+}
+
+.entriesContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.entriesContainer h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1B556D;
+  margin-top: 40px;
+}
+
+.backButtonContainer {
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+
+.backButton {
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.pendingPaymentContainer {
+  width: 100%;
+  background-color: #B2CEDA;
+  border-radius: 16px;
+}
+
+.informations {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 42px;
+  /* align-items: flex-start; */
+}
+
+.informations p {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1B556D;
+}
+
+.informations span {
+  margin-left: 3px;
+  color: #0D0D0D;
+}
+
+.row {
+  margin: 0px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subtitle {
+  margin: 24px 32px 0px 32px;
+  font-size: 24px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.actionButtonsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 14px;
+  margin-top: 100px;
+}
+
+.actionButtonsContainer .btnDark {
+  width: 328px;
+  padding: 16px 24px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
 }

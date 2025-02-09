@@ -1,38 +1,91 @@
 .section {
   padding: 20px;
-  background-color: #f9f9f9;
-  margin-bottom: 20px;
-  border-radius: 8px;
+  border-radius: 8px 8px 0 0;
+  background-color: #B2CEDA;
+  max-width: 1284px;
+  gap: 27px;
 }
 
 .title {
-  font-size: 20px;
+  font-family: "Roboto", sans-serif;
+  font-size: 32px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 32px;
 }
 
 .inputWrapper {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.dateInputGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .rowInputs {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  gap: 32px;
+}
+
+.rowInputs .inputGroup {
+  width: 50%;
+  /* Alterado de flex: 1 para width: 40% */
+}
+
+.rowInputs .input {
+  width: 100%;
 }
 
 .label {
   display: block;
-  font-weight: 500;
+  font-family: "Roboto", sans-serif;
+  font-size: 22px;
+  font-weight: bold;
   margin-bottom: 5px;
 }
 
+.labelDate {
+  display: block;
+  font-size: 24px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
 .input {
-  width: 100%;
-  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  background-color: rgba(27, 85, 109, 0.3);
+  /* color: rgba(26, 85, 109, 0.50); */
+  color: #1A556D;
+  padding: 16px 8px;
+  outline: 0;
+}
+
+.input::placeholder {
+  color: rgba(26, 85, 109, 0.50);
+}
+
+.inputDate {
+  height: 44px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 24px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
+  background-color: rgba(27, 85, 109, 0.3);
+  color: #1A556D;
+  padding: 16px 8px;
 }
 
 .error {
@@ -41,6 +94,6 @@
 
 .errorMessage {
   color: red;
-  font-size: 12px;
-  margin-top: 5px;
+  font-size: 14px;
+  margin-top: 4px;
 }

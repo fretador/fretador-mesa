@@ -1,30 +1,62 @@
-import React, { useEffect, useMemo } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { useDriverController } from "@/controllers/driverController";
-import { Driver } from "@/utils/types/Driver";
-import styles from './ApprovedDriversList.module.css';
-import RowTitle from "../RowTitle";
+import React, { useState } from "react";
 import { Row } from "../Row";
+import { Driver } from "@/utils/Interfaces/Driver";
+import styles from "./ApprovedDriversList.module.css";
+import RowTitle from "../RowTitle";
+import SmallLoading from "../SmallLoading";
+import { useRouter } from "next/router";
 
-const ApprovedDriversList: React.FC = () => {
-  const { loadDrivers } = useDriverController();
-  const { drivers, loading, error } = useSelector((state: RootState) => state.driver.driversByStatus['APPROVED']);
+interface ApprovedDriversListProps {
+  drivers: Driver[];
+  loading: boolean;
+  error: string | null;
+}
 
-  useEffect(() => {
-    loadDrivers(1, 10, { status: 'APPROVED' });
-  }, [loadDrivers]);
+const ApprovedDriversList: React.FC<ApprovedDriversListProps> = ({
+  drivers,
+  loading,
+  error,
+}) => {
+  const router = useRouter();
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
-  const memoizedDrivers = useMemo(() => drivers, [drivers]);
-
-  if (loading) return <p>Carregando motoristas...</p>;
+  if (loading)
+    return (
+      <div className={styles.loadingContainer}>
+        <SmallLoading />
+      </div>
+    );
   if (error) return <p>Erro ao carregar motoristas: {error}</p>;
+
+  const handleDriverClick = (driverId: string) => {
+    router.push(`/cadastro-do-motorista/${driverId}`);
+  };
+
+  const handleSortClick = () => {
+    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+  };
+
+  // Ordenar os motoristas pelo nome
+  const sortedDrivers = [...drivers].sort((a, b) => {
+    const nameA = a.name?.toLowerCase() || '';
+    const nameB = b.name?.toLowerCase() || '';
+
+    if (sortOrder === 'asc') {
+      return nameA.localeCompare(nameB);
+    } else {
+      return nameB.localeCompare(nameA);
+    }
+  });
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h2>Aprovados</h2>
-        <h4>Ordenar A-Z</h4>
+        <div className={styles.actionsButtons}>
+          <h4 onClick={handleSortClick} style={{ cursor: 'pointer' }}>
+            Ordenar {sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
+          </h4>
+        </div>
       </div>
 
       <RowTitle
@@ -36,10 +68,14 @@ const ApprovedDriversList: React.FC = () => {
         titleStyles={{ color: "#1B556D", fontWeight: "700", fontSize: "20px" }}
       />
       <div className={styles.content}>
-        {memoizedDrivers?.map((driver: Driver) => (
-          <Row.Root key={driver.id} customBackgroundColor="#B2CEDA">
+        {sortedDrivers.map((driver: Driver) => (
+          <Row.Root
+            key={driver.id}
+            customBackgroundColor="#B2CEDA"
+            onClick={() => handleDriverClick(driver.id)}
+          >
             <Row.Driver
-              driverPhotoUrl={driver.userPhoto?.imageUrl || '/driver-mock.png'}
+              driverPhotoUrl={driver.userPhoto?.imageUrl || "/driver-mock.png"}
               driverName={driver.name}
               showImage={true}
               textColor="#1B556D"
@@ -47,8 +83,8 @@ const ApprovedDriversList: React.FC = () => {
             />
             <Row.CityState city={driver.city} state={driver.state} />
             <Row.WhatsApp whatsApp={driver.phoneNumber} />
-            <Row.Vehicle vehicle={driver.vehicle?.type || 'N/A'} />
-            <Row.DriverStatus driverStatus="aprovado" />
+            <Row.Vehicle vehicle={driver.vehicle?.vehicleType || "N/A"} />
+            <Row.DriverStatus driverStatus={driver.status} />
           </Row.Root>
         ))}
       </div>

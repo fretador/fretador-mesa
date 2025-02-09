@@ -1,0 +1,62 @@
+.container {
+  width: 1200px;
+  /* margin-bottom: 54px; */
+  margin-left: 32px;
+}
+
+.titleContainer {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 26px;
+  margin-top: 32px;
+}
+
+.titleContainer p {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1B556D;
+  text-decoration: underline;
+}
+
+.pencilIcon {
+  cursor: pointer;
+}
+
+.informations {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  align-items: flex-start;
+}
+
+.informations p {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1B556D;
+}
+
+.informations span {
+  color: #0D0D0D;
+}
+
+.lineOne, .lineTwo, .lineThree {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.lineThree {
+  margin-bottom: 48px;
+}
+
+.editInput {
+  outline: none;
+  background: #1b556d4d;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 8px 8px 11px;
+  width: 100%;
+  font-size: 22px;
+  font-weight: 600;
+  color: #0D0D0D;
+}

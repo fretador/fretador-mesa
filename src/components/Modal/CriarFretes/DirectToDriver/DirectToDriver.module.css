@@ -1,0 +1,17 @@
+.modalContent p {
+  margin-bottom: 12px;
+}
+
+.modalContent p:last-child {
+  margin-bottom: 0;
+}
+
+.boldText {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.regularText {
+  font-size: 20px;
+  font-weight: normal;
+}

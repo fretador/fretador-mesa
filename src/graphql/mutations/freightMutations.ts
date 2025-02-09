@@ -1,30 +1,55 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_FREIGHT = gql`
-	mutation CreateFreight($input: CreateFreightInput!) {
-		createFreight(input: $input) {
-			id
-			freightCode
-			status
-		}
-	}
+  mutation CreateFreight($input: CreateFreightInput!) {
+    createFreight(input: $input) {
+      id
+      freightCode
+      status
+    }
+  }
 `;
 
 export const UPDATE_FREIGHT = gql`
-	mutation UpdateFreight($id: ID!, $input: UpdateFreightInput!) {
-		updateFreight(id: $id, input: $input) {
-			id
-			creationDate
-			freightCode
-			numCte
-			deliveryCity
-			gatheringCity
-			gatheringState
-			deliveryState
-			clientName
-			driver
+  mutation UpdateFreight($id: ID!, $input: UpdateFreightInput!) {
+    updateFreight(id: $id, input: $input) {
+      status
+      updateDate
+    }
+  }
+`;
+
+export const EDIT_FREIGHT = gql`
+  mutation EditFreight($id: ID!, $input: FreightInput!) {
+    editFreight(id: $id, input: $input) {
+      id
+      pickupDeliveryData
+      origin
+      destination
+      cargoLoadType
+      needsTarp
+      needsTracker
+      product
+      cargoType
+      totalWeight
+      volumes
+      cubage
+      moreDetails
+      eligibleVehicles
+      eligibleBodyworks
+      type
+      pedagioIncluso
+      formaPagamento
+      observations
+    }
+  }
+`;
+
+export const UPDATE_STATUS_FREIGHT = gql`
+	mutation UpdateStatusFreight($id: ID!, $input: UpdateStatusFreightInput!) {
+		updateStatusFreight(id: $id, input: $input) {
 			status
-			value
+			paymentDate
 		}
 	}
 `;

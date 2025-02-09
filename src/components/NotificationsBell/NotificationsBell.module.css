@@ -1,0 +1,69 @@
+.notificationsListContainer {
+  padding: 16px;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.notificationsFilter {
+  margin-bottom: 8px;
+  display: flex;
+  gap: 12px;
+}
+
+.notificationsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notificationItem {
+  border-bottom: 1px solid #f1f1f1;
+  padding: 6px 0;
+}
+
+.notificationItem.acknowledged {
+  opacity: 0.6;
+}
+
+.bellButton {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.bellCount {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: red;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+}
+
+.notificationsBellContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.notificationsDropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  z-index: 9999;
+  background: #fff;
+  border: 1px solid #ccc;
+  width: 320px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}

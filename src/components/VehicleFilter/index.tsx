@@ -62,45 +62,34 @@ const VehicleFilter: React.FC<VehicleFilterProps> = ({ onApply, onCancel }) => {
         <div className={styles.checkboxContainer}>
           <input
             type="checkbox"
-            id="truck"
-            name="truck"
-            checked={selectedStatuses.includes("TRUCK")}
-            onChange={() => handleStatusChange("TRUCK")}
+            id="leve"
+            name="leve"
+            checked={selectedStatuses.includes("LEVE")}
+            onChange={() => handleStatusChange("LEVE")}
           />
-          <label htmlFor="truck">Truck</label>
+          <label htmlFor="leve">Leve</label>
         </div>
 
         <div className={styles.checkboxContainer}>
           <input
             type="checkbox"
-            id="vuc"
-            name="vuc"
-            checked={selectedStatuses.includes("VUC")}
-            onChange={() => handleStatusChange("VUC")}
+            id="medio"
+            name="medio"
+            checked={selectedStatuses.includes("MEDIO")}
+            onChange={() => handleStatusChange("MEDIO")}
           />
-          <label htmlFor="vuc">VUC</label>
+          <label htmlFor="medio">Médio</label>
         </div>
 
         <div className={styles.checkboxContainer}>
           <input
             type="checkbox"
-            id="carreta"
-            name="carreta"
-            checked={selectedStatuses.includes("CARRETA")}
-            onChange={() => handleStatusChange("CARRETA")}
+            id="pesado"
+            name="pesado"
+            checked={selectedStatuses.includes("PESADO")}
+            onChange={() => handleStatusChange("PESADO")}
           />
-          <label htmlFor="carreta">Carreta</label>
-        </div>
-
-        <div className={styles.checkboxContainer}>
-          <input
-            type="checkbox"
-            id="todos"
-            name="todos"
-            checked={selectedStatuses.includes("TODOS")}
-            onChange={() => handleStatusChange("TODOS")}
-          />
-          <label htmlFor="todos">Todos</label>
+          <label htmlFor="pesado">Pesado</label>
         </div>
 
         <div className={styles.btnsContainer}>

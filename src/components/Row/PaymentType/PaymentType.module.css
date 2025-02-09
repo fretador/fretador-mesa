@@ -1,0 +1,24 @@
+.paymentTypeValue {
+  text-transform: capitalize;
+  font-weight: 700;
+}
+
+.advance {
+  color: #0B7517;
+}
+
+.balance {
+  color: #2F88FF;
+}
+
+.partialBalance {
+  color: #BF1231
+}
+
+.expenses {
+  color: #ED9C03;
+}
+
+.occurrence {
+  color: #1A556D;
+}

@@ -1,0 +1,101 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100vh;
+  /* overflow: hidden; */
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #BCBCBC 0%, #FFF 100%);
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 16vw);
+  margin-left: 10vw;
+  transition: width 0.3s, margin-left 0.3s;
+  box-sizing: border-box;
+}
+
+.retractedContentWrapper {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 6vw);
+  transition: width 0.3s, margin-left 0.3s;
+  box-sizing: border-box;
+}
+
+.header {
+  width: 100%;
+}
+
+.content {
+  flex: 1;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.freightInCurseContainer {
+  background-color: #B2CEDA;
+  width: 100%;
+  border-radius: 16px;
+  margin-top: 16px;
+}
+
+.freightInCurseOptionsContainer h2 {
+  color: #1A556D;
+  font-weight: 700;
+  font-size: 24px;
+  margin: 32px 0 32px 18px;
+}
+
+
+.freightStepContainer {
+  max-height: calc(3 * 150px);
+  /* Ajuste 150px para a altura aproximada de um FreightStep */
+  overflow-y: auto;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  /* Espaço para a barra de rolagem */
+}
+
+/* Estilize a barra de rolagem para uma melhor aparência (opcional) */
+.freightStepContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.freightStepContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.freightStepContainer::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.freightStepContainer::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* .freightStepContainer>* {
+  flex-direction: column;
+} */
+
+.mapContainer {
+  margin-top: 200px;
+}
+
+.mapContainer h2 {
+  font-size: 32px;
+  color: #1A556D;
+  font-weight: 700;
+  margin-bottom: 32px;
+}

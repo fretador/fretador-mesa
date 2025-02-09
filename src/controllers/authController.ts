@@ -2,17 +2,36 @@ import { useDispatch } from "react-redux";
 import { useCallback } from "react";
 import { loginSuccess, logout } from "@/store/slices/authSlice";
 import { AuthService } from "@/services/authService";
+import { storageHelper } from "@/utils/helpers/storageHelper";
 
 export const useAuthController = () => {
 	const dispatch = useDispatch();
 
 	const login = useCallback(
-		async (email: string, password: string) => {
+		async (email: string, password: string, rememberMe: boolean) => {
 			try {
-				const { token, name, userEmail, profile, profilePicture } =
-					await AuthService.login(email, password);
+				const { id, token, name, userEmail, profile, profilePicture } =
+					await AuthService.login(email, password, rememberMe);
+
+				const boardUser = {
+					id,
+					token,
+					name,
+					email: userEmail,
+					profile,
+					profilePicture,
+				};
+				storageHelper.saveBoardUser(boardUser, rememberMe);
+
 				dispatch(
-					loginSuccess({ token, name, email: userEmail, profile, profilePicture })
+					loginSuccess({
+						id,
+						token,
+						name,
+						email: userEmail,
+						profile,
+						profilePicture,
+					})
 				);
 			} catch (error) {
 				console.error("Login failed:", error);
@@ -23,16 +42,25 @@ export const useAuthController = () => {
 	);
 
 	const checkAuthStatus = useCallback(() => {
-		const token = AuthService.getBoardUserToken();
-		const boardUser = AuthService.getBoardUser();
+		const token = storageHelper.getBoardUserToken();
+		const boardUser = storageHelper.getBoardUser();
 
 		if (token && boardUser) {
+			dispatch(
+				loginSuccess({
+					id: boardUser.id,
+					token,
+					name: boardUser.name,
+					email: boardUser.email,
+					profile: boardUser.profile,
+					profilePicture: boardUser.profilePicture,
+				})
+			);
 			return true;
 		} else {
-			console.log("User is not authenticated");
 			return false;
 		}
-	}, []);
+	}, [dispatch]);
 
 	const logoutUser = useCallback(() => {
 		AuthService.logout();

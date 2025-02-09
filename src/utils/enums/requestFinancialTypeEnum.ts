@@ -1,0 +1,6 @@
+export enum RequestFinancialType {
+	ADVANCE = "ADVANCE",
+	BALANCE = "BALANCE",
+	EXPENSES = "EXPENSES",
+	PARTIAL_BALANCE = "PARTIAL_BALANCE",
+}

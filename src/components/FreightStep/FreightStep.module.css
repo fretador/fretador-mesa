@@ -1,0 +1,126 @@
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #D3DFE4;
+  color: #1B556D;
+  position: relative;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.container.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dateAndHourContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 15%;
+}
+
+.date {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.hour {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.verticalSeparator {
+  border-left: 1px solid #A8A5A5;
+  height: 80px;
+  margin: 0 20px;
+}
+
+.mainContentContainer {
+  flex-grow: 1;
+  max-width: 50%;
+}
+
+.mainContentContainer p {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.actionsContainer {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.primaryButton,
+.secondaryButton,
+.actionButton {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primaryButton {
+  background-color: #1A556D;
+  color: #FFFFFF;
+  border: none;
+}
+
+.secondaryButton {
+  background-color: #FFFFFF;
+  color: #1A556D;
+  border: 2px solid #1A556D;
+}
+
+.actionButton {
+  background-color: #FAFDFD;
+  color: #1A556D;
+  border: 1px solid #1A556D;
+}
+
+.attachmentContainer {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.attachmentLink {
+  color: #1A556D;
+  text-decoration: none;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.attachmentLink:hover {
+  text-decoration: underline;
+}
+
+/* Novos estilos adicionados */
+
+.documentsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.documentItem {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+  margin-bottom: 8px;
+}
+
+.documentName {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #333;
+}

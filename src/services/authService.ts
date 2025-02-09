@@ -3,7 +3,7 @@ import { LOGIN_MUTATION } from "@/graphql/mutations/authMutations";
 import { storageHelper } from "@/utils/helpers/storageHelper";
 
 export const AuthService = {
-	login: async (email: string, password: string) => {
+	login: async (email: string, password: string, rememberMe: boolean) => {
 		const response = await apolloClient.mutate({
 			mutation: LOGIN_MUTATION,
 			variables: {
@@ -12,29 +12,13 @@ export const AuthService = {
 			},
 		});
 
-		const token = response.data?.login?.boardUser?.token;
-		const name = response.data?.login?.boardUser?.name;
-		const userEmail = response.data?.login?.boardUser?.email;
-		const profile = response.data?.login?.boardUser?.profile;
-		const profilePicture = response.data?.login?.boardUser?.profilePicture;
+		const boardUser = response.data?.login?.boardUser;
 
-		if (token) {
-			storageHelper.saveBoardUser({
-				name,
-				email: userEmail,
-				profile,
-				profilePicture,
-				token,
-			});
+		if (boardUser.token) {
+			storageHelper.saveBoardUser(boardUser, rememberMe);
 		}
 
-		return {
-			name,
-			userEmail,
-			profile,
-			profilePicture,
-			token,
-		};
+		return boardUser;
 	},
 
 	logout: () => {

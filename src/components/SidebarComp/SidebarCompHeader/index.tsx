@@ -1,10 +1,8 @@
 import React from "react";
-
 import styles from "./SidebarCompHeader.module.css";
 import { useAppSelector } from "@/store/store";
-import FretadorIcon from "@/assets/images/fretadorIcon.svg";
-import defaultAvatar from "@/assets/images/avatar.jpg";
-import { BoardUser } from "@/utils/Interfaces/BoardUsers";
+import FretadorIcon from "@/assets/src/images/fretadorIcon.svg";
+import { BoardUser } from "@/utils/Interfaces/BoardUser";
 import CustomImage from "@/components/CustomImage";
 
 interface SidebarCompHeaderProps {
@@ -13,6 +11,10 @@ interface SidebarCompHeaderProps {
 
 const SidebarCompHeader: React.FC<SidebarCompHeaderProps> = ({ user }) => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
+  const defaultAvatarPath = "../../assets/src/images/avatar.png";
+  const imageSrc = user.profilePicture && user.profilePicture.trim() !== ""
+    ? user.profilePicture
+    : defaultAvatarPath;
 
   return (
     <div className={styles.headerContainer}>
@@ -22,7 +24,7 @@ const SidebarCompHeader: React.FC<SidebarCompHeaderProps> = ({ user }) => {
       <div className={styles.userSection}>
         <CustomImage
           data-testid="custom-image"
-          src={user.profilePicture || defaultAvatar}
+          src={imageSrc}
           alt="User avatar"
           width={48}
           height={48}

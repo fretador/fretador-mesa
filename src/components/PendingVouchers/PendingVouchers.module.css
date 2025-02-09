@@ -22,7 +22,7 @@
 .buttonContainer {
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   width: 100%;
   margin-top: 10px;
   cursor: pointer;
@@ -38,4 +38,12 @@
 
 .buttonContainer p:hover {
   color: #256885;
+}
+
+.loadingContainer {
+  height: 278px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -1,0 +1,106 @@
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 46px;
+  background-color: #fdfdfd;
+  padding: 16px 0;
+}
+
+.iconContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  position: relative;
+}
+
+.iconContainer p {
+  color: #1B556D;
+  font-size: 16px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.iconContainer svg path {
+  transition: fill 0.3s ease;
+}
+
+.iconContainer:hover p {
+  color: #3797BD;
+}
+
+.iconContainer:hover svg path {
+  fill: #3797BD;
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 100%;
+  background-color: #B2CEDA;
+  width: 307px;
+  border: 1px solid #1B556D;
+  border-radius: 16px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown ul {
+  list-style: none;
+  width: 100%;
+}
+
+.dropdown li {
+  padding: 16px;
+  cursor: pointer;
+  border-bottom: 2px solid #1B556D;
+  transition: .1s ease all;
+  font-size: 18px;
+  color: #1B556D;
+  font-weight: 400;
+}
+
+.dropdown li:last-child {
+  border-bottom: none;
+}
+
+.dropdown li:first-child:hover {
+  border-radius: 16px 16px 0px 0px;
+}
+
+.dropdown li:last-child:hover {
+  border-radius: 0px 0px 16px 16px;
+}
+
+.dropdown li:hover {
+  background-color: #3280A0;
+  color: #fff;
+  font-weight: 500;
+}
+
+.bubble {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 12px;
+  height: 12px;
+  background-color: red;
+  border-radius: 50%;
+  animation: blink 2s infinite; 
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
