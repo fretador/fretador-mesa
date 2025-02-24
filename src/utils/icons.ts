@@ -48,7 +48,7 @@ import NextBtn from "@/assets/icons/nextBtn.svg"
 import PreviousBtn from "@/assets/icons/previousBtn.svg"
 import CheckFill from "@/assets/icons/checkFill.svg"
 import CloseModalBtn from "@/assets/icons/closeModalBtn.svg"
-import Doc from "@/assets/icons/Doc.svg"
+import Doc from "@/assets/icons/doc.svg";
 import Alert from "@/assets/icons/alert.svg"
 import PhotoOutline from "@/assets/icons/photo-outline.svg"
 
