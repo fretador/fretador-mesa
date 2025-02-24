@@ -277,7 +277,7 @@ const CargoDetailsSection: React.FC = () => {
               <option value="BIG_BAG">Big Bag</option>
               <option value="CAIXAS">Caixas</option>
               <option value="CONTAINER">Container</option>
-              <option value="DIVERSO">Diversos</option>
+              <option value="DIVERSOS">Diversos</option>
               <option value="FARDOS">Fardos</option>
               <option value="FRACIONADA">Fracionada</option>
               <option value="GRANEL">Granel</option>
