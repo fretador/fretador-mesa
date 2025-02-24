@@ -156,7 +156,14 @@ const FormContainer: React.FC<FormContainerProps> = ({
     setErrors({});
 
     try {
-      const result = await createFreight({ variables: { input: currentValues } });
+      const result = await createFreight({
+        variables: {
+          input: {
+            ...currentValues,
+            boardUser: { id: boardUser?.id ?? "indisponível", name: boardUser?.name, profile: boardUser?.profile }
+          }
+        }
+      });
       setFreightCode(result.data?.createFreight?.freightCode);
       setFreightError(undefined);
       setIsConfirmationFreightModalOpen(true);
@@ -203,8 +210,8 @@ const FormContainer: React.FC<FormContainerProps> = ({
           <ObservationsSection />
           {showFreightSubmissionButton && (
             <FreightSubmissionButton
-            onDirectToDriver={handleDirectToDriver}
-            onCreateOffer={handleCreateOffer}
+              onDirectToDriver={handleDirectToDriver}
+              onCreateOffer={handleCreateOffer}
             />
           )}
           {showEditFreightButton && <EditFreightButton />}
