@@ -98,7 +98,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
     if (currentValues.eligibleBodyworks.every(bodyWork => bodyWork.eligible === false)) {
       newErrors.eligibleBodyworks = 'Você deve selecionar pelo menos uma carroceria elegível.';
     }
-    if (!currentValues.value) newErrors.value = 'Campo de valor do frete não pode ser vazio.';
+    // if (!currentValues.value) newErrors.value = 'Campo de valor do frete não pode ser vazio.';
 
     if (Object.keys(newErrors).length > 0) {
       alert('Por favor, preencha todos os campos obrigatórios!')
@@ -145,7 +145,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
     if (currentValues.eligibleBodyworks.every(bodyWork => bodyWork.eligible === false)) {
       newErrors.eligibleBodyworks = 'Você deve selecionar pelo menos uma carroceria elegível.';
     }
-    if (!currentValues.value) newErrors.value = 'Campo de valor do frete não pode ser vazio.';
+    // if (!currentValues.value) newErrors.value = 'Campo de valor do frete não pode ser vazio.';
 
     if (Object.keys(newErrors).length > 0) {
       alert('Por favor, preencha todos os campos obrigatórios!')
@@ -217,7 +217,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
             {errors.totalWeight && <p className={styles.error}>{errors.totalWeight}</p>}
             {errors.eligibleVehicles && <p className={styles.error}>{errors.eligibleVehicles}</p>}
             {errors.eligibleBodyworks && <p className={styles.error}>{errors.eligibleBodyworks}</p>}
-            {errors.value && <p className={styles.error}>{errors.value}</p>}
+            {/* {errors.value && <p className={styles.error}>{errors.value}</p>} */}
           </div>
         </div>
       </form>

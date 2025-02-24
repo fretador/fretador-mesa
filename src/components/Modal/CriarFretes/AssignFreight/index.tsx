@@ -43,7 +43,7 @@ const AssignFreight: React.FC<AssignFreightProps> = ({
   // Função para transformar os dados dos motoristas
   const transformDrivers = (data: Driver[]): Driver[] => {
     return data.map((driver) => {
-      const firstName = driver.name.split(" ")[0].toLowerCase();
+      const firstName = driver.name ? driver.name.split(" ")[0].toLowerCase() : "Motorista não identificado";
       const generatedEmail = `${firstName}@fretador.com.br`;
       const { agencia, conta, banco } = gerarDadosBancarios(driver.cpf);
       const randomVehicleData = generateRandomVehicleData(driver.cpf);
@@ -155,10 +155,10 @@ const AssignFreight: React.FC<AssignFreightProps> = ({
   const handleConfirm = () => {
     if (selectedDriver?.id) {
       console.log("Motorista selecionado no modal:", selectedDriver.id);
-      
+
       // Chama onConfirm primeiro
       onConfirm([selectedDriver.id]);
-  
+
       // Espera um pequeno tempo para garantir que onConfirm seja processado
       setTimeout(() => {
         onRequestClose();
@@ -166,7 +166,7 @@ const AssignFreight: React.FC<AssignFreightProps> = ({
       }, 100); // 100ms de espera, ajustável conforme necessário
     }
   };
-  
+
 
   return (
     <Modal
