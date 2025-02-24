@@ -16,13 +16,13 @@ jobs:
       - name: 🔑 Configurar SSH na EC2
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa.pub
+          chmod 600 ~/.ssh/id_rsa.pub
           ssh-keyscan -H 54.84.176.75 >> ~/.ssh/known_hosts
 
       - name: 📂 Deploy na EC2
         run: |
-          ssh -i ~/.ssh/id_rsa ubuntu@54.84.176.75 << 'EOF'
+          ssh -i ~/.ssh/id_rsa.pub ubuntu@54.84.176.75 << 'EOF'
             cd ~/projects/fretador-mesa
             git pull origin dev
             yarn install
