@@ -18,11 +18,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2-key
           chmod 600 ~/.ssh/ec2-key
-          ssh-keyscan -H 54.84.176.75 >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.EC2_DEV_IP }} >> ~/.ssh/known_hosts
 
       - name: 📂 Deploy na EC2
         run: |
-          ssh -i ~/.ssh/ec2-key ubuntu@54.84.176.75 << 'EOF'
+          ssh -i ~/.ssh/ec2-key ubuntu@${{ secrets.EC2_DEV_IP }} << 'EOF'
             cd ~/projects/fretador-mesa
             git pull origin dev
             yarn install
