@@ -5,6 +5,7 @@ import { AuthService } from "@/services/authService";
 const httpLink = new HttpLink({
 	uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
 });
+console.log("Url do backend: ", process.env.NEXT_PUBLIC_API_URL);
 
 const authLink = setContext((_, { headers }) => {
 	const token = AuthService.getBoardUserToken();
