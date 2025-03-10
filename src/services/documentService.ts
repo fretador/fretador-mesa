@@ -2,6 +2,7 @@ import { AuthService } from "@/services/authService";
 import { DocumentInput } from "@/utils/Interfaces/DocumentInput";
 import {
 	ADD_DOCUMENTS_TO_FREIGHT,
+	GENERATE_SIGNED_URL,
 	REMOVE_DOCUMENTS_FROM_FREIGHT,
 	UPDATE_DOCUMENTS,
 } from "@/graphql/mutations/documentMutations";
@@ -18,27 +19,32 @@ interface DocumentService {
 
 export const DocumentService: DocumentService = {
 	async uploadDocument(file: File): Promise<string> {
-		const {fileUrl, signedUrl} = await this.generateSignedUrl(file);
+		const { fileUrl, signedUrl } = await this.generateSignedUrl(file);
 		await this.uploadToS3(file, signedUrl);
 		return fileUrl;
 	},
 
-	async generateSignedUrl(file: File): Promise<{fileUrl: string; signedUrl: string}> {
-		const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-		const response = await fetch(
-			`${baseUrl}/file/url?fileName=${encodeURIComponent(
-				file.name
-			)}&fileType=${encodeURIComponent(file.type)}`,
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthService.getBoardUserToken()}`,
+	async generateSignedUrl(
+		file: File
+	): Promise<{ fileUrl: string; signedUrl: string }> {
+		try {
+			const response = await apolloClient.mutate({
+				mutation: GENERATE_SIGNED_URL,
+				variables: {
+					fileName: file.name,
+					fileType: file.type,
 				},
-			}
-		);
-		const data = await response.json();
-		return data;
+				context: {
+					headers: {
+						Authorization: `Bearer ${AuthService.getBoardUserToken()}`,
+					},
+				},
+			});
+			return response.data.generateSignedUrl;
+		} catch (error) {
+			console.error("Erro ao gerar URL assinada:", error);
+			throw error;
+		}
 	},
 
 	async uploadToS3(file: File, url: string): Promise<void> {
