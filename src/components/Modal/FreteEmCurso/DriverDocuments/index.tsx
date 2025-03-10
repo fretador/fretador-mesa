@@ -5,6 +5,8 @@ import Image from "next/image";
 import ImageModal from "../ImageModal";
 import RejectPhoto from "../../AprovacaoCadastroMotorista/RejectPhoto";
 import RequestDocuments from "../../AprovacaoCadastroMotorista/RequestDocuments";
+import { useRouter } from "next/router";
+import { useDocumentsByFreightId } from "@/hooks/document/useDocumentsByFreightId";
 
 interface DriverDocumentsProps {
   isOpen: boolean;
@@ -12,23 +14,14 @@ interface DriverDocumentsProps {
   handleDownloadPdf: () => void
 }
 
-const mockData = [
-  { id: 1, imageSrc: "../../assets/images/doc.jpg", fileName: "documento1.jpg" },
-  { id: 2, imageSrc: "../../assets/images/doc.jpg", fileName: "documento2.jpg" },
-  { id: 3, imageSrc: "../../assets/images/doc.jpg", fileName: "documento3.jpg" },
-  { id: 4, imageSrc: "../../assets/images/doc.jpg", fileName: "documento3.jpg" },
-  { id: 5, imageSrc: "../../assets/images/doc.jpg", fileName: "documento3.jpg" },
-  { id: 6, imageSrc: "../../assets/images/doc.jpg", fileName: "documento3.jpg" },
-];
-
 const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDocumentsProps) => {
-  const [openMenus, setOpenMenus] = useState<number | null>(null);
+  const [openMenus, setOpenMenus] = useState<string | null>(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
-  const [rejectedImages, setRejectedImages] = useState<number[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [rejectedImages, setRejectedImages] = useState<string[]>([]);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageToDisplay, setImageToDisplay] = useState('');
-  const [currentRejectedImageId, setCurrentRejectedImageId] = useState<number | null>(null);
+  const [currentRejectedImageId, setCurrentRejectedImageId] = useState<string | null>(null);
 
   const [downloadImageModalOpen, setDownloadImageModalOpen] = useState(false);
   const [rejectImageModalOpen, setRejectImageModalOpen] = useState(false);
@@ -36,12 +29,18 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
   const [requestDocumentModal, setRequestDocumentModal] = useState(false);
   const [requestDocumentConfirmationModal, setRequestDocumentConfirmationModal] = useState(false);
 
+  const router = useRouter();
+  const freightId = router.query.freightId as string;
+  const { data: documentsData } = useDocumentsByFreightId(freightId);
+  console.log("documentsData: ", documentsData);
+
+
   const handleDownloadImage = () => {
     setOpenMenus(null);
     setDownloadImageModalOpen(!downloadImageModalOpen);
   };
 
-  const handleRejectImage = (id: number) => {
+  const handleRejectImage = (id: string) => {
     setOpenMenus(null);
     setCurrentRejectedImageId(id);
     setRejectImageModalOpen(!rejectImageModalOpen);
@@ -52,11 +51,11 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
     setRequestDocumentModal(!requestDocumentModal);
   };
 
-  const handleMenuToggle = (id: number) => {
+  const handleMenuToggle = (id: string) => {
     setOpenMenus((prev) => (prev === id ? null : id));
   };
 
-  const handleCheckboxChange = (id: number) => {
+  const handleCheckboxChange = (id: string) => {
     setSelectedItems((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
@@ -101,12 +100,12 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
       showButtonOne={!isSelectionMode}
     >
       <div className={styles.cardsContainer}>
-        {mockData.map((item) => (
+        {documentsData?.map((item) => (
           <div key={item.id} className={`${styles.cardContainer} ${
             rejectedImages.includes(item.id) ? styles.rejected : ""
           }`}>
             <div className={styles.imageContainer}>
-              <Image src={item.imageSrc} alt="image" width={74} height={74} />
+              <Image src={item.url} alt="image" width={74} height={74} />
               <div className={styles.menuContainer}>
                 {!isSelectionMode ? (
                   <button
@@ -127,7 +126,7 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
                 )}
                 {openMenus === item.id && !isSelectionMode && (
                   <div className={styles.menu}>
-                    <button className={styles.menuItem} onClick={() => handleOpenImage(item.imageSrc)}>
+                    <button className={styles.menuItem} onClick={() => handleOpenImage(item.url)}>
                       Abrir
                     </button>
                     <button className={styles.menuItem} onClick={handleDownloadImage}>Download</button>
@@ -144,7 +143,7 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
                 )}
               </div>
             </div>
-            <p className={styles.imageDescription}>{item.fileName}</p>
+            <p className={styles.imageDescription}>{item.name}</p>
           </div>
         ))}
       </div>
