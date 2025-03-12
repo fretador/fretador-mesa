@@ -7,6 +7,9 @@ import RejectPhoto from "../../AprovacaoCadastroMotorista/RejectPhoto";
 import RequestDocuments from "../../AprovacaoCadastroMotorista/RequestDocuments";
 import { useRouter } from "next/router";
 import { useDocumentsByFreightId } from "@/hooks/document/useDocumentsByFreightId";
+import { useDocumentController } from "@/controllers/documentController";
+import { StatusDocumentEnum } from "@/utils/enums/statusDocumentEnum";
+import { useAppSelector } from "@/store/store";
 
 interface DriverDocumentsProps {
   isOpen: boolean;
@@ -28,12 +31,61 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
   const [rejectImageConfirmationModal, setRejectImageConfirmationModal] = useState(false);
   const [requestDocumentModal, setRequestDocumentModal] = useState(false);
   const [requestDocumentConfirmationModal, setRequestDocumentConfirmationModal] = useState(false);
-
+  const [rejectMultipleModalOpen, setRejectMultipleModalOpen] = useState(false);
   const router = useRouter();
+  const { updateDocument } = useDocumentController();
   const freightId = router.query.freightId as string;
-  const { data: documentsData } = useDocumentsByFreightId(freightId);
-  console.log("documentsData: ", documentsData);
+  const boardUser = useAppSelector((state) => state.auth.boardUser);
+  const { data: documentsData, refetch } = useDocumentsByFreightId(freightId);
 
+  const handleRejectConfirm = async (documentId: string, reason: string) => {
+    try {
+      const senderData = {
+        id: boardUser?.id,
+        name: boardUser?.name,
+        profile: boardUser?.profile
+      };
+      const senderString = JSON.stringify(senderData);
+      if (boardUser?.id) {
+        await updateDocument([documentId], {
+          status: StatusDocumentEnum.DENIED,
+          message: reason,
+          sender: senderString
+        });
+      }
+      await refetch();
+      setRejectImageConfirmationModal(true);
+    } catch (error) {
+      console.error("Erro ao rejeitar documento:", error);
+    }
+  };
+
+  const handleRejectMultipleConfirm = async (reason: string) => {
+    try {
+      const senderData = {
+        id: boardUser?.id,
+        name: boardUser?.name,
+        profile: boardUser?.profile
+      };
+      const senderString = JSON.stringify(senderData);
+
+      if (boardUser?.id && selectedItems.length > 0) {
+        await updateDocument(selectedItems, {
+          status: StatusDocumentEnum.DENIED,
+          message: reason,
+          sender: senderString
+        });
+
+        // Resetar estados após sucesso
+        setSelectedItems([]);
+        setIsSelectionMode(false);
+        await refetch();
+        setRejectImageConfirmationModal(true);
+      }
+    } catch (error) {
+      console.error("Erro ao rejeitar documentos:", error);
+    }
+  };
 
   const handleDownloadImage = () => {
     setOpenMenus(null);
@@ -101,11 +153,9 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
     >
       <div className={styles.cardsContainer}>
         {documentsData?.map((item) => (
-          <div key={item.id} className={`${styles.cardContainer} ${
-            rejectedImages.includes(item.id) ? styles.rejected : ""
-          }`}>
+          <div className={`${styles.cardContainer} ${item.status === StatusDocumentEnum.DENIED ? styles.rejected : ""}`} key={item.id}>
             <div className={styles.imageContainer}>
-              <Image src={item.url} alt="image" width={74} height={74} />
+              <Image src={item.url} alt="image" width={74} height={74}/>
               <div className={styles.menuContainer}>
                 {!isSelectionMode ? (
                   <button
@@ -130,7 +180,7 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
                       Abrir
                     </button>
                     <button className={styles.menuItem} onClick={handleDownloadImage}>Download</button>
-                    {!rejectedImages.includes(item.id) && (
+                    {item.status !== StatusDocumentEnum.DENIED && (
                       <button
                         className={styles.menuItem}
                         onClick={() => handleRejectImage(item.id)}
@@ -152,7 +202,12 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
         <div className={styles.buttons}>
           <button
             className={styles.rejectButton}
-            onClick={() => console.log('Rejeitou')}
+            onClick={() => {
+              if (selectedItems.length > 0) {
+                setRejectMultipleModalOpen(true);
+              }
+            }}
+            disabled={selectedItems.length === 0}
           >
             Rejeitar
           </button>
@@ -178,14 +233,25 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
       <RejectPhoto
         isOpen={rejectImageModalOpen}
         onRequestClose={() => setRejectImageModalOpen(!rejectImageModalOpen)}
-        handleConfirm={() => {
+        handleConfirm={(reason) => {
           if (currentRejectedImageId !== null) {
             setRejectedImages((prev) => [...prev, currentRejectedImageId]);
+            handleRejectConfirm(currentRejectedImageId, reason);
           }
           setRejectImageModalOpen(!rejectImageModalOpen);
           setRejectImageConfirmationModal(!rejectImageConfirmationModal);
         }}
         handleCancel={() => setRejectImageModalOpen(!rejectImageModalOpen)}
+      />
+
+      <RejectPhoto
+        isOpen={rejectMultipleModalOpen}
+        onRequestClose={() => setRejectMultipleModalOpen(false)}
+        handleConfirm={(reason) => {
+          handleRejectMultipleConfirm(reason);
+          setRejectMultipleModalOpen(false);
+        }}
+        handleCancel={() => setRejectMultipleModalOpen(false)}
       />
 
       <Modal
