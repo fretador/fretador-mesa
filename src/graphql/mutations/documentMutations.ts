@@ -33,19 +33,22 @@ export const REMOVE_DOCUMENTS_FROM_FREIGHT = gql`
 `;
 
 export const UPDATE_DOCUMENTS = gql`
-  mutation UpdateDocuments($freightId: ID!, $documentUpdates: [DocumentUpdateInput!]!) {
-    UpdateDocuments(freightId: $freightId, documentUpdates: $documentUpdates) {
-      id
-      name
-      type
-      url
-      sender
-      message
-      dateOfSubmission
-      status
-      lastUpdated
-    }
-  }
+	mutation UpdateDocuments(
+		$freightId: ID!
+		$documentUpdates: [DocumentUpdateInput!]!
+	) {
+		updateDocuments(freightId: $freightId, documentUpdates: $documentUpdates) {
+			id
+			name
+			type
+			url
+			sender
+			message
+			dateOfSubmission
+			status
+			lastUpdated
+		}
+	}
 `;
 
 export const GENERATE_SIGNED_URL = gql`
