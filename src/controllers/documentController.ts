@@ -2,7 +2,8 @@ import { useCallback, useState } from "react";
 import { DocumentService } from "@/services/documentService";
 import { useRouter } from "next/router";
 import { AuthService } from "@/services/authService";
-import { DocumentInput } from "@/utils/Interfaces/DocumentInput";
+import { StatusDocumentEnum } from "@/utils/enums/statusDocumentEnum";
+import { DocumentUpdateInput } from "@/utils/Interfaces/DocumentUpdateInput";
 
 interface DocumentController {
   uploadDocuments: (
@@ -10,7 +11,7 @@ interface DocumentController {
   ) => Promise<void>;
   updateDocument: (
     documentIds: string[],
-    updates: Partial<DocumentInput>
+    updates: Partial<DocumentUpdateInput>
   ) => Promise<void>;
   removeDocuments: (documentIds: string[]) => Promise<void>;
   processingStatus: string;
@@ -39,7 +40,8 @@ export const useDocumentController = (): DocumentController => {
               name: files[index].name,
               url,
               type: files[index].type,
-              sender: name,
+							sender: name,
+							status: StatusDocumentEnum.WAITING
             }))
           );
         } catch (error) {
@@ -61,16 +63,12 @@ export const useDocumentController = (): DocumentController => {
   );
 
   const updateDocument = useCallback(
-    async (documentIds: string[], updates: Partial<DocumentInput>) => {
+    async (documentIds: string[], updates: Partial<DocumentUpdateInput>) => {
       setProcessingStatus(`Atualizando documentos...`);
-      const updatedDocuments: DocumentInput[] = documentIds.map(
+      const updatedDocuments: DocumentUpdateInput[] = documentIds.map(
         (documentId) => ({
           ...updates,
-          name: updates.name ?? "",
-          type: updates.type ?? "",
-          url: updates.url ?? "",
           sender: updates.sender ?? "",
-          message: updates.message ?? "",
           id: documentId,
         })
       );
