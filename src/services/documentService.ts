@@ -10,24 +10,27 @@ import apolloClient from "@/app/apolloClient";
 import { DocumentUpdateInput } from "@/utils/Interfaces/DocumentUpdateInput";
 
 interface DocumentService {
-  uploadDocument(file: File): Promise<string>;
-  generateSignedUrl(file: File): Promise<{fileUrl: string; signedUrl: string}>;
-  uploadToS3(file: File, url: string): Promise<void>;
-  addDocuments(freightId: string, documents: DocumentInput[]): Promise<any>;
-  removeDocuments(freightId: string, documentIds: string[]): Promise<any>;
-  updateDocuments(freightId: string, documentUpdates: DocumentUpdateInput[]): Promise<any>;
+	uploadDocument(file: File): Promise<string>;
+	generateSignedUrl(file: File): Promise<{ s3Key: string; signedUrl: string }>;
+	uploadToS3(file: File, url: string): Promise<void>;
+	addDocuments(freightId: string, documents: DocumentInput[]): Promise<any>;
+	removeDocuments(freightId: string, documentIds: string[]): Promise<any>;
+	updateDocuments(
+		freightId: string,
+		documentUpdates: DocumentUpdateInput[]
+	): Promise<any>;
 }
 
 export const DocumentService: DocumentService = {
 	async uploadDocument(file: File): Promise<string> {
-		const { fileUrl, signedUrl } = await this.generateSignedUrl(file);
+		const { s3Key, signedUrl } = await this.generateSignedUrl(file);
 		await this.uploadToS3(file, signedUrl);
-		return fileUrl;
+		return s3Key;
 	},
 
 	async generateSignedUrl(
 		file: File
-	): Promise<{ fileUrl: string; signedUrl: string }> {
+	): Promise<{ s3Key: string; signedUrl: string }> {
 		try {
 			const response = await apolloClient.mutate({
 				mutation: GENERATE_SIGNED_URL,
@@ -74,7 +77,10 @@ export const DocumentService: DocumentService = {
 		return response.data.removeDocumentsFromFreight;
 	},
 
-	async updateDocuments(freightId: string, documentUpdates: DocumentUpdateInput[]) {
+	async updateDocuments(
+		freightId: string,
+		documentUpdates: DocumentUpdateInput[]
+	) {
 		const response = await apolloClient.mutate({
 			mutation: UPDATE_DOCUMENTS,
 			variables: { freightId, documentUpdates },

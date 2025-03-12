@@ -54,7 +54,7 @@ export const UPDATE_DOCUMENTS = gql`
 export const GENERATE_SIGNED_URL = gql`
 	mutation GenerateSignedUrl($fileName: String!, $fileType: String!) {
 		generateSignedUrl(fileName: $fileName, fileType: $fileType) {
-			fileUrl
+			s3Key
 			signedUrl
 		}
 	}

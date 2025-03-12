@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import { useDocumentsByFreightId } from "@/hooks/document/useDocumentsByFreightId";
 import { useDocumentController } from "@/controllers/documentController";
 import { StatusDocumentEnum } from "@/utils/enums/statusDocumentEnum";
-import { AuthService } from "@/services/authService";
 import { useAppSelector } from "@/store/store";
 
 interface DriverDocumentsProps {
@@ -154,8 +153,7 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
     >
       <div className={styles.cardsContainer}>
         {documentsData?.map((item) => (
-          <div className={`${styles.cardContainer} ${item.status === StatusDocumentEnum.DENIED ? styles.rejected : ""
-            }`}>
+          <div className={`${styles.cardContainer} ${item.status === StatusDocumentEnum.DENIED ? styles.rejected : ""}`} key={item.id}>
             <div className={styles.imageContainer}>
               <Image src={item.url} alt="image" width={74} height={74}/>
               <div className={styles.menuContainer}>
