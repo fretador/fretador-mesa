@@ -7,6 +7,7 @@ import {
 	UPDATE_DOCUMENTS,
 } from "@/graphql/mutations/documentMutations";
 import apolloClient from "@/app/apolloClient";
+import { DocumentUpdateInput } from "@/utils/Interfaces/DocumentUpdateInput";
 
 interface DocumentService {
   uploadDocument(file: File): Promise<string>;
@@ -14,7 +15,7 @@ interface DocumentService {
   uploadToS3(file: File, url: string): Promise<void>;
   addDocuments(freightId: string, documents: DocumentInput[]): Promise<any>;
   removeDocuments(freightId: string, documentIds: string[]): Promise<any>;
-  updateDocuments(freightId: string, documentUpdates: DocumentInput[]): Promise<any>;
+  updateDocuments(freightId: string, documentUpdates: DocumentUpdateInput[]): Promise<any>;
 }
 
 export const DocumentService: DocumentService = {
@@ -73,7 +74,7 @@ export const DocumentService: DocumentService = {
 		return response.data.removeDocumentsFromFreight;
 	},
 
-	async updateDocuments(freightId: string, documentUpdates: DocumentInput[]) {
+	async updateDocuments(freightId: string, documentUpdates: DocumentUpdateInput[]) {
 		const response = await apolloClient.mutate({
 			mutation: UPDATE_DOCUMENTS,
 			variables: { freightId, documentUpdates },
