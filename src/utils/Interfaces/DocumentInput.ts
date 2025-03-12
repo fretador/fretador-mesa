@@ -1,4 +1,4 @@
-import { UpdateDataTypeEnum } from "../enums/updateDataTypeEnum";
+import { StatusDocumentEnum } from "../enums/statusDocumentEnum";
 
 export interface DocumentInput {
 	name: string;
@@ -6,4 +6,5 @@ export interface DocumentInput {
 	url: string;
 	sender: string;
 	message?: string;
+	status?: StatusDocumentEnum;
 }
