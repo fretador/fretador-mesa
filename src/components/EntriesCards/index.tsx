@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import styles from "./EntriesCards.module.css";
 import Loading from "../Loading";
 import EntriesCard from "../EntriesCard";
-import { Freight } from '@/utils/Interfaces/Freight';
+import { Freight } from '@/utils/interfaces/Freight';
 import { useRouter } from "next/router";
 import SmallLoading from "../SmallLoading";
 

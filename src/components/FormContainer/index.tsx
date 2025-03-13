@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useAppSelector } from "@/store/store";
-import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
+import { CreateFreightInput } from "@/utils/interfaces/inputs/CreateFreightInput";
 import PickupDeliverySection from "@/components/FormContainer/PickupDeliverySection";
 import CargoDetailsSection from "@/components/FormContainer/CargoDetailsSection";
 import FreightSubmissionButton from "@/components/FormContainer/FreightSubmissionButton";

@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { GET_OCCURRENCES } from "@/graphql/queries/occurrenceQueries";
-import { Occurrence } from "@/utils/Interfaces/Occurrence";
-import { OccurrenceFilterInput } from "@/utils/Interfaces/OccurrenceFilterInput";
+import { Occurrence } from "@/utils/interfaces/Occurrence";
+import { OccurrenceFilterInput } from "@/utils/interfaces/inputs/OccurrenceFilterInput";
 
 interface GetOccurrencesData {
 	occurrences: {

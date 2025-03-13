@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./DriverAndOwnerDetails.module.css";
 import { LogoWhatsAppIcon, PencilSolidIcon } from "@/utils/icons";
 import ActionButtons from "../ActionButtons";
-import { Driver } from "@/utils/Interfaces/Driver";
+import { Driver } from "@/utils/interfaces/Driver";
 
 interface DriverAndOwnerDetailsProps {
   driver: Driver;

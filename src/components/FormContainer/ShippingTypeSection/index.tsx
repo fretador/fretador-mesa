@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
+import { CreateFreightInput } from "@/utils/interfaces/inputs/CreateFreightInput";
 import { ShippingType } from "@/utils/enums/shippingTypeEnum";
 import styles from "./ShippingTypeSection.module.css";
 import { RadioTrueIcon, RadioFalseIcon } from "@/utils/icons";

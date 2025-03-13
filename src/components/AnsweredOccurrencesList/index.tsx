@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Loading from "../Loading";
 import RowTitle from "../RowTitle";
 import { Row } from "../Row";
-import { Occurrence } from "@/utils/Interfaces/Occurrence";
+import { Occurrence } from "@/utils/interfaces/Occurrence";
 import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum";
 import { occurrenceStatusLabels } from "@/utils/labels/occurrenceStatusLabels";
 import { occurrenceTypeLabels } from "@/utils/labels/occurrenceTypeLabels";

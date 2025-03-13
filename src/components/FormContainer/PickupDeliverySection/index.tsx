@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
+import { CreateFreightInput } from "@/utils/interfaces/inputs/CreateFreightInput";
 import styles from "./PickupDeliverySection.module.css";
 import OriginAndDestiny from "@/components/Modal/CriarFretes/OriginAndDestiny";
 

@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { GET_FREIGHTS } from "@/graphql/queries/freightQueries";
-import { Freight } from "@/utils/Interfaces/Freight";
-import { FreightFilters } from "@/utils/Interfaces/FreightFilters";
+import { Freight } from "@/utils/interfaces/Freight";
+import { FreightFilters } from "@/utils/interfaces/FreightFilters";
 
 interface GetFreightsData {
 	freights: {

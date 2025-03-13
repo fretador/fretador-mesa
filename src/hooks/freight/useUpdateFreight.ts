@@ -1,8 +1,8 @@
 import { useMutation } from "@apollo/client";
 import { UPDATE_FREIGHT } from "@/graphql/mutations/freightMutations";
 import { GET_FREIGHT_BY_ID } from "@/graphql/queries/freightQueries";
-import { UpdateFreightInput } from "@/utils/Interfaces/UpdateFreightInput";
-import { Freight } from "@/utils/Interfaces/Freight";
+import { UpdateFreightInput } from "@/utils/interfaces/inputs/UpdateFreightInput";
+import { Freight } from "@/utils/interfaces/Freight";
 
 interface UpdateFreightData {
 	updateFreight: Freight;

@@ -5,7 +5,7 @@ import { CargoLoadType } from "@/utils/enums/cargoLoadTypeEnum";
 import { Type } from "@/utils/enums/typeEnum";
 import { updateFreightSchema } from "@/utils/validations/updateFreightSchema";
 import FreightForm from "../FreightForm";
-import { Freight } from "@/utils/Interfaces/Freight";
+import { Freight } from "@/utils/interfaces/Freight";
 
 interface EditFreightFormProps {
   initialData?: Freight;

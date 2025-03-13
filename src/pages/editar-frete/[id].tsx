@@ -5,12 +5,12 @@ import Sidebar from "@/components/Sidebar";
 import { useAppSelector } from "@/store/store";
 import Header from "@/components/Header";
 import Body from "@/components/Body";
-import { UpdateFreightInput } from "@/utils/Interfaces/UpdateFreightInput";
+import { UpdateFreightInput } from "@/utils/interfaces/inputs/UpdateFreightInput";
 import EditFreightForm from "@/components/EditFreightForm";
 import { useEffect, useState } from "react";
 import { useFreightById } from "@/hooks/freight/useFreightById";
 import { useUpdateFreight } from "@/hooks/freight/useUpdateFreight";
-import { Freight } from "@/utils/Interfaces/Freight";
+import { Freight } from "@/utils/interfaces/Freight";
 import SmallLoading from "@/components/SmallLoading";
 import { UpdateDataTypeEnum } from '@/utils/enums/updateDataTypeEnum';
 

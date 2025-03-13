@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import styles from "./DriverHistory.module.css";
 import RowTitle from "../RowTitle";
 import { Row } from "../Row";
-import { Driver } from "@/utils/Interfaces/Driver";
+import { Driver } from "@/utils/interfaces/Driver";
 import { GET_FREIGHTS_BY_USER_ID } from "@/graphql/queries";
 import { useQuery } from "@apollo/client";
 import RowRoot from "../Row/RowRoot";

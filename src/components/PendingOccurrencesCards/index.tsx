@@ -4,7 +4,7 @@ import styles from './PendingOccurrencesCards.module.css';
 import Loading from "../Loading";
 import { useRouter } from "next/router";
 import PendingOccurrencesCard from "../PendingOccurrencesCard";
-import { Occurrence } from "@/utils/Interfaces/Occurrence";
+import { Occurrence } from "@/utils/interfaces/Occurrence";
 import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum"
 import { occurrenceTypeLabels } from "@/utils/labels/occurrenceTypeLabels";
 import SmallLoading from "../SmallLoading";

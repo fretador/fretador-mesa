@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./FreightStep.module.css";
 import Botao from "../Botao";
 import { AttachmentDarkIcon, AttachmentLightIcon } from "@/utils/icons";
-import { UpdateData } from "@/utils/Interfaces/UpdateData";
+import { UpdateData } from "@/utils/interfaces/UpdateData";
 import { formatDate } from "@/utils/dates";
 
 interface BaseFreightStepProps {

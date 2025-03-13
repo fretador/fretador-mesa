@@ -12,7 +12,7 @@ import DriverAndOwnerDetails from "@/components/DriverApproval/DriverAndOwnerDet
 import VehicleDetails from "@/components/DriverApproval/VehicleDetails";
 import Attachments from "@/components/DriverApproval/Attachments";
 import ActionButtons from "@/components/DriverApproval/ActionButtons";
-import { Driver } from "@/utils/Interfaces/Driver";
+import { Driver } from "@/utils/interfaces/Driver";
 import { useQuery } from "@apollo/client";
 import { GET_DRIVER_BY_ID } from "@/graphql/queries/driverQueries";
 import { gerarDadosBancarios } from "@/utils/mocks/bankDataGenerator";

@@ -4,7 +4,7 @@ import { DocumentService } from "@/services/documentService";
 import { useRouter } from "next/router";
 import { AuthService } from "@/services/authService";
 import { StatusDocumentEnum } from "@/utils/enums/statusDocumentEnum";
-import { DocumentUpdateInput } from "@/utils/Interfaces/DocumentUpdateInput";
+import { DocumentUpdateInput } from "@/utils/interfaces/inputs/DocumentUpdateInput";
 import { FreightDocumentTypeEnum } from "@/utils/enums/freightDocumentTypeEnum";
 
 interface DocumentController {

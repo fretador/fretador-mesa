@@ -1,5 +1,5 @@
 import { AuthService } from "@/services/authService";
-import { DocumentInput } from "@/utils/Interfaces/DocumentInput";
+import { DocumentInput } from "@/utils/interfaces/inputs/DocumentInput";
 import {
 	ADD_DOCUMENTS_TO_FREIGHT,
 	GENERATE_SIGNED_URL,
@@ -7,7 +7,7 @@ import {
 	UPDATE_DOCUMENTS,
 } from "@/graphql/mutations/documentMutations";
 import apolloClient from "@/app/apolloClient";
-import { DocumentUpdateInput } from "@/utils/Interfaces/DocumentUpdateInput";
+import { DocumentUpdateInput } from "@/utils/interfaces/inputs/DocumentUpdateInput";
 
 interface DocumentService {
 	uploadDocument(file: File): Promise<string>;

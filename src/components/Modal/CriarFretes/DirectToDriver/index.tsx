@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../..";
 import { useFormContext } from "react-hook-form";
-import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
+import { CreateFreightInput } from "@/utils/interfaces/inputs/CreateFreightInput";
 import styles from "./DirectToDriver.module.css";
 import SmallLoading from "@/components/SmallLoading";
 

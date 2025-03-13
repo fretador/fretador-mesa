@@ -1,5 +1,5 @@
-import { FreightDocumentTypeEnum } from "../enums/freightDocumentTypeEnum";
-import { StatusDocumentEnum } from "../enums/statusDocumentEnum";
+import { FreightDocumentTypeEnum } from "../../enums/freightDocumentTypeEnum";
+import { StatusDocumentEnum } from "../../enums/statusDocumentEnum";
 
 export interface DocumentInput {
 	name: string;

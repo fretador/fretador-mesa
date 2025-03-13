@@ -1,4 +1,4 @@
-import { BoardUser } from "./BoardUser";
+import { BoardUser } from "../BoardUser";
 
 export interface UpdateFinancialFreightInput {
 	boardUser?: BoardUser;

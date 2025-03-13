@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { GET_FREIGHT_DAILY_FLOW } from '@/graphql/queries/graphQueries';
 import { PieChart } from '@mui/x-charts/PieChart';
 import styles from './DailyFlow.module.css';
-import { GetFreightDailyFlowData } from '@/utils/Interfaces/GraphTypes';
+import { GetFreightDailyFlowData } from '@/utils/interfaces/GraphTypes';
 import Loading from '@/components/Loading';
 import SmallLoading from '@/components/SmallLoading';
 

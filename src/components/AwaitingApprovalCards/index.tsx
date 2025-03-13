@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Driver } from "@/utils/Interfaces/Driver";
+import { Driver } from "@/utils/interfaces/Driver";
 import styles from "./AwaitingApprovalList.module.css";
 import AwaitingApprovalCard from "../AwaitingApprovalCard";
 import SmallLoading from "../SmallLoading";

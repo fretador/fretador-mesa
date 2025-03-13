@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import AuthenticatedLayout from "../AuthenticatedLayout";
 import { useAppSelector } from "@/store/store";
 import SmallLoading from "../SmallLoading";
-import { Occurrence } from "@/utils/Interfaces/Occurrence";
+import { Occurrence } from "@/utils/interfaces/Occurrence";
 import { Playicon } from "@/utils/icons";
 import { removeTypename } from "@/utils/removeTypename";
 import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum";

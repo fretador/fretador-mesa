@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { UPDATE_OCCURRENCE } from "@/graphql/mutations/occurrenceMutations";
-import { UpdateOccurrenceInput } from "@/utils/Interfaces/UpdateOccurrenceInput";
-import { Occurrence } from "@/utils/Interfaces/Occurrence";
+import { UpdateOccurrenceInput } from "@/utils/interfaces/inputs/UpdateOccurrenceInput";
+import { Occurrence } from "@/utils/interfaces/Occurrence";
 import { GET_OCCURRENCE_BY_ID } from "../../graphql/queries/occurrenceQueries";
 
 interface UpdateOccurrenceData {

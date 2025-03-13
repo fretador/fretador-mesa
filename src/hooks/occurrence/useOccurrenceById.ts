@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { GET_OCCURRENCE_BY_ID } from "@/graphql/queries/occurrenceQueries";
-import { Occurrence } from "@/utils/Interfaces/Occurrence";
+import { Occurrence } from "@/utils/interfaces/Occurrence";
 
 interface GetOccurrenceByIdData {
 	occurrence: Occurrence;

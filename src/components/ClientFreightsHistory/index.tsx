@@ -3,7 +3,7 @@ import styles from "./ClientFreightsHistory.module.css";
 import { useRouter } from "next/router";
 import { Row } from "@/components/Row";
 import RowTitle from "@/components/RowTitle";
-import { Client } from "@/utils/Interfaces/Client";
+import { Client } from "@/utils/interfaces/Client";
 import { useQuery } from '@apollo/client';
 import { GET_CLIENT_SHIPMENTS } from '@/graphql/queries';
 import SmallLoading from "@/components/SmallLoading";

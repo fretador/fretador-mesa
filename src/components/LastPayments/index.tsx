@@ -4,7 +4,7 @@ import styles from "./LastPaymentsList.module.css";
 import RowTitle from "../RowTitle";
 import { paymentTypeLabels } from '@/utils/labels/paymentTypeLabels';
 import { formatDateTime } from "@/utils/dates";
-import { Freight } from '@/utils/Interfaces/Freight';
+import { Freight } from '@/utils/interfaces/Freight';
 import { useRouter } from "next/router";
 import SmallLoading from "../SmallLoading";
 
