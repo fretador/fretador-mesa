@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./SidebarCompHeader.module.css";
 import { useAppSelector } from "@/store/store";
 import FretadorIcon from "@/assets/src/images/fretadorIcon.svg";
-import { BoardUser } from "@/utils/Interfaces/BoardUser";
+import { BoardUser } from "@/utils/interfaces/BoardUser";
 import CustomImage from "@/components/CustomImage";
 
 interface SidebarCompHeaderProps {

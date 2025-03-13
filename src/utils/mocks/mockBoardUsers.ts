@@ -1,4 +1,4 @@
-import { BoardUser } from "@/utils/Interfaces/BoardUser";
+import { BoardUser } from "@/utils/interfaces/BoardUser";
 import { BoardUserProfile } from "../enums/boardUserProfileEnums";
 
 const today = "2024-08-09T12:00:00Z";

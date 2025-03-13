@@ -14,7 +14,7 @@ import { formatDateToBrazilian } from "@/utils/dates";
 import { formatCurrency } from "@/utils/currency";
 import { UpdateDataTypeEnum } from "@/utils/enums/updateDataTypeEnum";
 import SmallLoading from "@/components/SmallLoading";
-import { Payment } from "@/utils/Interfaces/Payment";
+import { Payment } from "@/utils/interfaces/Payment";
 import { useFinancialFreightById } from "@/hooks/financial/useFinancialFreightById";
 import { useUpdateStatusFinancialFreight } from "@/hooks/financial/useUpdateStatusFinancialFreight";
 import PaymentNotificationModal from "@/components/Modal/Financeiro/PaymentNotificationModal";

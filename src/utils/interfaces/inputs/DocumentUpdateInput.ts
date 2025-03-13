@@ -1,4 +1,4 @@
-import { StatusDocumentEnum } from "../enums/statusDocumentEnum";
+import { StatusDocumentEnum } from "../../enums/statusDocumentEnum";
 
 export interface DocumentUpdateInput {
 	id: string;

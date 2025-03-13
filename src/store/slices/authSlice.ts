@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BoardUser } from "@/utils/Interfaces/BoardUser";
+import { BoardUser } from "@/utils/interfaces/BoardUser";
 import { storageHelper } from "@/utils/helpers/storageHelper";
 
 interface AuthState {

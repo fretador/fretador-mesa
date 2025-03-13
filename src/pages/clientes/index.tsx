@@ -11,9 +11,9 @@ import { Row } from "@/components/Row";
 import RowTitle from "@/components/RowTitle";
 import { useQuery } from "@apollo/client";
 import { GET_CLIENTS } from "@/graphql/queries";
-import { Client } from "@/utils/Interfaces/Client";
-import { ClientNode } from "@/utils/Interfaces/ClientNode";
-import { ClientFilterInput } from "@/utils/Interfaces/ClientFilterInput";
+import { Client } from "@/utils/interfaces/Client";
+import { ClientNode } from "@/utils/interfaces/ClientNode";
+import { ClientFilterInput } from "@/utils/interfaces/inputs/ClientFilterInput";
 import Loading from "@/components/Loading";
 import SmallLoading from "@/components/SmallLoading";
 

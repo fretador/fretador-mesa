@@ -1,9 +1,9 @@
-import { VehicleCategory, VehicleType } from "../enums/vehicleEnums";
-import { BodyworkCategory, BodyworkType } from "../enums/bodyworkEnums";
-import { CargoLoadType } from "../enums/cargoLoadTypeEnum";
-import { CargoType } from "../enums/cargoTypeEnum";
-import { Type } from "../enums/typeEnum";
-import { BoardUser } from "./BoardUser";
+import { VehicleCategory, VehicleType } from "../../enums/vehicleEnums";
+import { BodyworkCategory, BodyworkType } from "../../enums/bodyworkEnums";
+import { CargoLoadType } from "../../enums/cargoLoadTypeEnum";
+import { CargoType } from "../../enums/cargoTypeEnum";
+import { Type } from "../../enums/typeEnum";
+import { BoardUser } from "../BoardUser";
 
 export interface UpdateFreightInput {
 	pickupDeliveryData?: string;

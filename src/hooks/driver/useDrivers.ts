@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { GET_DRIVERS_QUERY } from "@/graphql/queries/driverQueries";
-import { Driver } from "@/utils/Interfaces/Driver";
-import { DriverFilters } from "@/utils/Interfaces/DriverFilters";
+import { Driver } from "@/utils/interfaces/Driver";
+import { DriverFilters } from "@/utils/interfaces/DriverFilters";
 
 interface GetDriversData {
 	drivers: {

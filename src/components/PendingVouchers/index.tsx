@@ -3,7 +3,7 @@ import { GET_PENDING_APPROVAL_FREIGHTS } from '@/graphql/queries/graphQueries';
 import RowPendingVouchers from './RowPendingVouchers';
 import { ArrowRightIcon } from '@/utils/icons';
 import styles from './PendingVouchers.module.css';
-import { GetPendingApprovalFreightsData } from '@/utils/Interfaces/GraphTypes';
+import { GetPendingApprovalFreightsData } from '@/utils/interfaces/GraphTypes';
 import Loading from '../Loading';
 import SmallLoading from '../SmallLoading';
 

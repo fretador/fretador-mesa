@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useState } from "react";
 import styles from "./Attachments.module.css";
 import Image from "next/image";
-import { DriverAttachments } from '@/utils/Interfaces/DriverAttachments';
+import { DriverAttachments } from '@/utils/interfaces/DriverAttachments';
 import ImageModal from "@/components/Modal/FreteEmCurso/ImageModal";
 import Modal from "@/components/Modal";
 import RejectPhoto from "@/components/Modal/AprovacaoCadastroMotorista/RejectPhoto";

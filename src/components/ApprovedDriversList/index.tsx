@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row } from "../Row";
-import { Driver } from "@/utils/Interfaces/Driver";
+import { Driver } from "@/utils/interfaces/Driver";
 import styles from "./ApprovedDriversList.module.css";
 import RowTitle from "../RowTitle";
 import SmallLoading from "../SmallLoading";

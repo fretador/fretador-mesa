@@ -11,7 +11,7 @@ import EntriesCards from "@/components/EntriesCards";
 import LastPaymentsList from "@/components/LastPayments";
 import FinancialFilter from "@/components/FinancialFilter";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
-import { FinancialFilterInput } from "@/utils/Interfaces/FinancialFilterInput";
+import { FinancialFilterInput } from "@/utils/interfaces/inputs/FinancialFilterInput";
 import { useFinancialFreights } from "@/hooks/financial/useFinancialFreights";
 import { BoardUserProfile } from "@/utils/enums/boardUserProfileEnums";
 

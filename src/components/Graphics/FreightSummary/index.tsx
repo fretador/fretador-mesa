@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { GET_FREIGHT_STATISTICS } from '@/graphql/queries/graphQueries';
 import { PieChart } from '@mui/x-charts/PieChart';
 import styles from './FreightSummary.module.css';
-import { GetFreightStatisticsData } from '@/utils/Interfaces/GraphTypes';
+import { GetFreightStatisticsData } from '@/utils/interfaces/GraphTypes';
 import Loading from '@/components/Loading';
 import SmallLoading from '@/components/SmallLoading';
 

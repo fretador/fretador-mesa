@@ -1,6 +1,6 @@
 import React, { useEffect, useState, KeyboardEvent } from "react";
 import styles from "./AssignFreight.module.css";
-import { Driver } from "@/utils/Interfaces/Driver";
+import { Driver } from "@/utils/interfaces/Driver";
 import { useLazyQuery } from "@apollo/client";
 import { GET_DRIVERS_QUERY } from "@/graphql/queries/driverQueries";
 import { gerarDadosBancarios } from "@/utils/mocks/bankDataGenerator";
@@ -8,7 +8,7 @@ import {
   generateRandomPlate,
   generateRandomVehicleData,
 } from "@/utils/mocks/vehicleDataGenerator";
-import { DriverNode } from "@/utils/Interfaces/DriverNode";
+import { DriverNode } from "@/utils/interfaces/DriverNode";
 import SmallLoading from "@/components/SmallLoading";
 import Modal from "../..";
 

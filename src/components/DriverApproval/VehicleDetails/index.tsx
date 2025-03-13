@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./VehicleDetails.module.css";
 import { PencilSolidIcon } from "@/utils/icons";
-import { Vehicle } from "@/utils/Interfaces/Vehicle";
+import { Vehicle } from "@/utils/interfaces/Vehicle";
 
 interface VehicleDetailsProps {
   vehicle: Vehicle

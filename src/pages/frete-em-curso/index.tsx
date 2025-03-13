@@ -13,13 +13,13 @@ import FreightStep from "@/components/FreightStep";
 import SmallLoading from "@/components/SmallLoading";
 import { FreightStatus } from "@/utils/enums/freightStatusEnum";
 import { getStageFromStatus } from "@/utils/getStageFromStatusFreight";
-import { Freight } from "@/utils/Interfaces/Freight";
+import { Freight } from "@/utils/interfaces/Freight";
 import { Type } from "@/utils/enums/typeEnum";
 import FreightInCourseOptions from "@/components/FreightInCourseOptions";
 import LocationMap from "@/components/LocationMap";
 import { useFreightById } from "@/hooks/freight/useFreightById";
 import { getNextStatus, getStatusText } from "@/utils/freightStatusHelpers";
-import { UpdateData } from "@/utils/Interfaces/UpdateData";
+import { UpdateData } from "@/utils/interfaces/UpdateData";
 
 interface FreightInProgressProps {
   freightId: string;

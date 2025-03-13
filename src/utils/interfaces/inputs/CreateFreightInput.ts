@@ -1,10 +1,10 @@
-import { CargoLoadType } from "../enums/cargoLoadTypeEnum";
-import { CargoType } from "../enums/cargoTypeEnum";
-import { ShippingType } from "../enums/shippingTypeEnum";
-import { Type } from "../enums/typeEnum";
-import { EligibleVehicle } from "./EligibleVehicle";
-import { EligibleBodywork } from "./EligibleBodywork";
-import { BoardUser } from "./BoardUser";
+import { CargoLoadType } from "../../enums/cargoLoadTypeEnum";
+import { CargoType } from "../../enums/cargoTypeEnum";
+import { ShippingType } from "../../enums/shippingTypeEnum";
+import { Type } from "../../enums/typeEnum";
+import { EligibleVehicle } from "../EligibleVehicle";
+import { EligibleBodywork } from "../EligibleBodywork";
+import { BoardUser } from "../BoardUser";
 
 export interface CreateFreightInput {
 	pickupDeliveryData: string;

@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { GET_DOCUMENTS_BY_FREIGHT_ID } from "@/graphql/queries/documentQueries";
-import { Document } from "@/utils/Interfaces/Document";
+import { Document } from "@/utils/interfaces/Document";
 
 interface GetDocumentsByFreightIdData {
 	getDocumentsByFreightId: Document[];

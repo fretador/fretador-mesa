@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { GET_FREIGHTS_FOR_FINANCIAL } from "@/graphql/queries/financialQueries";
-import { Freight } from "@/utils/Interfaces/Freight";
-import { FinancialFilterInput } from "@/utils/Interfaces/FinancialFilterInput";
+import { Freight } from "@/utils/interfaces/Freight";
+import { FinancialFilterInput } from "@/utils/interfaces/inputs/FinancialFilterInput";
 
 interface GetFinancialFreightsData {
 	freightsForFinancial: {

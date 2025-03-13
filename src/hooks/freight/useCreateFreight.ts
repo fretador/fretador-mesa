@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { CREATE_FREIGHT } from "@/graphql/mutations/freightMutations";
-import { CreateFreightInput } from "@/utils/Interfaces/CreateFreightInput";
-import { Freight } from "@/utils/Interfaces/Freight";
+import { CreateFreightInput } from "@/utils/interfaces/inputs/CreateFreightInput";
+import { Freight } from "@/utils/interfaces/Freight";
 
 interface CreateFreightData {
 	createFreight: Freight;
