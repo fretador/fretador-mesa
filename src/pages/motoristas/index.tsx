@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -13,21 +13,49 @@ import VehicleFilter from "@/components/VehicleFilter";
 import DriversList from "@/components/ApprovedDriversList";
 import { Driver } from "@/utils/interfaces/Driver";
 import { DriverNode } from "@/utils/interfaces/DriverNode";
-import { useQuery } from "@apollo/client";
-import { GET_DRIVERS_QUERY } from "@/graphql/queries/driverQueries";
+import { useDrivers } from "@/hooks/driver/useDrivers";
 
 const Drivers: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
-
   const routeName = router.pathname.replace("/", "").toUpperCase();
 
-  // Estados para filtros e dados
+  // Estados para filtros
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [selectedVehicles, setSelectedVehicles] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  // Funções para lidar com os filtros
+  // Busca motoristas aguardando aprovação
+  const {
+    data: awaitingApprovalData,
+    loading: awaitingApprovalLoading,
+    error: awaitingApprovalError,
+  } = useDrivers({
+    page: 1,
+    limit: 10,
+    filter: {
+      status: ["PENDING"],
+      vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
+      searchTerm: searchTerm || undefined,
+    },
+  });
+
+  // Busca motoristas aprovados
+  const {
+    data: driversData,
+    loading: driversLoading,
+    error: driversError,
+  } = useDrivers({
+    page: 1,
+    limit: 10,
+    filter: {
+      status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
+      vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
+      searchTerm: searchTerm || undefined,
+    },
+  });
+
+  // Manipuladores de filtros
   const handleStatusFilterApply = (searchTerm: string, statuses: string[]) => {
     setSearchTerm(searchTerm);
     setSelectedStatuses(statuses);
@@ -51,61 +79,12 @@ const Drivers: React.FC = () => {
     setSearchTerm(term);
   };
 
-  const handleNewDriver = (driverId: string) => {
-    router.push(`/aprovacao-cadastro-do-motorista/${driverId}`);
-  };
-
-  // Utilizando useQuery para buscar motoristas aguardando aprovação
-  const {
-    data: awaitingApprovalData,
-    loading: awaitingApprovalLoading,
-    error: awaitingApprovalError,
-    refetch: refetchAwaitingApproval,
-  } = useQuery(GET_DRIVERS_QUERY, {
-    variables: {
-      page: 1,
-      limit: 10,
-      filter: {
-        status: ["PENDING"],
-        vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
-        searchTerm: searchTerm || undefined,
-      },
-    },
-    fetchPolicy: "cache-first",
-  });
-
-  // Utilizando useQuery para buscar motoristas aprovados
-  const {
-    data: driversData,
-    loading: driversLoading,
-    error: driversError,
-    refetch: refetchDrivers,
-  } = useQuery(GET_DRIVERS_QUERY, {
-    variables: {
-      page: 1,
-      limit: 10,
-      filter: {
-        status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
-        vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
-        searchTerm: searchTerm || undefined,
-      },
-    },
-    fetchPolicy: "cache-first",
-  });
-
-  // useEffect para refetch quando filtros mudarem
-  useEffect(() => {
-    refetchAwaitingApproval();
-    refetchDrivers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedStatuses, selectedVehicles, searchTerm]);
-
-  // Extrair os motoristas dos dados retornados pelas queries
+  // Extrai os motoristas dos dados
   const awaitingApprovalDrivers: Driver[] =
-    awaitingApprovalData?.drivers?.edges.map((edge: DriverNode) => edge.node) || [];
+    awaitingApprovalData?.edges.map((edge: DriverNode) => edge.node) || [];
 
   const drivers: Driver[] =
-    driversData?.drivers?.edges.map((edge: DriverNode) => edge.node) || [];
+    driversData?.edges.map((edge: DriverNode) => edge.node) || [];
 
   return (
     <AuthenticatedLayout>

@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-import FreightInProgress from "@/pages/frete-em-curso/index";
 import SmallLoading from "@/components/SmallLoading";
 import RegisteredDriver from ".";
 

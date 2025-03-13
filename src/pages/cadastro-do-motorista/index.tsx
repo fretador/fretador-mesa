@@ -13,16 +13,14 @@ import VehicleDetails from "@/components/DriverApproval/VehicleDetails";
 import Attachments from "@/components/DriverApproval/Attachments";
 import ActionButtons from "@/components/DriverApproval/ActionButtons";
 import { Driver } from "@/utils/interfaces/Driver";
-import { useQuery } from "@apollo/client";
-import { GET_DRIVER_BY_ID } from "@/graphql/queries/driverQueries";
 import { gerarDadosBancarios } from "@/utils/mocks/bankDataGenerator";
-import Loading from '@/components/Loading';
 import {
   generateRandomPlate,
   generateRandomVehicleData,
 } from "@/utils/mocks/vehicleDataGenerator";
 import DriverHistory from "@/components/DriverHistory";
 import SmallLoading from "@/components/SmallLoading";
+import { useDriverById } from "@/hooks/driver/useDriverById";
 
 const RegisteredDriver: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -30,12 +28,8 @@ const RegisteredDriver: React.FC = () => {
   const { driverId } = router.query;
   const [activeTab, setActiveTab] = useState("motorista");
 
-  const { data, loading, error } = useQuery(GET_DRIVER_BY_ID, {
-    variables: { id: driverId },
-    skip: !driverId,
-  });
+  const { data, loading, error } = useDriverById(driverId as string);
 
-  // Função para transformar os dados do motorista
   const transformDriver = (driver: Driver): Driver => {
     const firstName = driver.name.split(" ")[0].toLowerCase();
     const generatedEmail = `${firstName}@fretador.com.br`;
@@ -72,9 +66,8 @@ const RegisteredDriver: React.FC = () => {
       },
     };
   };
-
-  const driverData = data?.driver;
-  const transformedDriver = driverData ? transformDriver(driverData) : null;
+  
+  const transformedDriver = data ? transformDriver(data) : null;
 
   const handleGoBack = () => {
     router.back();
@@ -89,7 +82,7 @@ const RegisteredDriver: React.FC = () => {
 
   const renderContent = () => {
     if (loading) {
-      return <div className={styles.loadingContainer} ><SmallLoading /> </div >;
+      return <div className={styles.loadingContainer}><SmallLoading /></div>;
     }
 
     if (error) {
@@ -137,7 +130,7 @@ const RegisteredDriver: React.FC = () => {
       case "historico":
         return (
           <div>
-            <DriverHistory driver={transformedDriver} />          
+            <DriverHistory driver={transformedDriver} />
             <ActionButtons
               showRequest={true}
               showDownload={true}

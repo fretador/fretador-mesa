@@ -13,28 +13,23 @@ import VehicleDetails from "@/components/DriverApproval/VehicleDetails";
 import Attachments from "@/components/DriverApproval/Attachments";
 import ActionButtons from "@/components/DriverApproval/ActionButtons";
 import { Driver } from "@/utils/interfaces/Driver";
-import { useQuery } from "@apollo/client";
-import { GET_DRIVER_BY_ID } from "@/graphql/queries/driverQueries";
 import { gerarDadosBancarios } from "@/utils/mocks/bankDataGenerator";
-import Loading from '@/components/Loading';
 import {
   generateRandomPlate,
   generateRandomVehicleData,
 } from "@/utils/mocks/vehicleDataGenerator";
 import SmallLoading from "@/components/SmallLoading";
+import { useDriverById } from "@/hooks/driver/useDriverById";
 
 const DriverApproval: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
   const { driverId } = router.query;
   const [activeTab, setActiveTab] = useState("motorista");
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
 
-  const { data, loading, error } = useQuery(GET_DRIVER_BY_ID, {
-    variables: { id: driverId },
-    skip: !driverId,
-  });
+  const { data: driverData, loading, error } = useDriverById(driverId as string);
 
-  // Função para transformar os dados do motorista
   const transformDriver = (driver: Driver): Driver => {
     const firstName = driver.name.split(" ")[0].toLowerCase();
     const generatedEmail = `${firstName}@fretador.com.br`;
@@ -72,7 +67,6 @@ const DriverApproval: React.FC = () => {
     };
   };
 
-  const driverData = data?.driver;
   const transformedDriver = driverData ? transformDriver(driverData) : null;
 
   const handleGoBack = () => {
@@ -86,11 +80,9 @@ const DriverApproval: React.FC = () => {
   );
   const routeName = "APROVAÇÃO CADASTRO DO MOTORISTA";
 
-  const [isSelectionMode, setIsSelectionMode] = useState(false);
-
   const renderContent = () => {
     if (loading) {
-      return <div className={styles.loadingContainer} ><SmallLoading /> </div >;
+      return <div className={styles.loadingContainer}><SmallLoading /></div>;
     }
 
     if (error) {
@@ -157,9 +149,9 @@ const DriverApproval: React.FC = () => {
                 height: "60px",
                 borderRadius: "5px",
                 backgroundColor: "#B2CEDA"
-              }}  
+              }}
             >
-              <p style={{fontSize: "20px"}}>Sem dados para mostrar</p>
+              <p style={{ fontSize: "20px" }}>Sem dados para mostrar</p>
             </div>
             <ActionButtons
               showApprove={true}
