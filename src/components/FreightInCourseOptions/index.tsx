@@ -25,6 +25,8 @@ import ProvideFreightValue from "@/components/Modal/FreteEmCurso/ProvideFreightV
 import DriverDocuments from "../Modal/FreteEmCurso/DriverDocuments";
 import { RequestFinancialType } from "@/utils/enums/requestFinancialTypeEnum";
 import SendAlert from "../Modal/FreteEmCurso/SendAlert";
+import { FreightDocumentTypeEnum } from "@/utils/enums/freightDocumentTypeEnum";
+import { freightDocumentTypeLabels } from "@/utils/labels/freightDocumentStatusLabels";
 
 interface FreightInCourseOptionsProps {
   freightId: string;
@@ -242,63 +244,64 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
    * Faz upload e chama a mutation para atualizar o frete.
    */
   const handleTypeModalSubmit = async (
-    filesWithTypes: { file: File; type: string }[]
+    filesWithTypes: {
+      file: File;
+      type: FreightDocumentTypeEnum;
+      label: string
+    }[]
   ) => {
     try {
       setIsLoading(true);
-
-      // Renomeia arquivos de acordo com o tipo selecionado
-      const modifiedFiles = filesWithTypes.map(({ file, type }) => {
-        const newName = `${type}_${file.name}`;
-        return new File([file], newName, { type: file.type });
+      // Renomear arquivos com prefixo correto
+      const modifiedFiles = filesWithTypes.map(({ file, label }) => {
+        return new File([file], `${label}_${file.name}`, { type: file.type });
       });
 
-      const dataTransfer = new DataTransfer();
-      modifiedFiles.forEach((file) => dataTransfer.items.add(file));
-      const newFileList = dataTransfer.files;
+      // Upload mantendo o tipo correto (enum)
+      const files = modifiedFiles;
+      const types = filesWithTypes.map(({ type }) => type);
 
-      const newEvent = {
-        target: {
-          files: newFileList,
-        },
-      } as React.ChangeEvent<HTMLInputElement>;
+      // Resto do código de upload mantido
+      await uploadDocuments(files, types);
 
-      const uploadedFiles = await uploadDocuments(newEvent);
-      console.log("uploadedFiles", uploadedFiles);
-
-      // Determina o próximo status dinamicamente
-      const nextDynamicStatus = getNextStatus(currentStatus);
-      const newstatus = nextDynamicStatus ?? FreightStatus.PICKUP_ORDER_SENT;
-
-      const updateData = modifiedFiles.map((file) => ({
-        name: file.name,
-        type: file.type,
+      // Atualização dos documentos com tipo correto
+      const updateData = filesWithTypes.map(({ file, type }) => ({
+        name: `${freightDocumentTypeLabels[type]}_${file.name}`,
+        type,
         size: file.size,
       }));
-      const updateDataType = UpdateDataTypeEnum.DOCUMENT;
 
-      // Atualiza o status do frete com os documentos anexados
-      await updateStatusFreight({
-        variables: {
-          id: freightId as string,
-          input: {
-            status: newstatus,
-            updateData: {
-              documents: [...updateData],
-              boardUser: { id: boardUser?.id ?? "indisponível", name: boardUser?.name, profile: boardUser?.profile },
+      // Atualiza status do frete
+      const nextStatus = getNextStatus(currentStatus);
+
+      if (nextStatus) {
+        await updateStatusFreight({
+          variables: {
+            id: freightId,
+            input: {
+              status: nextStatus,
+              updateData: {
+                documents: updateData,
+                boardUser: {
+                  id: boardUser?.id ?? "indisponível",
+                  name: boardUser?.name,
+                  profile: boardUser?.profile,
+                },
+              },
+              updateDataType: UpdateDataTypeEnum.DOCUMENT,
             },
-            updateDataType: updateDataType,
           },
-        },
-      });
+        });
+      } else {
+        console.log("Próximo status não encontrado.");
+      }
 
       setIsLoading(false);
       setShowTypeModal(false);
       setShowModal(true);
-      showBubble("actionButton"); 
+      showBubble("actionButton");
     } catch (error) {
-      console.error("Erro ao processar os documentos:", error);
-      alert("Ocorreu um erro ao processar os documentos. Por favor, tente novamente.");
+      console.error("Erro ao processar documentos:", error);
       setIsLoading(false);
     }
   };
@@ -436,7 +439,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
             },
           });
           handleAction(actionButtonStatus!);
-          showBubble("attachDocuments"); 
+          showBubble("attachDocuments");
         },
       });
     },
@@ -447,7 +450,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         description: "Ao completar o carregamento envie o CTE e o Manifesto no Anexar documentos.",
         confirmText: "Ok",
         onConfirm: () => {
-          showBubble("attachDocuments"); 
+          showBubble("attachDocuments");
           setModalConfig(null);
         },
       });
@@ -467,7 +470,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
             // Todos os valores já informados, avança diretamente
             // handleAction(actionButtonStatus!);
           } else {
-          // Exibe o modal para informar valores
+            // Exibe o modal para informar valores
             setShowProvidePaymentDetails(true);
           }
         },
@@ -481,7 +484,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         confirmText: "Sim",
         cancelText: "Não",
         onConfirm: () => {
-          showBubble("actionButton"); 
+          showBubble("actionButton");
           handleAction(actionButtonStatus!);
           setModalConfig(null);
         },
@@ -535,7 +538,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
         cancelText: "Não",
         onConfirm: () => {
           setModalConfig(null);
-          showBubble(""); 
+          showBubble("");
           // Verifica apenas se já existe o valor total (value)
           if (value !== undefined) {
             // Já existe valor total do frete, avança diretamente
@@ -550,7 +553,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
             });
             handleAction(actionButtonStatus!);
           } else {
-          // Exibe modal para informar valor total do frete
+            // Exibe modal para informar valor total do frete
             setShowProvideFreightValue(true);
           }
         },
@@ -585,7 +588,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   };
 
   return (
-    
+
     <div className={styles.container}>
       {/* Input escondido para anexar documentos */}
       <input
@@ -868,10 +871,10 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
           });
         }}
         handleCancel={() => setSendAlertModal(!sendAlertModal)}
-     />
+      />
     </div>
 
-    
+
   );
 };
 
