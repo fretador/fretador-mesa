@@ -1,10 +1,10 @@
+import { FreightDocumentTypeEnum } from "@/utils/enums/freightDocumentTypeEnum";
 import { StatusDocumentEnum } from "../enums/statusDocumentEnum";
-import { UpdateDataTypeEnum } from "../enums/updateDataTypeEnum";
 
 export interface Document {
 	id: string;
 	name: string;
-	type: UpdateDataTypeEnum;
+	type: FreightDocumentTypeEnum;
 	url: string;
 	sender: string;
 	message: string;
