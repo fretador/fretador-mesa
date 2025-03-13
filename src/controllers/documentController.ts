@@ -1,12 +1,14 @@
+// documentController.ts
 import { useCallback, useState } from "react";
 import { DocumentService } from "@/services/documentService";
 import { useRouter } from "next/router";
 import { AuthService } from "@/services/authService";
 import { StatusDocumentEnum } from "@/utils/enums/statusDocumentEnum";
 import { DocumentUpdateInput } from "@/utils/Interfaces/DocumentUpdateInput";
+import { FreightDocumentTypeEnum } from "@/utils/enums/freightDocumentTypeEnum";
 
 interface DocumentController {
-	uploadDocuments: (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+	uploadDocuments: (files: File[], types: string[]) => Promise<void>;
 	updateDocument: (
 		documentIds: string[],
 		updates: Partial<DocumentUpdateInput>
@@ -21,21 +23,21 @@ export const useDocumentController = (): DocumentController => {
 	const [processingStatus, setProcessingStatus] = useState<string>("");
 
 	const uploadDocuments = useCallback(
-		async (event: React.ChangeEvent<HTMLInputElement>) => {
-			const files = event.target.files;
-			if (files && files.length > 0) {
+		async (files: File[], types: string[]) => {
+			if (files.length > 0) {
 				setProcessingStatus(`Enviando documentos...`);
 				try {
 					const { name } = AuthService.getBoardUser();
 					const documentUrls = await Promise.all(
-						Array.from(files).map((file) => DocumentService.uploadDocument(file))
+						files.map((file) => DocumentService.uploadDocument(file))
 					);
+
 					await DocumentService.addDocuments(
 						freightId,
 						documentUrls.map((s3Key, index) => ({
 							name: files[index].name,
 							url: s3Key,
-							type: files[index].type,
+							type: types[index] as FreightDocumentTypeEnum, // Usa o tipo recebido
 							sender: name,
 							status: StatusDocumentEnum.WAITING,
 						}))
@@ -64,7 +66,7 @@ export const useDocumentController = (): DocumentController => {
 			const updatedDocuments: DocumentUpdateInput[] = documentIds.map(
 				(documentId) => ({
 					...updates,
-					sender: updates.sender ?? "",
+					sender: updates.sender ?? AuthService.getBoardUser().name,
 					id: documentId,
 					status: updates.status ?? StatusDocumentEnum.WAITING,
 				})
