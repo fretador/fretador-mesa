@@ -3,6 +3,24 @@
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
+  max-height: 325px;
+  overflow-y: auto;
+  padding-bottom: 24px;
+}
+
+.cardsContainer::-webkit-scrollbar {
+  width: 12px;
+  height: 83px;
+}
+
+.cardsContainer::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #e4e4e4;
+}
+
+.cardsContainer::-webkit-scrollbar-thumb {
+  background-color: #1B556D;
+  border-radius: 12px;
 }
 
 .cardContainer {
