@@ -2,14 +2,12 @@
 import React, { useState } from "react";
 import styles from "./AnsweredOccurrencesList.module.css";
 import { useRouter } from "next/router";
-import Loading from "../Loading";
 import RowTitle from "../RowTitle";
 import { Row } from "../Row";
 import { Occurrence } from "@/utils/interfaces/Occurrence";
 import { OccurrenceStatus } from "@/utils/enums/occurrenceStatusEnum";
 import { occurrenceStatusLabels } from "@/utils/labels/occurrenceStatusLabels";
 import { occurrenceTypeLabels } from "@/utils/labels/occurrenceTypeLabels";
-import OccurrenceType from "../Row/OccurrenceType";
 import SmallLoading from "../SmallLoading";
 
 interface AnsweredOccurrencesListProps {
