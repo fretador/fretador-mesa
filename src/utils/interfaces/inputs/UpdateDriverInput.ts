@@ -6,7 +6,7 @@ import { UpdateVehicleOwnerInput } from "./UpdateVehicleOwnerInput";
 import { UpdateWalletInput } from "./UpdateWalletInput";
 
 export interface UpdateDriverInput {
-	cpf: string;
+	cpf?: string;
 	active?: boolean;
 	cnh?: string;
 	name?: string;
@@ -18,5 +18,8 @@ export interface UpdateDriverInput {
 	vehicleOwner?: UpdateVehicleOwnerInput;
 	wallet?: UpdateWalletInput;
 	address?: DriverAddressInput;
+	rgPhoto?: UpdatePhotoInput;
+	cnhPhoto?: UpdatePhotoInput;
 	userPhoto?: UpdatePhotoInput;
+	proofResidencePhoto?: UpdatePhotoInput;
 }
