@@ -22,7 +22,7 @@ import { dateNow } from "@/utils/dates";
 import ProvidePaymentDetails from "@/components/Modal/FreteEmCurso/ProvidePaymentDetails";
 import TravelWithoutPayment from "@/components/Modal/FreteEmCurso/TravelWithoutPayment";
 import ProvideFreightValue from "@/components/Modal/FreteEmCurso/ProvideFreightValue";
-import DriverDocuments from "../Modal/FreteEmCurso/DriverDocuments";
+import FreightDocuments from "../Modal/FreteEmCurso/FreightDocuments";
 import { RequestFinancialType } from "@/utils/enums/requestFinancialTypeEnum";
 import SendAlert from "../Modal/FreteEmCurso/SendAlert";
 import { FreightDocumentTypeEnum } from "@/utils/enums/freightDocumentTypeEnum";
@@ -111,8 +111,8 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
   // Modal "ProvideFreightValue" após "Solicitar saldo"
   const [showProvideFreightValue, setShowProvideFreightValue] = useState(false);
 
-  // Modal "DriverDocuments" para abrir o action button "Documentos"
-  const [showDriverDocumentsModal, setShowDriverDocumentsModal] = useState(false);
+  // Modal "FreightDocuments" para abrir o action button "Documentos"
+  const [showFreightDocumentsModal, setShowFreightDocumentsModal] = useState(false);
 
   // Modal para exibir a mensagem de alerta
   const [sendAlertModal, setSendAlertModal] = useState(false);
@@ -333,7 +333,7 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
    * Interage com o motorista (log de exemplo).
    */
   const handleOpenDocsModal = () => {
-    setShowDriverDocumentsModal(!showDriverDocumentsModal)
+    setShowFreightDocumentsModal(!showFreightDocumentsModal)
   };
 
   /**
@@ -729,10 +729,10 @@ const FreightInCourseOptions: React.FC<FreightInCourseOptionsProps> = ({
       )}
 
       {/* Modal de Documentos Enviados pelo Motorista */}
-      {showDriverDocumentsModal && (
-        <DriverDocuments
-          isOpen={showDriverDocumentsModal}
-          onRequestClose={() => setShowDriverDocumentsModal(!showDriverDocumentsModal)}
+      {showFreightDocumentsModal && (
+        <FreightDocuments
+          isOpen={showFreightDocumentsModal}
+          onRequestClose={() => setShowFreightDocumentsModal(!showFreightDocumentsModal)}
           handleDownloadPdf={() => {
             setModalConfig({
               isVisible: true,
