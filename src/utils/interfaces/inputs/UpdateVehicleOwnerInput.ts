@@ -1,5 +1,6 @@
 export interface UpdateVehicleOwnerInput {
-  email?: string;
-  address?: string;
-  contact?: string;
+	cpf?: string;
+	email?: string;
+	address?: string;
+	contact?: string;
 }
