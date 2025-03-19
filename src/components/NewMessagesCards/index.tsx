@@ -1,18 +1,18 @@
 import React, { useRef, useState } from "react";
 import styles from './NewMessagesCards.module.css'
-import Loading from "../Loading";
 import { useRouter } from "next/router";
 import NewMessagesCard from "../NewMessagesCard";
-import { mockRepliedMessages } from "../RepliedMessagesList";
 import SmallLoading from "../SmallLoading";
+import { SupportTicket } from "@/utils/interfaces/SupportTicket";
+import { formatDateToBrazilian } from "@/utils/dates";
 
 interface NewMessagesCardsProps {
   loading: boolean;
   error: string | null;
+  tickets: SupportTicket[];
 }
 
-const NewMessagesCards = ({ loading, error }: NewMessagesCardsProps) => {
-
+const NewMessagesCards = ({ loading, error, tickets }: NewMessagesCardsProps) => {
   const router = useRouter()
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -46,22 +46,13 @@ const NewMessagesCards = ({ loading, error }: NewMessagesCardsProps) => {
       list.scrollLeft = scrollLeft - walk;
     }
   };
-
-  const handleNewMessage = (atendimentoId: string) => {
-    router.push(`/atendimento/${atendimentoId}`);
-  };
-
-  if (loading)
-    return (
-      <div className={styles.loadingContainer}>
-        <SmallLoading />
-      </div>
-    );
-  if (error) return <p>Erro ao carregar motoristas: {error}</p>;
-
+  
   const handleCardClick = (id: string) => {
     router.push(`/atendimento/${id}`);
   };
+
+  if (loading) return <div className={styles.loadingContainer}><SmallLoading /></div>;
+  if (error) return <p className={styles.error}>Erro ao carregar ticket: {error}</p>;
 
   return (
     <div
@@ -72,16 +63,14 @@ const NewMessagesCards = ({ loading, error }: NewMessagesCardsProps) => {
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
     >
-      {mockRepliedMessages
-      .filter((message) => message.serviceStatus === "pendente")
-      .map((message) => (
+      {tickets.map((ticket: SupportTicket) => (
         <NewMessagesCard
-          key={message.id}
-          driverName={message.driverName}
-          serviceNumber={message.serviceNumber}
-          subject={message.subject}
-          date={message.serviceDate}
-          handleNewMessage={() => handleCardClick(message.id)}
+          key={ticket.id}
+          driverName={ticket.creatorName}
+          serviceNumber={ticket.id.slice(-8)}
+          subject={ticket.subject}
+          date={formatDateToBrazilian(ticket.createdAt)}
+          handleNewMessage={() => handleCardClick(ticket.id)}
         />
       ))}
     </div>

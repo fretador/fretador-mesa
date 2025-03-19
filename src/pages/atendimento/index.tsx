@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Body from "@/components/Body";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -9,15 +9,16 @@ import SearchComponent from "@/components/SearchButton";
 import NewMessagesCards from "@/components/NewMessagesCards";
 import RepliedMessagesList from "@/components/RepliedMessagesList";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
+import { useSupportTickets } from "@/hooks/support/useSupportTickets";
+import { TicketStatusEnum } from "@/utils/enums/TicketStatusEnum";
 
 const Service: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
   const router = useRouter();
-
   const routeName = router.pathname.replace("/", "").toUpperCase();
+  const { tickets, loading, error, refetch } = useSupportTickets();
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  if (error) return <p className={styles.error}>Erro ao carregar tickets: {error.message}</p>;
 
   return (
     <AuthenticatedLayout>
@@ -37,19 +38,22 @@ const Service: React.FC = () => {
           <div className={styles.content}>
             <Body>
               <div className={styles.searchComponents}>
-                <SearchComponent onSearch={() => {}} />
+                <SearchComponent onSearch={() => { }} />
               </div>
-              
+
               <div className={styles.newMessagesContainer}>
                 <h2>Novos</h2>
                 <NewMessagesCards
                   loading={loading}
-                  error={error}
+                  error={error ? error : null}
+                  tickets={tickets ? tickets.filter(t => t.status === TicketStatusEnum.OPEN) : []}
                 />
               </div>
-
-              <RepliedMessagesList loading={loading} error={error} />
-
+              <RepliedMessagesList
+                loading={loading}
+                error={error ? error : null}
+                tickets={tickets ? tickets.filter(t => t.status !== TicketStatusEnum.OPEN) : []}
+              />
             </Body>
           </div>
         </div>
