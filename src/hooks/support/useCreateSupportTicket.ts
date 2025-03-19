@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { CREATE_TICKET } from "@/graphql/operations";
+import { CREATE_TICKET, LIST_TICKETS } from "@/graphql/operations";
 import { SupportTicket } from "@/utils/interfaces/SupportTicket";
 import { CreateTicketInput } from "@/utils/interfaces/inputs/CreateTicketInput";
 
@@ -16,7 +16,7 @@ export const useCreateSupportTicket = () => {
 		CreateTicketData,
 		CreateTicketVars
 	>(CREATE_TICKET, {
-		refetchQueries: ["ListSupportTickets"],
+		refetchQueries: [{ query: LIST_TICKETS }],
 		awaitRefetchQueries: true,
 	});
 
