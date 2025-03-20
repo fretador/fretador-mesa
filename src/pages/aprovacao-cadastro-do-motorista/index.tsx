@@ -51,14 +51,14 @@ const DriverApproval: React.FC = () => {
         isDriverAsOwner: true,
       },
       attachments: {
-        userPhoto: driver.userPhoto?.imageUrl,
-        cnh: driver.cnhPhoto?.imageUrl,
-        proofResidencePhoto: driver.proofResidencePhoto?.imageUrl,
-        rg: driver.rgPhoto?.imageUrl,
-        vehiclePhoto: driver.vehicle?.vehiclePhoto?.imageUrl,
-        anttPhoto: driver.vehicle?.anttPhoto?.imageUrl,
-        documentPhoto: driver.vehicle?.documentPhoto?.imageUrl,
-      },
+        userPhoto: driver.userPhoto?.imageUrl || "",
+        cnh: driver.cnhPhoto?.imageUrl || "",
+        proofResidencePhoto: driver.proofResidencePhoto?.imageUrl || "",
+        rg: driver.rgPhoto?.imageUrl || "",
+        vehiclePhoto: driver.vehicle?.vehiclePhoto?.imageUrl || "",
+        anttPhoto: driver.vehicle?.anttPhoto?.imageUrl || "",
+        documentPhoto: driver.vehicle?.documentPhoto?.imageUrl || "",
+      } as Record<string, string>,
       vehicle: {
         ...driver.vehicle,
         plate: generateRandomPlate(),
@@ -119,7 +119,7 @@ const DriverApproval: React.FC = () => {
       case "anexos":
         return (
           <div>
-            <Attachments driver={transformedDriver} isSelectionMode={isSelectionMode} />
+            <Attachments isSelectionMode={isSelectionMode} driver={transformedDriver} />
             <ActionButtons
               showSelectPhotos={true}
               showRequest={true}

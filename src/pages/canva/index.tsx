@@ -14,7 +14,7 @@ import TravelWithoutPayment from "@/components/Modal/FreteEmCurso/TravelWithoutP
 import ProvideFreightValue from "@/components/Modal/FreteEmCurso/ProvideFreightValue";
 import ProvidePaymentDetails from "@/components/Modal/FreteEmCurso/ProvidePaymentDetails";
 import PaymentNotificationModal from "@/components/Modal/Financeiro/PaymentNotificationModal";
-import DriverDocuments from "@/components/Modal/FreteEmCurso/DriverDocuments";
+import FreightDocuments from "@/components/Modal/FreteEmCurso/FreightDocuments";
 
 const Canva: React.FC = () => {
   const isRetracted = useAppSelector((state) => state.sidebar.isRetracted);
@@ -27,7 +27,7 @@ const Canva: React.FC = () => {
   const [isNewModalOpen3, setIsNewModalOpen3] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaymentNotificationModalOpen, setIsPaymentNotificationModalOpen] = useState(false);
-  const [isDriverDocuments, setIsDriverDocuments] = useState(false)
+  const [isFreightDocuments, setIsFreightDocuments] = useState(false)
 
   const toggleOpenTicketModal = () => {
     setIsOpenTicketModalOpen(!isOpenTicketModalOpen);
@@ -86,7 +86,7 @@ const Canva: React.FC = () => {
   };
 
   const toggleNewModal5 = () => {
-    setIsDriverDocuments(!isDriverDocuments);
+    setIsFreightDocuments(!isFreightDocuments);
   };
 
   const toggleModal = () => {
@@ -279,9 +279,9 @@ const Canva: React.FC = () => {
             />
           )}
 
-          {isDriverDocuments && (
-            <DriverDocuments
-              isOpen={isDriverDocuments}
+          {isFreightDocuments && (
+            <FreightDocuments
+              isOpen={isFreightDocuments}
               onRequestClose={toggleNewModal5} handleDownloadPdf={function (): void {
                 throw new Error("Function not implemented.");
               } }            />

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import styles from './DriverDocuments.module.css';
+import styles from './FreightDocuments.module.css';
 import Modal from "../..";
 import Image from "next/image";
 import ImageModal from "../ImageModal";
@@ -11,13 +11,13 @@ import { useDocumentController } from "@/controllers/documentController";
 import { StatusDocumentEnum } from "@/utils/enums/statusDocumentEnum";
 import { useAppSelector } from "@/store/store";
 
-interface DriverDocumentsProps {
+interface FreightDocumentsProps {
   isOpen: boolean;
   onRequestClose: () => void;
   handleDownloadPdf: () => void
 }
 
-const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDocumentsProps) => {
+const FreightDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: FreightDocumentsProps) => {
   const [openMenus, setOpenMenus] = useState<string | null>(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -292,4 +292,4 @@ const DriverDocuments = ({ isOpen, onRequestClose, handleDownloadPdf }: DriverDo
   );
 };
 
-export default DriverDocuments;
+export default FreightDocuments;

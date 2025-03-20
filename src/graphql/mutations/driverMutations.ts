@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const UPDATE_DRIVER = gql`
-	mutation UpdateDriver($input: UpdateDriverInput!) {
-		updateDriver(input: $input) {
+	mutation UpdateDriver($id: ID!, $input: UpdateDriverInput!) {
+		updateDriver(id: $id, input: $input) {
 			id
 			name
 			cpf
@@ -19,3 +19,35 @@ export const UPDATE_DRIVER = gql`
 		}
 	}
 `;
+
+export const UPDATE_DRIVER_DOCUMENTS = gql`
+	mutation UpdateDriverDocuments(
+		$id: ID!
+		$updates: [UpdateDriverDocumentInput!]!
+	) {
+		updateDriverDocuments(id: $id, updates: $updates) {
+			id
+			vehicle {
+				type
+			}
+			wallet {
+				bank
+			}
+			userPhoto {
+				status
+				message
+			}
+			cnhPhoto {
+				status
+				message
+			}
+			vehicle {
+				documentPhoto {
+					status
+					message
+				}
+			}
+		}
+	}
+`;
+
