@@ -12,5 +12,7 @@ export interface UpdateWalletInput {
 	accountName?: string;
 	bankDetails?: any;
 	pix?: string;
-	isPJ: boolean;
+	isPJ?: boolean;
+	favored?: string;
+	cnpj: string;
 }
