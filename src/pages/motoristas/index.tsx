@@ -34,7 +34,7 @@ const Drivers: React.FC = () => {
     page: 1,
     limit: 10,
     filter: {
-      status: ["PENDING"],
+      status: ["PENDING", "CONFIRMED"],
       vehicle: selectedVehicles.length > 0 ? selectedVehicles : undefined,
       searchTerm: searchTerm || undefined,
     },
