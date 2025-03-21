@@ -25,7 +25,7 @@ interface ListSupportTicketsVars {
 
 export const useSupportTickets = (vars: ListSupportTicketsVars = {}) => {
 	const [currentPage, setCurrentPage] = useState(1);
-	const [itemsPerPage, setItemsPerPage] = useState(20);
+	const [itemsPerPage, setItemsPerPage] = useState(100);
 
 	const { data, loading, error, refetch } = useQuery<
 		ListSupportTicketsData,
